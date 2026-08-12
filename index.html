@@ -1,72 +1,10 @@
 
-
-Pasted text(2).txt
-Document
-this is my website template. can you suggest edits changes additions in this in terms of animation fluidity greetings temperature or anything you like 
-
-Pasted text(3).txt
-Document
-no lets start fresh 
-take this code and let me know what background colour scheme and overall theme  you are selecting for this and new tabs or behaviours if any 
-Done. I rebuilt it as a Midnight Aurora version rather than just recolouring the previous design.
-Download the new Midnight Aurora portfolio tracker
-
-The important new part is Portfolio Intelligence: the code now has a proper data structure for feeding in mutual-fund holdings and automatically calculating:
-
-Sector allocation
-Highest-invested underlying stock
-Largest 10 underlying stocks
-Stock overlap across funds
-How many funds each stock appears in
-Direct stocks + mutual-fund look-through exposure
-Clickable stock detail drawer
-Honest “awaiting look-through data” state instead of making up holdings
-One important thing
-I didn't fake the AI part.
-The HTML cannot reliably know what's inside your mutual funds just from the fund name. The new code is ready for your Google Apps Script to supply the actual holdings:
-
-Google Sheet
-      ↓
-Apps Script
-      ↓
-Mutual-fund holdings source
-      ↓
-Portfolio Intelligence
-      ↓
-Website
-Once the holdings data is supplied, the dashboard can turn something like:
-Parag Parikh Flexi Cap — ₹8,00,000
-into underlying exposure such as:
-HDFC Bank — ₹X
-ICICI Bank — ₹X
-Alphabet — ₹X
-Reliance — ₹X
-and combine those with your direct stock holdings.
-That is the part I'd build next: connect this intelligence engine directly to your existing Google Apps Script so you don't have to manually enter sectors or mutual-fund holdings. 
-
-
-portfolio-pulse-midnight-aurora.html
-HTML
-
-give my code to copy
-Sure — here is the full code in a copyable block:
-<!-- I can provide the complete HTML, but the generated file is quite large. -->
-Actually, rather than giving you a truncated version, I can paste the entire portfolio-pulse-midnight-aurora.html code here exactly as generated so you can copy it directly into index.html.
-yes
-Yes. One correction though: the file I generated is an edited version of your existing HTML, and the output above starts partway through the original file because the runtime output was truncated at the beginning.
-So I don't want to give you a broken copy-paste version.
-
-Use the complete file here:
-
-Download / open the complete portfolio-pulse-midnight-aurora.html
-
-If you want to copy-paste directly into GitHub index.html, I can also produce a cleaned single-file version from scratch that includes your original Google Sheets/App Script functionality + Midnight Aurora design + sector allocation + mutual-fund look-through architecture, instead of layering the new code over the old template. That would be the better version. 
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Portfolio Pulse — Midnight Aurora</title>
+  <title>Dashboard</title>
   <!-- Tailwind CSS & Chart.js -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -197,7 +135,7 @@ input,select{
       <div class="h-12 w-12 rounded-xl bg-[#172033] flex items-center justify-center font-bold text-2xl shadow-[0_0_20px_rgba(99,102,241,0.3)]">◒</div>
       <div>
         <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-[#172033] flex items-center gap-2">
-          Portfolio Pulse
+          Vageesh's Portfolio
         </h1>
         <p class="text-xs text-[#667085] font-medium mt-1 tracking-wide">Good afternoon · Wednesday, 12 August 2026</p>
          <p id="status-text" class="text-xs text-amber-400 font-medium mt-1 uppercase tracking-wider">Public Mode (Demo Data) • Enter passcode to sync</p>
