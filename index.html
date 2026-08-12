@@ -562,7 +562,7 @@ button{
 
 
 /* =========================================================
-   CLICKABLE ALLOCATION
+   ALLOCATION
 ========================================================= */
 
 .allocation{
@@ -577,6 +577,8 @@ button{
 .donut{
     width:190px;
     height:190px;
+
+    flex-shrink:0;
 }
 
 .legend{
@@ -600,7 +602,10 @@ button{
 
     border-radius:10px;
 
-    transition:.25s;
+    transition:
+        background .25s ease,
+        transform .25s ease,
+        opacity .25s ease;
 }
 
 .legend-row:hover{
@@ -608,6 +613,14 @@ button{
     background:rgba(255,255,255,.06);
 
     transform:translateX(5px);
+}
+
+.legend-row.selected{
+
+    background:rgba(255,196,107,.10);
+
+    box-shadow:
+        inset 2px 0 0 rgba(255,196,107,.65);
 }
 
 .legend-left{
@@ -627,6 +640,75 @@ button{
     border-radius:50%;
 
     background:#ffc46b;
+
+    flex-shrink:0;
+}
+
+
+/* =========================================================
+   FILTER SUMMARY
+========================================================= */
+
+.portfolio-filter-summary{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:12px;
+
+    margin:-4px 0 16px;
+
+    padding:10px 13px;
+
+    border-radius:12px;
+
+    background:rgba(255,255,255,.035);
+
+    border:1px solid rgba(255,255,255,.07);
+
+    font-size:12px;
+
+    color:rgba(255,255,255,.55);
+
+    transition:.3s ease;
+}
+
+.portfolio-filter-summary strong{
+
+    color:#ffc46b;
+
+    font-weight:600;
+}
+
+.clear-filter{
+
+    border:1px solid rgba(255,196,107,.20);
+
+    background:rgba(255,196,107,.07);
+
+    color:#ffc46b;
+
+    padding:6px 10px;
+
+    border-radius:8px;
+
+    font-size:11px;
+
+    cursor:pointer;
+
+    transition:.2s ease;
+
+    white-space:nowrap;
+}
+
+.clear-filter:hover{
+
+    background:rgba(255,196,107,.14);
+
+    transform:translateY(-1px);
 }
 
 
@@ -694,6 +776,8 @@ button{
     margin-top:18px;
 
     overflow:hidden;
+
+    scroll-margin-top:25px;
 }
 
 .table-toolbar{
@@ -1316,6 +1400,13 @@ tbody tr:hover{
         flex-direction:column;
     }
 
+    .portfolio-filter-summary{
+
+        align-items:flex-start;
+
+        flex-direction:column;
+    }
+
     .detail-overlay{
 
         padding:10px;
@@ -1732,7 +1823,10 @@ Demo data
      HOLDINGS
 ===================================================== -->
 
-<div class="glass card table-card">
+<div
+    id="portfolioTableCard"
+    class="glass card table-card"
+>
 
 <div class="card-title">
 
@@ -1747,6 +1841,29 @@ DEMO DATA
 </div>
 
 
+<!-- FILTER SUMMARY -->
+
+<div
+    id="portfolioFilterSummary"
+    class="portfolio-filter-summary"
+    style="display:none;"
+>
+
+<div id="portfolioFilterText">
+Showing all holdings
+</div>
+
+<button
+    id="clearFilterButton"
+    class="clear-filter"
+    onclick="showAllAssets()"
+>
+View All
+</button>
+
+</div>
+
+
 <!-- SEARCH / FILTER -->
 
 <div class="table-toolbar">
@@ -1756,14 +1873,14 @@ DEMO DATA
     class="search-box"
     type="text"
     placeholder="Search holdings..."
-    oninput="renderTable()"
+    oninput="handleSearch()"
 />
 
 
 <button
     class="filter-btn active"
     data-filter="All"
-    onclick="setCategoryFilter('All')"
+    onclick="setCategoryFilter('All', false)"
 >
 All
 </button>
@@ -1771,7 +1888,7 @@ All
 <button
     class="filter-btn"
     data-filter="Equity"
-    onclick="setCategoryFilter('Equity')"
+    onclick="setCategoryFilter('Equity', true)"
 >
 Equity
 </button>
@@ -1779,7 +1896,7 @@ Equity
 <button
     class="filter-btn"
     data-filter="Mutual Funds"
-    onclick="setCategoryFilter('Mutual Funds')"
+    onclick="setCategoryFilter('Mutual Funds', true)"
 >
 Funds
 </button>
@@ -1787,7 +1904,7 @@ Funds
 <button
     class="filter-btn"
     data-filter="Gold"
-    onclick="setCategoryFilter('Gold')"
+    onclick="setCategoryFilter('Gold', true)"
 >
 Gold
 </button>
@@ -1795,7 +1912,7 @@ Gold
 <button
     class="filter-btn"
     data-filter="Fixed Income"
-    onclick="setCategoryFilter('Fixed Income')"
+    onclick="setCategoryFilter('Fixed Income', true)"
 >
 Fixed Income
 </button>
@@ -2381,6 +2498,8 @@ async function connectToSheet(){
 
         setLiveStatus();
 
+        resetCategoryButtons();
+
         renderDashboard();
 
         showToast(
@@ -2399,6 +2518,8 @@ async function connectToSheet(){
             "All";
 
         setDemoStatus();
+
+        resetCategoryButtons();
 
         renderDashboard();
 
@@ -2535,6 +2656,8 @@ function renderDashboard(){
 
     renderTable();
 
+    updateFilterSummary();
+
 }
 
 
@@ -2584,11 +2707,44 @@ function getFilteredAssets(){
    CATEGORY FILTER
 ========================================================= */
 
-function setCategoryFilter(category){
+function setCategoryFilter(category, scrollToTable = false){
 
     currentCategory =
         category;
 
+
+    updateCategoryButtons();
+
+    updateViewHeader();
+
+    renderDashboard();
+
+
+    /*
+       IMPORTANT:
+       The allocation donut is NOT rebuilt separately.
+       It remains purely visual and keeps its original
+       hover behaviour.
+    */
+
+
+    if(scrollToTable){
+
+        setTimeout(
+            () => scrollToPortfolioTable(),
+            120
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   CATEGORY BUTTON STATE
+========================================================= */
+
+function updateCategoryButtons(){
 
     document
         .querySelectorAll(".filter-btn")
@@ -2596,31 +2752,29 @@ function setCategoryFilter(category){
 
             button.classList.toggle(
                 "active",
-                button.dataset.filter === category
+                button.dataset.filter === currentCategory
             );
 
         });
 
-
-    if(category === "All"){
-
-        hideViewHeader();
-
-    }else{
-
-        showViewHeader(
-            category,
-            category === "Mutual Funds"
-            ? "Your fund positions"
-            : "Your " + category.toLowerCase() + " positions"
-        );
-
-    }
+}
 
 
-    animateDashboard();
+/* =========================================================
+   RESET FILTER BUTTONS
+========================================================= */
 
-    renderDashboard();
+function resetCategoryButtons(){
+
+    currentCategory = "All";
+
+    updateCategoryButtons();
+
+    updateViewHeader();
+
+    document
+        .getElementById("searchInput")
+        .value = "";
 
 }
 
@@ -2628,6 +2782,29 @@ function setCategoryFilter(category){
 /* =========================================================
    VIEW HEADER
 ========================================================= */
+
+function updateViewHeader(){
+
+    if(currentCategory === "All"){
+
+        hideViewHeader();
+
+        return;
+
+    }
+
+
+    showViewHeader(
+        currentCategory,
+        currentCategory === "Mutual Funds"
+        ? "Your fund positions"
+        : "Your " +
+          currentCategory.toLowerCase() +
+          " positions"
+    );
+
+}
+
 
 function showViewHeader(
     title,
@@ -2661,6 +2838,10 @@ function hideViewHeader(){
 }
 
 
+/* =========================================================
+   SHOW ALL ASSETS
+========================================================= */
+
 function showAllAssets(){
 
     currentCategory =
@@ -2672,23 +2853,141 @@ function showAllAssets(){
         .value = "";
 
 
-    document
-        .querySelectorAll(".filter-btn")
-        .forEach(button => {
-
-            button.classList.toggle(
-                "active",
-                button.dataset.filter === "All"
-            );
-
-        });
-
+    updateCategoryButtons();
 
     hideViewHeader();
 
     animateDashboard();
 
     renderDashboard();
+
+
+    setTimeout(
+        () => scrollToPortfolioTable(),
+        100
+    );
+
+}
+
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+function handleSearch(){
+
+    /*
+       Searching does not alter the allocation donut.
+       It only changes the table/dashboard view.
+    */
+
+    renderDashboard();
+
+}
+
+
+/* =========================================================
+   FILTER SUMMARY
+========================================================= */
+
+function updateFilterSummary(){
+
+    const summary =
+        document.getElementById(
+            "portfolioFilterSummary"
+        );
+
+
+    const text =
+        document.getElementById(
+            "portfolioFilterText"
+        );
+
+
+    if(currentCategory === "All"){
+
+        summary.style.display =
+            "none";
+
+        return;
+
+    }
+
+
+    const count =
+        getFilteredAssets().length;
+
+
+    summary.style.display =
+        "flex";
+
+
+    text.innerHTML = `
+
+        Showing
+        <strong>
+            ${count}
+        </strong>
+
+        ${escapeHTML(
+            currentCategory
+        )}
+
+        ${count === 1
+            ? "holding"
+            : "holdings"}
+
+    `;
+
+}
+
+
+/* =========================================================
+   SCROLL TO PORTFOLIO
+========================================================= */
+
+function scrollToPortfolioTable(){
+
+    const tableCard =
+        document.getElementById(
+            "portfolioTableCard"
+        );
+
+
+    if(!tableCard){
+        return;
+    }
+
+
+    tableCard.scrollIntoView({
+
+        behavior:"smooth",
+
+        block:"start"
+
+    });
+
+
+    /*
+       A subtle visual cue after the scroll.
+    */
+
+    setTimeout(() => {
+
+        tableCard.style.transition =
+            "box-shadow .35s ease";
+
+        tableCard.style.boxShadow =
+            "0 20px 90px rgba(255,196,107,.10)";
+
+        setTimeout(() => {
+
+            tableCard.style.boxShadow =
+                "";
+
+        },700);
+
+    },450);
 
 }
 
@@ -2943,6 +3242,12 @@ function renderAllocation(){
         );
 
 
+    /*
+       Keep the donut visual and non-clickable.
+       We intentionally don't attach click handlers
+       to the chart.
+    */
+
     if(allocationChart){
 
         allocationChart.destroy();
@@ -2995,6 +3300,12 @@ function renderAllocation(){
 
                     animation:{
                         duration:1100
+                    },
+
+                    interaction:{
+                        mode:"nearest",
+
+                        intersect:true
                     }
 
                 }
@@ -3032,6 +3343,17 @@ function renderAllocation(){
                 "legend-row";
 
 
+            if(
+                currentCategory === label
+            ){
+
+                row.classList.add(
+                    "selected"
+                );
+
+            }
+
+
             row.innerHTML = `
 
                 <div class="legend-left">
@@ -3053,8 +3375,20 @@ function renderAllocation(){
             `;
 
 
+            /*
+               ONLY THE LEGEND IS CLICKABLE.
+               The donut itself remains untouched.
+            */
+
             row.onclick =
-                () => setCategoryFilter(label);
+                () => {
+
+                    setCategoryFilter(
+                        label,
+                        true
+                    );
+
+                };
 
 
             legend.appendChild(row);
