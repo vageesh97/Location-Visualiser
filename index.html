@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard</title>
+<title>Live Dashboard</title>
 
 <!-- Tailwind CSS -->
 <script src="https://cdn.tailwindcss.com"></script>
@@ -22,15 +22,12 @@
     --card-border: rgba(255,255,255,.08);
     --text: #f5f7fb;
     --muted: #858b9b;
-    
-    /* Golden Theme Colors */
-    --primary: #fbbf24; /* Amber 400 */
-    --primary-light: #fde047; /* Yellow 300 */
-    --primary-dark: #d97706; /* Amber 600 */
-    
+    --purple: #8b5cf6;
     --cyan: #22d3ee;
     --green: #34d399;
     --red: #fb7185;
+    --yellow: #fbbf24;
+    --orange: #fb923c;
     --radius: 22px;
 }
 
@@ -68,9 +65,8 @@ body::before {
 .logo { display: flex; align-items: center; gap: 12px; padding: 0 10px 35px; }
 .logo-icon {
     width: 38px; height: 38px; display: grid; place-items: center; border-radius: 12px;
-    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    background: linear-gradient(135deg, var(--yellow), #d97706);
     box-shadow: 0 0 30px rgba(251, 191, 36, 0.25);
-    color: #07080c;
 }
 .logo strong { font-size: 15px; }
 .logo span { display: block; color: var(--muted); font-size: 11px; margin-top: 3px; }
@@ -82,7 +78,7 @@ body::before {
     font-size: 13px; cursor: pointer; transition: .25s; width: 100%;
 }
 .nav button:hover, .nav button.active { background: rgba(255,255,255,.06); color: white; }
-.nav button.active { box-shadow: inset 2px 0 var(--primary); }
+.nav button.active { box-shadow: inset 2px 0 var(--yellow); }
 
 /* Main Content */
 .main { margin-left: 250px; width: calc(100% - 250px); padding: 35px; max-width: 1700px; }
@@ -104,7 +100,7 @@ body::before {
     color: white; padding: 10px 14px; border-radius: 12px; font-size: 13px;
     outline: none; transition: border-color 0.3s;
 }
-.input-field:focus { border-color: var(--primary); }
+.input-field:focus { border-color: var(--yellow); }
 
 /* Hero */
 .hero {
@@ -127,7 +123,7 @@ body::before {
 .periods { display: flex; gap: 6px; margin-top: 28px; position: relative; z-index: 5; }
 .periods button {
     border: 0; padding: 7px 12px; border-radius: 9px; background: transparent;
-    color: var(--muted); cursor: pointer; font-size: 12px; font-weight: 500;
+    color: var(--muted); cursor: pointer; font-size: 12px; font-weight: 500; transition: .2s;
 }
 .periods button.active, .periods button:hover { background: rgba(255,255,255,.08); color: white; }
 
@@ -161,20 +157,19 @@ body::before {
 .legend-row { display: flex; align-items: center; justify-content: space-between; font-size: 12px; cursor: pointer; padding: 4px; border-radius: 6px; transition: 0.2s;}
 .legend-row:hover { background: rgba(255,255,255,0.05); }
 .legend-left { display: flex; align-items: center; gap: 8px; }
-.dot { width: 8px; height: 8px; border-radius: 50%; }
 
 /* Performers */
 .performer { display: flex; justify-content: space-between; align-items: center; padding: 13px 0; border-bottom: 1px solid rgba(255,255,255,.05); transition: 0.2s; cursor:pointer;}
 .performer:last-child { border-bottom: 0; }
 .performer:hover { padding-left: 5px; }
 .asset { display: flex; align-items: center; gap: 10px; }
-.asset-icon { width: 35px; height: 35px; display: grid; place-items: center; border-radius: 10px; font-size: 12px; font-weight: 600;}
+.asset-icon { width: 35px; height: 35px; display: grid; place-items: center; border-radius: 10px; background: rgba(255,255,255,.06); font-size: 12px; font-weight: 600;}
 
 /* Projection Slider */
 .projection-number { font-size: 30px; font-weight: 600; margin-bottom: 5px; }
 .slider-group { margin-top: 22px; }
 .slider-group label { display: flex; justify-content: space-between; color: var(--muted); font-size: 11px; margin-bottom: 9px; }
-input[type=range] { width: 100%; accent-color: var(--primary); cursor: pointer; }
+input[type=range] { width: 100%; accent-color: var(--yellow); cursor: pointer; }
 
 /* Holdings List */
 .transaction { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; padding: 13px 10px; border-bottom: 1px solid rgba(255,255,255,.05); font-size: 12px; align-items: center; transition: 0.2s; cursor: pointer; border-radius: 8px;}
@@ -219,7 +214,7 @@ input[type=range] { width: 100%; accent-color: var(--primary); cursor: pointer; 
         <div class="logo-icon"><i data-lucide="orbit" class="text-[#07080c]"></i></div>
         <div>
             <strong class="text-white">Vageesh's Portfolio</strong>
-            <span>Personal Finance</span>
+            <span></span>
         </div>
     </div>
     <nav class="nav">
@@ -267,8 +262,12 @@ input[type=range] { width: 100%; accent-color: var(--primary); cursor: pointer; 
             <span style="color:var(--muted)">all time</span>
         </div>
 
-        <div class="periods">
-            <button>1M</button><button>6M</button><button class="active">1Y</button><button>ALL</button>
+        <!-- NEW: Added ID and interactive onclicks to the timeframe buttons -->
+        <div class="periods" id="timeframeButtons">
+            <button onclick="setTimeframe(this, '1M')">1M</button>
+            <button onclick="setTimeframe(this, '6M')">6M</button>
+            <button class="active" onclick="setTimeframe(this, '1Y')">1Y</button>
+            <button onclick="setTimeframe(this, 'ALL')">ALL</button>
         </div>
 
         <div class="chart-container relative">
@@ -415,6 +414,7 @@ input[type=range] { width: 100%; accent-color: var(--primary); cursor: pointer; 
     </section>
 
     <div class="footer">
+        
     </div>
 
 </main>
@@ -472,7 +472,6 @@ input[type=range] { width: 100%; accent-color: var(--primary); cursor: pointer; 
 // ==========================================
 // CONFIGURATION & DEMO DATA
 // ==========================================
-
 // >>> REPLACE THIS WITH YOUR GOOGLE WEB APP URL <<<
 const API_URL = "https://script.google.com/macros/s/AKfycbwXU92UaymOUfanDm1SkGEHlTKzzsGxHxGn38fGNhJKjUgKemlQ9y47vd-ZA5zEIYyA/exec";
 const CURRENT_YEAR = 2026;
@@ -497,17 +496,16 @@ let globalNetWorth = 0;
 let globalReturnRate = 0;
 let isZenMode = false;
 
-// Golden Theme Colors
-const themeColors = {
-    primary: '#fbbf24',
-    cyan: '#22d3ee',
-    green: '#34d399',
-    red: '#fb7185',
-    orange: '#fb923c',
-    blue: '#60a5fa',
-    gray: '#9ca3af',
-    // Mapped for Donut Chart
-    donut: ['#fbbf24', '#22d3ee', '#34d399', '#fb923c', '#8b5cf6']
+// NEW: Active timeframe state for the line chart
+let activeTimeframe = '1Y';
+
+// Centralized Category Colors (Maps everywhere)
+const categoryStyles = {
+    'Equity': { hex: '#fbbf24', bg: 'rgba(251, 191, 36, 0.15)' },       // Amber
+    'Mutual Funds': { hex: '#22d3ee', bg: 'rgba(34, 211, 238, 0.15)' }, // Cyan
+    'Gold': { hex: '#fb923c', bg: 'rgba(251, 146, 60, 0.15)' },         // Orange
+    'Fixed Income': { hex: '#34d399', bg: 'rgba(52, 211, 153, 0.15)' }, // Green
+    'Other': { hex: '#8b5cf6', bg: 'rgba(139, 92, 246, 0.15)' }         // Purple
 };
 
 window.addEventListener("DOMContentLoaded", () => {
@@ -515,6 +513,7 @@ window.addEventListener("DOMContentLoaded", () => {
     Chart.defaults.color = '#858b9b';
     Chart.defaults.font.family = "'Inter', sans-serif";
     
+    // Set dynamic date and greeting
     const d = new Date(`August 12, ${CURRENT_YEAR}`);
     document.getElementById('dateText').innerText = d.toLocaleDateString('en-US', {weekday:'long', month:'long', day:'numeric', year:'numeric'});
     const hr = new Date().getHours();
@@ -550,6 +549,14 @@ function setFilter(cat) {
     });
     
     renderAssets();
+}
+
+// NEW: Function to handle Timeframe button clicks
+function setTimeframe(btn, period) {
+    document.querySelectorAll('#timeframeButtons button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    activeTimeframe = period;
+    updateMainChart();
 }
 
 // ==========================================
@@ -617,17 +624,6 @@ function calculateCAGR(invested, current, pDateStr) {
     return (Math.pow((current / invested), (1 / years)) - 1) * 100;
 }
 
-// Dynamic Asset Colors
-function getAssetColorClass(category) {
-    const colorMap = {
-        'Equity': { text: 'text-blue-400', bg: 'bg-blue-400/10' },
-        'Mutual Funds': { text: 'text-yellow-400', bg: 'bg-yellow-400/10' },
-        'Gold': { text: 'text-orange-400', bg: 'bg-orange-400/10' },
-        'Fixed Income': { text: 'text-green-400', bg: 'bg-green-400/10' }
-    };
-    return colorMap[category] || { text: 'text-gray-300', bg: 'bg-white/5' };
-}
-
 function renderAssets() {
     const query = document.getElementById("searchInput").value.toLowerCase();
     const sortMode = document.getElementById("sortSelect").value;
@@ -667,7 +663,9 @@ function renderAssets() {
         categoriesCount[item.Category] = (categoriesCount[item.Category] || 0) + Number(item.CurrentValue);
         
         const isProfit = item.actualRet >= 0;
-        const colors = getAssetColorClass(item.Category);
+        
+        // NEW: Pull dynamic style from category map
+        const catStyle = categoryStyles[item.Category] || categoryStyles['Other'];
 
         const row = document.createElement("div");
         row.className = "transaction";
@@ -675,13 +673,13 @@ function renderAssets() {
         
         row.innerHTML = `
             <div class="flex items-center gap-3">
-                <div class="w-8 h-8 rounded-lg ${colors.bg} ${colors.text} flex items-center justify-center font-bold">${item.Asset.charAt(0)}</div>
+                <div class="w-8 h-8 rounded-lg flex items-center justify-center font-bold" style="color: ${catStyle.hex}; background-color: ${catStyle.bg};">${item.Asset.charAt(0)}</div>
                 <div class="flex flex-col">
                     <strong class="text-white">${item.Asset}</strong>
                     <span class="text-[10px] text-muted uppercase">${item.Ticker || 'Asset'}</span>
                 </div>
             </div>
-            <span class="${colors.text} font-medium">${item.Category}</span>
+            <span class="font-medium" style="color: ${catStyle.hex}">${item.Category}</span>
             <span class="text-right sensitive">${formatCurrency(item.Invested)}</span>
             <div class="flex flex-col items-end text-right">
                 <strong class="text-white sensitive">${formatCurrency(item.CurrentValue)}</strong>
@@ -697,7 +695,6 @@ function renderAssets() {
     globalReturnRate = globalInv > 0 ? (totalProfit / globalInv) * 100 : 0;
     const total1DPct = globalNetWorth > 0 ? (total1DProfit / globalNetWorth) * 100 : 0;
 
-    // Hero Updates
     document.getElementById("heroTotalWealth").textContent = formatCurrency(globalNetWorth);
     const hAbs = document.getElementById("heroProfitAbs");
     const hPct = document.getElementById("heroProfitPct");
@@ -706,7 +703,6 @@ function renderAssets() {
     hAbs.className = `font-semibold ${totalProfit >= 0 ? 'positive' : 'negative'}`;
     hPct.className = `font-semibold ${globalReturnRate >= 0 ? 'positive' : 'negative'}`;
 
-    // KPI Grid Updates
     document.getElementById("kpiInvested").textContent = formatCurrency(globalInv);
     
     const kProfit = document.getElementById("kpiProfit");
@@ -721,7 +717,6 @@ function renderAssets() {
     kDaily.className = `kpi-value sensitive ${total1DProfit >= 0 ? 'text-cyan-400' : 'negative'}`;
     document.getElementById("kpiDailySub").innerHTML = `<i data-lucide="activity" class="w-3 h-3"></i> ${Math.abs(total1DPct).toFixed(2)}% 1D change`;
 
-    // Top/Worst Performers
     let allSorted = [...filtered].sort((a,b) => b.actualRet - a.actualRet);
     if(allSorted.length > 0) {
         topAssetRef = allSorted[0];
@@ -734,18 +729,12 @@ function renderAssets() {
         document.getElementById("worstCat").textContent = worstAssetRef.Category;
         document.getElementById("worstRet").textContent = worstAssetRef.actualRet.toFixed(1) + "%";
     } else {
-        topAssetRef = null;
-        worstAssetRef = null;
-        document.getElementById("topAsset").textContent = "--";
-        document.getElementById("topCat").textContent = "--";
-        document.getElementById("topRet").textContent = "0%";
-        document.getElementById("worstAsset").textContent = "--";
-        document.getElementById("worstCat").textContent = "--";
-        document.getElementById("worstRet").textContent = "0%";
+        topAssetRef = null; worstAssetRef = null;
+        document.getElementById("topAsset").textContent = "--"; document.getElementById("topCat").textContent = "--"; document.getElementById("topRet").textContent = "0%";
+        document.getElementById("worstAsset").textContent = "--"; document.getElementById("worstCat").textContent = "--"; document.getElementById("worstRet").textContent = "0%";
     }
 
     lucide.createIcons();
-
     updateMainChart();
     updateAllocChart(categoriesCount);
     updateProjection(); 
@@ -756,13 +745,26 @@ function renderAssets() {
 // ==========================================
 
 function updateMainChart() {
-    const labels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug"];
-    const base = globalNetWorth * 0.7;
-    const dataPoints = labels.map((_, i) => {
-        if(globalNetWorth === 0) return 0;
-        return base + (globalNetWorth - base) * (i / 7) + (Math.sin(i) * (globalNetWorth*0.05));
-    });
-    dataPoints[dataPoints.length - 1] = globalNetWorth;
+    let labels = [];
+    let dataPoints = [];
+    
+    // NEW: Interactive logic mapped to timeframe buttons
+    if (activeTimeframe === '1M') {
+        labels = Array.from({length: 15}, (_, i) => `Day ${i*2+1}`);
+        dataPoints = labels.map((_, i) => globalNetWorth * 0.95 + (globalNetWorth * 0.05) * (i / 14) + (Math.sin(i) * (globalNetWorth*0.01)));
+    } else if (activeTimeframe === '6M') {
+        labels = ["Mar", "Apr", "May", "Jun", "Jul", "Aug"];
+        dataPoints = labels.map((_, i) => globalNetWorth * 0.85 + (globalNetWorth * 0.15) * (i / 5) + (Math.sin(i) * (globalNetWorth*0.02)));
+    } else if (activeTimeframe === '1Y') {
+        labels = ["Sep", "Oct", "Nov", "Dec", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug"];
+        dataPoints = labels.map((_, i) => globalNetWorth * 0.75 + (globalNetWorth * 0.25) * (i / 11) + (Math.sin(i) * (globalNetWorth*0.03)));
+    } else { // ALL
+        labels = ["2022", "2023", "2024", "2025", "2026"];
+        dataPoints = labels.map((_, i) => globalNetWorth * 0.4 + (globalNetWorth * 0.6) * (i / 4) + (Math.sin(i) * (globalNetWorth*0.05)));
+    }
+    
+    // Force end precisely on current worth unless completely zero
+    if(globalNetWorth > 0) dataPoints[dataPoints.length - 1] = globalNetWorth;
 
     const ctx = document.getElementById("mainChart").getContext("2d");
     if (mainChartInstance) mainChartInstance.destroy();
@@ -789,8 +791,9 @@ function updateMainChart() {
             },
             scales: {
                 x: { grid: { display: false }, ticks: { color: "#6f7585", font: { size: 10 } } },
-                y: { grid: { color: "rgba(255,255,255,.04)" }, ticks: { color: "#6f7585", font: { size: 10 }, callback: v => "₹" + (v / 100000).toFixed(0) + "L" } }
-            }
+                y: { grid: { color: "rgba(255,255,255,.04)" }, ticks: { color: "#6f7585", font: { size: 10 }, maxTicksLimit: 6, callback: v => "₹" + (v / 100000).toFixed(0) + "L" } }
+            },
+            animation: { duration: 600 }
         }
     });
 }
@@ -801,16 +804,18 @@ function updateAllocChart(categories) {
 
     const labels = Object.keys(categories);
     const data = Object.values(categories);
-
-    const dotClasses = ['dot-yellow', 'dot-cyan', 'dot-green', 'dot-purple', 'dot-gray'];
-    const customColors = ['#fbbf24', '#22d3ee', '#34d399', '#fb923c', '#64748b'];
+    
+    // NEW: Pull exact colors from the categoryStyles map to ensure Donut and List match
+    const bgColors = labels.map(label => {
+        return categoryStyles[label] ? categoryStyles[label].hex : categoryStyles['Other'].hex;
+    });
 
     labels.forEach((label, i) => {
         const pct = globalNetWorth > 0 ? ((data[i] / globalNetWorth) * 100).toFixed(0) : 0;
         legendContainer.innerHTML += `
             <div class="legend-row" onclick="setFilter('${label}')" title="Click to filter by ${label}">
                 <div class="legend-left">
-                    <span class="w-2 h-2 rounded-full" style="background-color: ${customColors[i % customColors.length]}"></span>
+                    <span class="w-2 h-2 rounded-full" style="background-color: ${bgColors[i]}"></span>
                     <span class="text-white hover:text-[#fbbf24] transition">${label}</span>
                 </div>
                 <strong>${pct}%</strong>
@@ -829,7 +834,7 @@ function updateAllocChart(categories) {
         type: "doughnut",
         data: {
             labels: labels,
-            datasets: [{ data: data, backgroundColor: customColors, borderWidth: 0, hoverOffset: 4 }]
+            datasets: [{ data: data, backgroundColor: bgColors, borderWidth: 0, hoverOffset: 4 }]
         },
         options: {
             responsive: true, maintainAspectRatio: false,
@@ -866,8 +871,6 @@ function updateProjection() {
     } else {
         document.getElementById("projectionValue").textContent = "₹" + (fv / 100000).toFixed(2) + " L";
     }
-    
-    document.getElementById("kpiCAGR").textContent = safeRate.toFixed(2) + "%";
 }
 
 // ==========================================
