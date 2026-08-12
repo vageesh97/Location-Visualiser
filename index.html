@@ -3,78 +3,169 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Interactive Portfolio Dashboard</title>
+  <title>Portfolio Pulse | Premium Dashboard</title>
   <!-- Tailwind CSS & Chart.js -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
   <style>
-    body { background: radial-gradient(circle at 50% 0%, #1e1b4b 0%, #090d16 100%); min-height: 100vh; color: #f8fafc; font-family: system-ui, -apple-system, sans-serif; }
-    .glass-card { background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.08); }
-    .glass-card:hover { border-color: rgba(99, 102, 241, 0.4); transform: translateY(-2px); }
+    body { 
+      font-family: 'Inter', sans-serif; 
+      background: radial-gradient(circle at top right, #0d1e2b 0%, #060913 100%); 
+      color: #f8fafc; 
+      min-height: 100vh;
+    }
+    .glass { 
+      background: rgba(15, 23, 42, 0.4); 
+      backdrop-filter: blur(16px); 
+      -webkit-backdrop-filter: blur(16px); 
+      border: 1px solid rgba(255, 255, 255, 0.05); 
+    }
+    .glass-card { 
+      background: rgba(15, 23, 42, 0.4); 
+      backdrop-filter: blur(16px); 
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .glass-card:hover { 
+      border-color: rgba(52, 211, 153, 0.3); 
+      background: rgba(30, 41, 59, 0.6);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+    }
+    .text-gradient { 
+      background: linear-gradient(135deg, #34d399 0%, #0ea5e9 100%); 
+      -webkit-background-clip: text; 
+      -webkit-text-fill-color: transparent; 
+    }
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #060913; }
+    ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; }
+    ::-webkit-scrollbar-thumb:hover { background: #334155; }
   </style>
 </head>
-<body class="p-4 sm:p-8 max-w-7xl mx-auto pb-12">
+<body class="p-4 sm:p-6 lg:p-10 max-w-[1400px] mx-auto pb-20">
 
-  <!-- Header -->
-  <header class="flex flex-col md:flex-row items-start md:items-center justify-between pb-6 border-b border-slate-800 gap-4">
-    <div>
-      <div class="flex items-center gap-3">
-        <div class="h-10 w-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center font-bold text-lg shadow-lg shadow-indigo-500/30">📈</div>
-        <div>
-          <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-white flex items-center gap-2">
-            Portfolio Pulse
-          </h1>
-          <p id="status-text" class="text-xs text-amber-400 font-medium mt-1">Public Mode (Demo Data) • Enter passcode to sync live sheet</p>
-        </div>
+  <!-- ================= HEADER & AUTH ================= -->
+  <header class="flex flex-col md:flex-row items-start md:items-center justify-between pb-6 border-b border-slate-800 gap-6">
+    <div class="flex items-center gap-4">
+      <div class="h-12 w-12 rounded-2xl bg-gradient-to-br from-emerald-400 to-cyan-500 flex items-center justify-center text-2xl shadow-[0_0_20px_rgba(52,211,153,0.3)]">
+        ✨
+      </div>
+      <div>
+        <h1 class="text-3xl font-extrabold tracking-tight text-white flex items-center gap-2">
+          Portfolio <span class="text-gradient">Pulse</span>
+        </h1>
+        <p id="status-text" class="text-xs text-amber-400 font-medium mt-1">Public Mode (Demo Data) • Enter passcode to sync</p>
       </div>
     </div>
     
-    <!-- Auth Controls -->
-    <div class="flex items-center gap-2 w-full md:w-auto">
-      <input type="password" id="auth-passcode" placeholder="Passcode (1234)" autocomplete="new-password" onkeypress="handleKeyPress(event)"
-             class="bg-slate-900 border border-slate-700 rounded-xl px-4 py-2 text-sm text-indigo-300 focus:outline-none focus:border-indigo-500 transition w-full md:w-48 shadow-inner">
-      <button onclick="handleAuth()" id="auth-btn" class="px-5 py-2 rounded-xl bg-indigo-600 text-white hover:bg-indigo-500 border border-indigo-500 text-sm font-bold transition flex items-center justify-center gap-2 shadow-lg min-w-[110px]">
+    <div class="flex items-center gap-3 w-full md:w-auto">
+      <input type="password" id="auth-passcode" placeholder="Passcode" autocomplete="new-password" onkeypress="handleKeyPress(event)"
+             class="glass rounded-xl px-4 py-2.5 text-sm text-emerald-300 focus:outline-none focus:border-emerald-500 transition w-full md:w-48 placeholder-slate-500">
+      <button onclick="handleAuth()" id="auth-btn" class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white text-sm font-bold transition flex items-center justify-center shadow-lg shadow-emerald-500/20 min-w-[120px]">
         <span id="auth-btn-text">Unlock</span>
       </button>
     </div>
   </header>
 
-  <!-- Summary KPI Cards -->
-  <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 my-6">
-    <div class="glass-card p-5 rounded-2xl transition duration-300 shadow-xl">
-      <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Total Portfolio Value</span>
-      <h3 id="totalValue" class="text-2xl sm:text-3xl font-black mt-2 text-white">₹0</h3>
-      <span class="text-xs text-slate-500 mt-1 block">Live market valuation</span>
+  <!-- ================= KPI DASHBOARD ================= -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 my-8">
+    <div class="glass-card p-6 rounded-3xl">
+      <div class="flex justify-between items-start">
+        <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Current Net Worth</span>
+        <span class="p-2 bg-slate-800 rounded-lg text-slate-300 text-xs">🏦</span>
+      </div>
+      <h3 id="totalValue" class="text-3xl font-black mt-3 text-white">₹0</h3>
+      <span class="text-xs text-slate-500 mt-2 block">Live market valuation</span>
     </div>
-    <div class="glass-card p-5 rounded-2xl transition duration-300 shadow-xl">
-      <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Total Invested Capital</span>
-      <h3 id="totalInvested" class="text-2xl sm:text-3xl font-black mt-2 text-slate-300">₹0</h3>
-      <span class="text-xs text-slate-500 mt-1 block">Original cost basis</span>
+    
+    <div class="glass-card p-6 rounded-3xl">
+      <div class="flex justify-between items-start">
+        <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Total Invested</span>
+        <span class="p-2 bg-slate-800 rounded-lg text-slate-300 text-xs">📥</span>
+      </div>
+      <h3 id="totalInvested" class="text-3xl font-black mt-3 text-slate-300">₹0</h3>
+      <span class="text-xs text-slate-500 mt-2 block">Original cost basis</span>
     </div>
-    <div class="glass-card p-5 rounded-2xl transition duration-300 shadow-xl">
-      <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Net Overall Return</span>
-      <h3 id="totalReturn" class="text-2xl sm:text-3xl font-black mt-2">0%</h3>
-      <span id="totalProfitDiff" class="text-xs font-medium mt-1 block text-slate-400">+₹0</span>
+
+    <div class="glass-card p-6 rounded-3xl">
+      <div class="flex justify-between items-start">
+        <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Net Return</span>
+        <span class="p-2 bg-slate-800 rounded-lg text-slate-300 text-xs">📈</span>
+      </div>
+      <h3 id="totalReturn" class="text-3xl font-black mt-3">0%</h3>
+      <span id="totalProfitDiff" class="text-sm font-bold mt-2 block">+₹0</span>
+    </div>
+
+    <!-- Quick Insights (Top & Worst) -->
+    <div class="glass p-6 rounded-3xl flex flex-col justify-between gap-3">
+      <div class="flex justify-between items-center border-b border-slate-700/50 pb-2">
+        <div>
+          <span class="text-[10px] text-slate-400 uppercase font-bold block">Top Performer</span>
+          <span id="topAsset" class="text-sm font-bold text-emerald-400">--</span>
+        </div>
+        <span id="topAssetRet" class="text-xs font-black text-emerald-400 bg-emerald-400/10 px-2 py-1 rounded">0%</span>
+      </div>
+      <div class="flex justify-between items-center pt-1">
+        <div>
+          <span class="text-[10px] text-slate-400 uppercase font-bold block">Biggest Laggard</span>
+          <span id="worstAsset" class="text-sm font-bold text-rose-400">--</span>
+        </div>
+        <span id="worstAssetRet" class="text-xs font-black text-rose-400 bg-rose-400/10 px-2 py-1 rounded">0%</span>
+      </div>
     </div>
   </div>
 
-  <!-- Interactive Controls: Search, Filter Chips & Sort -->
-  <div class="flex flex-col lg:flex-row gap-4 items-stretch lg:items-center justify-between mb-6">
-    <!-- Category Filter Pills -->
-    <div class="flex flex-wrap gap-2" id="filterPills">
-      <button onclick="setFilter('All')" class="filter-pill active px-4 py-2 rounded-xl text-xs font-bold transition bg-indigo-600 text-white shadow-md shadow-indigo-600/30">All</button>
-      <button onclick="setFilter('Equity')" class="filter-pill px-4 py-2 rounded-xl text-xs font-semibold transition bg-slate-800 text-slate-300 hover:bg-slate-700">Equity</button>
-      <button onclick="setFilter('Mutual Funds')" class="filter-pill px-4 py-2 rounded-xl text-xs font-semibold transition bg-slate-800 text-slate-300 hover:bg-slate-700">Mutual Funds</button>
-      <button onclick="setFilter('Gold')" class="filter-pill px-4 py-2 rounded-xl text-xs font-semibold transition bg-slate-800 text-slate-300 hover:bg-slate-700">Gold</button>
-      <button onclick="setFilter('Fixed Income')" class="filter-pill px-4 py-2 rounded-xl text-xs font-semibold transition bg-slate-800 text-slate-300 hover:bg-slate-700">Fixed Income</button>
-    </div>
+  <!-- ================= WEALTH SIMULATOR (PROJECTIONS) ================= -->
+  <div class="glass rounded-3xl p-6 mb-8 border border-emerald-500/20 relative overflow-hidden">
+    <!-- Decorative background glow -->
+    <div class="absolute top-[-50px] right-[-50px] w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+    
+    <div class="flex flex-col lg:flex-row gap-8 items-center">
+      
+      <!-- Inputs -->
+      <div class="w-full lg:w-1/3 space-y-5 z-10">
+        <div>
+          <h2 class="text-xl font-black text-white flex items-center gap-2">🔮 Wealth Simulator</h2>
+          <p class="text-xs text-slate-400 mt-1">Project your current net worth into the future based on SIPs and expected returns.</p>
+        </div>
+        
+        <div class="space-y-4 bg-slate-900/50 p-5 rounded-2xl border border-slate-700">
+          <div>
+            <label class="text-xs font-bold text-slate-300 uppercase tracking-wide block mb-2">Monthly SIP (₹)</label>
+            <input type="number" id="sipInput" value="10000" oninput="updateProjection()" class="w-full glass rounded-xl px-4 py-2 text-sm text-white focus:border-emerald-500 outline-none">
+          </div>
+          <div>
+            <label class="text-xs font-bold text-slate-300 uppercase tracking-wide block mb-2 flex justify-between">
+              <span>Expected Annual Return</span>
+              <span id="rateLabel" class="text-emerald-400">12%</span>
+            </label>
+            <input type="range" id="rateInput" min="5" max="30" value="12" step="0.5" oninput="updateProjection()" class="w-full accent-emerald-500 h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer">
+          </div>
+        </div>
+      </div>
 
-    <!-- Search & Sort Controls -->
+      <!-- Chart -->
+      <div class="w-full lg:w-2/3 h-[250px] z-10">
+        <canvas id="projectionChart"></canvas>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ================= CONTROLS & FILTERS ================= -->
+  <div class="flex flex-col lg:flex-row gap-4 items-stretch lg:items-center justify-between mb-6">
+    <div class="flex flex-wrap gap-2" id="filterPills">
+      <!-- Filter buttons generated dynamically in JS to stay DRY -->
+    </div>
     <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
       <div class="relative flex-1 sm:w-64">
-        <input type="text" id="searchInput" onkeyup="renderAssets()" placeholder="Search asset or ticker..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 transition shadow-inner" />
+        <input type="text" id="searchInput" onkeyup="renderAssets()" placeholder="Search assets..." class="w-full glass rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 transition" />
       </div>
-      <select id="sortSelect" onchange="renderAssets()" class="bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-slate-300 focus:outline-none focus:border-indigo-500 transition cursor-pointer shadow-inner">
+      <select id="sortSelect" onchange="renderAssets()" class="glass rounded-xl px-4 py-2.5 text-sm text-slate-300 focus:outline-none focus:border-emerald-500 transition cursor-pointer">
         <option value="value_desc">Highest Value</option>
         <option value="gain_desc">Highest Returns %</option>
         <option value="gain_asc">Lowest Returns %</option>
@@ -82,22 +173,20 @@
     </div>
   </div>
 
-  <!-- Main Grid: Charts & Clickable Cards -->
+  <!-- ================= ASSET GRID & ALLOCATION ================= -->
   <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-    
     <!-- Visual Allocation Chart -->
-    <div class="glass-card p-6 rounded-3xl lg:col-span-1 flex flex-col items-center">
-      <div class="w-full flex justify-between items-center mb-4">
-        <h2 class="text-base font-bold text-white">Asset Allocation</h2>
-        <span class="text-[10px] bg-indigo-500/20 text-indigo-300 px-2.5 py-1 rounded-full font-bold uppercase tracking-wide">Live</span>
+    <div class="glass p-6 rounded-3xl lg:col-span-1 flex flex-col items-center">
+      <div class="w-full flex justify-between items-center mb-6">
+        <h2 class="text-base font-bold text-white">Allocation Mix</h2>
+        <span class="text-[10px] bg-emerald-500/10 text-emerald-400 px-2.5 py-1 rounded-full font-bold uppercase tracking-wide border border-emerald-500/20">Live</span>
       </div>
-      <div class="w-full h-[250px] relative flex justify-center items-center py-2">
+      <div class="w-full h-[220px] relative flex justify-center items-center">
         <canvas id="allocationChart"></canvas>
       </div>
-      <p class="text-xs text-slate-400 text-center mt-4">Chart updates dynamically based on active filters</p>
     </div>
 
-    <!-- Clickable Asset Cards Container -->
+    <!-- Asset Cards -->
     <div class="lg:col-span-2">
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" id="assetCardsContainer">
         <!-- Asset Cards Populated via JavaScript -->
@@ -105,54 +194,46 @@
     </div>
   </div>
 
-  <!-- Interactive Detail Modal -->
-  <div id="assetModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4 z-50 transition-opacity">
-    <div class="glass-card bg-slate-900/95 border border-slate-700 w-full max-w-lg rounded-3xl p-6 shadow-2xl relative">
+  <!-- ================= ASSET MODAL (WHAT-IF SIMULATOR) ================= -->
+  <div id="assetModal" class="fixed inset-0 bg-[#060913]/90 backdrop-blur-md hidden items-center justify-center p-4 z-50 transition-opacity">
+    <div class="glass bg-slate-900/95 w-full max-w-lg rounded-3xl p-6 shadow-2xl relative border border-slate-700">
       <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-xl font-bold p-2 leading-none rounded-lg hover:bg-slate-800 transition">✕</button>
       
       <div class="flex items-center gap-4 mb-6">
-        <div id="modalIcon" class="h-14 w-14 rounded-2xl bg-indigo-600/20 border border-indigo-500/40 text-indigo-400 flex items-center justify-center text-2xl font-black shadow-inner">💼</div>
+        <div class="h-14 w-14 rounded-2xl bg-slate-800 border border-slate-700 text-emerald-400 flex items-center justify-center text-2xl font-black">📊</div>
         <div>
           <h3 id="modalTitle" class="text-2xl font-extrabold text-white leading-tight">Asset Name</h3>
-          <span id="modalCategory" class="text-xs font-bold text-indigo-400 uppercase tracking-wider">Category</span>
+          <span id="modalCategory" class="text-xs font-bold text-slate-400 uppercase tracking-wider">Category</span>
         </div>
       </div>
 
-      <div class="grid grid-cols-2 gap-4 mb-6">
-        <div class="bg-slate-800/60 p-4 rounded-2xl border border-slate-700/50 shadow-inner">
-          <span class="text-xs text-slate-400 font-medium">Invested Amount</span>
+      <div class="grid grid-cols-2 gap-3 mb-6">
+        <div class="bg-slate-800/40 p-4 rounded-2xl border border-slate-700/50">
+          <span class="text-xs text-slate-500 font-medium">Invested</span>
           <p id="modalInvested" class="text-lg font-bold text-white mt-1">₹0</p>
         </div>
-        <div class="bg-slate-800/60 p-4 rounded-2xl border border-slate-700/50 shadow-inner">
-          <span class="text-xs text-slate-400 font-medium">Current Valuation</span>
+        <div class="bg-slate-800/40 p-4 rounded-2xl border border-slate-700/50">
+          <span class="text-xs text-slate-500 font-medium">Current Value</span>
           <p id="modalCurrent" class="text-lg font-bold text-white mt-1">₹0</p>
         </div>
-        <div class="bg-slate-800/60 p-4 rounded-2xl border border-slate-700/50 shadow-inner">
-          <span class="text-xs text-slate-400 font-medium">Absolute P&L</span>
+        <div class="bg-slate-800/40 p-4 rounded-2xl border border-slate-700/50">
+          <span class="text-xs text-slate-500 font-medium">Net P&L</span>
           <p id="modalProfit" class="text-lg font-bold mt-1">₹0</p>
         </div>
-        <div class="bg-slate-800/60 p-4 rounded-2xl border border-slate-700/50 shadow-inner">
-          <span class="text-xs text-slate-400 font-medium">Total Return (%)</span>
+        <div class="bg-slate-800/40 p-4 rounded-2xl border border-slate-700/50">
+          <span class="text-xs text-slate-500 font-medium">Return (%)</span>
           <p id="modalReturn" class="text-lg font-bold mt-1">0%</p>
         </div>
       </div>
 
-      <!-- What-If Simulator inside Modal -->
-      <div class="bg-indigo-950/40 border border-indigo-500/30 p-5 rounded-2xl mb-5 shadow-inner">
+      <div class="bg-[#0b1221] border border-slate-700 p-5 rounded-2xl mb-5">
         <div class="flex justify-between items-center mb-3">
-          <label class="text-xs font-bold text-indigo-300 uppercase tracking-wide flex items-center gap-2">
-            <span>🔮</span> What-If Simulator
-          </label>
-          <span id="sliderLabel" class="text-sm font-bold text-indigo-400 bg-indigo-900/50 px-2 py-1 rounded">0%</span>
+          <label class="text-xs font-bold text-slate-300 uppercase tracking-wide">Stress Test Price</label>
+          <span id="sliderLabel" class="text-sm font-bold text-slate-400 bg-slate-800 px-2 py-1 rounded">0%</span>
         </div>
-        <input type="range" id="priceSlider" min="-50" max="50" value="0" oninput="simulatePrice(this.value)" class="w-full accent-indigo-500 cursor-pointer h-2 bg-slate-700 rounded-lg appearance-none" />
-        <div class="flex justify-between text-[10px] text-slate-400 mt-2 font-medium uppercase">
-          <span>-50% Crash</span>
-          <span>Current</span>
-          <span>+50% Rally</span>
-        </div>
-        <div class="mt-4 pt-4 border-t border-indigo-500/20 text-center">
-          <p class="text-xs text-slate-400 font-medium">Simulated Portfolio Value</p>
+        <input type="range" id="priceSlider" min="-50" max="50" value="0" oninput="simulatePrice(this.value)" class="w-full accent-emerald-500 cursor-pointer h-2 bg-slate-700 rounded-lg appearance-none" />
+        <div class="mt-4 pt-4 border-t border-slate-800 text-center">
+          <p class="text-xs text-slate-500 font-medium">Hypothetical Value</p>
           <p class="text-2xl font-black text-white tracking-tight mt-1" id="simVal">₹0</p>
         </div>
       </div>
@@ -162,50 +243,52 @@
   </div>
 
   <script>
-    // ----------------------------------------------------
-    // GOOGLE APPS SCRIPT WEB APP URL
-    // ----------------------------------------------------
+    // ====================================================
+    // 🔗 GOOGLE APPS SCRIPT WEB APP URL (PLACE YOURS HERE)
+    // ====================================================
     const API_URL = "https://script.google.com/macros/s/AKfycbwXU92UaymOUfanDm1SkGEHlTKzzsGxHxGn38fGNhJKjUgKemlQ9y47vd-ZA5zEIYyA/exec";
 
-    // Demo Data Fallback
+    // Demo Data
     const demoData = [
-      { Asset: "TCS", Category: "Equity", Invested: 150000, CurrentValue: 198000, Ticker: "NSE:TCS" },
       { Asset: "HDFC Bank", Category: "Equity", Invested: 120000, CurrentValue: 138000, Ticker: "NSE:HDFCBANK" },
-      { Asset: "Nifty 50 Index", Category: "Mutual Funds", Invested: 220000, CurrentValue: 275000, Ticker: "MF:NIFTY50" },
-      { Asset: "Sovereign Gold", Category: "Gold", Invested: 110000, CurrentValue: 142000, Ticker: "COMM:GOLD" },
-      { Asset: "PPF", Category: "Fixed Income", Invested: 150000, CurrentValue: 159000, Ticker: "DEBT:PPF" }
+      { Asset: "CDSL", Category: "Equity", Invested: 211027, CurrentValue: 199183, Ticker: "NSE:CDSL" },
+      { Asset: "Parag Parikh Flexi", Category: "Mutual Funds", Invested: 255000, CurrentValue: 295000, Ticker: "MF:PPFAS" },
+      { Asset: "Gold BeES ETF", Category: "Gold", Invested: 49215, CurrentValue: 52852, Ticker: "NSE:GOLDBEES" },
+      { Asset: "PPF", Category: "Fixed Income", Invested: 466300, CurrentValue: 499348, Ticker: "DEBT:PPF" }
     ];
 
     let portfolioData = [...demoData];
     let activeFilter = 'All';
-    let chartInstance = null;
+    let allocChartInst = null;
+    let projChartInst = null;
     let selectedAsset = null;
+    let currentGlobalNetWorth = 0; // Used for projection simulator
 
-    // Initialization
+    // Filter Categories
+    const categories = ['All', 'Equity', 'Mutual Funds', 'Gold', 'Fixed Income'];
+
+    // Init
     window.addEventListener("DOMContentLoaded", () => {
       sessionStorage.clear();
-      renderAssets(); // Render demo data initially
+      renderFilters();
+      renderAssets(); 
     });
 
-    // Enter Key Trigger
-    function handleKeyPress(e) {
-      if (e.key === "Enter") handleAuth();
-    }
+    function handleKeyPress(e) { if (e.key === "Enter") handleAuth(); }
 
-    // Authentication & Fetching
+    // Authentication
     async function handleAuth() {
       const passInput = document.getElementById("auth-passcode");
       const btnText = document.getElementById("auth-btn-text");
       const statusText = document.getElementById("status-text");
       const pass = passInput.value.trim();
 
-      // Handle Lock action
       if (sessionStorage.getItem("authenticated_passcode") && btnText.innerText === "Lock") {
         sessionStorage.removeItem("authenticated_passcode");
         passInput.value = "";
         portfolioData = [...demoData];
         btnText.innerText = "Unlock";
-        statusText.innerText = "Public Mode (Demo Data) • Enter passcode to sync live sheet";
+        statusText.innerText = "Public Mode (Demo Data) • Enter passcode to sync";
         statusText.className = "text-xs text-amber-400 font-medium mt-1";
         renderAssets();
         return;
@@ -213,9 +296,8 @@
 
       if (!pass) return alert("Please enter a passcode.");
 
-      // UI Loading State
       btnText.innerText = "Syncing...";
-      statusText.innerText = "⏳ Connecting to Google Sheets...";
+      statusText.innerText = "⏳ Fetching live Google Sheet...";
       statusText.className = "text-xs text-amber-400 font-medium mt-1 animate-pulse";
 
       try {
@@ -223,153 +305,152 @@
         const data = await response.json();
 
         if (data.error) {
-          alert(data.error); // E.g. "Invalid Passcode!"
+          alert(data.error);
           btnText.innerText = "Unlock";
-          statusText.innerText = "Public Mode (Demo Data) • Enter passcode to sync live sheet";
+          statusText.innerText = "Public Mode (Demo Data) • Enter passcode to sync";
           statusText.classList.remove("animate-pulse");
           return;
         }
 
-        // Success State
         sessionStorage.setItem("authenticated_passcode", pass);
         portfolioData = data.assets || [];
         
         btnText.innerText = "Lock";
-        statusText.innerText = "🟢 Live Connected: Data synced securely";
+        statusText.innerText = "🟢 Securely Synced with Live Sheet";
         statusText.className = "text-xs text-emerald-400 font-medium mt-1";
-        
-        // Reset filters and render live data
         setFilter('All'); 
 
       } catch (err) {
-        console.error("API Fetch Error:", err);
         btnText.innerText = "Unlock";
-        statusText.innerText = "❌ Connection failed. Reverting to Demo.";
+        statusText.innerText = "❌ Connection failed. Check Console.";
         statusText.className = "text-xs text-rose-400 font-medium mt-1";
       }
     }
 
-    // Interactive Filters
+    // Filters UI
+    function renderFilters() {
+      const container = document.getElementById("filterPills");
+      container.innerHTML = categories.map(cat => `
+        <button onclick="setFilter('${cat}')" 
+                class="filter-pill ${activeFilter === cat ? 'bg-emerald-500 text-[#060913]' : 'glass text-slate-300 hover:bg-slate-800'} px-5 py-2 rounded-xl text-xs font-bold transition shadow-sm">
+          ${cat}
+        </button>
+      `).join('');
+    }
+
     function setFilter(cat) {
       activeFilter = cat;
-      document.querySelectorAll('.filter-pill').forEach(btn => {
-        if (btn.textContent.trim() === cat) {
-          btn.className = "filter-pill active px-4 py-2 rounded-xl text-xs font-bold transition bg-indigo-600 text-white shadow-md shadow-indigo-600/30";
-        } else {
-          btn.className = "filter-pill px-4 py-2 rounded-xl text-xs font-semibold transition bg-slate-800 text-slate-300 hover:bg-slate-700";
-        }
-      });
+      renderFilters();
       renderAssets();
     }
 
-    // Main Rendering Engine
+    // Main Engine
     function renderAssets() {
       const query = document.getElementById("searchInput").value.toLowerCase();
       const sortMode = document.getElementById("sortSelect").value;
       const container = document.getElementById("assetCardsContainer");
       container.innerHTML = "";
 
-      // 1. Filter
       let filtered = portfolioData.filter(item => {
         const matchesCat = activeFilter === 'All' || item.Category === activeFilter;
         const matchesQuery = item.Asset.toLowerCase().includes(query) || (item.Ticker && item.Ticker.toLowerCase().includes(query));
         return matchesCat && matchesQuery;
       });
 
-      // 2. Sort
-      filtered.sort((a, b) => {
-        const returnA = ((a.CurrentValue - a.Invested) / a.Invested) * 100;
-        const returnB = ((b.CurrentValue - b.Invested) / b.Invested) * 100;
-        if (sortMode === "value_desc") return b.CurrentValue - a.CurrentValue;
-        if (sortMode === "gain_desc") return returnB - returnA;
-        if (sortMode === "gain_asc") return returnA - returnB;
+      // Calculate absolute return percentage for sorting/insights
+      filtered.forEach(item => {
+        item.retPct = item.Invested > 0 ? ((item.CurrentValue - item.Invested) / item.Invested) * 100 : 0;
       });
 
-      // 3. Aggregate KPI Data
+      filtered.sort((a, b) => {
+        if (sortMode === "value_desc") return b.CurrentValue - a.CurrentValue;
+        if (sortMode === "gain_desc") return b.retPct - a.retPct;
+        if (sortMode === "gain_asc") return a.retPct - b.retPct;
+      });
+
       let totalVal = 0, totalInv = 0;
       const categoriesCount = {};
 
       if (filtered.length === 0) {
-        container.innerHTML = `<div class="col-span-1 sm:col-span-2 text-center py-12 text-slate-500 text-sm border border-slate-800 border-dashed rounded-2xl">No assets found matching your criteria.</div>`;
+        container.innerHTML = `<div class="col-span-1 sm:col-span-2 text-center py-12 text-slate-500 text-sm glass rounded-2xl">No assets found.</div>`;
       }
 
       filtered.forEach(item => {
-        const invested = Number(item.Invested) || 0;
-        const current = Number(item.CurrentValue) || 0;
-        const profit = current - invested;
-        const returnPct = invested > 0 ? (profit / invested) * 100 : 0;
-        const isProfit = profit >= 0;
+        totalVal += Number(item.CurrentValue);
+        totalInv += Number(item.Invested);
+        categoriesCount[item.Category] = (categoriesCount[item.Category] || 0) + Number(item.CurrentValue);
+        const isProfit = item.retPct >= 0;
 
-        totalVal += current;
-        totalInv += invested;
-        categoriesCount[item.Category] = (categoriesCount[item.Category] || 0) + current;
-
-        // Create Card Element
         const card = document.createElement("div");
-        card.className = "glass-card p-5 rounded-2xl cursor-pointer transition flex flex-col justify-between group";
+        card.className = "glass-card p-5 rounded-2xl cursor-pointer flex flex-col justify-between";
         card.onclick = () => openModal(item);
         card.innerHTML = `
           <div>
             <div class="flex justify-between items-start">
-              <span class="text-[10px] font-bold px-2 py-1 uppercase tracking-wider rounded-md bg-slate-800 border border-slate-700 text-slate-300 group-hover:bg-slate-700 transition">${item.Category}</span>
-              <span class="text-[11px] font-bold px-2 py-1 rounded-md ${isProfit ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'}">
-                ${isProfit ? '▲' : '▼'} ${Math.abs(returnPct).toFixed(2)}%
+              <span class="text-[9px] font-bold px-2 py-1 uppercase tracking-wider rounded border border-slate-700/50 text-slate-400 bg-slate-800/30">${item.Category}</span>
+              <span class="text-[11px] font-bold px-2 py-1 rounded ${isProfit ? 'bg-emerald-500/10 text-emerald-400' : 'bg-rose-500/10 text-rose-400'}">
+                ${isProfit ? '▲' : '▼'} ${Math.abs(item.retPct).toFixed(2)}%
               </span>
             </div>
-            <h4 class="text-lg font-black text-white mt-4 leading-tight">${item.Asset}</h4>
-            <p class="text-xs text-slate-500 font-medium mt-0.5">${item.Ticker || 'Asset'}</p>
+            <h4 class="text-base font-extrabold text-white mt-4 truncate">${item.Asset}</h4>
+            <p class="text-[10px] text-slate-500 font-medium mt-0.5">${item.Ticker || 'Unknown'}</p>
           </div>
-          <div class="flex justify-between items-end mt-5 pt-4 border-t border-slate-800/80 group-hover:border-slate-700 transition">
+          <div class="flex justify-between items-end mt-5 pt-3 border-t border-slate-800/50">
             <div>
-              <span class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Invested</span>
-              <p class="text-sm font-bold text-slate-300 mt-0.5">${formatCurrency(invested)}</p>
+              <span class="text-[9px] text-slate-500 uppercase font-bold tracking-wider">Invested</span>
+              <p class="text-xs font-bold text-slate-400 mt-0.5">${formatCurrency(item.Invested)}</p>
             </div>
             <div class="text-right">
-              <span class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Current</span>
-              <p class="text-base font-black text-white mt-0.5">${formatCurrency(current)}</p>
+              <span class="text-[9px] text-slate-500 uppercase font-bold tracking-wider">Current</span>
+              <p class="text-sm font-black text-white mt-0.5">${formatCurrency(item.CurrentValue)}</p>
             </div>
           </div>
         `;
         container.appendChild(card);
       });
 
-      // 4. Update Header KPIs
-      const totalProfit = totalVal - totalInv;
-      const totalReturnPct = totalInv > 0 ? (totalProfit / totalInv) * 100 : 0;
-
-      document.getElementById("totalValue").textContent = formatCurrency(totalVal);
-      document.getElementById("totalInvested").textContent = formatCurrency(totalInv);
+      // Insights & Top/Worst (Calculate on ALL data, not just filtered)
+      currentGlobalNetWorth = portfolioData.reduce((sum, item) => sum + (Number(item.CurrentValue)||0), 0);
+      const globalInv = portfolioData.reduce((sum, item) => sum + (Number(item.Invested)||0), 0);
       
-      const returnElem = document.getElementById("totalReturn");
-      returnElem.textContent = `${totalReturnPct >= 0 ? '+' : ''}${totalReturnPct.toFixed(2)}%`;
-      returnElem.className = `text-2xl sm:text-3xl font-black mt-2 ${totalReturnPct >= 0 ? 'text-emerald-400' : 'text-rose-400'}`;
+      const totalProfit = currentGlobalNetWorth - globalInv;
+      const totalReturnPct = globalInv > 0 ? (totalProfit / globalInv) * 100 : 0;
+
+      document.getElementById("totalValue").textContent = formatCurrency(currentGlobalNetWorth);
+      document.getElementById("totalInvested").textContent = formatCurrency(globalInv);
+      
+      const rElem = document.getElementById("totalReturn");
+      rElem.textContent = `${totalReturnPct >= 0 ? '+' : ''}${totalReturnPct.toFixed(2)}%`;
+      rElem.className = `text-3xl font-black mt-3 ${totalReturnPct >= 0 ? 'text-emerald-400' : 'text-rose-400'}`;
 
       const diffElem = document.getElementById("totalProfitDiff");
-      diffElem.textContent = `${totalProfit >= 0 ? '+' : '-'}${formatCurrency(Math.abs(totalProfit))} Net P&L`;
-      diffElem.className = `text-xs font-semibold mt-1 block ${totalProfit >= 0 ? 'text-emerald-400/80' : 'text-rose-400/80'}`;
+      diffElem.textContent = `${totalProfit >= 0 ? '▲ +' : '▼ -'}${formatCurrency(Math.abs(totalProfit))}`;
+      diffElem.className = `text-sm font-bold mt-2 block ${totalProfit >= 0 ? 'text-emerald-500' : 'text-rose-500'}`;
 
-      // 5. Update Doughnut Chart
-      updateChart(categoriesCount);
+      // Calculate Top and Worst Performers
+      let allSorted = [...portfolioData].map(i => ({...i, rp: ((i.CurrentValue-i.Invested)/i.Invested)*100})).sort((a,b) => b.rp - a.rp);
+      if(allSorted.length > 0) {
+        document.getElementById("topAsset").textContent = allSorted[0].Asset;
+        document.getElementById("topAssetRet").textContent = "+" + allSorted[0].rp.toFixed(1) + "%";
+        document.getElementById("worstAsset").textContent = allSorted[allSorted.length-1].Asset;
+        document.getElementById("worstAssetRet").textContent = allSorted[allSorted.length-1].rp.toFixed(1) + "%";
+      }
+
+      updateAllocChart(categoriesCount);
+      updateProjection(); // Refresh simulator
     }
 
-    // Chart.js Setup
-    function updateChart(categories) {
+    // Allocation Doughnut Chart
+    function updateAllocChart(categories) {
       const ctx = document.getElementById("allocationChart").getContext("2d");
-      if (chartInstance) chartInstance.destroy();
+      if (allocChartInst) allocChartInst.destroy();
 
       const labels = Object.keys(categories);
       const data = Object.values(categories);
+      const colorMap = { 'Equity': '#0ea5e9', 'Mutual Funds': '#34d399', 'Gold': '#fbbf24', 'Fixed Income': '#a78bfa' };
+      const bgColors = labels.map(l => colorMap[l] || '#ec4899');
 
-      // Gradient colors mapping for specific categories
-      const colorMap = {
-        'Equity': '#6366f1',       // Indigo
-        'Mutual Funds': '#10b981', // Emerald
-        'Gold': '#f59e0b',         // Amber
-        'Fixed Income': '#8b5cf6'  // Violet
-      };
-      const bgColors = labels.map(label => colorMap[label] || '#ec4899'); // Pink fallback
-
-      chartInstance = new Chart(ctx, {
+      allocChartInst = new Chart(ctx, {
         type: "doughnut",
         data: {
           labels: labels,
@@ -377,30 +458,91 @@
             data: data,
             backgroundColor: bgColors,
             borderWidth: 2,
-            borderColor: '#0f172a', // Slate 900 to match background
-            hoverOffset: 8
+            borderColor: '#060913',
+            hoverOffset: 6
           }]
         },
         options: {
-          responsive: true,
-          maintainAspectRatio: false,
+          responsive: true, maintainAspectRatio: false,
           plugins: {
-            legend: { 
-              position: "bottom", 
-              labels: { color: "#cbd5e1", usePointStyle: true, pointStyle: 'circle', padding: 20, font: { size: 12, family: 'system-ui' } } 
-            },
-            tooltip: {
-              callbacks: {
-                label: (context) => ` ${formatCurrency(context.raw)}`
-              }
-            }
+            legend: { position: "right", labels: { color: "#cbd5e1", usePointStyle: true, boxWidth: 8, font: { size: 10, family: 'Inter' } } },
+            tooltip: { callbacks: { label: (c) => ` ${formatCurrency(c.raw)}` } }
           },
           cutout: "75%"
         }
       });
     }
 
-    // Modal & Simulator Logic
+    // ==========================================
+    // PROJECTION SIMULATOR LOGIC
+    // ==========================================
+    function calculateFV(pv, pmt, ratePct, years) {
+      if(ratePct === 0) return pv + (pmt * years * 12);
+      const r = ratePct / 100 / 12; // Monthly rate
+      const n = years * 12; // Total months
+      return pv * Math.pow(1 + r, n) + pmt * ( (Math.pow(1 + r, n) - 1) / r );
+    }
+
+    function updateProjection() {
+      const sip = Number(document.getElementById("sipInput").value) || 0;
+      const rate = Number(document.getElementById("rateInput").value) || 12;
+      document.getElementById("rateLabel").textContent = rate + "%";
+
+      const dataPoints = [
+        currentGlobalNetWorth,
+        calculateFV(currentGlobalNetWorth, sip, rate, 5),
+        calculateFV(currentGlobalNetWorth, sip, rate, 10),
+        calculateFV(currentGlobalNetWorth, sip, rate, 15),
+        calculateFV(currentGlobalNetWorth, sip, rate, 20)
+      ];
+
+      const ctx = document.getElementById("projectionChart").getContext("2d");
+      if (projChartInst) projChartInst.destroy();
+
+      projChartInst = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: ['Now', 'Year 5', 'Year 10', 'Year 15', 'Year 20'],
+          datasets: [{
+            label: 'Projected Wealth',
+            data: dataPoints,
+            borderColor: '#34d399', // Emerald 400
+            backgroundColor: 'rgba(52, 211, 153, 0.1)',
+            borderWidth: 3,
+            pointBackgroundColor: '#0ea5e9',
+            pointBorderColor: '#fff',
+            pointRadius: 4,
+            fill: true,
+            tension: 0.4
+          }]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              backgroundColor: 'rgba(15, 23, 42, 0.9)',
+              titleColor: '#cbd5e1',
+              bodyColor: '#34d399',
+              bodyFont: { weight: 'bold', size: 14 },
+              callbacks: { label: (c) => formatCurrency(c.raw) }
+            }
+          },
+          scales: {
+            y: {
+              grid: { color: 'rgba(255,255,255,0.05)' },
+              ticks: { color: '#64748b', callback: v => '₹' + (v / 100000).toFixed(0) + 'L' }
+            },
+            x: {
+              grid: { display: false },
+              ticks: { color: '#64748b' }
+            }
+          }
+        }
+      });
+    }
+
+    // Modal Details (What-If Individual Asset)
     function openModal(asset) {
       selectedAsset = asset;
       document.getElementById("modalTitle").textContent = asset.Asset;
@@ -409,7 +551,6 @@
       document.getElementById("modalCurrent").textContent = formatCurrency(asset.CurrentValue);
 
       const profit = asset.CurrentValue - asset.Invested;
-      const returnPct = ((profit / asset.Invested) * 100);
       const isProfit = profit >= 0;
 
       const pElem = document.getElementById("modalProfit");
@@ -417,13 +558,13 @@
       pElem.className = `text-lg font-bold mt-1 ${isProfit ? 'text-emerald-400' : 'text-rose-400'}`;
 
       const rElem = document.getElementById("modalReturn");
-      rElem.textContent = `${isProfit ? '+' : ''}${returnPct.toFixed(2)}%`;
+      rElem.textContent = `${isProfit ? '+' : ''}${asset.retPct.toFixed(2)}%`;
       rElem.className = `text-lg font-bold mt-1 ${isProfit ? 'text-emerald-400' : 'text-rose-400'}`;
 
       // Reset Simulator
       document.getElementById("priceSlider").value = 0;
       document.getElementById("sliderLabel").textContent = "0%";
-      document.getElementById("sliderLabel").className = "text-sm font-bold text-indigo-400 bg-indigo-900/50 px-2 py-1 rounded";
+      document.getElementById("sliderLabel").className = "text-sm font-bold text-slate-300 bg-slate-800 px-2 py-1 rounded";
       document.getElementById("simVal").textContent = formatCurrency(asset.CurrentValue);
       document.getElementById("simVal").className = "text-2xl font-black text-white tracking-tight mt-1";
 
@@ -434,16 +575,14 @@
 
     function simulatePrice(pct) {
       if (!selectedAsset) return;
-      
       const pctNum = Number(pct);
       const labelElem = document.getElementById("sliderLabel");
       const simValElem = document.getElementById("simVal");
 
-      // Dynamic styling based on slider position
       labelElem.textContent = `${pctNum > 0 ? '+' : ''}${pctNum}%`;
-      if(pctNum > 0) labelElem.className = "text-sm font-bold text-emerald-400 bg-emerald-900/40 px-2 py-1 rounded";
-      else if (pctNum < 0) labelElem.className = "text-sm font-bold text-rose-400 bg-rose-900/40 px-2 py-1 rounded";
-      else labelElem.className = "text-sm font-bold text-indigo-400 bg-indigo-900/50 px-2 py-1 rounded";
+      if(pctNum > 0) labelElem.className = "text-sm font-bold text-emerald-400 bg-emerald-400/10 px-2 py-1 rounded border border-emerald-400/20";
+      else if (pctNum < 0) labelElem.className = "text-sm font-bold text-rose-400 bg-rose-400/10 px-2 py-1 rounded border border-rose-400/20";
+      else labelElem.className = "text-sm font-bold text-slate-300 bg-slate-800 px-2 py-1 rounded";
 
       const multiplier = 1 + (pctNum / 100);
       const simulatedVal = Math.round(selectedAsset.CurrentValue * multiplier);
@@ -460,7 +599,7 @@
       modal.classList.remove("flex");
     }
 
-    // Helper: Indian Currency Formatting
+    // Helper
     function formatCurrency(val) {
       return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(val || 0);
     }
