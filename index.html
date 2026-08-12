@@ -1,747 +1,480 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Prospera | Interactive Portfolio</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NEURON // Asset Tracker</title>
+
   <!-- Tailwind CSS & Chart.js -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <!-- Clean Inter Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  
+
+  <!-- Google Fonts: Space Grotesk for that technical, character-rich vibe -->
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
   <style>
-    /* Prospera Dark Aesthetic */
+    /* ================= CORE THEME & VARIABLES ================= */
     :root {
-      --bg-dark: #121418;
-      --card-dark: #1C1E24;
-      --card-hover: #23262D;
-      --border-dark: #2A2D35;
-      --text-main: #F3F4F6;
-      --text-muted: #8B92A5;
-      --accent-green: #10B981;
-      --accent-red: #EF4444;
-      --accent-blue: #3B82F6;
+      --bg-color: #050505;
+      --neon-green: #00ff66;
+      --neon-blue: #00e5ff;
+      --neon-pink: #ff0055;
+      --panel-bg: rgba(15, 15, 15, 0.8);
+      --grid-color: rgba(0, 255, 102, 0.03);
     }
 
-    body { 
-      background-color: var(--bg-dark); 
-      color: var(--text-main); 
-      font-family: 'Inter', system-ui, -apple-system, sans-serif; 
-      min-height: 100vh;
-      -webkit-font-smoothing: antialiased;
+    body {
+      background-color: var(--bg-color);
+      color: #e0e0e0;
+      font-family: 'Space Grotesk', sans-serif;
+      overflow-x: hidden;
+      /* CRT Grid Background */
+      background-image: 
+        linear-gradient(var(--grid-color) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+      background-size: 30px 30px;
     }
 
-    /* Redefining glass-card to be solid matte cards */
-    .glass-card { 
-      background-color: var(--card-dark);
-      border: 1px solid var(--border-dark); 
-      border-radius: 16px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-      transition: all 0.2s ease;
-    }
-    
-    .glass-card:hover { 
-      border-color: #374151; 
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
-    }
-    
-    /* Interactive cursor for clickable elements */
-    .interactive:hover { 
-      cursor: pointer; 
-      background-color: var(--card-hover);
-    }
-
-    /* Zen Mode Blur Class */
-    .zen-active .sensitive { 
-      filter: blur(8px); 
-      opacity: 0.5; 
-      user-select: none; 
+    /* Scanline Overlay Effect */
+    body::after {
+      content: " ";
+      display: block;
+      position: fixed;
+      top: 0; left: 0; bottom: 0; right: 0;
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+      z-index: 2;
+      background-size: 100% 2px, 3px 100%;
       pointer-events: none;
     }
-    .sensitive { transition: filter 0.4s ease, opacity 0.4s ease; }
 
-    /* Custom Slider */
-    input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; }
-    input[type=range]::-webkit-slider-thumb {
-      -webkit-appearance: none; height: 14px; width: 14px; border-radius: 50%;
-      background: var(--accent-green); cursor: pointer; margin-top: -5px;
-      border: 2px solid var(--card-dark);
+    /* ================= COMPONENT STYLES ================= */
+    .terminal-panel {
+      background: var(--panel-bg);
+      border: 1px solid rgba(0, 255, 102, 0.15);
+      backdrop-filter: blur(10px);
+      position: relative;
+      transition: all 0.3s ease;
     }
-    input[type=range]::-webkit-slider-runnable-track {
-      width: 100%; height: 4px; cursor: pointer; background: var(--border-dark); border-radius: 2px;
+    
+    .terminal-panel::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 10px; height: 10px;
+      border-top: 2px solid var(--neon-green);
+      border-left: 2px solid var(--neon-green);
+    }
+    
+    .terminal-panel::after {
+      content: '';
+      position: absolute;
+      bottom: 0; right: 0;
+      width: 10px; height: 10px;
+      border-bottom: 2px solid var(--neon-green);
+      border-right: 2px solid var(--neon-green);
     }
 
-    /* Staggered Card Animation */
-    @keyframes fadeUp {
-      0% { opacity: 0; transform: translateY(10px); }
-      100% { opacity: 1; transform: translateY(0); }
+    .asset-node {
+      border-left: 3px solid transparent;
+      transition: all 0.2s;
+    }
+    .asset-node:hover {
+      background: rgba(0, 255, 102, 0.05);
+      border-left: 3px solid var(--neon-green);
+      transform: translateX(5px);
     }
 
-    /* Custom clean scrollbar */
+    /* Glowing Text Classes */
+    .glow-green { text-shadow: 0 0 10px rgba(0, 255, 102, 0.6); color: var(--neon-green); }
+    .glow-red { text-shadow: 0 0 10px rgba(255, 0, 85, 0.6); color: var(--neon-pink); }
+    .glow-blue { text-shadow: 0 0 10px rgba(0, 229, 255, 0.6); color: var(--neon-blue); }
+
+    /* Custom Scrollbar */
     ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: #374151; border-radius: 10px; }
-    ::-webkit-scrollbar-thumb:hover { background: #4B5563; }
+    ::-webkit-scrollbar-track { background: var(--bg-color); }
+    ::-webkit-scrollbar-thumb { background: rgba(0, 255, 102, 0.3); }
+    ::-webkit-scrollbar-thumb:hover { background: var(--neon-green); }
+
+    /* Ticker Animation */
+    .ticker-wrap {
+      width: 100%;
+      overflow: hidden;
+      background: rgba(0, 255, 102, 0.05);
+      border-top: 1px solid rgba(0, 255, 102, 0.2);
+      border-bottom: 1px solid rgba(0, 255, 102, 0.2);
+    }
+    .ticker {
+      display: inline-block;
+      white-space: nowrap;
+      animation: ticker-scroll 30s linear infinite;
+    }
+    @keyframes ticker-scroll {
+      0% { transform: translate3d(0, 0, 0); }
+      100% { transform: translate3d(-50%, 0, 0); }
+    }
+
+    /* Glitch Animation */
+    @keyframes glitch {
+      0% { transform: translate(0) }
+      20% { transform: translate(-2px, 2px) }
+      40% { transform: translate(-2px, -2px) }
+      60% { transform: translate(2px, 2px) }
+      80% { transform: translate(2px, -2px) }
+      100% { transform: translate(0) }
+    }
+    .glitch-hover:hover { animation: glitch 0.2s ease-in-out infinite; }
   </style>
 </head>
-<body class="p-4 sm:p-6 lg:p-8 max-w-[1400px] mx-auto pb-12">
+<body class="p-4 sm:p-6 min-h-screen flex flex-col z-10 relative">
 
-  <!-- ================= HEADER ================= -->
-  <header class="flex flex-col md:flex-row items-start md:items-center justify-between pb-6 border-b border-[#2A2D35] gap-6">
+  <!-- ================= TOP STATUS BAR & GOOGLE SHEETS SYNC ================= -->
+  <header class="w-full flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6 terminal-panel p-4 z-20">
     <div class="flex items-center gap-3">
-      <!-- Prospera Mock Logo -->
-      <div class="h-10 w-10 rounded-xl bg-[#1C1E24] border border-[#2A2D35] flex items-center justify-center text-white">
-        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2zm0 5l5 10h-10l5-10z"/></svg>
-      </div>
-      <div>
-        <h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-white flex items-center gap-2">
-          Prospera
-        </h1>
-        <p id="status-text" class="text-[10px] text-gray-500 font-bold uppercase tracking-widest mt-0.5">Demo Environment • Enter Passcode to Sync</p>
-      </div>
+      <div class="w-3 h-3 rounded-full bg-green-500 animate-pulse" id="sys-status-led"></div>
+      <h1 class="text-2xl font-bold tracking-widest glow-green uppercase">NEURON // SYSTEM</h1>
     </div>
-    
-    <!-- Auth Controls & Zen Mode -->
+
     <div class="flex items-center gap-3 w-full md:w-auto">
+      <div class="text-xs text-gray-500 font-mono tracking-widest uppercase hidden md:block" id="sys-log">
+        SYS.STATE: OFFLINE_DEMO
+      </div>
       
-      <!-- Zen Mode Toggle -->
-      <button onclick="toggleZenMode()" class="p-2.5 rounded-xl glass-card text-gray-400 hover:text-white transition group" title="Toggle Privacy (Zen Mode)">
-        <svg id="zenIcon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-      </button>
-
-      <div class="w-px h-6 bg-[#2A2D35] mx-1"></div>
-
-      <input type="password" id="auth-passcode" placeholder="Passcode" autocomplete="new-password" onkeypress="handleKeyPress(event)"
-             class="bg-[#1C1E24] border border-[#2A2D35] rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#10B981] transition w-full md:w-40 placeholder-gray-600">
-      <button onclick="handleAuth()" id="auth-btn" class="px-6 py-2.5 rounded-xl bg-[#10B981] text-[#121418] hover:bg-[#059669] text-sm font-bold transition flex items-center justify-center min-w-[100px]">
-        <span id="auth-btn-text">Unlock</span>
-      </button>
+      <!-- Google Sheets Connection Terminal -->
+      <div class="flex bg-black border border-green-500/30 p-1 w-full md:w-64">
+        <span class="text-green-500 px-2 flex items-center font-bold">></span>
+        <input type="password" id="sheet-passcode" placeholder="ENTER SYNC KEY..." onkeypress="handleKey(event)"
+               class="bg-transparent text-green-400 text-sm focus:outline-none w-full font-mono placeholder-green-900 tracking-widest">
+        <button onclick="syncGoogleSheet()" id="sync-btn" class="bg-green-500/20 text-green-400 hover:bg-green-500 hover:text-black transition px-3 py-1 text-xs font-bold uppercase tracking-wider">
+          SYNC
+        </button>
+      </div>
     </div>
   </header>
 
-  <!-- ================= KPI CARDS ================= -->
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 my-8">
-    <div class="glass-card p-6 relative flex flex-col justify-between">
-      <div class="flex justify-between items-start mb-4">
-        <span class="text-[10px] font-bold uppercase tracking-widest text-[#8B92A5]">Current Value</span>
-        <span id="dailyChange" class="text-[10px] font-bold px-2 py-1 rounded border border-[#2A2D35] bg-[#1C1E24] text-gray-400 sensitive">+0.00% 1D</span>
-      </div>
-      <div>
-        <h3 id="totalValue" class="text-3xl sm:text-4xl font-bold tracking-tight text-white sensitive">₹0</h3>
-        <span class="text-xs text-gray-500 mt-2 block font-medium">Live market valuation</span>
-      </div>
-    </div>
-    
-    <div class="glass-card p-6 flex flex-col justify-between">
-      <span class="text-[10px] font-bold uppercase tracking-widest text-[#8B92A5] mb-4">Cost Basis</span>
-      <div>
-        <h3 id="totalInvested" class="text-3xl sm:text-4xl font-bold tracking-tight text-gray-200 sensitive">₹0</h3>
-        <span class="text-xs text-gray-500 mt-2 block font-medium">Original invested capital</span>
-      </div>
-    </div>
-    
-    <div class="glass-card p-6 flex flex-col justify-between">
-      <span class="text-[10px] font-bold uppercase tracking-widest text-[#8B92A5] mb-4">All Time Profit</span>
-      <div>
-        <h3 id="totalReturn" class="text-3xl sm:text-4xl font-bold tracking-tight">0%</h3>
-        <span id="totalProfitDiff" class="text-sm font-bold mt-2 block text-gray-400 sensitive">+₹0 P&L</span>
-      </div>
-    </div>
-
-    <!-- Quick Insights (Top & Worst) -->
-    <div class="glass-card p-5 flex flex-col justify-between">
-      <div class="flex justify-between items-center border-b border-[#2A2D35] pb-3 group interactive rounded-lg -mx-2 px-2" onclick="if(topAssetRef) openModal(topAssetRef)">
-        <div>
-          <span class="text-[9px] text-[#8B92A5] uppercase font-bold tracking-wider block flex items-center gap-1"><span class="text-[#10B981]">↑</span> Best Performer</span>
-          <span id="topAsset" class="text-sm font-bold text-white group-hover:text-[#10B981] transition">--</span>
-        </div>
-        <div class="text-right">
-          <span id="topAssetRet" class="text-xs font-bold text-[#10B981] bg-[#10B981]/10 px-2 py-0.5 rounded block mb-1">0%</span>
-          <span id="topAssetCAGR" class="text-[9px] font-bold text-gray-500">CAGR: 0%</span>
-        </div>
-      </div>
-      <div class="flex justify-between items-center pt-3 group interactive rounded-lg -mx-2 px-2" onclick="if(worstAssetRef) openModal(worstAssetRef)">
-        <div>
-          <span class="text-[9px] text-[#8B92A5] uppercase font-bold tracking-wider block flex items-center gap-1"><span class="text-[#EF4444]">↓</span> Worst Performer</span>
-          <span id="worstAsset" class="text-sm font-bold text-gray-300 group-hover:text-[#EF4444] transition">--</span>
-        </div>
-        <div class="text-right">
-          <span id="worstAssetRet" class="text-xs font-bold text-[#EF4444] bg-[#EF4444]/10 px-2 py-0.5 rounded block mb-1">0%</span>
-          <span id="worstAssetCAGR" class="text-[9px] font-bold text-gray-500">CAGR: 0%</span>
-        </div>
-      </div>
+  <!-- ================= LIVE ASSET TICKER ================= -->
+  <div class="ticker-wrap mb-8 z-20">
+    <div class="ticker py-2 text-sm font-bold tracking-widest" id="ticker-content">
+      <!-- Injected by JS -->
     </div>
   </div>
 
-  <!-- ================= SLEEK WEALTH PROJECTION SIMULATOR ================= -->
-  <div class="glass-card p-6 mb-8">
-    <div class="flex flex-col lg:flex-row gap-6">
+  <!-- ================= MAIN DASHBOARD GRID ================= -->
+  <main class="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-6 z-20 relative">
+    
+    <!-- LEFT COLUMN: WEALTH & ANALYTICS -->
+    <div class="lg:col-span-8 flex flex-col gap-6">
       
-      <!-- Compact Controls (Left side) -->
-      <div class="w-full lg:w-1/4 flex flex-col justify-center border-r border-[#2A2D35] pr-6">
-        <h2 class="text-lg font-bold text-white mb-1">Performance Forecast</h2>
-        <p class="text-[10px] text-gray-500 uppercase tracking-widest font-bold mb-6">15 Year Projection</p>
+      <!-- KPI Row -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+        <div class="terminal-panel p-6 flex flex-col justify-center">
+          <span class="text-xs text-gray-400 uppercase tracking-widest mb-2 border-b border-gray-800 pb-1">Net Liquidity</span>
+          <h2 class="text-4xl md:text-5xl font-bold glow-green tracking-tighter" id="kpi-networth">₹0</h2>
+        </div>
         
-        <div class="space-y-5">
-          <div class="flex justify-between items-center">
-            <span class="text-xs font-medium text-gray-400">Current Worth</span>
-            <span id="projBaseWorth" class="text-sm font-bold text-white sensitive">₹0</span>
-          </div>
-          <div class="flex justify-between items-center">
-            <span class="text-xs font-medium text-gray-400">Historical ROI</span>
-            <span id="projBaseRate" class="text-sm font-bold text-[#10B981]">0%</span>
-          </div>
-          
-          <div class="pt-4 border-t border-[#2A2D35]">
-            <label class="text-[10px] font-bold text-gray-500 uppercase tracking-widest block mb-3">Simulate Monthly SIP</label>
-            <input type="range" id="sipSlider" min="0" max="200000" step="1000" value="15000" oninput="updateProjection()">
-            <div class="text-right mt-2">
-              <span id="sipLabel" class="text-base font-bold text-[#10B981] sensitive">₹15,000</span>
-            </div>
-          </div>
+        <div class="terminal-panel p-6 flex flex-col justify-center">
+          <span class="text-xs text-gray-400 uppercase tracking-widest mb-2 border-b border-gray-800 pb-1">Capital Deployed</span>
+          <h2 class="text-3xl font-bold text-gray-200 tracking-tighter mt-1" id="kpi-invested">₹0</h2>
+        </div>
+        
+        <div class="terminal-panel p-6 flex flex-col justify-center">
+          <span class="text-xs text-gray-400 uppercase tracking-widest mb-2 border-b border-gray-800 pb-1">Global Alpha (ROI)</span>
+          <h2 class="text-3xl font-bold tracking-tighter mt-1" id="kpi-roi">0.00%</h2>
         </div>
       </div>
 
-      <!-- Cinematic Chart (Right side) -->
-      <div class="w-full lg:w-3/4 h-[220px] relative">
-        <canvas id="projectionChart"></canvas>
-      </div>
-    </div>
-  </div>
-
-  <!-- ================= FILTERS & CONTROLS ================= -->
-  <div class="flex flex-col lg:flex-row gap-4 items-stretch lg:items-center justify-between mb-6">
-    <div class="flex flex-wrap gap-2" id="filterPills">
-      <button onclick="setFilter('All')" class="filter-pill active px-4 py-2 rounded-lg text-xs font-bold transition bg-[#10B981] text-[#121418]">All Deals</button>
-      <button onclick="setFilter('Equity')" class="filter-pill px-4 py-2 rounded-lg text-xs font-bold transition bg-[#1C1E24] border border-[#2A2D35] text-gray-400 hover:text-white">Equity</button>
-      <button onclick="setFilter('Mutual Funds')" class="filter-pill px-4 py-2 rounded-lg text-xs font-bold transition bg-[#1C1E24] border border-[#2A2D35] text-gray-400 hover:text-white">Funds</button>
-      <button onclick="setFilter('Gold')" class="filter-pill px-4 py-2 rounded-lg text-xs font-bold transition bg-[#1C1E24] border border-[#2A2D35] text-gray-400 hover:text-white">Gold</button>
-      <button onclick="setFilter('Fixed Income')" class="filter-pill px-4 py-2 rounded-lg text-xs font-bold transition bg-[#1C1E24] border border-[#2A2D35] text-gray-400 hover:text-white">Fixed Income</button>
-    </div>
-
-    <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-      <div class="relative flex-1 sm:w-64">
-        <input type="text" id="searchInput" onkeyup="renderAssets()" placeholder="Search assets..." class="w-full bg-[#1C1E24] border border-[#2A2D35] rounded-lg px-4 py-2 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-[#10B981] transition" />
-      </div>
-      <select id="sortSelect" onchange="renderAssets()" class="bg-[#1C1E24] border border-[#2A2D35] rounded-lg px-4 py-2 text-sm text-gray-300 focus:outline-none focus:border-[#10B981] transition cursor-pointer">
-        <option value="value_desc">Value: High to Low</option>
-        <option value="gain_desc">Return: High to Low</option>
-        <option value="gain_asc">Return: Low to High</option>
-      </select>
-    </div>
-  </div>
-
-  <!-- ================= ASSET GRID & ALLOCATION ================= -->
-  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-    
-    <!-- Visual Allocation Chart -->
-    <div class="glass-card p-6 lg:col-span-1 flex flex-col items-center">
-      <div class="w-full flex justify-between items-center mb-6">
-        <h2 class="text-sm font-bold text-white">Assets Allocation</h2>
-        <span class="text-[10px] text-gray-500">Live</span>
-      </div>
-      <div class="w-full h-[220px] relative flex justify-center items-center py-2 cursor-pointer" title="Click a segment to filter">
-        <canvas id="allocationChart"></canvas>
-      </div>
-      <p class="text-[10px] text-gray-500 mt-4 font-medium">Select chart segments to filter view</p>
-    </div>
-
-    <!-- Clickable Asset Cards Container -->
-    <div class="lg:col-span-2">
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" id="assetCardsContainer">
-        <!-- Asset Cards Populated via JavaScript -->
-      </div>
-    </div>
-  </div>
-
-  <!-- ================= INTERACTIVE DETAIL MODAL ================= -->
-  <div id="assetModal" class="fixed inset-0 bg-[#121418]/90 backdrop-blur-md hidden items-center justify-center p-4 z-50 transition-opacity">
-    <div class="glass-card w-full max-w-lg p-6 sm:p-8 relative transform scale-95 transition-transform" id="modalContent">
-      <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-500 hover:text-white p-2 rounded-lg hover:bg-[#2A2D35] transition">✕</button>
-      
-      <div class="flex items-center gap-4 mb-6 border-b border-[#2A2D35] pb-6">
-        <div class="h-12 w-12 rounded-xl bg-[#1C1E24] border border-[#2A2D35] text-white flex items-center justify-center text-xl font-bold shadow-inner">💼</div>
-        <div>
-          <h3 id="modalTitle" class="text-2xl font-bold text-white tracking-tight">Asset Name</h3>
-          <span id="modalCategory" class="text-[10px] font-bold text-gray-500 uppercase tracking-widest mt-1 block">Category</span>
-        </div>
-      </div>
-
-      <div class="grid grid-cols-2 gap-4 mb-6">
-        <div class="bg-[#16181C] border border-[#2A2D35] p-4 rounded-xl">
-          <span class="text-[10px] font-bold uppercase tracking-widest text-gray-500">Invested Basis</span>
-          <p id="modalInvested" class="text-lg font-bold text-white mt-1 sensitive">₹0</p>
-        </div>
-        <div class="bg-[#16181C] border border-[#2A2D35] p-4 rounded-xl">
-          <span class="text-[10px] font-bold uppercase tracking-widest text-gray-500">Market Value</span>
-          <p id="modalCurrent" class="text-lg font-bold text-white mt-1 sensitive">₹0</p>
-        </div>
-        <div class="bg-[#16181C] border border-[#2A2D35] p-4 rounded-xl">
-          <span class="text-[10px] font-bold uppercase tracking-widest text-gray-500">Absolute Profit</span>
-          <p id="modalProfit" class="text-lg font-bold mt-1 sensitive">₹0</p>
-        </div>
-        <div class="bg-[#16181C] border border-[#2A2D35] p-4 rounded-xl">
-          <span class="text-[10px] font-bold uppercase tracking-widest text-gray-500">Return & CAGR</span>
-          <div class="flex items-baseline gap-2 mt-1">
-            <p id="modalReturn" class="text-lg font-bold">0%</p>
-            <p id="modalCAGR" class="text-[10px] font-bold text-gray-500">0% CAGR</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- What-If Simulator inside Modal -->
-      <div class="bg-[#16181C] border border-[#2A2D35] p-5 rounded-xl mb-2">
+      <!-- Main Chart Area -->
+      <div class="terminal-panel p-6 flex-1 min-h-[350px] flex flex-col">
         <div class="flex justify-between items-center mb-4">
-          <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest flex items-center gap-2">
-            Stress Test Parameter
-          </label>
-          <span id="sliderLabel" class="text-xs font-bold text-white bg-[#2A2D35] px-2 py-1 rounded">0%</span>
+          <span class="text-sm font-bold glow-blue uppercase tracking-widest">Wealth Trajectory // 15YR</span>
+          <div class="text-xs border border-blue-500/30 px-2 py-1 text-blue-400 bg-blue-500/10">PROJECTION MATRIX</div>
         </div>
-        <input type="range" id="priceSlider" min="-50" max="50" value="0" oninput="simulatePrice(this.value)" class="w-full accent-[#10B981] cursor-pointer h-1.5 bg-[#2A2D35] rounded-lg appearance-none" />
-        <div class="flex justify-between items-end border-t border-[#2A2D35] mt-5 pt-4">
-          <span class="text-[10px] text-gray-500 uppercase tracking-widest font-bold">Simulated Outcome</span>
-          <span class="text-2xl font-bold text-white tracking-tight sensitive" id="simVal">₹0</span>
+        <div class="flex-1 relative w-full h-full">
+          <canvas id="mainChart"></canvas>
         </div>
       </div>
     </div>
-  </div>
+
+    <!-- RIGHT COLUMN: ASSET NODES & ALLOCATION -->
+    <div class="lg:col-span-4 flex flex-col gap-6">
+      
+      <!-- Allocation Radar/Doughnut -->
+      <div class="terminal-panel p-6">
+        <span class="text-sm font-bold glow-green uppercase tracking-widest block mb-4">Vector Allocation</span>
+        <div class="relative w-full h-[200px] flex justify-center items-center">
+          <canvas id="allocChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Asset Data Nodes (Scrollable List) -->
+      <div class="terminal-panel flex-1 flex flex-col overflow-hidden max-h-[500px]">
+        <div class="p-4 border-b border-green-500/20 bg-black/40 flex justify-between items-center">
+          <span class="text-sm font-bold text-gray-300 uppercase tracking-widest">Active Nodes</span>
+          <span class="text-xs text-gray-500" id="asset-count">0 Detected</span>
+        </div>
+        
+        <div class="overflow-y-auto p-2 flex-1" id="asset-list">
+          <!-- Assets Injected by JS -->
+        </div>
+      </div>
+
+    </div>
+  </main>
 
   <script>
-    // ----------------------------------------------------
-    // GOOGLE APPS SCRIPT WEB APP URL
-    // ----------------------------------------------------
-    const API_URL = "https://script.google.com/macros/s/AKfycbwXU92UaymOUfanDm1SkGEHlTKzzsGxHxGn38fGNhJKjUgKemlQ9y47vd-ZA5zEIYyA/exec";
-    const CURRENT_YEAR = 2026;
-
-    // Demo Data
-    const demoData = [
-      { Asset: "TCS", Category: "Equity", Invested: 150000, CurrentValue: 198000, Ticker: "NSE:TCS", PurchaseDate: "2023-01-15", DayChangePct: 1.2 },
-      { Asset: "HDFC Bank", Category: "Equity", Invested: 120000, CurrentValue: 138000, Ticker: "NSE:HDFCBANK", PurchaseDate: "2024-05-10", DayChangePct: -0.5 },
-      { Asset: "Nifty 50 Index", Category: "Mutual Funds", Invested: 220000, CurrentValue: 275000, Ticker: "MF:NIFTY50", PurchaseDate: "2022-08-01", DayChangePct: 0.4 },
-      { Asset: "Sovereign Gold", Category: "Gold", Invested: 110000, CurrentValue: 142000, Ticker: "COMM:GOLD", PurchaseDate: "2021-10-20", DayChangePct: 0.1 },
-      { Asset: "PPF", Category: "Fixed Income", Invested: 150000, CurrentValue: 159000, Ticker: "DEBT:PPF", PurchaseDate: "2022-04-01", DayChangePct: 0.0 }
+    // ============================================================================
+    // CONFIGURATION & SETUP
+    // REPLACE THIS URL WITH YOUR GOOGLE APPS SCRIPT WEB APP URL
+    // ============================================================================
+    const GOOGLE_SHEET_API_URL = "https://script.google.com/macros/s/AKfycbwXU92UaymOUfanDm1SkGEHlTKzzsGxHxGn38fGNhJKjUgKemlQ9y47vd-ZA5zEIYyA/exec"; 
+    
+    // DEMO DATA (Used before Syncing)
+    const fallbackData = [
+      { Asset: "CyberDyne Systems", Category: "Tech", Invested: 150000, CurrentValue: 210000, Ticker: "CYBR", DayChangePct: 4.2 },
+      { Asset: "Weyland-Yutani Corp", Category: "BioTech", Invested: 300000, CurrentValue: 285000, Ticker: "WEYL", DayChangePct: -1.5 },
+      { Asset: "Stark Industries", Category: "Defense", Invested: 500000, CurrentValue: 850000, Ticker: "STRK", DayChangePct: 2.1 },
+      { Asset: "Tyrell Corporation", Category: "AI", Invested: 100000, CurrentValue: 105000, Ticker: "TYRL", DayChangePct: 0.5 },
+      { Asset: "Sovereign Crypto", Category: "Digital", Invested: 50000, CurrentValue: 125000, Ticker: "BTC", DayChangePct: 8.4 }
     ];
 
-    let portfolioData = [...demoData];
-    let activeFilter = 'All';
-    let allocChartInstance = null;
-    let projChartInstance = null;
-    let selectedAsset = null;
-    let topAssetRef = null;
-    let worstAssetRef = null;
-    let isZenMode = false;
+    let portfolioData = [...fallbackData];
+    let mainChartInst = null;
+    let allocChartInst = null;
 
-    let globalNetWorth = 0;
-    let globalReturnRate = 0;
+    // Set Global Chart Settings to match Cyber-Terminal theme
+    Chart.defaults.color = '#555';
+    Chart.defaults.font.family = "'Space Grotesk', sans-serif";
 
     window.addEventListener("DOMContentLoaded", () => {
-      sessionStorage.clear();
-      Chart.defaults.color = '#8B92A5';
-      Chart.defaults.font.family = "'Inter', sans-serif";
-      renderAssets(); 
+      renderDashboard();
     });
 
-    function handleKeyPress(e) { if (e.key === "Enter") handleAuth(); }
+    // ============================================================================
+    // GOOGLE SHEETS SYNC LOGIC
+    // ============================================================================
+    function handleKey(e) { if (e.key === "Enter") syncGoogleSheet(); }
 
-    // ZEN MODE LOGIC
-    function toggleZenMode() {
-      isZenMode = !isZenMode;
-      document.body.classList.toggle('zen-active', isZenMode);
-      const icon = document.getElementById('zenIcon');
-      if(isZenMode) {
-        icon.parentElement.classList.add('bg-[#10B981]', 'text-[#121418]');
-        icon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"></path>`;
-      } else {
-        icon.parentElement.classList.remove('bg-[#10B981]', 'text-[#121418]');
-        icon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>`;
-      }
-    }
+    async function syncGoogleSheet() {
+      const pass = document.getElementById("sheet-passcode").value.trim();
+      const btn = document.getElementById("sync-btn");
+      const log = document.getElementById("sys-log");
+      const led = document.getElementById("sys-status-led");
 
-    // AUTH & SYNC
-    async function handleAuth() {
-      const passInput = document.getElementById("auth-passcode");
-      const btnText = document.getElementById("auth-btn-text");
-      const statusText = document.getElementById("status-text");
-      const pass = passInput.value.trim();
+      if (!pass) return alert("NO KEY ENTERED");
 
-      if (sessionStorage.getItem("authenticated_passcode") && btnText.innerText === "Disconnect") {
-        sessionStorage.removeItem("authenticated_passcode");
-        passInput.value = "";
-        portfolioData = [...demoData];
-        btnText.innerText = "Unlock";
-        statusText.innerText = "Demo Environment • Enter Passcode to Sync";
-        statusText.className = "text-[10px] text-gray-500 font-bold uppercase tracking-widest mt-0.5";
-        renderAssets();
-        return;
-      }
-
-      if (!pass) return alert("Please enter a passcode.");
-
-      btnText.innerText = "Syncing...";
-      statusText.innerText = "Connecting to Google Cloud...";
-      statusText.className = "text-[10px] text-[#10B981] font-bold uppercase tracking-widest mt-0.5 animate-pulse";
+      // UI Loading State
+      btn.innerText = "WAIT";
+      btn.classList.add("animate-pulse");
+      log.innerText = "SYS.STATE: ESTABLISHING UPLINK...";
+      led.className = "w-3 h-3 rounded-full bg-yellow-500 animate-pulse";
 
       try {
-        const response = await fetch(`${API_URL}?passcode=${encodeURIComponent(pass)}`);
+        /* 
+          IMPORTANT: 
+          To make this work live, deploy your Google Sheet via Apps Script.
+          The script should return JSON like: { assets: [{ Asset: "Name", Invested: 100, ... }] }
+        */
+        const response = await fetch(`${GOOGLE_SHEET_API_URL}?passcode=${encodeURIComponent(pass)}`);
+        
+        // If the URL is fake/fails (which it will by default until you add yours), it hits the catch block.
+        if(!response.ok) throw new Error("Network response was not ok");
+        
         const data = await response.json();
-
+        
         if (data.error) {
-          alert(data.error); 
-          btnText.innerText = "Unlock";
-          statusText.innerText = "Demo Environment • Enter Passcode to Sync";
-          statusText.classList.remove("animate-pulse", "text-[#10B981]");
-          return;
+          throw new Error(data.error);
         }
 
-        sessionStorage.setItem("authenticated_passcode", pass);
-        // Inject fake fields if missing from live sheet
-        portfolioData = (data.assets || []).map(item => ({
-          ...item,
-          PurchaseDate: item.PurchaseDate || "2024-01-01",
-          DayChangePct: item.DayChangePct || (Math.random() * 2 - 1) 
-        }));
+        portfolioData = data.assets;
         
-        btnText.innerText = "Disconnect";
-        statusText.innerText = "Live Synced • Secure";
-        statusText.className = "text-[10px] text-[#10B981] font-bold uppercase tracking-widest mt-0.5";
-        setFilter('All'); 
+        // Success State
+        btn.innerText = "SYNCED";
+        btn.classList.remove("animate-pulse");
+        btn.classList.replace("text-green-400", "text-black");
+        btn.classList.replace("bg-green-500/20", "bg-green-500");
+        log.innerText = "SYS.STATE: UPLINK SECURE (LIVE)";
+        led.className = "w-3 h-3 rounded-full bg-green-500";
+        
+        renderDashboard();
 
       } catch (err) {
-        btnText.innerText = "Unlock";
-        statusText.innerText = "Connection Failed. Retrying...";
-        statusText.className = "text-[10px] text-[#EF4444] font-bold uppercase tracking-widest mt-0.5";
+        // Fallback / Error State
+        console.warn("API Call Failed. Ensuring Demo Data remains.", err);
+        btn.innerText = "ERR_RETRY";
+        btn.classList.remove("animate-pulse");
+        btn.classList.replace("text-green-400", "text-red-500");
+        log.innerText = "SYS.STATE: UPLINK FAILED // DEMO ACTIVE";
+        led.className = "w-3 h-3 rounded-full bg-red-500";
+        
+        // Ensure we still render something
+        portfolioData = [...fallbackData];
+        renderDashboard();
       }
     }
 
-    function setFilter(cat) {
-      activeFilter = cat;
-      document.querySelectorAll('.filter-pill').forEach(btn => {
-        if (btn.textContent.trim() === cat || (cat==='Mutual Funds' && btn.textContent.trim()==='Funds')) {
-          btn.className = "filter-pill active px-4 py-2 rounded-lg text-xs font-bold transition bg-[#10B981] text-[#121418]";
-        } else {
-          btn.className = "filter-pill px-4 py-2 rounded-lg text-xs font-bold transition bg-[#1C1E24] border border-[#2A2D35] text-gray-400 hover:text-white";
-        }
-      });
-      renderAssets();
-    }
+    // ============================================================================
+    // RENDER LOGIC
+    // ============================================================================
+    function renderDashboard() {
+      let netWorth = 0;
+      let totalInvested = 0;
+      let categories = {};
+      let tickerHtml = "";
 
-    function calculateCAGR(invested, current, pDateStr) {
-      if(!invested || !current || !pDateStr) return 0;
-      const pDate = new Date(pDateStr);
-      const today = new Date(`August 12, ${CURRENT_YEAR}`); 
-      const days = (today - pDate) / (1000 * 60 * 60 * 24);
-      if (days < 90) return ((current - invested)/invested)*100; // Return absolute if < 3 months
-      const years = days / 365.25;
-      return (Math.pow((current / invested), (1 / years)) - 1) * 100;
-    }
+      const listContainer = document.getElementById("asset-list");
+      listContainer.innerHTML = "";
 
-    function renderAssets() {
-      const query = document.getElementById("searchInput").value.toLowerCase();
-      const sortMode = document.getElementById("sortSelect").value;
-      const container = document.getElementById("assetCardsContainer");
-      container.innerHTML = "";
+      // Sort by Value descending
+      portfolioData.sort((a, b) => b.CurrentValue - a.CurrentValue);
 
-      let total1DProfit = 0;
-
-      // First pass: Pre-calc values required for sorting & weights
-      globalNetWorth = portfolioData.reduce((sum, item) => sum + Number(item.CurrentValue), 0);
-
-      portfolioData.forEach(item => {
-        item.actualRet = item.Invested > 0 ? ((item.CurrentValue - item.Invested) / item.Invested) * 100 : 0;
-        item.cagr = calculateCAGR(item.Invested, item.CurrentValue, item.PurchaseDate);
-        item.weight = globalNetWorth > 0 ? (item.CurrentValue / globalNetWorth) * 100 : 0;
-        total1DProfit += (item.CurrentValue * (item.DayChangePct / 100));
-      });
-
-      let filtered = portfolioData.filter(item => {
-        const matchesCat = activeFilter === 'All' || item.Category === activeFilter;
-        const matchesQuery = item.Asset.toLowerCase().includes(query) || (item.Ticker && item.Ticker.toLowerCase().includes(query));
-        return matchesCat && matchesQuery;
-      });
-
-      filtered.sort((a, b) => {
-        if (sortMode === "value_desc") return b.CurrentValue - a.CurrentValue;
-        if (sortMode === "gain_desc") return b.actualRet - a.actualRet;
-        if (sortMode === "gain_asc") return a.actualRet - b.actualRet;
-      });
-
-      let totalVal = 0, totalInv = 0;
-      const categoriesCount = {};
-
-      if (filtered.length === 0) {
-        container.innerHTML = `<div class="col-span-1 sm:col-span-2 text-center py-12 text-gray-500 font-medium border border-dashed border-[#2A2D35] rounded-xl">No assets found.</div>`;
-      }
-
-      filtered.forEach((item, index) => {
-        totalVal += Number(item.CurrentValue);
-        totalInv += Number(item.Invested);
-        categoriesCount[item.Category] = (categoriesCount[item.Category] || 0) + Number(item.CurrentValue);
+      portfolioData.forEach(asset => {
+        // Calculations
+        netWorth += asset.CurrentValue;
+        totalInvested += asset.Invested;
+        categories[asset.Category] = (categories[asset.Category] || 0) + asset.CurrentValue;
         
-        const isProfit = item.actualRet >= 0;
-        const isDayProfit = item.DayChangePct >= 0;
+        const profit = asset.CurrentValue - asset.Invested;
+        const roiPct = asset.Invested > 0 ? (profit / asset.Invested) * 100 : 0;
+        const isProfit = profit >= 0;
+        const isDayProfit = asset.DayChangePct >= 0;
 
-        const card = document.createElement("div");
-        card.className = "glass-card p-5 interactive flex flex-col justify-between group";
-        card.style.animation = `fadeUp 0.4s ease forwards ${index * 30}ms`;
-        card.style.opacity = '0';
-        card.onclick = () => openModal(item);
-        
-        card.innerHTML = `
+        // 1. Build Asset Nodes (List)
+        const node = document.createElement("div");
+        node.className = "asset-node p-3 mb-2 bg-black/30 border border-green-500/10 flex justify-between items-center cursor-pointer glitch-hover";
+        node.innerHTML = `
           <div>
-            <div class="flex justify-between items-start mb-4">
-              <span class="text-[9px] font-bold px-2 py-0.5 rounded border border-[#2A2D35] bg-[#16181C] text-gray-400 uppercase tracking-widest">${item.Category}</span>
-              <div class="flex gap-1.5">
-                <span class="text-[10px] font-bold text-gray-500">${item.weight.toFixed(1)}% WGT</span>
-              </div>
-            </div>
-            
-            <div class="flex justify-between items-start">
-              <div>
-                <h4 class="text-base font-bold text-white leading-tight truncate w-32 sm:w-auto">${item.Asset}</h4>
-                <p class="text-[10px] text-gray-500 font-bold mt-1 uppercase tracking-widest">${item.Ticker || 'Asset'}</p>
-              </div>
-              <div class="text-right">
-                 <p class="text-[11px] font-bold ${isProfit ? 'text-[#10B981]' : 'text-[#EF4444]'}">${isProfit ? '▲' : '▼'} ${Math.abs(item.actualRet).toFixed(1)}%</p>
-                 <p class="text-[9px] font-bold text-gray-500 uppercase tracking-wider mt-1">${assetCAGRText(item.cagr)}</p>
-              </div>
+            <h4 class="text-sm font-bold text-gray-200 uppercase">${asset.Asset}</h4>
+            <div class="flex gap-2 text-[10px] mt-1 tracking-widest font-mono">
+              <span class="text-gray-500">${asset.Ticker}</span>
+              <span class="${isDayProfit ? 'text-green-500' : 'text-red-500'}">${isDayProfit ? '+' : ''}${asset.DayChangePct.toFixed(1)}% 1D</span>
             </div>
           </div>
-          
-          <div class="flex justify-between items-end mt-5 pt-4 border-t border-[#2A2D35]">
-            <div>
-              <span class="text-[9px] text-gray-500 uppercase font-bold tracking-widest">Invested</span>
-              <p class="text-sm font-bold text-gray-300 mt-0.5 sensitive">${formatCurrency(item.Invested)}</p>
-            </div>
-            <div class="text-right">
-              <span class="text-[9px] text-gray-500 uppercase font-bold tracking-widest">Current</span>
-              <p class="text-sm font-bold text-white mt-0.5 sensitive flex items-center gap-1">
-                 ${formatCurrency(item.CurrentValue)}
-              </p>
-            </div>
+          <div class="text-right">
+            <p class="text-sm font-bold text-white">${formatNum(asset.CurrentValue)}</p>
+            <p class="text-[10px] tracking-widest font-mono ${isProfit ? 'text-green-500' : 'text-red-500'}">
+              ${isProfit ? '+' : ''}${roiPct.toFixed(1)}%
+            </p>
           </div>
         `;
-        container.appendChild(card);
+        listContainer.appendChild(node);
+
+        // 2. Build Ticker Tape
+        tickerHtml += `
+          <span class="mx-8">
+            <span class="text-gray-400">${asset.Ticker}</span>
+            <span class="text-white ml-2">${formatNum(asset.CurrentValue)}</span>
+            <span class="${isDayProfit ? 'text-green-500' : 'text-red-500'} ml-1">
+              ${isDayProfit ? '▲' : '▼'}${Math.abs(asset.DayChangePct)}%
+            </span>
+          </span>
+        `;
       });
 
-      // Global KPIs
-      let globalInv = portfolioData.reduce((sum, item) => sum + Number(item.Invested), 0);
-      const totalProfit = globalNetWorth - globalInv;
-      globalReturnRate = globalInv > 0 ? (totalProfit / globalInv) * 100 : 0;
-      const total1DPct = globalNetWorth > 0 ? (total1DProfit / globalNetWorth) * 100 : 0;
-
-      document.getElementById("totalValue").textContent = formatCurrency(globalNetWorth);
-      document.getElementById("totalInvested").textContent = formatCurrency(globalInv);
+      // Update KPIs
+      const globalROI = totalInvested > 0 ? ((netWorth - totalInvested) / totalInvested) * 100 : 0;
+      document.getElementById("kpi-networth").innerText = formatNum(netWorth);
+      document.getElementById("kpi-invested").innerText = formatNum(totalInvested);
       
-      const rElem = document.getElementById("totalReturn");
-      rElem.textContent = `${globalReturnRate >= 0 ? '↑' : '↓'} ${Math.abs(globalReturnRate).toFixed(2)}%`;
-      rElem.className = `text-3xl sm:text-4xl font-bold tracking-tight mt-1 ${globalReturnRate >= 0 ? 'text-[#10B981]' : 'text-[#EF4444]'}`;
+      const roiElem = document.getElementById("kpi-roi");
+      roiElem.innerText = `${globalROI >= 0 ? '+' : ''}${globalROI.toFixed(2)}%`;
+      roiElem.className = `text-3xl font-bold tracking-tighter mt-1 ${globalROI >= 0 ? 'glow-green' : 'glow-red'}`;
 
-      const diffElem = document.getElementById("totalProfitDiff");
-      diffElem.textContent = `${totalProfit >= 0 ? '+' : '-'}${formatCurrency(Math.abs(totalProfit))} P&L`;
-      diffElem.className = `text-sm font-bold mt-2 block sensitive ${totalProfit >= 0 ? 'text-[#10B981]' : 'text-[#EF4444]'}`;
-
-      const dElem = document.getElementById("dailyChange");
-      dElem.textContent = `${total1DProfit>=0?'+':'-'}${formatCurrency(Math.abs(total1DProfit))} (${total1DPct.toFixed(2)}%) 1D`;
-      dElem.className = `text-[10px] font-bold px-2 py-1 rounded border sensitive ${total1DProfit>=0 ? 'bg-[#10B981]/10 text-[#10B981] border-[#10B981]/20' : 'bg-[#EF4444]/10 text-[#EF4444] border-[#EF4444]/20'}`;
-
-      // Top/Worst Performers
-      let allSorted = [...portfolioData].sort((a,b) => b.actualRet - a.actualRet);
-      if(allSorted.length > 0) {
-        topAssetRef = allSorted[0];
-        document.getElementById("topAsset").textContent = topAssetRef.Asset;
-        document.getElementById("topAssetRet").textContent = "+" + topAssetRef.actualRet.toFixed(1) + "%";
-        document.getElementById("topAssetCAGR").textContent = "CAGR: " + topAssetRef.cagr.toFixed(1) + "%";
-        
-        worstAssetRef = allSorted[allSorted.length-1];
-        document.getElementById("worstAsset").textContent = worstAssetRef.Asset;
-        document.getElementById("worstAssetRet").textContent = worstAssetRef.actualRet.toFixed(1) + "%";
-        document.getElementById("worstAssetCAGR").textContent = "CAGR: " + worstAssetRef.cagr.toFixed(1) + "%";
-        document.getElementById("worstAssetRet").className = `text-xs font-black px-2 py-0.5 rounded block mb-1 ${worstAssetRef.actualRet >= 0 ? 'text-[#10B981] bg-[#10B981]/10' : 'text-[#EF4444] bg-[#EF4444]/10'}`;
-      }
-
-      updateAllocChart(categoriesCount);
-      updateProjection(); 
-    }
-
-    function assetCAGRText(cagrVal) {
-      if(cagrVal > 0) return `<span class="text-[#10B981]">+${cagrVal.toFixed(1)}% CAGR</span>`;
-      if(cagrVal < 0) return `<span class="text-[#EF4444]">${cagrVal.toFixed(1)}% CAGR</span>`;
-      return `<span class="text-gray-500">0% CAGR</span>`;
-    }
-
-    function openTopPerformerModal() { if(topAssetRef) openModal(topAssetRef); }
-
-    function calculateFV(pv, pmt, ratePct, years) {
-      if(ratePct === 0) return pv + (pmt * years * 12);
-      const r = ratePct / 100 / 12; 
-      const n = years * 12; 
-      return pv * Math.pow(1 + r, n) + pmt * ( (Math.pow(1 + r, n) - 1) / r );
-    }
-
-    function updateProjection() {
-      const sip = Number(document.getElementById("sipSlider").value);
-      document.getElementById("sipLabel").textContent = formatCurrency(sip);
+      document.getElementById("asset-count").innerText = `${portfolioData.length} DETECTED`;
       
-      document.getElementById("projBaseWorth").textContent = formatCurrency(globalNetWorth);
-      document.getElementById("projBaseRate").textContent = globalReturnRate.toFixed(2) + "% p.a.";
+      // Update Ticker
+      // Duplicate it so the CSS scroll is seamless
+      document.getElementById("ticker-content").innerHTML = tickerHtml + tickerHtml;
 
-      const safeRate = globalReturnRate > 0 ? globalReturnRate : 10; 
+      // Render Charts
+      drawAllocChart(categories);
+      drawProjectionChart(netWorth, globalROI);
+    }
 
-      const dataPoints = [
-        globalNetWorth,
-        calculateFV(globalNetWorth, sip, safeRate, 3),
-        calculateFV(globalNetWorth, sip, safeRate, 5),
-        calculateFV(globalNetWorth, sip, safeRate, 10),
-        calculateFV(globalNetWorth, sip, safeRate, 15)
-      ];
+    // ============================================================================
+    // CHARTING LOGIC
+    // ============================================================================
+    function drawAllocChart(categories) {
+      const ctx = document.getElementById("allocChart").getContext("2d");
+      if (allocChartInst) allocChartInst.destroy();
 
-      const ctx = document.getElementById("projectionChart").getContext("2d");
-      if (projChartInstance) projChartInstance.destroy();
+      const labels = Object.keys(categories);
+      const data = Object.values(categories);
+      
+      // Cyber colors
+      const bgColors = ['#00ff66', '#00e5ff', '#ff0055', '#bb00ff', '#facc15'];
 
-      let gradient = ctx.createLinearGradient(0, 0, 0, 200);
-      gradient.addColorStop(0, 'rgba(16, 185, 129, 0.2)'); // Green
-      gradient.addColorStop(1, 'rgba(16, 185, 129, 0)');
-
-      projChartInstance = new Chart(ctx, {
-        type: 'line',
+      allocChartInst = new Chart(ctx, {
+        type: "doughnut",
         data: {
-          labels: ['Now', 'Yr 3', 'Yr 5', 'Yr 10', 'Yr 15'],
+          labels: labels,
           datasets: [{
-            data: dataPoints,
-            borderColor: '#10B981', 
-            backgroundColor: gradient,
+            data: data, 
+            backgroundColor: bgColors,
             borderWidth: 2,
-            pointBackgroundColor: '#121418',
-            pointBorderColor: '#10B981',
-            pointBorderWidth: 2,
-            pointRadius: 4, pointHoverRadius: 6,
-            fill: true, tension: 0.4
+            borderColor: '#050505',
+            hoverOffset: 4
           }]
         },
         options: {
           responsive: true, maintainAspectRatio: false,
-          interaction: { mode: 'index', intersect: false },
+          plugins: {
+            legend: { position: "right", labels: { color: "#888", font: { size: 10, family: 'Space Grotesk' }, boxWidth: 10 } },
+            tooltip: { backgroundColor: 'rgba(0,0,0,0.9)', titleColor: '#00ff66', bodyFont: {family: 'Space Grotesk'} }
+          },
+          cutout: "70%"
+        }
+      });
+    }
+
+    function drawProjectionChart(currentWorth, roiPct) {
+      const ctx = document.getElementById("mainChart").getContext("2d");
+      if (mainChartInst) mainChartInst.destroy();
+
+      // Simple Compound Interest Math (Assuming 10k monthly injection for the simulation)
+      const monthlySIP = 10000; 
+      const safeRate = roiPct > 0 ? (roiPct / 100) : 0.08; // Default 8% if negative
+      
+      let points = [currentWorth];
+      for(let y = 1; y <= 15; y++) {
+        // FV = PV * (1+r)^n + PMT * [ ((1+r)^n - 1) / r ]
+        const fv = currentWorth * Math.pow(1 + safeRate, y) + (monthlySIP * 12) * ((Math.pow(1 + safeRate, y) - 1) / safeRate);
+        points.push(fv);
+      }
+
+      mainChartInst = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: ['NOW', 'Y1', 'Y2', 'Y3', 'Y4', 'Y5', 'Y6', 'Y7', 'Y8', 'Y9', 'Y10', 'Y11', 'Y12', 'Y13', 'Y14', 'Y15'],
+          datasets: [{
+            label: 'Projected Output',
+            data: points,
+            borderColor: '#00e5ff', 
+            backgroundColor: 'rgba(0, 229, 255, 0.1)',
+            borderWidth: 2,
+            pointBackgroundColor: '#050505',
+            pointBorderColor: '#00ff66',
+            pointRadius: 3,
+            pointHoverRadius: 6,
+            fill: true,
+            tension: 0.1,
+            stepped: false
+          }]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
           plugins: {
             legend: { display: false },
-            tooltip: {
-              backgroundColor: '#1C1E24', titleColor: '#8B92A5', bodyColor: '#F3F4F6',
-              borderColor: '#2A2D35', borderWidth: 1, padding: 12, displayColors: false,
-              callbacks: { label: (c) => formatCurrency(c.raw) }
-            }
+            tooltip: { backgroundColor: 'rgba(0,0,0,0.9)', titleColor: '#00ff66', bodyFont: {family: 'Space Grotesk'}, callbacks: { label: (c) => formatNum(c.raw) } }
           },
           scales: {
-            y: { grid: { color: 'rgba(255,255,255,0.02)', borderDash: [5,5] }, border: {display: false}, ticks: { color: '#8B92A5', font: {size: 10}, maxTicksLimit: 5, callback: v => '₹' + (v / 100000).toFixed(0) + 'L' } },
-            x: { grid: { display: false }, border: {display: false}, ticks: { color: '#8B92A5', font: {size: 10, weight: 'bold'} } }
+            y: { grid: { color: 'rgba(0,255,102,0.05)' }, ticks: { color: '#555', callback: v => '₹' + (v/100000).toFixed(0) + 'L' } },
+            x: { grid: { display: false }, ticks: { color: '#555' } }
           }
         }
       });
     }
 
-    function updateAllocChart(categories) {
-      const ctx = document.getElementById("allocationChart").getContext("2d");
-      if (allocChartInstance) allocChartInstance.destroy();
-
-      const labels = Object.keys(categories);
-      const data = Object.values(categories);
-
-      const colorMap = { 'Equity': '#3B82F6', 'Mutual Funds': '#10B981', 'Gold': '#F59E0B', 'Fixed Income': '#8B5CF6' };
-      const bgColors = labels.map(label => colorMap[label] || '#6B7280');
-
-      allocChartInstance = new Chart(ctx, {
-        type: "doughnut",
-        data: {
-          labels: labels,
-          datasets: [{
-            data: data, backgroundColor: bgColors, borderWidth: 0, hoverOffset: 6
-          }]
-        },
-        options: {
-          responsive: true, maintainAspectRatio: false,
-          onClick: (evt, activeElements) => {
-            if (activeElements.length > 0) {
-              const idx = activeElements[0].index;
-              setFilter(labels[idx]); 
-            }
-          },
-          plugins: {
-            legend: { position: "right", labels: { color: "#8B92A5", usePointStyle: true, boxWidth: 6, font: { size: 11, family: 'Inter', weight: 'bold' } } },
-            tooltip: { backgroundColor: '#1C1E24', borderColor: '#2A2D35', borderWidth: 1, callbacks: { label: (c) => ` ${formatCurrency(c.raw)}` } }
-          },
-          cutout: "75%"
-        }
-      });
-    }
-
-    function openModal(asset) {
-      selectedAsset = asset;
-      document.getElementById("modalTitle").textContent = asset.Asset;
-      document.getElementById("modalCategory").textContent = asset.Category;
-      document.getElementById("modalInvested").textContent = formatCurrency(asset.Invested);
-      document.getElementById("modalCurrent").textContent = formatCurrency(asset.CurrentValue);
-
-      const profit = asset.CurrentValue - asset.Invested;
-      const isProfit = profit >= 0;
-
-      const pElem = document.getElementById("modalProfit");
-      pElem.textContent = `${isProfit ? '+' : '-'}${formatCurrency(Math.abs(profit))}`;
-      pElem.className = `text-xl font-bold mt-1 sensitive ${isProfit ? 'text-[#10B981]' : 'text-[#EF4444]'}`;
-
-      const rElem = document.getElementById("modalReturn");
-      rElem.textContent = `${isProfit ? '↑' : '↓'} ${Math.abs(asset.actualRet).toFixed(2)}%`;
-      rElem.className = `text-xl font-bold mt-1 ${isProfit ? 'text-[#10B981]' : 'text-[#EF4444]'}`;
-      
-      document.getElementById("modalCAGR").textContent = `${asset.cagr >= 0 ? '+' : ''}${asset.cagr.toFixed(2)}% CAGR`;
-
-      document.getElementById("priceSlider").value = 0;
-      document.getElementById("sliderLabel").textContent = "0%";
-      document.getElementById("sliderLabel").className = "text-xs font-bold text-gray-400 bg-[#1C1E24] border border-[#2A2D35] px-2 py-0.5 rounded";
-      document.getElementById("simVal").textContent = formatCurrency(asset.CurrentValue);
-      document.getElementById("simVal").className = "text-2xl font-bold text-white tracking-tight sensitive";
-
-      const modal = document.getElementById("assetModal");
-      const content = document.getElementById("modalContent");
-      
-      modal.classList.remove("hidden");
-      modal.classList.add("flex");
-      setTimeout(() => {
-        content.classList.remove("scale-95");
-        content.classList.add("scale-100");
-      }, 10);
-    }
-
-    function simulatePrice(pct) {
-      if (!selectedAsset) return;
-      const pctNum = Number(pct);
-      const labelElem = document.getElementById("sliderLabel");
-      const simValElem = document.getElementById("simVal");
-
-      labelElem.textContent = `${pctNum > 0 ? '+' : ''}${pctNum}%`;
-      if(pctNum > 0) labelElem.className = "text-xs font-bold text-[#10B981] bg-[#10B981]/10 border border-[#10B981]/20 px-2 py-0.5 rounded";
-      else if (pctNum < 0) labelElem.className = "text-xs font-bold text-[#EF4444] bg-[#EF4444]/10 border border-[#EF4444]/20 px-2 py-0.5 rounded";
-      else labelElem.className = "text-xs font-bold text-gray-400 bg-[#1C1E24] border border-[#2A2D35] px-2 py-0.5 rounded";
-
-      const multiplier = 1 + (pctNum / 100);
-      const simulatedVal = Math.round(selectedAsset.CurrentValue * multiplier);
-      
-      simValElem.textContent = formatCurrency(simulatedVal);
-      if(simulatedVal > selectedAsset.CurrentValue) simValElem.className = "text-2xl font-bold text-[#10B981] tracking-tight sensitive";
-      else if(simulatedVal < selectedAsset.CurrentValue) simValElem.className = "text-2xl font-bold text-[#EF4444] tracking-tight sensitive";
-      else simValElem.className = "text-2xl font-bold text-white tracking-tight sensitive";
-    }
-
-    function closeModal() {
-      const modal = document.getElementById("assetModal");
-      const content = document.getElementById("modalContent");
-      content.classList.remove("scale-100");
-      content.classList.add("scale-95");
-      setTimeout(() => { 
-        modal.classList.add("hidden"); 
-        modal.classList.remove("flex");
-      }, 200);
-    }
-
-    function formatCurrency(val) {
+    // Helper: Indian Rupee formatting
+    function formatNum(val) {
       return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(val || 0);
     }
   </script>
