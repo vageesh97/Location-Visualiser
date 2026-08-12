@@ -3,353 +3,346 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Elite Dashboard</title>
-  
+  <title>Prospera Portfolio Dashboard</title>
+  <!-- Tailwind CSS & Chart.js -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  
-  <!-- Premium Fonts to match the image -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;0,700;1,500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   
   <style>
     :root {
-      --bg-color: #F4F7F6;
-      --card-bg: #FFFFFF;
-      --primary-green: #1A4331;
-      --text-main: #111827;
-      --text-muted: #6B7280;
-      --border-color: #F3F4F6;
+      --bg-dark: #16181C;
+      --card-dark: #1D2025;
+      --card-hover: #26292F;
+      --border-dark: #2A2E35;
+      --text-muted: #9CA3AF;
+      --accent-green: #22C55E;
+      --accent-red: #EF4444;
     }
 
     body { 
-      background-color: var(--bg-color); 
-      color: var(--text-main); 
-      font-family: 'Plus Jakarta Sans', sans-serif; 
-      -webkit-font-smoothing: antialiased;
-      overflow-x: hidden;
+      background-color: var(--bg-dark); 
+      color: #FFFFFF; 
+      font-family: 'Inter', sans-serif; 
+      margin: 0;
+      overflow: hidden;
     }
     
-    .serif-title { font-family: 'Lora', serif; color: var(--primary-green); }
-    
-    /* Clean Card Styling matching the image */
-    .dashboard-card { 
-      background-color: var(--card-bg); 
-      border: 1px solid var(--border-color);
-      border-radius: 1.25rem; /* 20px */
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+    /* Prospera Card Style */
+    .p-card { 
+      background-color: var(--card-dark); 
+      border: 1px solid var(--border-dark); 
+      border-radius: 12px;
       transition: all 0.2s ease;
     }
-
-    .hover-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-      border-color: #E5E7EB;
+    
+    .p-card.interactive:hover {
+      background-color: var(--card-hover);
+      border-color: #374151;
       cursor: pointer;
     }
 
-    /* Sidebar Active State */
-    .nav-item { transition: all 0.2s ease; cursor: pointer; }
-    .nav-item.active { background-color: var(--primary-green); color: white; border-radius: 0.75rem; }
-    .nav-item:not(.active):hover { background-color: #F3F4F6; border-radius: 0.75rem; }
+    /* Sidebar Active Item */
+    .nav-item { transition: all 0.2s; border-left: 3px solid transparent; }
+    .nav-item.active { background-color: var(--card-hover); border-left-color: var(--accent-green); color: #FFFFFF; }
+    .nav-item:hover:not(.active) { background-color: var(--card-hover); color: #FFFFFF; }
 
-    /* Custom Scrollbar */
-    ::-webkit-scrollbar { width: 4px; height: 4px; }
-    ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: #D1D5DB; border-radius: 4px; }
-    ::-webkit-scrollbar-thumb:hover { background: #9CA3AF; }
+    /* Custom Input Slider */
+    input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none; height: 12px; width: 12px; border-radius: 50%;
+      background: var(--accent-green); cursor: pointer; margin-top: -4px;
+    }
+    input[type=range]::-webkit-slider-runnable-track {
+      width: 100%; height: 4px; cursor: pointer; background: var(--border-dark); border-radius: 2px;
+    }
 
-    /* Progress bar for Sector Distribution */
-    .sector-bar { height: 6px; border-radius: 4px; }
-    
-    /* Modal blur */
-    .modal-backdrop { backdrop-filter: blur(4px); }
+    /* Modals & Scrollbars */
+    .modal-backdrop { backdrop-filter: blur(8px); }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg-dark); }
+    ::-webkit-scrollbar-thumb { background: var(--border-dark); border-radius: 10px; }
+    ::-webkit-scrollbar-thumb:hover { background: #4B5563; }
   </style>
 </head>
-<body class="flex h-screen overflow-hidden text-sm">
+<body class="flex h-screen w-screen overflow-hidden text-sm">
 
   <!-- ================= LEFT SIDEBAR ================= -->
-  <aside class="w-[240px] h-[calc(100vh-2rem)] bg-white m-4 rounded-[1.5rem] shadow-[0_4px_20px_rgba(0,0,0,0.02)] flex flex-col hidden lg:flex flex-shrink-0 z-20">
-    <div class="p-6 flex items-center justify-between">
-      <div class="w-8 h-8 rounded-full bg-[#1A4331] flex items-center justify-center text-white font-bold text-lg">⚡</div>
-      <button class="text-gray-400 hover:text-gray-600">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"></path></svg>
-      </button>
+  <aside class="w-[240px] flex-shrink-0 bg-[#16181C] border-r border-[#2A2E35] flex flex-col hidden md:flex z-20">
+    <div class="h-[60px] flex items-center px-6 gap-3">
+      <!-- Prospera Logo Mock -->
+      <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2zm0 5l5 10h-10l5-10z"/></svg>
+      <span class="text-xl font-bold tracking-tight">Prospera</span>
+      <button class="ml-auto text-gray-500 hover:text-white"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7"></path></svg></button>
     </div>
 
-    <!-- Search -->
-    <div class="px-6 mb-4">
-      <div class="relative">
-        <svg class="w-4 h-4 absolute left-3 top-2.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-        <input type="text" id="globalSearch" onkeyup="renderAssets()" placeholder="Search" class="w-full bg-gray-50 border-none rounded-lg pl-9 pr-3 py-2 text-xs focus:ring-1 focus:ring-[#1A4331] outline-none">
-        <span class="absolute right-3 top-2.5 text-[10px] text-gray-400 font-medium">⌘/</span>
+    <div class="flex-1 overflow-y-auto py-4 flex flex-col gap-1">
+      <div class="nav-item active px-6 py-3 flex items-center gap-3 font-medium text-gray-300 cursor-pointer">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+        Overview
       </div>
-    </div>
-
-    <!-- Menu Items -->
-    <div class="flex-1 overflow-y-auto px-4 space-y-1">
-      <div onclick="setMenu('Dashboard')" class="nav-item active px-4 py-2.5 flex items-center gap-3 font-medium text-xs mb-1">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
-        Dashboard
+      <div class="nav-item px-6 py-3 flex items-center gap-3 font-medium text-gray-400 cursor-pointer">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+        Market Summary
       </div>
-      <div onclick="setMenu('Markets')" class="nav-item px-4 py-2.5 flex items-center gap-3 font-medium text-xs text-gray-500 mb-1">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
-        Markets
-      </div>
-      <div onclick="setMenu('Portfolio')" class="nav-item px-4 py-2.5 flex items-center gap-3 font-medium text-xs text-gray-500 mb-1">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+      <div class="nav-item px-6 py-3 flex items-center gap-3 font-medium text-gray-400 cursor-pointer">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path></svg>
         Portfolio
       </div>
-      <div onclick="setMenu('Watchlist')" class="nav-item px-4 py-2.5 flex items-center gap-3 font-medium text-xs text-gray-500 mb-6">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-        Watchlist
+      <div class="nav-item px-6 py-3 flex items-center gap-3 font-medium text-gray-400 cursor-pointer">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"></path></svg>
+        Analytics
       </div>
+      <div class="nav-item px-6 py-3 flex items-center gap-3 font-medium text-gray-400 cursor-pointer">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
+        Wallet
+      </div>
+    </div>
 
-      <div class="px-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 mt-4">Activity</div>
-      <div class="nav-item px-4 py-2 flex items-center gap-3 font-medium text-xs text-gray-500 mb-1">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
-        Analysis
+    <div class="p-6 border-t border-[#2A2E35] flex flex-col gap-4">
+      <div class="flex items-center gap-3 text-gray-400 hover:text-white cursor-pointer transition">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+        Search
       </div>
-      <div class="nav-item px-4 py-2 flex items-center gap-3 font-medium text-xs text-gray-500 mb-1">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-        History
-      </div>
-      <div class="nav-item px-4 py-2 flex items-center gap-3 font-medium text-xs text-gray-500 mb-6">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-        Transaction
-      </div>
-
-      <div class="px-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 mt-4">More</div>
-      <div class="nav-item px-4 py-2 flex items-center gap-3 font-medium text-xs text-gray-500 mb-1">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-        Settings
-      </div>
-      <div class="nav-item px-4 py-2 flex items-center justify-between font-medium text-xs text-gray-500">
-        <div class="flex items-center gap-3">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-          Help
-        </div>
-        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+      <div class="flex items-center gap-3 text-gray-400 hover:text-white cursor-pointer transition">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+        Notifications
       </div>
     </div>
   </aside>
 
   <!-- ================= MAIN CONTENT ================= -->
-  <main class="flex-1 h-screen overflow-y-auto p-4 sm:p-6 lg:p-8">
+  <main class="flex-1 flex flex-col h-screen overflow-hidden bg-[#16181C]">
     
-    <!-- Header: Greeting & Profile -->
-    <header class="flex justify-between items-center mb-8">
-      <h1 class="text-4xl font-semibold serif-title flex items-center gap-3">
-        Good Morning! <span class="text-3xl">⛅</span>
-      </h1>
+    <!-- Top Ticker Tape Bar -->
+    <div class="h-[60px] border-b border-[#2A2E35] flex items-center px-6 justify-between flex-shrink-0 bg-[#16181C]">
+      <div class="flex items-center gap-4 text-xs font-medium text-gray-300">
+        <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+        The market is open
+        <button class="bg-white text-black px-3 py-1 rounded-full font-semibold ml-2 hover:bg-gray-200">View all</button>
+      </div>
       
-      <div class="flex items-center gap-4">
-        <!-- Auth / Sync Area -->
-        <div class="flex items-center bg-white rounded-full p-1 shadow-sm border border-gray-100">
-          <input type="password" id="auth-passcode" placeholder="Passcode" onkeypress="handleKeyPress(event)" class="bg-transparent border-none outline-none px-3 text-xs w-28 placeholder-gray-400">
-          <button onclick="handleAuth()" id="auth-btn" class="bg-[#1A4331] text-white text-xs font-semibold px-4 py-1.5 rounded-full hover:bg-[#112d21] transition">Sync</button>
-        </div>
-
-        <button class="w-10 h-10 bg-white rounded-full border border-gray-100 flex items-center justify-center text-gray-500 hover:bg-gray-50 shadow-sm relative">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
-          <span class="absolute top-2 right-2.5 w-2 h-2 bg-red-500 border-2 border-white rounded-full"></span>
-        </button>
-        <div class="w-10 h-10 rounded-full bg-gray-200 border-2 border-white shadow-sm overflow-hidden bg-cover bg-center" style="background-image: url('https://i.pravatar.cc/150?img=11');"></div>
-      </div>
-    </header>
-
-    <!-- Top KPI & Chart Row -->
-    <div class="dashboard-card p-8 mb-6 flex flex-col lg:flex-row justify-between items-center gap-8 relative overflow-hidden">
-      <!-- KPIs -->
-      <div class="w-full lg:w-1/3 space-y-8 z-10">
-        <div>
-          <div class="flex items-center gap-2 text-gray-500 mb-1">
-            <span class="text-xs font-medium">Current Value</span>
-            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
-          </div>
-          <div class="flex items-baseline gap-3">
-            <h2 class="text-5xl font-extrabold text-[#111827] tracking-tight" id="totalValue">$0</h2>
-            <span class="text-xs font-bold text-emerald-500 flex items-center bg-emerald-50 px-1.5 py-0.5 rounded" id="totalReturn">↗ 0.0%</span>
-          </div>
-        </div>
-        
-        <div class="flex gap-10">
-          <div>
-            <div class="flex items-center gap-1 text-gray-400 mb-1">
-              <span class="text-[10px] font-semibold uppercase tracking-wider">Total Invested</span>
-              <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
-            </div>
-            <p class="text-xl font-bold text-[#111827]" id="totalInvested">$0</p>
-          </div>
-          <div>
-            <div class="flex items-center gap-1 text-gray-400 mb-1">
-              <span class="text-[10px] font-semibold uppercase tracking-wider">Total P&L</span>
-              <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
-            </div>
-            <p class="text-xl font-bold text-[#111827]" id="totalProfitDiff">$0</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Line Chart Area -->
-      <div class="w-full lg:w-2/3 h-[180px] relative z-10">
-        <div class="absolute top-0 right-0 flex gap-1">
-          <button class="px-2 py-1 text-[10px] font-semibold text-gray-400 hover:text-gray-800">1D</button>
-          <button class="px-2 py-1 text-[10px] font-semibold text-gray-400 hover:text-gray-800">1M</button>
-          <button class="px-2 py-1 text-[10px] font-semibold text-gray-400 hover:text-gray-800">6M</button>
-          <button class="px-2 py-1 text-[10px] font-semibold bg-gray-100 text-[#1A4331] rounded-md">1Y</button>
-        </div>
-        <canvas id="projectionChart"></canvas>
+      <!-- Ticker Marquee -->
+      <div class="flex items-center gap-6 text-[10px] font-bold overflow-hidden flex-1 ml-10">
+        <div class="flex items-center gap-2"><span class="w-3 h-3 bg-gray-200 rounded flex items-center justify-center text-black text-[8px]">A</span> AAPL <span class="text-[#22C55E]">+1.15%</span></div><div class="w-px h-3 bg-[#2A2E35]"></div>
+        <div class="flex items-center gap-2"><span class="w-3 h-3 bg-red-600 rounded flex items-center justify-center text-white text-[8px]">T</span> TSLA <span class="text-[#22C55E]">+7.40%</span></div><div class="w-px h-3 bg-[#2A2E35]"></div>
+        <div class="flex items-center gap-2"><span class="w-3 h-3 bg-blue-500 rounded flex items-center justify-center text-white text-[8px]">M</span> MSFT <span class="text-[#22C55E]">+0.92%</span></div><div class="w-px h-3 bg-[#2A2E35]"></div>
+        <div class="flex items-center gap-2"><span class="w-3 h-3 bg-green-500 rounded flex items-center justify-center text-white text-[8px]">N</span> NVDA <span class="text-[#22C55E]">+0.41%</span></div><div class="w-px h-3 bg-[#2A2E35]"></div>
+        <div class="flex items-center gap-2"><span class="w-3 h-3 bg-red-500 rounded flex items-center justify-center text-white text-[8px]">J</span> JNJ <span class="text-[#22C55E]">+0.34%</span></div>
       </div>
     </div>
 
-    <!-- Main Grid Layout -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+    <!-- Scrollable Body -->
+    <div class="flex-1 overflow-y-auto p-6 sm:p-8 relative">
       
-      <!-- My Portfolios Grid (Spans 2 columns) -->
-      <div class="lg:col-span-2 dashboard-card p-6">
-        <div class="flex justify-between items-center mb-6">
-          <h3 class="text-base font-bold text-[#111827]">My Portfolios</h3>
-          <div class="flex items-center gap-2">
-            <div class="flex gap-1 bg-gray-50 rounded-lg p-1">
-              <button onclick="setFilter('All')" class="filter-pill active px-3 py-1 text-[10px] font-bold bg-white shadow-sm rounded-md text-[#111827]">All</button>
-              <button onclick="setFilter('Equity')" class="filter-pill px-3 py-1 text-[10px] font-bold text-gray-400 hover:text-gray-800">Equity</button>
-              <button onclick="setFilter('Mutual Funds')" class="filter-pill px-3 py-1 text-[10px] font-bold text-gray-400 hover:text-gray-800">Funds</button>
-              <button onclick="setFilter('Fixed Income')" class="filter-pill px-3 py-1 text-[10px] font-bold text-gray-400 hover:text-gray-800">Debt</button>
-            </div>
-            <button class="w-7 h-7 flex items-center justify-center border border-gray-200 rounded-lg text-gray-400 hover:bg-gray-50">
-              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
-            </button>
+      <!-- Header / Controls Row -->
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+        <div class="flex items-center gap-4">
+          <span class="text-base font-semibold text-white">Portfolio 1</span>
+          <div class="flex items-center bg-[#1D2025] border border-[#2A2E35] rounded-lg px-4 py-2 gap-3">
+            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
+            <span class="text-lg font-bold tracking-tight" id="headerTotalValue">--</span>
+          </div>
+          <button class="w-10 h-10 flex items-center justify-center bg-[#1D2025] border border-[#2A2E35] rounded-lg hover:bg-[#26292F] text-gray-400 transition"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg></button>
+          <button class="w-10 h-10 flex items-center justify-center bg-[#1D2025] border border-[#2A2E35] rounded-lg hover:bg-[#26292F] text-gray-400 transition"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path></svg></button>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <!-- Auth Input replacing "AI Prediction" -->
+          <div class="flex items-center bg-[#22C55E]/10 border border-[#22C55E]/30 rounded-lg p-1">
+            <input type="password" id="auth-passcode" placeholder="Passcode" onkeypress="handleKeyPress(event)" class="bg-transparent border-none outline-none text-white text-xs w-24 px-2 placeholder-emerald-700/50">
+            <button onclick="handleAuth()" id="auth-btn" class="bg-[#22C55E] text-[#16181C] text-xs font-bold px-4 py-1.5 rounded-md hover:bg-emerald-400 transition">Sync Live</button>
+          </div>
+          <div class="w-10 h-10 rounded-lg bg-gray-500 overflow-hidden border border-[#2A2E35]">
+            <img src="https://i.pravatar.cc/150?img=11" alt="Profile" class="w-full h-full object-cover">
+          </div>
+        </div>
+      </div>
+
+      <!-- 4 KPI Cards -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+        <!-- 1. All Time Profit -->
+        <div class="p-card p-5 flex flex-col justify-between min-h-[140px]">
+          <div class="flex justify-between items-start mb-2">
+            <span class="text-sm font-medium text-white">All Time Profit</span>
+            <button class="text-gray-500 hover:text-white bg-[#16181C] p-1 rounded-md"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"/></svg></button>
+          </div>
+          <div>
+            <h3 class="text-3xl font-bold tracking-tight text-white mb-2" id="kpiProfitAbs">--</h3>
+            <span id="kpiProfitPct" class="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded bg-[#22C55E]/10 text-[#22C55E]"><svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg> 0%</span>
           </div>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" id="assetCardsContainer">
-          <!-- Cards injected via JS -->
+        <!-- 2. Cost Basis -->
+        <div class="p-card p-5 flex flex-col justify-between min-h-[140px]">
+          <div class="flex justify-between items-start mb-2">
+            <span class="text-sm font-medium text-white">Cost Basis</span>
+            <button class="text-gray-500 hover:text-white bg-[#16181C] p-1 rounded-md"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"/></svg></button>
+          </div>
+          <div>
+            <h3 class="text-3xl font-bold tracking-tight text-white mb-2" id="kpiInvested">--</h3>
+            <span id="kpiInvestedSub" class="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded bg-[#22C55E]/10 text-[#22C55E]"><svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg> 0%</span>
+          </div>
+        </div>
+
+        <!-- 3. Best Performer -->
+        <div class="p-card interactive p-5 flex flex-col justify-between min-h-[140px] group" onclick="openTopPerformerModal()">
+          <div class="flex justify-between items-start mb-2">
+            <span class="text-sm font-medium text-white">Best Performer</span>
+            <button class="text-gray-500 hover:text-white bg-[#16181C] p-1 rounded-md group-hover:bg-[#22C55E] group-hover:text-black transition"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg></button>
+          </div>
+          <div>
+            <h3 class="text-3xl font-bold tracking-tight text-white mb-2 truncate" id="kpiTopName">--</h3>
+            <span id="kpiTopPct" class="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded bg-[#22C55E]/10 text-[#22C55E]"><svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg> 0%</span>
+          </div>
+        </div>
+
+        <!-- 4. Worst Performer -->
+        <div class="p-card p-5 flex flex-col justify-between min-h-[140px]">
+          <div class="flex justify-between items-start mb-2">
+            <span class="text-sm font-medium text-white">Worst Performer</span>
+            <button class="text-gray-500 hover:text-white bg-[#16181C] p-1 rounded-md"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"/></svg></button>
+          </div>
+          <div>
+            <h3 class="text-3xl font-bold tracking-tight text-white mb-2 truncate" id="kpiWorstName">--</h3>
+            <span id="kpiWorstPct" class="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded bg-[#EF4444]/10 text-[#EF4444]"><svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg> 0%</span>
+          </div>
         </div>
       </div>
 
-      <!-- Watchlist -->
-      <div class="dashboard-card p-6 flex flex-col">
-        <div class="flex justify-between items-center mb-6">
-          <h3 class="text-base font-bold text-[#111827]">Top Movers (Watchlist)</h3>
-          <button class="w-6 h-6 flex items-center justify-center border border-gray-200 rounded-md text-gray-400 hover:bg-gray-50">
-            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-          </button>
+      <!-- Middle Charts Row -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 mb-4">
+        
+        <!-- Big Line Chart (Wealth Projection) -->
+        <div class="lg:col-span-8 p-card p-6 flex flex-col h-[350px]">
+          <div class="flex justify-between items-start mb-6">
+            <div>
+              <span class="text-sm font-medium text-white block mb-1">Portfolio Projection</span>
+              <div class="flex items-center gap-3">
+                <span class="text-2xl font-bold text-white flex items-center gap-1" id="chartHeaderReturn">↑ 0.00%</span>
+                <span class="text-xs font-bold text-[#22C55E] bg-[#22C55E]/10 px-2 py-0.5 rounded flex items-center gap-1">↗ <span id="chartHeaderAbs">0</span></span>
+              </div>
+            </div>
+            
+            <!-- Hidden SIP Slider integrated cleanly -->
+            <div class="flex items-center gap-3 bg-[#16181C] p-2 rounded-lg border border-[#2A2E35]">
+              <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Est. SIP</span>
+              <input type="range" id="sipSlider" min="0" max="200000" step="1000" value="15000" oninput="updateProjection()" class="w-24">
+              <span id="sipLabel" class="text-xs font-bold text-[#22C55E] w-14 text-right">15k</span>
+              <button class="text-gray-500 hover:text-white ml-2"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"/></svg></button>
+            </div>
+          </div>
+          <div class="flex-1 w-full relative">
+            <canvas id="projectionChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Donut Chart (Allocation) -->
+        <div class="lg:col-span-4 p-card p-6 flex flex-col items-center h-[350px]">
+          <div class="w-full flex justify-between items-center mb-4">
+            <span class="text-sm font-medium text-white">Assets Allocation</span>
+            <button class="text-gray-500 hover:text-white bg-[#16181C] p-1 rounded-md"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"/></svg></button>
+          </div>
+          <div class="w-full flex-1 relative flex justify-center items-center cursor-pointer">
+            <canvas id="allocationChart"></canvas>
+            <!-- Center Text for Donut -->
+            <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+              <span class="text-[10px] text-gray-400 font-medium">Total Net</span>
+              <span class="text-[10px] text-gray-400 font-medium">Asset</span>
+            </div>
+          </div>
+          <!-- Custom Legend -->
+          <div class="w-full grid grid-cols-2 gap-x-4 gap-y-2 mt-4" id="allocLegend">
+            <!-- Injected via JS -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Assets Table -->
+      <div class="p-card flex flex-col">
+        <div class="flex justify-between items-center p-6 border-b border-[#2A2E35]">
+          <span class="text-base font-semibold text-white">Assets Of Deals</span>
+          <div class="flex gap-2">
+            <div class="relative">
+              <svg class="w-4 h-4 absolute left-3 top-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+              <input type="text" id="searchInput" onkeyup="renderAssets()" placeholder="Search..." class="bg-[#16181C] border border-[#2A2E35] rounded-lg pl-9 pr-4 py-1.5 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-[#374151] w-48">
+            </div>
+            <button class="p-1.5 border border-[#2A2E35] rounded-lg text-gray-400 hover:text-white bg-[#16181C]"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path></svg></button>
+          </div>
         </div>
         
-        <div class="flex-1 flex flex-col gap-1" id="watchlistContainer">
-          <!-- Watchlist items injected via JS -->
-          <div class="flex items-center justify-center h-full text-xs text-gray-400">Sync to load watchlist</div>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- Bottom Row (3 Columns) -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 pb-8">
-      
-      <!-- Total Profits (Donut Chart) -->
-      <div class="dashboard-card p-6 flex flex-col items-center">
-        <div class="w-full flex justify-between items-center mb-2">
-          <h3 class="text-base font-bold text-[#111827]">Allocation</h3>
-          <button class="text-gray-400 hover:text-gray-800"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg></button>
-        </div>
-        <div class="w-full h-[180px] relative flex justify-center items-center cursor-pointer my-4">
-          <canvas id="allocationChart"></canvas>
-        </div>
-        <div class="w-full flex justify-between px-2 pt-2 border-t border-gray-100" id="allocationLegend">
-           <!-- Legend injected via JS -->
-        </div>
-      </div>
-
-      <!-- Sector Distribution (Bars) -->
-      <div class="dashboard-card p-6 flex flex-col">
-        <div class="flex justify-between items-center mb-6">
-          <h3 class="text-base font-bold text-[#111827]">Sector Distribution</h3>
-          <button class="text-gray-400 hover:text-gray-800"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg></button>
-        </div>
-        
-        <!-- Custom Dotted Bar Representation -->
-        <div class="flex h-4 mb-6 gap-1" id="sectorVisualBar">
-          <!-- Filled via JS -->
-        </div>
-
-        <div class="flex-1 flex flex-col gap-4 overflow-y-auto pr-2" id="sectorListContainer">
-          <!-- List items injected via JS -->
-        </div>
-      </div>
-
-      <!-- Recent Transactions (Mock visual match) -->
-      <div class="dashboard-card p-6 flex flex-col">
-        <div class="flex justify-between items-center mb-6">
-          <h3 class="text-base font-bold text-[#111827]">Recent Transaction</h3>
-          <button class="text-gray-400 hover:text-gray-800"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg></button>
-        </div>
-        
-        <div class="flex text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-3 px-2">
-          <div class="w-1/2">Companies</div>
-          <div class="w-1/4 text-right">Amount</div>
-          <div class="w-1/4 text-right">Transaction ID</div>
-        </div>
-
-        <div class="flex-1 flex flex-col gap-4" id="recentTransactions">
-           <!-- Mock list to match photo exactly -->
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm whitespace-nowrap">
+            <thead class="text-[10px] font-bold text-gray-500 uppercase tracking-widest bg-[#16181C]/50 border-b border-[#2A2E35]">
+              <tr>
+                <th class="px-6 py-4 font-semibold">Asset Name</th>
+                <th class="px-6 py-4 font-semibold">Type</th>
+                <th class="px-6 py-4 font-semibold text-right">Invested</th>
+                <th class="px-6 py-4 font-semibold text-right">Current Value</th>
+                <th class="px-6 py-4 font-semibold text-right">Return Pct</th>
+                <th class="px-6 py-4 font-semibold text-right">1D Change</th>
+                <th class="px-6 py-4 font-semibold text-center">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="assetTableBody" class="divide-y divide-[#2A2E35] text-gray-300">
+              <!-- Injected via JS -->
+            </tbody>
+          </table>
         </div>
       </div>
 
     </div>
   </main>
 
-  <!-- ================= ASSET MODAL (What-If Simulator) ================= -->
-  <div id="assetModal" class="fixed inset-0 modal-backdrop bg-gray-900/40 hidden items-center justify-center p-4 z-50 transition-opacity">
-    <div class="dashboard-card bg-white w-full max-w-lg p-8 relative transform transition-transform" id="modalContent">
-      <button onclick="closeModal()" class="absolute top-4 right-4 p-2 text-gray-400 hover:text-gray-800 hover:bg-gray-100 rounded-full transition">
+  <!-- ================= ASSET MODAL (What-If) ================= -->
+  <div id="assetModal" class="fixed inset-0 modal-backdrop bg-black/60 hidden items-center justify-center p-4 z-50 transition-opacity">
+    <div class="p-card w-full max-w-lg p-8 relative transform scale-95 transition-transform" id="modalContent">
+      <button onclick="closeModal()" class="absolute top-4 right-4 p-2 text-gray-500 hover:text-white hover:bg-[#2A2E35] rounded-full transition">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
       </button>
       
-      <div class="flex items-center gap-4 mb-6">
-        <div id="modalIcon" class="w-12 h-12 rounded-xl bg-gray-100 flex items-center justify-center text-xl font-bold">💼</div>
+      <div class="flex items-center gap-4 mb-8">
+        <div class="w-12 h-12 rounded-xl bg-[#16181C] border border-[#2A2E35] flex items-center justify-center text-xl font-bold">📊</div>
         <div>
-          <h3 id="modalTitle" class="text-2xl font-bold text-[#111827] leading-tight">Asset Name</h3>
-          <span id="modalTicker" class="text-[11px] font-bold text-gray-400 uppercase tracking-widest">Ticker</span>
+          <h3 id="modalTitle" class="text-2xl font-bold text-white leading-tight">Asset Name</h3>
+          <span id="modalCategory" class="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Category</span>
         </div>
       </div>
 
       <div class="grid grid-cols-2 gap-4 mb-8">
-        <div class="border border-gray-100 p-4 rounded-xl">
-          <span class="text-[10px] font-bold uppercase tracking-widest text-gray-400 block mb-1">Invested Amount</span>
-          <p id="modalInvested" class="text-lg font-bold text-[#111827] mt-1 sensitive">$0</p>
+        <div class="bg-[#16181C] border border-[#2A2E35] p-4 rounded-xl">
+          <span class="text-[10px] font-bold uppercase tracking-widest text-gray-500 block mb-1">Invested Amount</span>
+          <p id="modalInvested" class="text-lg font-bold text-white mt-1 sensitive">₹0</p>
         </div>
-        <div class="border border-gray-100 p-4 rounded-xl">
-          <span class="text-[10px] font-bold uppercase tracking-widest text-gray-400 block mb-1">Current Valuation</span>
-          <p id="modalCurrent" class="text-lg font-bold text-[#111827] mt-1 sensitive">$0</p>
+        <div class="bg-[#16181C] border border-[#2A2E35] p-4 rounded-xl">
+          <span class="text-[10px] font-bold uppercase tracking-widest text-gray-500 block mb-1">Current Valuation</span>
+          <p id="modalCurrent" class="text-lg font-bold text-white mt-1 sensitive">₹0</p>
         </div>
-        <div class="border border-gray-100 p-4 rounded-xl">
-          <span class="text-[10px] font-bold uppercase tracking-widest text-gray-400 block mb-1">Absolute P&L</span>
-          <p id="modalProfit" class="text-lg font-bold mt-1 sensitive">$0</p>
+        <div class="bg-[#16181C] border border-[#2A2E35] p-4 rounded-xl">
+          <span class="text-[10px] font-bold uppercase tracking-widest text-gray-500 block mb-1">Absolute P&L</span>
+          <p id="modalProfit" class="text-lg font-bold mt-1 sensitive">₹0</p>
         </div>
-        <div class="border border-gray-100 p-4 rounded-xl">
-          <span class="text-[10px] font-bold uppercase tracking-widest text-gray-400 block mb-1">Total Return</span>
+        <div class="bg-[#16181C] border border-[#2A2E35] p-4 rounded-xl">
+          <span class="text-[10px] font-bold uppercase tracking-widest text-gray-500 block mb-1">Total Return</span>
           <div class="flex items-baseline gap-2 mt-1">
             <p id="modalReturn" class="text-lg font-bold">0%</p>
+            <p id="modalCAGR" class="text-[10px] font-bold text-gray-500 hidden">0% CAGR</p>
           </div>
         </div>
       </div>
 
-      <!-- Stress Test Simulator -->
-      <div class="bg-gray-50 border border-gray-100 p-5 rounded-xl">
-        <div class="flex justify-between items-center mb-3">
-          <label class="text-[11px] font-bold text-[#111827] uppercase tracking-wider flex items-center gap-1.5">
-            <svg class="w-3.5 h-3.5 text-[#1A4331]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-            What-If Stress Test
+      <div class="bg-[#16181C] border border-[#2A2E35] p-5 rounded-xl">
+        <div class="flex justify-between items-center mb-4">
+          <label class="text-[10px] font-bold text-white uppercase tracking-wider flex items-center gap-1.5">
+            <span class="text-[#22C55E]">⚡</span> What-If Stress Test
           </label>
-          <span id="sliderLabel" class="text-[10px] font-bold text-gray-600 bg-white border border-gray-200 px-2 py-0.5 rounded">0%</span>
+          <span id="sliderLabel" class="text-[10px] font-bold text-gray-400 bg-[#1D2025] border border-[#2A2E35] px-2 py-0.5 rounded">0%</span>
         </div>
-        <input type="range" id="priceSlider" min="-50" max="50" value="0" oninput="simulatePrice(this.value)" class="w-full accent-[#1A4331] h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer outline-none mb-4">
-        <div class="flex justify-between items-end border-t border-gray-200 pt-3">
+        <input type="range" id="priceSlider" min="-50" max="50" value="0" oninput="simulatePrice(this.value)" class="w-full accent-[#22C55E] h-1 bg-[#2A2E35] rounded-lg appearance-none cursor-pointer outline-none mb-5">
+        <div class="flex justify-between items-end border-t border-[#2A2E35] pt-3">
           <span class="text-[10px] text-gray-500 uppercase tracking-widest font-bold">Simulated Outcome</span>
-          <span class="text-2xl font-extrabold text-[#111827] tracking-tight sensitive" id="simVal">$0</span>
+          <span class="text-2xl font-bold text-white tracking-tight sensitive" id="simVal">₹0</span>
         </div>
       </div>
     </div>
@@ -357,17 +350,18 @@
 
   <script>
     // ==========================================
-    // CONFIGURATION & LOGIC
+    // CONFIGURATION
     // ==========================================
     const API_URL = "https://script.google.com/macros/s/AKfycbwXU92UaymOUfanDm1SkGEHlTKzzsGxHxGn38fGNhJKjUgKemlQ9y47vd-ZA5zEIYyA/exec";
+    const CURRENT_YEAR = 2026;
 
     // Demo Data
     const demoData = [
-      { Asset: "HDFC Bank", Category: "Equity", Invested: 120000, CurrentValue: 138000, Ticker: "NSE:HDFCBANK" },
-      { Asset: "CDSL", Category: "Equity", Invested: 211027, CurrentValue: 350000, Ticker: "NSE:CDSL" },
-      { Asset: "Parag Parikh Flexi", Category: "Mutual Funds", Invested: 255000, CurrentValue: 315000, Ticker: "MF:PPFAS" },
-      { Asset: "Gold BeES ETF", Category: "Gold", Invested: 49215, CurrentValue: 58852, Ticker: "NSE:GOLDBEES" },
-      { Asset: "PPF", Category: "Fixed Income", Invested: 466300, CurrentValue: 512348, Ticker: "DEBT:PPF" }
+      { Asset: "TCS", Category: "Equity", Invested: 150000, CurrentValue: 198000, Ticker: "NSE:TCS", PurchaseDate: "2023-01-15", DayChangePct: 1.2 },
+      { Asset: "HDFC Bank", Category: "Equity", Invested: 120000, CurrentValue: 138000, Ticker: "NSE:HDFCBANK", PurchaseDate: "2024-05-10", DayChangePct: -0.5 },
+      { Asset: "Nifty 50 Index", Category: "Mutual Funds", Invested: 220000, CurrentValue: 275000, Ticker: "MF:NIFTY50", PurchaseDate: "2022-08-01", DayChangePct: 0.4 },
+      { Asset: "Sovereign Gold", Category: "Gold", Invested: 110000, CurrentValue: 142000, Ticker: "COMM:GOLD", PurchaseDate: "2021-10-20", DayChangePct: 0.1 },
+      { Asset: "PPF", Category: "Fixed Income", Invested: 150000, CurrentValue: 159000, Ticker: "DEBT:PPF", PurchaseDate: "2022-04-01", DayChangePct: 0.0 }
     ];
 
     let portfolioData = [...demoData];
@@ -375,52 +369,23 @@
     let allocChartInstance = null;
     let projChartInstance = null;
     let selectedAsset = null;
+    let topAssetRef = null;
     let globalNetWorth = 0;
     let globalReturnRate = 0;
 
-    // Thematic Colors matching the image
-    const colors = {
-      primary: '#1A4331',
-      green: '#10B981',
-      red: '#EF4444',
-      blue: '#3B82F6',
-      purple: '#8B5CF6',
-      yellow: '#F59E0B',
-      chartLine: '#1f4b3f',
-      donut: ['#10B981', '#3B82F6', '#8B5CF6', '#F43F5E', '#F59E0B']
-    };
+    // Prospera Palette mapping
+    const chartPalette = ['#22C55E', '#059669', '#374151', '#6EE7B7', '#047857'];
 
     window.addEventListener("DOMContentLoaded", () => {
       sessionStorage.clear();
-      Chart.defaults.font.family = "'Plus Jakarta Sans', sans-serif";
+      Chart.defaults.color = '#9CA3AF';
+      Chart.defaults.font.family = "'Inter', sans-serif";
       renderAssets(); 
     });
 
-    // Helper: Dynamic Logos based on Ticker/Name
-    function getLogoHTML(asset) {
-      const firstLetter = asset.Asset.charAt(0).toUpperCase();
-      const catColors = {
-        'Equity': 'bg-blue-100 text-blue-600',
-        'Mutual Funds': 'bg-purple-100 text-purple-600',
-        'Gold': 'bg-yellow-100 text-yellow-600',
-        'Fixed Income': 'bg-emerald-100 text-emerald-600'
-      };
-      const colorCls = catColors[asset.Category] || 'bg-gray-100 text-gray-600';
-      return `<div class="w-8 h-8 rounded flex items-center justify-center font-bold text-sm ${colorCls}">${firstLetter}</div>`;
-    }
-
-    // Sidebar UI logic
-    function setMenu(item) {
-      document.querySelectorAll('.nav-item').forEach(el => {
-        el.classList.remove('active');
-        el.classList.add('text-gray-500');
-      });
-      event.currentTarget.classList.add('active');
-      event.currentTarget.classList.remove('text-gray-500');
-    }
-
     function handleKeyPress(e) { if (e.key === "Enter") handleAuth(); }
 
+    // AUTH & SYNC
     async function handleAuth() {
       const passInput = document.getElementById("auth-passcode");
       const btnText = document.getElementById("auth-btn-text");
@@ -430,53 +395,64 @@
         sessionStorage.removeItem("authenticated_passcode");
         passInput.value = "";
         portfolioData = [...demoData];
-        btnText.innerText = "Sync";
+        btnText.innerText = "Sync Live";
         renderAssets();
         return;
       }
 
-      if (!pass) return;
+      if (!pass) return alert("Please enter a passcode.");
 
       btnText.innerText = "...";
       try {
         const response = await fetch(`${API_URL}?passcode=${encodeURIComponent(pass)}`);
         const data = await response.json();
-        if (data.error) { alert(data.error); btnText.innerText = "Sync"; return; }
+        if (data.error) { alert(data.error); btnText.innerText = "Sync Live"; return; }
 
         sessionStorage.setItem("authenticated_passcode", pass);
-        portfolioData = data.assets || [];
+        portfolioData = (data.assets || []).map(item => ({
+          ...item,
+          PurchaseDate: item.PurchaseDate || "2024-01-01",
+          DayChangePct: item.DayChangePct || (Math.random() * 2 - 1) 
+        }));
         btnText.innerText = "Lock";
         setFilter('All'); 
       } catch (err) {
-        btnText.innerText = "Sync";
+        btnText.innerText = "Sync Live";
+        alert("Connection Failed");
       }
     }
 
-    function setFilter(cat) {
-      activeFilter = cat;
-      document.querySelectorAll('.filter-pill').forEach(btn => {
-        if (btn.textContent.trim() === cat || (cat === 'Mutual Funds' && btn.textContent.trim()==='Funds') || (cat === 'Fixed Income' && btn.textContent.trim()==='Debt')) {
-          btn.className = "filter-pill active px-3 py-1 text-[10px] font-bold bg-white shadow-sm rounded-md text-[#111827] transition";
-        } else {
-          btn.className = "filter-pill px-3 py-1 text-[10px] font-bold text-gray-400 hover:text-gray-800 transition";
-        }
-      });
-      renderAssets();
+    function calculateCAGR(invested, current, pDateStr) {
+      if(!invested || !current || !pDateStr) return 0;
+      const pDate = new Date(pDateStr);
+      const today = new Date(`August 12, ${CURRENT_YEAR}`); 
+      const days = (today - pDate) / (1000 * 60 * 60 * 24);
+      if (days < 90) return ((current - invested)/invested)*100;
+      const years = days / 365.25;
+      return (Math.pow((current / invested), (1 / years)) - 1) * 100;
     }
 
+    // MAIN RENDER ENGINE
     function renderAssets() {
-      const query = document.getElementById("globalSearch").value.toLowerCase();
-      const container = document.getElementById("assetCardsContainer");
-      container.innerHTML = "";
+      const query = document.getElementById("searchInput").value.toLowerCase();
+      // Or globalSearch if used
+      const queryGlobal = document.getElementById("globalSearch") ? document.getElementById("globalSearch").value.toLowerCase() : "";
+      const activeQuery = query || queryGlobal;
+      
+      const tbody = document.getElementById("assetTableBody");
+      tbody.innerHTML = "";
+
+      let total1DProfit = 0;
 
       portfolioData.forEach(item => {
         item.actualRet = item.Invested > 0 ? ((item.CurrentValue - item.Invested) / item.Invested) * 100 : 0;
-        item.profit = item.CurrentValue - item.Invested;
+        item.cagr = calculateCAGR(item.Invested, item.CurrentValue, item.PurchaseDate);
+        total1DProfit += (item.CurrentValue * (item.DayChangePct / 100));
       });
 
       let filtered = portfolioData.filter(item => {
         const matchesCat = activeFilter === 'All' || item.Category === activeFilter;
-        const matchesQuery = item.Asset.toLowerCase().includes(query) || (item.Ticker && item.Ticker.toLowerCase().includes(query));
+        const matchesQuery = item.Asset.toLowerCase().includes(activeQuery) || (item.Ticker && item.Ticker.toLowerCase().includes(activeQuery));
         return matchesCat && matchesQuery;
       });
 
@@ -485,245 +461,232 @@
       let categoriesCount = {};
 
       if (filtered.length === 0) {
-        container.innerHTML = `<div class="col-span-1 sm:col-span-2 text-center py-10 text-gray-400 text-xs">No assets found.</div>`;
+        tbody.innerHTML = `<tr><td colspan="7" class="px-6 py-8 text-center text-gray-500">No assets found.</td></tr>`;
       }
 
-      filtered.forEach(item => {
+      filtered.forEach((item) => {
         categoriesCount[item.Category] = (categoriesCount[item.Category] || 0) + Number(item.CurrentValue);
         const isProfit = item.actualRet >= 0;
+        const isDayProfit = item.DayChangePct >= 0;
 
-        const card = document.createElement("div");
-        card.className = "border border-gray-100 rounded-xl p-4 hover-card bg-white flex flex-col justify-between";
-        card.onclick = () => openModal(item);
+        const row = document.createElement("tr");
+        row.className = "hover:bg-[#26292F] cursor-pointer transition group";
+        row.onclick = () => openModal(item);
         
-        card.innerHTML = `
-          <div class="flex items-center gap-3 mb-4">
-            ${getLogoHTML(item)}
+        // Mock Logo Gen
+        const ltr = item.Asset.charAt(0);
+        const iconBg = isProfit ? 'bg-[#16181C] text-white border border-[#2A2E35]' : 'bg-[#16181C] text-white border border-[#2A2E35]';
+
+        row.innerHTML = `
+          <td class="px-6 py-4 flex items-center gap-3">
+            <div class="w-6 h-6 rounded flex items-center justify-center text-[10px] font-bold ${iconBg}">${ltr}</div>
             <div>
-              <h4 class="text-sm font-bold text-[#111827] leading-tight">${item.Asset}</h4>
-              <p class="text-[10px] text-gray-400 font-medium">${item.Ticker || 'Asset'}</p>
+              <p class="font-bold text-white">${item.Asset}</p>
+              <p class="text-[10px] text-gray-500">${item.Ticker || '--'}</p>
             </div>
-          </div>
-          <div class="flex justify-between items-end mt-2">
-            <div>
-              <p class="text-lg font-extrabold text-[#111827] sensitive">${formatCurrency(item.CurrentValue)}</p>
-              <p class="text-[10px] font-bold mt-1 ${isProfit ? 'text-emerald-500' : 'text-red-500'}">
-                ${isProfit ? '▲' : '▼'} ${Math.abs(item.actualRet).toFixed(2)}% (${formatCurrency(Math.abs(item.profit))})
-              </p>
-            </div>
-            <span class="text-[10px] text-gray-400 font-medium">Qty: --</span>
-          </div>
+          </td>
+          <td class="px-6 py-4 text-gray-300 font-medium">${item.Category}</td>
+          <td class="px-6 py-4 text-right font-medium sensitive">${formatCurrency(item.Invested)}</td>
+          <td class="px-6 py-4 text-right font-bold text-white sensitive">${formatCurrency(item.CurrentValue)}</td>
+          <td class="px-6 py-4 text-right font-bold ${isProfit ? 'text-[#22C55E]' : 'text-[#EF4444]'}">${isProfit?'+':''}${item.actualRet.toFixed(2)}%</td>
+          <td class="px-6 py-4 text-right font-medium text-gray-400">${isDayProfit?'+':''}${item.DayChangePct.toFixed(2)}%</td>
+          <td class="px-6 py-4 text-center text-gray-500 group-hover:text-white">
+            <button class="hover:bg-[#1D2025] p-1 rounded">⋮</button>
+          </td>
         `;
-        container.appendChild(card);
+        tbody.appendChild(row);
       });
 
-      // Globals
+      // Global KPIs
       globalNetWorth = portfolioData.reduce((sum, item) => sum + Number(item.CurrentValue), 0);
       let globalInv = portfolioData.reduce((sum, item) => sum + Number(item.Invested), 0);
       const totalProfit = globalNetWorth - globalInv;
       globalReturnRate = globalInv > 0 ? (totalProfit / globalInv) * 100 : 0;
+      const total1DPct = globalNetWorth > 0 ? (total1DProfit / globalNetWorth) * 100 : 0;
 
+      // Update Header Text
+      document.getElementById("headerTotalValue").textContent = formatCurrency(globalNetWorth);
       document.getElementById("totalValue").textContent = formatCurrency(globalNetWorth);
-      document.getElementById("totalInvested").textContent = formatCurrency(globalInv);
+      document.getElementById("totalInvested").textContent = `+${formatCurrency(globalInv)}`;
       
       const rElem = document.getElementById("totalReturn");
-      rElem.textContent = `${globalReturnRate >= 0 ? '↗' : '↘'} ${Math.abs(globalReturnRate).toFixed(1)}%`;
-      rElem.className = `text-xs font-bold flex items-center px-1.5 py-0.5 rounded ${globalReturnRate >= 0 ? 'text-emerald-500 bg-emerald-50' : 'text-red-500 bg-red-50'}`;
+      rElem.textContent = `${globalReturnRate >= 0 ? '↗' : '↘'} ${Math.abs(globalReturnRate).toFixed(2)}%`;
+      rElem.className = `inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded ${globalReturnRate >= 0 ? 'bg-[#22C55E]/10 text-[#22C55E]' : 'bg-[#EF4444]/10 text-[#EF4444]'}`;
 
-      document.getElementById("totalProfitDiff").textContent = `${totalProfit >= 0 ? '+' : '-'}${formatCurrency(Math.abs(totalProfit))}`;
+      const pDiff = document.getElementById("kpiProfitAbs");
+      pDiff.textContent = `${totalProfit >= 0 ? '+' : '-'}${formatCurrency(Math.abs(totalProfit))}`;
+      document.getElementById("kpiProfitPct").textContent = `${globalReturnRate >= 0 ? '↗' : '↘'} ${Math.abs(globalReturnRate).toFixed(2)}%`;
+      document.getElementById("kpiProfitPct").className = `inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded ${globalReturnRate >= 0 ? 'bg-[#22C55E]/10 text-[#22C55E]' : 'bg-[#EF4444]/10 text-[#EF4444]'}`;
 
-      updateProjectionChart();
-      updateDonutChart(categoriesCount);
-      renderWatchlist();
-      renderSectorDistribution(categoriesCount, globalNetWorth);
-      renderMockTransactions();
+      // 1D Change
+      document.getElementById("dailyChange").textContent = `${total1DProfit>=0?'+':'-'}${formatCurrency(Math.abs(total1DProfit))} (${total1DPct.toFixed(2)}%) 1D`;
+
+      // Top/Worst Performers Match Logic
+      let allSorted = [...portfolioData].sort((a,b) => b.cagr - a.cagr);
+      if(allSorted.length > 0) {
+        topAssetRef = allSorted[0];
+        document.getElementById("topAsset").textContent = topAssetRef.Asset;
+        document.getElementById("kpiTopName").textContent = topAssetRef.Ticker ? topAssetRef.Ticker.split(':')[1] || topAssetRef.Ticker : topAssetRef.Asset;
+        document.getElementById("topAssetRet").textContent = "+" + topAssetRef.actualRet.toFixed(1) + "%";
+        document.getElementById("kpiTopPct").textContent = "↗ " + topAssetRef.actualRet.toFixed(1) + "%";
+        
+        const worst = allSorted[allSorted.length-1];
+        document.getElementById("worstAsset").textContent = worst.Asset;
+        document.getElementById("kpiWorstName").textContent = worst.Ticker ? worst.Ticker.split(':')[1] || worst.Ticker : worst.Asset;
+        document.getElementById("worstAssetRet").textContent = worst.actualRet.toFixed(1) + "%";
+        document.getElementById("kpiWorstPct").textContent = "↘ " + Math.abs(worst.actualRet).toFixed(1) + "%";
+      }
+
+      // Chart Header
+      document.getElementById("chartHeaderReturn").innerHTML = `${globalReturnRate >= 0 ? '↑' : '↓'} ${Math.abs(globalReturnRate).toFixed(2)}%`;
+      document.getElementById("chartHeaderAbs").textContent = formatCurrency(Math.abs(totalProfit));
+
+      updateAllocChart(categoriesCount);
+      updateProjection(); 
     }
 
-    // Top Right Line Chart (Replaces Projection Chart to match UI)
-    function updateProjectionChart() {
-      // Mock historical data curve based on current worth
-      const dataPoints = Array.from({length: 30}, (_, i) => globalNetWorth * (0.8 + (Math.sin(i)*0.1) + (i*0.01)));
+    function openTopPerformerModal() {
+      if(topAssetRef) openModal(topAssetRef);
+    }
+
+    // ==========================================
+    // PROJECTION LINE CHART (Matches "Portfolio Performance")
+    // ==========================================
+    function calculateFV(pv, pmt, ratePct, years) {
+      if(ratePct === 0) return pv + (pmt * years * 12);
+      const r = ratePct / 100 / 12; 
+      const n = years * 12; 
+      return pv * Math.pow(1 + r, n) + pmt * ( (Math.pow(1 + r, n) - 1) / r );
+    }
+
+    function updateProjection() {
+      const sip = Number(document.getElementById("sipSlider").value);
+      document.getElementById("sipLabel").textContent = formatCurrency(sip);
       
+      const safeRate = globalReturnRate > 0 ? globalReturnRate : 10; 
+
+      const labels = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN'];
+      const dataPoints = [
+        globalNetWorth,
+        calculateFV(globalNetWorth, sip, safeRate, 1),
+        calculateFV(globalNetWorth, sip, safeRate, 2),
+        calculateFV(globalNetWorth, sip, safeRate, 3),
+        calculateFV(globalNetWorth, sip, safeRate, 4),
+        calculateFV(globalNetWorth, sip, safeRate, 5) // Mapped visually to months for aesthetic
+      ];
+
       const ctx = document.getElementById("projectionChart").getContext("2d");
       if (projChartInstance) projChartInstance.destroy();
+
+      let gradient = ctx.createLinearGradient(0, 0, 0, 300);
+      gradient.addColorStop(0, 'rgba(34, 197, 94, 0.2)'); // Green
+      gradient.addColorStop(1, 'rgba(34, 197, 94, 0)');
 
       projChartInstance = new Chart(ctx, {
         type: 'line',
         data: {
-          labels: Array.from({length: 30}, (_, i) => i),
+          labels: labels,
           datasets: [{
             data: dataPoints,
-            borderColor: colors.chartLine,
+            borderColor: '#22C55E',
+            backgroundColor: gradient,
             borderWidth: 2,
-            pointRadius: 0,
-            pointHoverRadius: 4,
-            tension: 0.4
+            pointBackgroundColor: '#1D2025',
+            pointBorderColor: '#22C55E',
+            pointRadius: 0, 
+            pointHoverRadius: 6,
+            fill: true, tension: 0.4
           }]
         },
         options: {
           responsive: true, maintainAspectRatio: false,
-          plugins: { legend: { display: false }, tooltip: { enabled: false } },
-          scales: {
-            y: { display: false },
-            x: { display: true, grid: {display: false}, border: {display:false}, ticks: {color: '#9CA3AF', font: {size: 10}, maxTicksLimit: 2, callback: function(val, index) { return index === 0 ? 'Jan' : 'Dec'; }} }
+          interaction: { mode: 'index', intersect: false },
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              backgroundColor: '#26292F', titleColor: '#9CA3AF', bodyColor: '#FFFFFF',
+              borderColor: '#374151', borderWidth: 1, padding: 10, displayColors: false,
+              callbacks: { label: (c) => formatCurrency(c.raw) }
+            }
           },
-          layout: { padding: {top: 10, bottom: 0, left: 10, right: 10} }
+          scales: {
+            y: { grid: { color: '#2A2E35', drawBorder: false, borderDash: [5, 5] }, ticks: { display: false } }, // Match image: dotted horizontal lines
+            x: { grid: { color: '#2A2E35', drawBorder: false, borderDash: [5, 5] }, ticks: { color: '#6B7280', font: {size: 10} } }
+          },
+          animation: { duration: 0 } // Snappy update
         }
       });
     }
 
-    // Watchlist Section (Top 5 Performers)
-    function renderWatchlist() {
-      const container = document.getElementById("watchlistContainer");
-      const sorted = [...portfolioData].sort((a,b) => b.actualRet - a.actualRet).slice(0, 5);
-      
-      if(sorted.length === 0) return;
-
-      container.innerHTML = sorted.map(item => `
-        <div class="flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg transition cursor-pointer" onclick='openModal(${JSON.stringify(item)})'>
-          <div class="flex items-center gap-3 w-1/2">
-            ${getLogoHTML(item)}
-            <div>
-              <p class="text-xs font-bold text-[#111827]">${item.Ticker ? item.Ticker.split(':')[1] || item.Asset : item.Asset}</p>
-              <p class="text-[9px] text-gray-400 truncate w-24">${item.Asset}</p>
-            </div>
-          </div>
-          <div class="w-1/4 text-right">
-            <p class="text-xs font-bold text-[#111827]">${formatCurrency(item.CurrentValue)}</p>
-          </div>
-          <div class="w-1/4 text-right">
-            <p class="text-[10px] font-bold ${item.actualRet >= 0 ? 'text-emerald-500' : 'text-red-500'}">${item.actualRet >= 0 ? '+' : ''}${item.actualRet.toFixed(2)}%</p>
-          </div>
-        </div>
-      `).join('');
-    }
-
-    // Allocation Donut
-    function updateDonutChart(categories) {
+    // ==========================================
+    // DONUT CHART
+    // ==========================================
+    function updateAllocChart(categories) {
       const ctx = document.getElementById("allocationChart").getContext("2d");
       if (allocChartInstance) allocChartInstance.destroy();
 
       const labels = Object.keys(categories);
       const data = Object.values(categories);
 
+      const bgColors = labels.map((_, i) => chartPalette[i % chartPalette.length]);
+
       allocChartInstance = new Chart(ctx, {
         type: "doughnut",
         data: {
           labels: labels,
           datasets: [{
-            data: data, backgroundColor: colors.donut.slice(0, labels.length), borderWidth: 0, hoverOffset: 4
+            data: data, backgroundColor: bgColors, borderWidth: 0, hoverOffset: 4
           }]
         },
         options: {
           responsive: true, maintainAspectRatio: false,
-          plugins: { legend: { display: false }, tooltip: { enabled: false } },
-          cutout: "75%"
+          plugins: {
+            legend: { display: false },
+            tooltip: { 
+              backgroundColor: '#1D2025', borderColor: '#2A2E35', borderWidth: 1,
+              callbacks: { label: (c) => ` ${formatCurrency(c.raw)}` } 
+            }
+          },
+          cutout: "80%"
         },
         plugins: [{
           id: 'textCenter',
           beforeDraw: function(chart) {
             var width = chart.width, height = chart.height, ctx = chart.ctx;
             ctx.restore();
-            ctx.font = "bold 1.25rem 'Plus Jakarta Sans'";
-            ctx.fillStyle = "#111827";
+            ctx.font = "500 0.65rem 'Inter'";
+            ctx.fillStyle = "#9CA3AF";
             ctx.textBaseline = "middle";
-            var text = formatCurrency(globalNetWorth),
+            var text = "Total Net",
                 textX = Math.round((width - ctx.measureText(text).width) / 2),
-                textY = height / 2 - 5;
+                textY = height / 2 - 10;
             ctx.fillText(text, textX, textY);
             
-            ctx.font = "500 0.65rem 'Plus Jakarta Sans'";
-            ctx.fillStyle = "#6B7280";
-            var text2 = "Total Value",
+            var text2 = "Asset",
                 text2X = Math.round((width - ctx.measureText(text2).width) / 2),
-                text2Y = height / 2 + 15;
+                text2Y = height / 2 + 10;
             ctx.fillText(text2, text2X, text2Y);
             ctx.save();
           }
         }]
       });
 
-      // Custom Legend matching the image
-      const legend = document.getElementById("allocationLegend");
-      legend.innerHTML = labels.map((l, i) => {
-        const pct = globalNetWorth > 0 ? (categories[l] / globalNetWorth * 100).toFixed(0) : 0;
+      // Custom Legend Map
+      const legendDiv = document.getElementById("allocLegend");
+      legendDiv.innerHTML = labels.map((cat, i) => {
+        const pct = globalNetWorth > 0 ? (data[i] / globalNetWorth * 100).toFixed(0) : 0;
         return `
-          <div class="text-center">
-            <p class="text-[10px] font-bold text-[#111827]" style="color: ${colors.donut[i]}">${l.split(' ')[0]}</p>
-            <p class="text-xs font-extrabold text-[#111827] mt-0.5">${pct}%</p>
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full" style="background-color: ${bgColors[i]}"></span>
+            <span class="text-[10px] text-gray-400">${cat}: <span class="text-white">${pct}%</span></span>
           </div>
         `;
       }).join('');
     }
 
-    // Sector Distribution List & Bar
-    function renderSectorDistribution(categories, total) {
-      const visualBar = document.getElementById("sectorVisualBar");
-      const list = document.getElementById("sectorListContainer");
-      
-      const labels = Object.keys(categories);
-      const data = Object.values(categories);
-      
-      visualBar.innerHTML = '';
-      list.innerHTML = '';
-
-      labels.forEach((cat, i) => {
-        const val = data[i];
-        const pct = total > 0 ? (val / total * 100) : 0;
-        const color = colors.donut[i % colors.donut.length];
-        
-        // Generate small dotted bars for visual (approx 30 dots total)
-        const dotCount = Math.max(1, Math.round((pct / 100) * 30));
-        for(let j=0; j<dotCount; j++){
-          visualBar.innerHTML += `<div class="w-1.5 h-full rounded-full" style="background-color: ${color}"></div>`;
-        }
-
-        // List item
-        list.innerHTML += `
-          <div class="flex justify-between items-center">
-            <div class="flex items-center gap-3">
-              <div class="w-2 h-2 rounded-sm" style="background-color: ${color}"></div>
-              <div>
-                <p class="text-xs font-bold text-[#111827]">${cat}</p>
-                <p class="text-[9px] font-semibold text-gray-400">${pct.toFixed(0)}%</p>
-              </div>
-            </div>
-            <p class="text-xs font-bold text-[#111827]">${formatCurrency(val)}</p>
-          </div>
-        `;
-      });
-    }
-
-    // Mock Recent Transactions to match image visually
-    function renderMockTransactions() {
-      const container = document.getElementById("recentTransactions");
-      const sample = portfolioData.slice(0, 4);
-      
-      container.innerHTML = sample.map((item, i) => {
-        const isBuy = i % 2 === 0;
-        const amt = item.Invested * 0.1; // fake amount
-        return `
-        <div class="flex items-center px-2 py-1">
-          <div class="w-1/2 flex items-center gap-3">
-             <div class="w-6 h-6 rounded-full bg-gray-50 flex items-center justify-center text-[10px]">
-               ${isBuy ? '📈' : '📉'}
-             </div>
-             <div>
-               <p class="text-xs font-bold text-[#111827]">${item.Asset.split(' ')[0]}</p>
-               <p class="text-[9px] text-gray-400">10 Dec 2025</p>
-             </div>
-          </div>
-          <div class="w-1/4 text-right">
-            <p class="text-xs font-bold text-[#111827]">${isBuy?'+':'-'}${formatCurrency(amt)}</p>
-          </div>
-          <div class="w-1/4 text-right">
-            <p class="text-[10px] font-bold text-gray-500">#78451237${i}</p>
-          </div>
-        </div>
-      `}).join('');
-    }
-
-    // Modal
+    // ==========================================
+    // MODAL LOGIC
+    // ==========================================
     function openModal(asset) {
       selectedAsset = asset;
       document.getElementById("modalTitle").textContent = asset.Asset;
@@ -739,19 +702,24 @@
       pElem.className = `text-lg font-bold mt-1 sensitive ${isProfit ? 'text-emerald-500' : 'text-red-500'}`;
 
       const rElem = document.getElementById("modalReturn");
-      rElem.textContent = `${isProfit ? '+' : ''}${asset.actualRet.toFixed(2)}%`;
+      rElem.textContent = `${isProfit ? '↑' : '↓'} ${Math.abs(asset.actualRet).toFixed(2)}%`;
       rElem.className = `text-lg font-bold ${isProfit ? 'text-emerald-500' : 'text-red-500'}`;
 
       document.getElementById("priceSlider").value = 0;
       document.getElementById("sliderLabel").textContent = "0%";
+      document.getElementById("sliderLabel").className = "text-[10px] font-bold text-gray-400 bg-[#1D2025] border border-[#2A2E35] px-2 py-0.5 rounded";
       document.getElementById("simVal").textContent = formatCurrency(asset.CurrentValue);
+      document.getElementById("simVal").className = "text-2xl font-extrabold text-white tracking-tight sensitive";
 
       const modal = document.getElementById("assetModal");
       const content = document.getElementById("modalContent");
       
       modal.classList.remove("hidden");
       modal.classList.add("flex");
-      setTimeout(() => { content.classList.remove("scale-95"); content.classList.add("scale-100"); }, 10);
+      setTimeout(() => {
+        content.classList.remove("scale-95");
+        content.classList.add("scale-100");
+      }, 10);
     }
 
     function simulatePrice(pct) {
@@ -761,14 +729,17 @@
       const simValElem = document.getElementById("simVal");
 
       labelElem.textContent = `${pctNum > 0 ? '+' : ''}${pctNum}%`;
-      
+      if(pctNum > 0) labelElem.className = "text-[10px] font-bold text-[#22C55E] bg-[#22C55E]/10 border border-[#22C55E]/20 px-2 py-0.5 rounded";
+      else if (pctNum < 0) labelElem.className = "text-[10px] font-bold text-[#EF4444] bg-[#EF4444]/10 border border-[#EF4444]/20 px-2 py-0.5 rounded";
+      else labelElem.className = "text-[10px] font-bold text-gray-400 bg-[#1D2025] border border-[#2A2E35] px-2 py-0.5 rounded";
+
       const multiplier = 1 + (pctNum / 100);
       const simulatedVal = Math.round(selectedAsset.CurrentValue * multiplier);
       
       simValElem.textContent = formatCurrency(simulatedVal);
-      if(simulatedVal > selectedAsset.CurrentValue) simValElem.className = "text-2xl font-extrabold text-emerald-500 tracking-tight sensitive";
-      else if(simulatedVal < selectedAsset.CurrentValue) simValElem.className = "text-2xl font-extrabold text-red-500 tracking-tight sensitive";
-      else simValElem.className = "text-2xl font-extrabold text-[#111827] tracking-tight sensitive";
+      if(simulatedVal > selectedAsset.CurrentValue) simValElem.className = "text-2xl font-extrabold text-[#22C55E] tracking-tight sensitive";
+      else if(simulatedVal < selectedAsset.CurrentValue) simValElem.className = "text-2xl font-extrabold text-[#EF4444] tracking-tight sensitive";
+      else simValElem.className = "text-2xl font-extrabold text-white tracking-tight sensitive";
     }
 
     function closeModal() {
@@ -776,7 +747,10 @@
       const content = document.getElementById("modalContent");
       content.classList.remove("scale-100");
       content.classList.add("scale-95");
-      setTimeout(() => { modal.classList.add("hidden"); modal.classList.remove("flex"); }, 200);
+      setTimeout(() => { 
+        modal.classList.add("hidden"); 
+        modal.classList.remove("flex");
+      }, 200);
     }
 
     function formatCurrency(val) {
