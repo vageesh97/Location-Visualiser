@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Vageesh's Portfolio | Live Dashboard</title>
 
-<!-- Tailwind CSS (Kept for inner layout utilities) -->
+<!-- Tailwind CSS -->
 <script src="https://cdn.tailwindcss.com"></script>
 <!-- Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -172,7 +172,7 @@ body::before {
 .slider-group label { display: flex; justify-content: space-between; color: var(--muted); font-size: 11px; margin-bottom: 9px; }
 input[type=range] { width: 100%; accent-color: var(--purple); cursor: pointer; }
 
-/* Holdings List (Replaces Transactions) */
+/* Holdings List */
 .transaction { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; padding: 13px 10px; border-bottom: 1px solid rgba(255,255,255,.05); font-size: 12px; align-items: center; transition: 0.2s; cursor: pointer; border-radius: 8px;}
 .transaction:hover { background: rgba(255,255,255,.03); }
 .transaction-header { color: var(--muted); font-size: 10px; text-transform: uppercase; cursor: default; }
@@ -219,11 +219,11 @@ input[type=range] { width: 100%; accent-color: var(--purple); cursor: pointer; }
         </div>
     </div>
     <nav class="nav">
-        <button class="active" onclick="setFilter('All')"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></button>
-        <button onclick="setFilter('Equity')"><i data-lucide="briefcase-business"></i><span>Equities</span></button>
-        <button onclick="setFilter('Mutual Funds')"><i data-lucide="chart-pie"></i><span>Funds</span></button>
-        <button onclick="setFilter('Gold')"><i data-lucide="coins"></i><span>Commodities</span></button>
-        <button onclick="toggleZenMode()"><i data-lucide="eye-off"></i><span>Zen Mode</span></button>
+        <button class="active nav-btn" data-target="All" onclick="setFilter('All')"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></button>
+        <button class="nav-btn" data-target="Equity" onclick="setFilter('Equity')"><i data-lucide="briefcase-business"></i><span>Equities</span></button>
+        <button class="nav-btn" data-target="Mutual Funds" onclick="setFilter('Mutual Funds')"><i data-lucide="chart-pie"></i><span>Funds</span></button>
+        <button class="nav-btn" data-target="Gold" onclick="setFilter('Gold')"><i data-lucide="coins"></i><span>Commodities</span></button>
+        <button onclick="toggleZenMode()"><i data-lucide="eye-off"></i><span id="zenText">Zen Mode</span></button>
     </nav>
 </aside>
 
@@ -249,7 +249,7 @@ input[type=range] { width: 100%; accent-color: var(--purple); cursor: pointer; }
 
     <!-- HERO -->
     <section class="hero">
-        <div class="hero-label">Total Portfolio Value</div>
+        <div class="hero-label">Filtered Portfolio Value</div>
         <div class="hero-value sensitive" id="heroTotalWealth">₹0</div>
         
         <div class="hero-change">
@@ -308,7 +308,7 @@ input[type=range] { width: 100%; accent-color: var(--purple); cursor: pointer; }
             </div>
         </div>
 
-        <!-- PORTFOLIO HEALTH (Replaced with Projection Slider for space utilization) -->
+        <!-- WEALTH SIMULATOR -->
         <div class="card">
             <div class="card-title">
                 <h2>Wealth Simulator</h2>
@@ -333,7 +333,7 @@ input[type=range] { width: 100%; accent-color: var(--purple); cursor: pointer; }
                     <strong id="roiValue" class="text-green-400">0%</strong>
                 </label>
                 <!-- Visual disabled track to represent active ROI -->
-                <div class="w-full h-1 bg-white/10 rounded-full overflow-hidden">
+                <div class="w-full h-1 bg-white/10 rounded-full overflow-hidden mt-1">
                     <div class="h-full bg-green-400 w-1/2"></div>
                 </div>
             </div>
@@ -386,7 +386,7 @@ input[type=range] { width: 100%; accent-color: var(--purple); cursor: pointer; }
         </div>
     </section>
 
-    <!-- HOLDINGS TABLE (Replaces Transactions) -->
+    <!-- HOLDINGS TABLE -->
     <section class="card">
         <div class="card-title">
             <h2 id="tableTitle">Portfolio Holdings</h2>
@@ -465,6 +465,8 @@ input[type=range] { width: 100%; accent-color: var(--purple); cursor: pointer; }
 // ==========================================
 // CONFIGURATION & DEMO DATA
 // ==========================================
+
+// >>> REPLACE THIS WITH YOUR GOOGLE WEB APP URL <<<
 const API_URL = "https://script.google.com/macros/s/AKfycbwXU92UaymOUfanDm1SkGEHlTKzzsGxHxGn38fGNhJKjUgKemlQ9y47vd-ZA5zEIYyA/exec";
 const CURRENT_YEAR = 2026;
 
@@ -488,7 +490,7 @@ let globalNetWorth = 0;
 let globalReturnRate = 0;
 let isZenMode = false;
 
-// Theme Colors matching the CSS variables
+// Theme Colors
 const themeColors = {
     purple: '#8b5cf6',
     cyan: '#22d3ee',
@@ -521,20 +523,20 @@ function handleKeyPress(e) { if (e.key === "Enter") handleAuth(); }
 function toggleZenMode() {
     isZenMode = !isZenMode;
     document.body.classList.toggle('zen-active', isZenMode);
-    
-    // Update Sidebar Nav UI
-    document.querySelectorAll('.nav button').forEach(btn => btn.classList.remove('active'));
-    if(isZenMode) event.currentTarget.classList.add('active');
-    else document.querySelector('.nav button').classList.add('active'); // default to dashboard
+    document.getElementById('zenText').innerText = isZenMode ? "Disable Zen" : "Zen Mode";
 }
 
 function setFilter(cat) {
     activeFilter = cat;
     document.getElementById("tableTitle").innerText = cat === 'All' ? 'Portfolio Holdings' : `${cat} Holdings`;
     
-    // Update Sidebar Nav UI
-    document.querySelectorAll('.nav button').forEach(btn => btn.classList.remove('active'));
-    event.currentTarget.classList.add('active');
+    // Safely update Sidebar Nav UI without throwing an event.currentTarget error
+    document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.getAttribute('data-target') === cat) {
+            btn.classList.add('active');
+        }
+    });
     
     renderAssets();
 }
@@ -552,7 +554,7 @@ async function handleAuth() {
         passInput.value = "";
         portfolioData = [...demoData];
         btnText.innerText = "Connect";
-        renderAssets();
+        setFilter('All'); 
         return;
     }
 
@@ -570,6 +572,8 @@ async function handleAuth() {
         }
 
         sessionStorage.setItem("authenticated_passcode", pass);
+        
+        // Clean injected data
         portfolioData = (data.assets || []).map(item => ({
             ...item,
             PurchaseDate: item.PurchaseDate || "2024-01-01",
@@ -577,10 +581,11 @@ async function handleAuth() {
         }));
         
         btnText.innerText = "Disconnect";
-        setFilter('All'); 
+        setFilter('All'); // Safely updates everything
     } catch (err) {
+        console.error("Fetch Error:", err);
         btnText.innerText = "Connect";
-        alert("Connection failed.");
+        alert("Connection failed. Ensure API URL is correct and deployed as 'Anyone'.");
     }
 }
 
@@ -603,38 +608,40 @@ function renderAssets() {
     const container = document.getElementById("holdingsContainer");
     container.innerHTML = "";
 
-    let total1DProfit = 0;
-
+    // Apply calculations to entire dataset first
     portfolioData.forEach(item => {
         item.actualRet = item.Invested > 0 ? ((item.CurrentValue - item.Invested) / item.Invested) * 100 : 0;
         item.cagr = calculateCAGR(item.Invested, item.CurrentValue, item.PurchaseDate);
-        total1DProfit += (item.CurrentValue * (item.DayChangePct / 100));
     });
 
+    // 1. FILTER the data based on sidebar clicks
     let filtered = portfolioData.filter(item => {
         const matchesCat = activeFilter === 'All' || item.Category === activeFilter;
         const matchesQuery = item.Asset.toLowerCase().includes(query) || (item.Ticker && item.Ticker.toLowerCase().includes(query));
         return matchesCat && matchesQuery;
     });
 
+    // 2. SORT the data
     filtered.sort((a, b) => {
         if (sortMode === "value_desc") return b.CurrentValue - a.CurrentValue;
         if (sortMode === "gain_desc") return b.actualRet - a.actualRet;
         if (sortMode === "gain_asc") return a.actualRet - b.actualRet;
     });
 
-    let totalVal = 0, totalInv = 0;
+    // Variables specifically for the FILTERED current view
+    let totalVal = 0, totalInv = 0, total1DProfit = 0;
     const categoriesCount = {};
 
     if (filtered.length === 0) {
-        container.innerHTML = `<div class="py-8 text-center text-muted text-sm">No assets found.</div>`;
+        container.innerHTML = `<div class="py-8 text-center text-muted text-sm">No assets match your criteria.</div>`;
     }
 
     filtered.forEach((item) => {
         totalVal += Number(item.CurrentValue);
         totalInv += Number(item.Invested);
         categoriesCount[item.Category] = (categoriesCount[item.Category] || 0) + Number(item.CurrentValue);
-        
+        total1DProfit += (item.CurrentValue * (item.DayChangePct / 100));
+
         const isProfit = item.actualRet >= 0;
 
         const row = document.createElement("div");
@@ -659,9 +666,14 @@ function renderAssets() {
         container.appendChild(row);
     });
 
-    // Globals
-    globalNetWorth = portfolioData.reduce((sum, item) => sum + Number(item.CurrentValue), 0);
-    let globalInv = portfolioData.reduce((sum, item) => sum + Number(item.Invested), 0);
+    // =====================================
+    // RESPONSIVE GLOBAL KPI CALCULATIONS
+    // =====================================
+    // Using `filtered` instead of `portfolioData` means the whole UI changes instantly
+    // when you click "Equities" or "Funds" in the sidebar!
+    
+    globalNetWorth = totalVal;
+    let globalInv = totalInv;
     const totalProfit = globalNetWorth - globalInv;
     globalReturnRate = globalInv > 0 ? (totalProfit / globalInv) * 100 : 0;
     const total1DPct = globalNetWorth > 0 ? (total1DProfit / globalNetWorth) * 100 : 0;
@@ -688,10 +700,10 @@ function renderAssets() {
     const kDaily = document.getElementById("kpiDaily");
     kDaily.textContent = `${total1DProfit >= 0 ? '+' : '-'}${formatCurrency(Math.abs(total1DProfit))}`;
     kDaily.className = `kpi-value sensitive ${total1DProfit >= 0 ? 'text-cyan-400' : 'negative'}`;
-    document.getElementById("kpiDailySub").innerHTML = `<i data-lucide="activity" class="w-3 h-3"></i> ${total1DPct.toFixed(2)}% 1D change`;
+    document.getElementById("kpiDailySub").innerHTML = `<i data-lucide="activity" class="w-3 h-3"></i> ${Math.abs(total1DPct).toFixed(2)}% 1D change`;
 
-    // Top/Worst Performers
-    let allSorted = [...portfolioData].sort((a,b) => b.actualRet - a.actualRet);
+    // Top/Worst Performers (Based on filtered view!)
+    let allSorted = [...filtered].sort((a,b) => b.actualRet - a.actualRet);
     if(allSorted.length > 0) {
         topAssetRef = allSorted[0];
         document.getElementById("topAsset").textContent = topAssetRef.Asset;
@@ -702,6 +714,15 @@ function renderAssets() {
         document.getElementById("worstAsset").textContent = worstAssetRef.Asset;
         document.getElementById("worstCat").textContent = worstAssetRef.Category;
         document.getElementById("worstRet").textContent = worstAssetRef.actualRet.toFixed(1) + "%";
+    } else {
+        topAssetRef = null;
+        worstAssetRef = null;
+        document.getElementById("topAsset").textContent = "--";
+        document.getElementById("topCat").textContent = "--";
+        document.getElementById("topRet").textContent = "0%";
+        document.getElementById("worstAsset").textContent = "--";
+        document.getElementById("worstCat").textContent = "--";
+        document.getElementById("worstRet").textContent = "0%";
     }
 
     // Refresh Icons (important for dynamically injected HTML)
@@ -717,10 +738,13 @@ function renderAssets() {
 // ==========================================
 
 function updateMainChart() {
-    // Generate a beautiful, smooth curve mapping to the current Net Worth
+    // Generate a beautiful, smooth curve mapping to the current filtered Net Worth
     const labels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug"];
     const base = globalNetWorth * 0.7;
-    const dataPoints = labels.map((_, i) => base + (globalNetWorth - base) * (i / 7) + (Math.sin(i) * (globalNetWorth*0.05)));
+    const dataPoints = labels.map((_, i) => {
+        if(globalNetWorth === 0) return 0;
+        return base + (globalNetWorth - base) * (i / 7) + (Math.sin(i) * (globalNetWorth*0.05));
+    });
     dataPoints[dataPoints.length - 1] = globalNetWorth; // End exactly on current
 
     const ctx = document.getElementById("mainChart").getContext("2d");
@@ -761,7 +785,6 @@ function updateAllocChart(categories) {
     const labels = Object.keys(categories);
     const data = Object.values(categories);
 
-    // Build Legend HTML manually to match exact CSS class names from sample
     const dotClasses = ['dot-purple', 'dot-cyan', 'dot-green', 'dot-yellow', 'dot-gray'];
 
     labels.forEach((label, i) => {
@@ -776,13 +799,8 @@ function updateAllocChart(categories) {
             </div>
         `;
     });
-
-    // Note: The sample uses a pure CSS background for the donut (`.donut { background: conic-gradient(...) }`).
-    // Since we have live dynamic data, we must use Chart.js to draw a real donut inside the `.donut` div wrapper.
     
-    // Select the div and ensure it's empty of pure CSS backgrounds
-    const donutDiv = document.querySelector('.donut');
-    donutDiv.style.background = 'transparent'; 
+    const donutDiv = document.querySelector('.donut-wrapper');
     donutDiv.innerHTML = '<canvas id="donutCanvas"></canvas>';
     
     const ctx = document.getElementById("donutCanvas").getContext("2d");
@@ -816,13 +834,15 @@ function updateProjection() {
     const safeRate = globalReturnRate > 0 ? globalReturnRate : 10; 
     document.getElementById("roiValue").textContent = safeRate.toFixed(1) + "%";
     
-    // Calculate FV for 15 years
     const fv = calculateFV(globalNetWorth, sip, safeRate, 15);
     
-    // Display converted to Cr (Crores)
-    document.getElementById("projectionValue").textContent = "₹" + (fv / 10000000).toFixed(2) + " Cr";
+    // Display converted to Cr (Crores) or Lakhs based on size
+    if (fv > 10000000) {
+        document.getElementById("projectionValue").textContent = "₹" + (fv / 10000000).toFixed(2) + " Cr";
+    } else {
+        document.getElementById("projectionValue").textContent = "₹" + (fv / 100000).toFixed(2) + " L";
+    }
     
-    // Update portfolio CAGR kpi on the top grid too
     document.getElementById("kpiCAGR").textContent = safeRate.toFixed(2) + "%";
 }
 
