@@ -1,482 +1,2424 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NEURON // Asset Tracker</title>
 
-  <!-- Tailwind CSS & Chart.js -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- Google Fonts: Space Grotesk for that technical, character-rich vibe -->
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<title>Private Portfolio</title>
 
-  <style>
-    /* ================= CORE THEME & VARIABLES ================= */
-    :root {
-      --bg-color: #050505;
-      --neon-green: #00ff66;
-      --neon-blue: #00e5ff;
-      --neon-pink: #ff0055;
-      --panel-bg: rgba(15, 15, 15, 0.8);
-      --grid-color: rgba(0, 255, 102, 0.03);
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+
+/* =========================================================
+   DESIGN SYSTEM
+========================================================= */
+
+:root {
+
+    --black:#090b0a;
+    --dark:#101411;
+    --dark-2:#141a16;
+    --forest:#18241c;
+
+    --cream:#e9e6dc;
+    --muted:#858c84;
+    --muted-2:#626961;
+
+    --green:#8fa58c;
+    --green-bright:#a5bda1;
+
+    --gold:#bca16b;
+
+    --line:rgba(255,255,255,.085);
+
+    --font-ui:"DM Sans",sans-serif;
+    --font-display:"Playfair Display",serif;
+
+    --text-xs:10px;
+    --text-sm:12px;
+    --text-md:14px;
+    --text-lg:18px;
+    --text-xl:24px;
+    --text-2xl:32px;
+    --text-3xl:48px;
+
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html {
+    scroll-behavior:smooth;
+}
+
+body {
+
+    background:var(--black);
+
+    color:var(--cream);
+
+    font-family:var(--font-ui);
+
+    font-size:var(--text-md);
+
+    line-height:1.5;
+
+    font-variant-numeric:
+        tabular-nums
+        lining-nums;
+
+    overflow-x:hidden;
+
+}
+
+button,
+input {
+    font:inherit;
+}
+
+
+/* =========================================================
+   TYPOGRAPHY
+========================================================= */
+
+h1,
+h2,
+h3 {
+
+    font-family:var(--font-display);
+
+    font-weight:500;
+
+    letter-spacing:-.035em;
+
+}
+
+.number,
+.metric-value,
+.card-value,
+.drawer-value,
+.performance-number strong,
+.activity-amount {
+
+    font-family:var(--font-ui);
+
+    font-variant-numeric:
+        tabular-nums
+        lining-nums;
+
+    letter-spacing:-.025em;
+
+}
+
+.kicker,
+.metric-label,
+.section-number,
+.card-number,
+.activity-date,
+.side-bottom {
+
+    font-size:var(--text-xs);
+
+    font-weight:600;
+
+    letter-spacing:.16em;
+
+    text-transform:uppercase;
+
+}
+
+
+/* =========================================================
+   SIDE NAVIGATION
+========================================================= */
+
+.sidebar {
+
+    position:fixed;
+
+    left:0;
+    top:0;
+    bottom:0;
+
+    width:88px;
+
+    z-index:50;
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    padding:28px 0;
+
+    background:
+        rgba(9,11,10,.88);
+
+    border-right:1px solid var(--line);
+
+    backdrop-filter:blur(20px);
+
+}
+
+.logo {
+
+    width:43px;
+    height:43px;
+
+    border:1px solid rgba(188,161,107,.7);
+
+    border-radius:50%;
+
+    display:grid;
+
+    place-items:center;
+
+    color:var(--gold);
+
+    font-family:var(--font-display);
+
+    font-size:18px;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.logo:hover {
+
+    background:rgba(188,161,107,.08);
+
+    transform:rotate(8deg);
+
+}
+
+.nav {
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:14px;
+
+}
+
+.nav button {
+
+    width:44px;
+    height:44px;
+
+    border:0;
+
+    background:transparent;
+
+    color:#626961;
+
+    border-radius:12px;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.nav button:hover,
+.nav button.active {
+
+    color:var(--cream);
+
+    background:rgba(255,255,255,.055);
+
+}
+
+.side-bottom {
+
+    color:#565d56;
+
+    writing-mode:vertical-rl;
+
+}
+
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+main {
+
+    margin-left:88px;
+
+    width:calc(100% - 88px);
+
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero {
+
+    min-height:720px;
+
+    display:grid;
+
+    grid-template-columns:1.05fr .95fr;
+
+    position:relative;
+
+    overflow:hidden;
+
+}
+
+.hero-copy {
+
+    padding:
+        90px
+        8vw;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    position:relative;
+
+    z-index:2;
+
+}
+
+.kicker {
+
+    color:var(--green);
+
+    margin-bottom:34px;
+
+}
+
+.hero h1 {
+
+    font-size:
+        clamp(64px,8vw,112px);
+
+    line-height:.89;
+
+}
+
+.hero h1 em {
+
+    color:var(--gold);
+
+    font-style:normal;
+
+}
+
+.hero-text {
+
+    max-width:470px;
+
+    margin-top:34px;
+
+    color:#929890;
+
+    font-size:var(--text-sm);
+
+    line-height:1.8;
+
+}
+
+.hero-photo {
+
+    position:relative;
+
+    overflow:hidden;
+
+}
+
+.hero-photo img {
+
+    width:100%;
+    height:100%;
+
+    object-fit:cover;
+
+    filter:
+        brightness(.56)
+        saturate(.65)
+        contrast(1.05);
+
+    transition:
+        transform 1.8s ease;
+
+}
+
+.hero:hover .hero-photo img {
+
+    transform:scale(1.025);
+
+}
+
+.hero-photo::after {
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    background:
+
+        linear-gradient(
+            90deg,
+            var(--black),
+            transparent 35%
+        ),
+
+        linear-gradient(
+            0deg,
+            rgba(9,11,10,.6),
+            transparent 60%
+        );
+
+}
+
+
+/* =========================================================
+   NET WORTH
+========================================================= */
+
+.net-worth {
+
+    display:grid;
+
+    grid-template-columns:
+        1.3fr .7fr .7fr .7fr;
+
+    border-top:1px solid var(--line);
+
+    border-bottom:1px solid var(--line);
+
+}
+
+.metric {
+
+    padding:32px;
+
+    border-right:1px solid var(--line);
+
+}
+
+.metric:last-child {
+
+    border-right:0;
+
+}
+
+.metric-label {
+
+    color:#707770;
+
+}
+
+.metric-value {
+
+    margin-top:8px;
+
+    font-size:24px;
+
+    font-weight:500;
+
+}
+
+.metric-main {
+
+    font-size:42px;
+
+}
+
+.positive {
+
+    color:var(--green-bright);
+
+}
+
+
+/* =========================================================
+   GENERAL SECTIONS
+========================================================= */
+
+.section {
+
+    padding:110px 7vw;
+
+}
+
+.section-header {
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:flex-end;
+
+    gap:40px;
+
+    margin-bottom:44px;
+
+}
+
+.section-number {
+
+    color:var(--gold);
+
+}
+
+.section-title {
+
+    margin-top:10px;
+
+    font-size:48px;
+
+}
+
+.section-description {
+
+    max-width:360px;
+
+    color:#777e77;
+
+    font-size:var(--text-sm);
+
+    line-height:1.75;
+
+}
+
+
+/* =========================================================
+   PORTFOLIO CARDS
+========================================================= */
+
+.portfolio {
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:16px;
+
+}
+
+.portfolio-card {
+
+    min-height:370px;
+
+    position:relative;
+
+    overflow:hidden;
+
+    background:var(--dark);
+
+    border:1px solid var(--line);
+
+    cursor:pointer;
+
+    transition:
+
+        transform .5s cubic-bezier(.2,.8,.2,1),
+
+        border-color .4s;
+
+}
+
+.portfolio-card:hover {
+
+    transform:translateY(-8px);
+
+    border-color:
+        rgba(188,161,107,.42);
+
+}
+
+.card-image {
+
+    position:absolute;
+
+    inset:0;
+
+}
+
+.card-image img {
+
+    width:100%;
+    height:100%;
+
+    object-fit:cover;
+
+    opacity:.28;
+
+    filter:
+        grayscale(.25)
+        saturate(.65)
+        brightness(.55);
+
+    transition:.7s;
+
+}
+
+.portfolio-card:hover img {
+
+    transform:scale(1.06);
+
+    opacity:.4;
+
+}
+
+.card-overlay {
+
+    position:absolute;
+
+    inset:0;
+
+    background:
+        linear-gradient(
+            0deg,
+            rgba(9,11,10,.98),
+            rgba(9,11,10,.12) 72%
+        );
+
+}
+
+.card-content {
+
+    position:absolute;
+
+    left:28px;
+    right:28px;
+    bottom:27px;
+
+    z-index:2;
+
+}
+
+.card-number {
+
+    color:var(--gold);
+
+    margin-bottom:12px;
+
+}
+
+.card-title {
+
+    font-size:28px;
+
+    line-height:1.1;
+
+}
+
+.card-value {
+
+    margin-top:9px;
+
+    font-size:20px;
+
+    font-weight:500;
+
+}
+
+.card-meta {
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-top:16px;
+
+    padding-top:14px;
+
+    border-top:
+        1px solid rgba(255,255,255,.11);
+
+    color:#858c84;
+
+    font-size:10px;
+
+}
+
+
+/* =========================================================
+   PHOTO BREAK
+========================================================= */
+
+.photo-break {
+
+    height:380px;
+
+    position:relative;
+
+    overflow:hidden;
+
+}
+
+.photo-break img {
+
+    width:100%;
+    height:100%;
+
+    object-fit:cover;
+
+    filter:
+        brightness(.38)
+        saturate(.65);
+
+    transition:
+        transform 1.5s ease;
+
+}
+
+.photo-break:hover img {
+
+    transform:scale(1.025);
+
+}
+
+.photo-break-overlay {
+
+    position:absolute;
+
+    inset:0;
+
+    background:
+
+        linear-gradient(
+            90deg,
+            var(--black),
+            transparent 35%,
+            transparent 65%,
+            var(--black)
+        );
+
+}
+
+
+/* =========================================================
+   PERFORMANCE
+========================================================= */
+
+.performance {
+
+    display:grid;
+
+    grid-template-columns:
+        1.4fr .6fr;
+
+    gap:60px;
+
+}
+
+.chart-box {
+
+    height:410px;
+
+}
+
+.performance-numbers {
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+}
+
+.performance-number {
+
+    padding:24px 0;
+
+    border-bottom:1px solid var(--line);
+
+}
+
+.performance-number span {
+
+    display:block;
+
+    color:#6d746d;
+
+    font-size:var(--text-xs);
+
+    font-weight:600;
+
+    letter-spacing:.12em;
+
+    text-transform:uppercase;
+
+}
+
+.performance-number strong {
+
+    display:block;
+
+    margin-top:5px;
+
+    font-size:38px;
+
+    font-weight:500;
+
+}
+
+
+/* =========================================================
+   ACTIVITY
+========================================================= */
+
+.activity {
+
+    display:grid;
+
+    grid-template-columns:
+        .8fr 1.2fr;
+
+    gap:80px;
+
+}
+
+.activity-intro {
+
+    position:sticky;
+
+    top:100px;
+
+    height:max-content;
+
+}
+
+.activity-list {
+
+    border-top:1px solid var(--line);
+
+}
+
+.activity-row {
+
+    display:grid;
+
+    grid-template-columns:
+        100px 1fr auto;
+
+    gap:25px;
+
+    align-items:center;
+
+    padding:23px 0;
+
+    border-bottom:1px solid var(--line);
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.activity-row:hover {
+
+    padding-left:10px;
+
+    padding-right:10px;
+
+    background:
+        rgba(255,255,255,.018);
+
+}
+
+.activity-date {
+
+    color:#666d65;
+
+}
+
+.activity-name {
+
+    font-size:var(--text-md);
+
+    font-weight:500;
+
+}
+
+.activity-type {
+
+    margin-top:3px;
+
+    color:#707770;
+
+    font-size:var(--text-xs);
+
+}
+
+.activity-amount {
+
+    color:var(--green-bright);
+
+    font-size:var(--text-md);
+
+}
+
+
+/* =========================================================
+   DRAWER
+========================================================= */
+
+.drawer {
+
+    position:fixed;
+
+    top:0;
+    right:-500px;
+
+    width:min(500px,94vw);
+
+    height:100vh;
+
+    z-index:100;
+
+    padding:40px;
+
+    overflow-y:auto;
+
+    background:
+        linear-gradient(
+            145deg,
+            #141a16,
+            #0d100e
+        );
+
+    border-left:1px solid var(--line);
+
+    box-shadow:
+        -30px 0 90px rgba(0,0,0,.4);
+
+    transition:
+        right .55s cubic-bezier(.2,.8,.2,1);
+
+}
+
+.drawer.open {
+
+    right:0;
+
+}
+
+.close {
+
+    width:40px;
+    height:40px;
+
+    border:1px solid var(--line);
+
+    border-radius:50%;
+
+    background:transparent;
+
+    color:var(--cream);
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.close:hover {
+
+    background:rgba(255,255,255,.06);
+
+}
+
+.drawer h2 {
+
+    margin-top:50px;
+
+    font-size:43px;
+
+}
+
+.drawer-value {
+
+    margin-top:8px;
+
+    font-size:34px;
+
+    font-weight:500;
+
+}
+
+.detail-list {
+
+    margin-top:40px;
+
+}
+
+.detail {
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:18px 0;
+
+    border-bottom:1px solid var(--line);
+
+    font-size:var(--text-sm);
+
+}
+
+.detail span:first-child {
+
+    color:#707770;
+
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer {
+
+    padding:
+        50px 7vw;
+
+    border-top:1px solid var(--line);
+
+    display:flex;
+
+    justify-content:space-between;
+
+    color:#525952;
+
+    font-size:9px;
+
+    letter-spacing:.14em;
+
+    text-transform:uppercase;
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:900px) {
+
+    .sidebar {
+
+        width:62px;
+
     }
 
-    body {
-      background-color: var(--bg-color);
-      color: #e0e0e0;
-      font-family: 'Space Grotesk', sans-serif;
-      overflow-x: hidden;
-      /* CRT Grid Background */
-      background-image: 
-        linear-gradient(var(--grid-color) 1px, transparent 1px),
-        linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
-      background-size: 30px 30px;
+    main {
+
+        margin-left:62px;
+
+        width:
+            calc(100% - 62px);
+
     }
 
-    /* Scanline Overlay Effect */
-    body::after {
-      content: " ";
-      display: block;
-      position: fixed;
-      top: 0; left: 0; bottom: 0; right: 0;
-      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-      z-index: 2;
-      background-size: 100% 2px, 3px 100%;
-      pointer-events: none;
+    .hero {
+
+        grid-template-columns:1fr;
+
     }
 
-    /* ================= COMPONENT STYLES ================= */
-    .terminal-panel {
-      background: var(--panel-bg);
-      border: 1px solid rgba(0, 255, 102, 0.15);
-      backdrop-filter: blur(10px);
-      position: relative;
-      transition: all 0.3s ease;
-    }
-    
-    .terminal-panel::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0;
-      width: 10px; height: 10px;
-      border-top: 2px solid var(--neon-green);
-      border-left: 2px solid var(--neon-green);
-    }
-    
-    .terminal-panel::after {
-      content: '';
-      position: absolute;
-      bottom: 0; right: 0;
-      width: 10px; height: 10px;
-      border-bottom: 2px solid var(--neon-green);
-      border-right: 2px solid var(--neon-green);
+    .hero-photo {
+
+        height:420px;
+
     }
 
-    .asset-node {
-      border-left: 3px solid transparent;
-      transition: all 0.2s;
-    }
-    .asset-node:hover {
-      background: rgba(0, 255, 102, 0.05);
-      border-left: 3px solid var(--neon-green);
-      transform: translateX(5px);
+    .net-worth {
+
+        grid-template-columns:
+            1fr 1fr;
+
     }
 
-    /* Glowing Text Classes */
-    .glow-green { text-shadow: 0 0 10px rgba(0, 255, 102, 0.6); color: var(--neon-green); }
-    .glow-red { text-shadow: 0 0 10px rgba(255, 0, 85, 0.6); color: var(--neon-pink); }
-    .glow-blue { text-shadow: 0 0 10px rgba(0, 229, 255, 0.6); color: var(--neon-blue); }
+    .metric {
 
-    /* Custom Scrollbar */
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: var(--bg-color); }
-    ::-webkit-scrollbar-thumb { background: rgba(0, 255, 102, 0.3); }
-    ::-webkit-scrollbar-thumb:hover { background: var(--neon-green); }
+        border-bottom:1px solid var(--line);
 
-    /* Ticker Animation */
-    .ticker-wrap {
-      width: 100%;
-      overflow: hidden;
-      background: rgba(0, 255, 102, 0.05);
-      border-top: 1px solid rgba(0, 255, 102, 0.2);
-      border-bottom: 1px solid rgba(0, 255, 102, 0.2);
-    }
-    .ticker {
-      display: inline-block;
-      white-space: nowrap;
-      animation: ticker-scroll 30s linear infinite;
-    }
-    @keyframes ticker-scroll {
-      0% { transform: translate3d(0, 0, 0); }
-      100% { transform: translate3d(-50%, 0, 0); }
     }
 
-    /* Glitch Animation */
-    @keyframes glitch {
-      0% { transform: translate(0) }
-      20% { transform: translate(-2px, 2px) }
-      40% { transform: translate(-2px, -2px) }
-      60% { transform: translate(2px, 2px) }
-      80% { transform: translate(2px, -2px) }
-      100% { transform: translate(0) }
+    .portfolio {
+
+        grid-template-columns:1fr;
+
     }
-    .glitch-hover:hover { animation: glitch 0.2s ease-in-out infinite; }
-  </style>
+
+    .performance {
+
+        grid-template-columns:1fr;
+
+    }
+
+    .activity {
+
+        grid-template-columns:1fr;
+
+    }
+
+    .activity-intro {
+
+        position:static;
+
+    }
+
+}
+
+@media(max-width:600px) {
+
+    .hero-copy {
+
+        padding:
+            75px 28px;
+
+    }
+
+    .hero h1 {
+
+        font-size:65px;
+
+    }
+
+    .section {
+
+        padding:
+            75px 24px;
+
+    }
+
+    .section-header {
+
+        display:block;
+
+    }
+
+    .section-title {
+
+        font-size:42px;
+
+    }
+
+    .section-description {
+
+        margin-top:20px;
+
+    }
+
+    .net-worth {
+
+        grid-template-columns:1fr;
+
+    }
+
+    .metric {
+
+        border-right:0;
+
+    }
+
+    .photo-break {
+
+        height:280px;
+
+    }
+
+    .activity-row {
+
+        grid-template-columns:
+            70px 1fr;
+
+    }
+
+    .activity-amount {
+
+        grid-column:2;
+
+    }
+
+    footer {
+
+        display:block;
+
+        line-height:2;
+
+    }
+
+}
+
+
+/* =========================================================
+   SCROLLBAR
+========================================================= */
+
+::-webkit-scrollbar {
+
+    width:6px;
+
+}
+
+::-webkit-scrollbar-track {
+
+    background:#090b0a;
+
+}
+
+::-webkit-scrollbar-thumb {
+
+    background:#303830;
+
+    border-radius:10px;
+
+}
+
+</style>
+
 </head>
-<body class="p-4 sm:p-6 min-h-screen flex flex-col z-10 relative">
 
-  <!-- ================= TOP STATUS BAR & GOOGLE SHEETS SYNC ================= -->
-  <header class="w-full flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6 terminal-panel p-4 z-20">
-    <div class="flex items-center gap-3">
-      <div class="w-3 h-3 rounded-full bg-green-500 animate-pulse" id="sys-status-led"></div>
-      <h1 class="text-2xl font-bold tracking-widest glow-green uppercase">NEURON // SYSTEM</h1>
+
+<body>
+
+
+<!-- =========================================================
+     SIDEBAR
+========================================================= -->
+
+<aside class="sidebar">
+
+    <div
+        class="logo"
+        onclick="goHome()"
+    >
+        ₹
     </div>
 
-    <div class="flex items-center gap-3 w-full md:w-auto">
-      <div class="text-xs text-gray-500 font-mono tracking-widest uppercase hidden md:block" id="sys-log">
-        SYS.STATE: OFFLINE_DEMO
-      </div>
-      
-      <!-- Google Sheets Connection Terminal -->
-      <div class="flex bg-black border border-green-500/30 p-1 w-full md:w-64">
-        <span class="text-green-500 px-2 flex items-center font-bold">></span>
-        <input type="password" id="sheet-passcode" placeholder="ENTER SYNC KEY..." onkeypress="handleKey(event)"
-               class="bg-transparent text-green-400 text-sm focus:outline-none w-full font-mono placeholder-green-900 tracking-widest">
-        <button onclick="syncGoogleSheet()" id="sync-btn" class="bg-green-500/20 text-green-400 hover:bg-green-500 hover:text-black transition px-3 py-1 text-xs font-bold uppercase tracking-wider">
-          SYNC
+
+    <div class="nav">
+
+        <button
+            class="active"
+            onclick="scrollToSection('home')"
+            title="Overview"
+        >
+            ◉
         </button>
-      </div>
-    </div>
-  </header>
 
-  <!-- ================= LIVE ASSET TICKER ================= -->
-  <div class="ticker-wrap mb-8 z-20">
-    <div class="ticker py-2 text-sm font-bold tracking-widest" id="ticker-content">
-      <!-- Injected by JS -->
-    </div>
-  </div>
+        <button
+            onclick="scrollToSection('portfolio')"
+            title="Portfolio"
+        >
+            ◇
+        </button>
 
-  <!-- ================= MAIN DASHBOARD GRID ================= -->
-  <main class="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-6 z-20 relative">
-    
-    <!-- LEFT COLUMN: WEALTH & ANALYTICS -->
-    <div class="lg:col-span-8 flex flex-col gap-6">
-      
-      <!-- KPI Row -->
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-        <div class="terminal-panel p-6 flex flex-col justify-center">
-          <span class="text-xs text-gray-400 uppercase tracking-widest mb-2 border-b border-gray-800 pb-1">Net Liquidity</span>
-          <h2 class="text-4xl md:text-5xl font-bold glow-green tracking-tighter" id="kpi-networth">₹0</h2>
-        </div>
-        
-        <div class="terminal-panel p-6 flex flex-col justify-center">
-          <span class="text-xs text-gray-400 uppercase tracking-widest mb-2 border-b border-gray-800 pb-1">Capital Deployed</span>
-          <h2 class="text-3xl font-bold text-gray-200 tracking-tighter mt-1" id="kpi-invested">₹0</h2>
-        </div>
-        
-        <div class="terminal-panel p-6 flex flex-col justify-center">
-          <span class="text-xs text-gray-400 uppercase tracking-widest mb-2 border-b border-gray-800 pb-1">Global Alpha (ROI)</span>
-          <h2 class="text-3xl font-bold tracking-tighter mt-1" id="kpi-roi">0.00%</h2>
-        </div>
-      </div>
+        <button
+            onclick="scrollToSection('performance')"
+            title="Performance"
+        >
+            ↗
+        </button>
 
-      <!-- Main Chart Area -->
-      <div class="terminal-panel p-6 flex-1 min-h-[350px] flex flex-col">
-        <div class="flex justify-between items-center mb-4">
-          <span class="text-sm font-bold glow-blue uppercase tracking-widest">Wealth Trajectory // 15YR</span>
-          <div class="text-xs border border-blue-500/30 px-2 py-1 text-blue-400 bg-blue-500/10">PROJECTION MATRIX</div>
-        </div>
-        <div class="flex-1 relative w-full h-full">
-          <canvas id="mainChart"></canvas>
-        </div>
-      </div>
-    </div>
-
-    <!-- RIGHT COLUMN: ASSET NODES & ALLOCATION -->
-    <div class="lg:col-span-4 flex flex-col gap-6">
-      
-      <!-- Allocation Radar/Doughnut -->
-      <div class="terminal-panel p-6">
-        <span class="text-sm font-bold glow-green uppercase tracking-widest block mb-4">Vector Allocation</span>
-        <div class="relative w-full h-[200px] flex justify-center items-center">
-          <canvas id="allocChart"></canvas>
-        </div>
-      </div>
-
-      <!-- Asset Data Nodes (Scrollable List) -->
-      <div class="terminal-panel flex-1 flex flex-col overflow-hidden max-h-[500px]">
-        <div class="p-4 border-b border-green-500/20 bg-black/40 flex justify-between items-center">
-          <span class="text-sm font-bold text-gray-300 uppercase tracking-widest">Active Nodes</span>
-          <span class="text-xs text-gray-500" id="asset-count">0 Detected</span>
-        </div>
-        
-        <div class="overflow-y-auto p-2 flex-1" id="asset-list">
-          <!-- Assets Injected by JS -->
-        </div>
-      </div>
+        <button
+            onclick="scrollToSection('activity')"
+            title="Activity"
+        >
+            ≡
+        </button>
 
     </div>
-  </main>
 
-  <script>
-    // ============================================================================
-    // CONFIGURATION & SETUP
-    // REPLACE THIS URL WITH YOUR GOOGLE APPS SCRIPT WEB APP URL
-    // ============================================================================
-    const GOOGLE_SHEET_API_URL = "https://script.google.com/macros/s/AKfycbwXU92UaymOUfanDm1SkGEHlTKzzsGxHxGn38fGNhJKjUgKemlQ9y47vd-ZA5zEIYyA/exec"; 
-    
-    // DEMO DATA (Used before Syncing)
-    const fallbackData = [
-      { Asset: "CyberDyne Systems", Category: "Tech", Invested: 150000, CurrentValue: 210000, Ticker: "CYBR", DayChangePct: 4.2 },
-      { Asset: "Weyland-Yutani Corp", Category: "BioTech", Invested: 300000, CurrentValue: 285000, Ticker: "WEYL", DayChangePct: -1.5 },
-      { Asset: "Stark Industries", Category: "Defense", Invested: 500000, CurrentValue: 850000, Ticker: "STRK", DayChangePct: 2.1 },
-      { Asset: "Tyrell Corporation", Category: "AI", Invested: 100000, CurrentValue: 105000, Ticker: "TYRL", DayChangePct: 0.5 },
-      { Asset: "Sovereign Crypto", Category: "Digital", Invested: 50000, CurrentValue: 125000, Ticker: "BTC", DayChangePct: 8.4 }
-    ];
 
-    let portfolioData = [...fallbackData];
-    let mainChartInst = null;
-    let allocChartInst = null;
+    <div class="side-bottom">
+        INDIA · INR
+    </div>
 
-    // Set Global Chart Settings to match Cyber-Terminal theme
-    Chart.defaults.color = '#555';
-    Chart.defaults.font.family = "'Space Grotesk', sans-serif";
+</aside>
 
-    window.addEventListener("DOMContentLoaded", () => {
-      renderDashboard();
+
+<!-- =========================================================
+     MAIN
+========================================================= -->
+
+<main>
+
+
+<!-- =========================================================
+     HERO
+========================================================= -->
+
+<section
+    class="hero"
+    id="home"
+>
+
+    <div class="hero-copy">
+
+        <div class="kicker">
+            PERSONAL PORTFOLIO · 2026
+        </div>
+
+
+        <h1>
+
+            Portfolio<br>
+
+            <em>overview.</em>
+
+        </h1>
+
+
+        <p class="hero-text">
+
+            Investments, savings and long-term assets
+            consolidated in one private view.
+
+        </p>
+
+    </div>
+
+
+    <div class="hero-photo">
+
+        <img
+            src="https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=1800&q=90"
+            alt="Indian greenery"
+        >
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     FINANCIAL SUMMARY
+========================================================= -->
+
+<section class="net-worth">
+
+
+    <div class="metric">
+
+        <div class="metric-label">
+            Net Worth
+        </div>
+
+        <div class="metric-value metric-main">
+            ₹43.00L
+        </div>
+
+    </div>
+
+
+    <div class="metric">
+
+        <div class="metric-label">
+            Invested
+        </div>
+
+        <div class="metric-value">
+            ₹38.00L
+        </div>
+
+    </div>
+
+
+    <div class="metric">
+
+        <div class="metric-label">
+            Total Gain
+        </div>
+
+        <div class="metric-value positive">
+            +₹5.00L
+        </div>
+
+    </div>
+
+
+    <div class="metric">
+
+        <div class="metric-label">
+            Monthly SIP
+        </div>
+
+        <div class="metric-value">
+            ₹51,000
+        </div>
+
+    </div>
+
+
+</section>
+
+
+<!-- =========================================================
+     PORTFOLIO
+========================================================= -->
+
+<section
+    class="section"
+    id="portfolio"
+>
+
+    <div class="section-header">
+
+        <div>
+
+            <div class="section-number">
+                01 / PORTFOLIO
+            </div>
+
+            <h2 class="section-title">
+                Holdings
+            </h2>
+
+        </div>
+
+
+        <div class="section-description">
+
+            Current allocation across investments,
+            savings and long-term assets.
+
+        </div>
+
+    </div>
+
+
+    <div class="portfolio">
+
+
+        <!-- MUTUAL FUNDS -->
+
+        <article
+            class="portfolio-card"
+            onclick="openDrawer(
+                'Mutual Funds',
+                '₹12.40L'
+            )"
+        >
+
+            <div class="card-image">
+
+                <img
+                    src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1000&q=80"
+                    alt=""
+                >
+
+            </div>
+
+            <div class="card-overlay"></div>
+
+
+            <div class="card-content">
+
+                <div class="card-number">
+                    01
+                </div>
+
+                <div class="card-title">
+                    Mutual Funds
+                </div>
+
+                <div class="card-value">
+                    ₹12.40L
+                </div>
+
+                <div class="card-meta">
+
+                    <span>
+                        4 schemes
+                    </span>
+
+                    <span class="positive">
+                        +22.40%
+                    </span>
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- STOCKS -->
+
+        <article
+            class="portfolio-card"
+            onclick="openDrawer(
+                'Indian Equities',
+                '₹14.00L'
+            )"
+        >
+
+            <div class="card-image">
+
+                <img
+                    src="https://images.unsplash.com/photo-1518546305927-5a555bb7020d?auto=format&fit=crop&w=1000&q=80"
+                    alt=""
+                >
+
+            </div>
+
+            <div class="card-overlay"></div>
+
+
+            <div class="card-content">
+
+                <div class="card-number">
+                    02
+                </div>
+
+                <div class="card-title">
+                    Indian Equities
+                </div>
+
+                <div class="card-value">
+                    ₹14.00L
+                </div>
+
+                <div class="card-meta">
+
+                    <span>
+                        18 holdings
+                    </span>
+
+                    <span class="positive">
+                        +18.60%
+                    </span>
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- FIXED INCOME -->
+
+        <article
+            class="portfolio-card"
+            onclick="openDrawer(
+                'Fixed Income',
+                '₹17.00L'
+            )"
+        >
+
+            <div class="card-image">
+
+                <img
+                    src="https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=1000&q=80"
+                    alt=""
+                >
+
+            </div>
+
+            <div class="card-overlay"></div>
+
+
+            <div class="card-content">
+
+                <div class="card-number">
+                    03
+                </div>
+
+                <div class="card-title">
+                    Fixed Income
+                </div>
+
+                <div class="card-value">
+                    ₹17.00L
+                </div>
+
+                <div class="card-meta">
+
+                    <span>
+                        PPF + FD
+                    </span>
+
+                    <span>
+                        Stable
+                    </span>
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     INDIAN VISUAL BREAK
+========================================================= -->
+
+<section class="photo-break">
+
+    <img
+        src="https://images.unsplash.com/photo-1477587458883-47145ed94245?auto=format&fit=crop&w=2400&q=90"
+        alt=""
+    >
+
+    <div class="photo-break-overlay"></div>
+
+</section>
+
+
+<!-- =========================================================
+     PERFORMANCE
+========================================================= -->
+
+<section
+    class="section"
+    id="performance"
+>
+
+    <div class="section-header">
+
+        <div>
+
+            <div class="section-number">
+                02 / PERFORMANCE
+            </div>
+
+            <h2 class="section-title">
+                Performance
+            </h2>
+
+        </div>
+
+
+        <div class="section-description">
+
+            Portfolio growth across invested capital
+            and market appreciation.
+
+        </div>
+
+    </div>
+
+
+    <div class="performance">
+
+
+        <div class="chart-box">
+
+            <canvas id="growthChart"></canvas>
+
+        </div>
+
+
+        <div class="performance-numbers">
+
+
+            <div class="performance-number">
+
+                <span>
+                    Portfolio Value
+                </span>
+
+                <strong>
+                    ₹43.00L
+                </strong>
+
+            </div>
+
+
+            <div class="performance-number">
+
+                <span>
+                    Total Return
+                </span>
+
+                <strong class="positive">
+                    +13.20%
+                </strong>
+
+            </div>
+
+
+            <div class="performance-number">
+
+                <span>
+                    XIRR
+                </span>
+
+                <strong>
+                    11.80%
+                </strong>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     ACTIVITY
+========================================================= -->
+
+<section
+    class="section"
+    id="activity"
+>
+
+    <div class="activity">
+
+
+        <div class="activity-intro">
+
+            <div class="section-number">
+                03 / ACTIVITY
+            </div>
+
+            <h2 class="section-title">
+                Recent activity
+            </h2>
+
+            <p class="section-description">
+
+                Recent contributions and investment
+                transactions.
+
+            </p>
+
+        </div>
+
+
+        <div class="activity-list">
+
+
+            <div
+                class="activity-row"
+                onclick="openDrawer(
+                    'Parag Parikh Flexi Cap',
+                    '₹25,000'
+                )"
+            >
+
+                <div class="activity-date">
+                    12 AUG
+                </div>
+
+                <div>
+
+                    <div class="activity-name">
+                        Parag Parikh Flexi Cap
+                    </div>
+
+                    <div class="activity-type">
+                        Mutual fund · SIP
+                    </div>
+
+                </div>
+
+                <div class="activity-amount">
+                    +₹25,000
+                </div>
+
+            </div>
+
+
+            <div
+                class="activity-row"
+                onclick="openDrawer(
+                    'PPF Contribution',
+                    '₹12,500'
+                )"
+            >
+
+                <div class="activity-date">
+                    01 AUG
+                </div>
+
+                <div>
+
+                    <div class="activity-name">
+                        PPF Contribution
+                    </div>
+
+                    <div class="activity-type">
+                        Long-term savings
+                    </div>
+
+                </div>
+
+                <div class="activity-amount">
+                    +₹12,500
+                </div>
+
+            </div>
+
+
+            <div
+                class="activity-row"
+                onclick="openDrawer(
+                    'GoldBeES',
+                    '₹10,000'
+                )"
+            >
+
+                <div class="activity-date">
+                    28 JUL
+                </div>
+
+                <div>
+
+                    <div class="activity-name">
+                        GoldBeES
+                    </div>
+
+                    <div class="activity-type">
+                        Gold ETF
+                    </div>
+
+                </div>
+
+                <div class="activity-amount">
+                    +₹10,000
+                </div>
+
+            </div>
+
+
+            <div
+                class="activity-row"
+                onclick="openDrawer(
+                    'Fixed Deposit',
+                    '₹5,00,000'
+                )"
+            >
+
+                <div class="activity-date">
+                    18 JUL
+                </div>
+
+                <div>
+
+                    <div class="activity-name">
+                        Fixed Deposit
+                    </div>
+
+                    <div class="activity-type">
+                        Fixed income
+                    </div>
+
+                </div>
+
+                <div class="activity-amount">
+                    +₹5,00,000
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer>
+
+    <span>
+        PRIVATE PORTFOLIO · INDIA
+    </span>
+
+    <span>
+        2026 · INR
+    </span>
+
+</footer>
+
+
+</main>
+
+
+<!-- =========================================================
+     DETAIL DRAWER
+========================================================= -->
+
+<aside
+    class="drawer"
+    id="drawer"
+>
+
+    <button
+        class="close"
+        onclick="closeDrawer()"
+    >
+        ×
+    </button>
+
+
+    <h2 id="drawerTitle">
+        Mutual Funds
+    </h2>
+
+
+    <div
+        class="drawer-value"
+        id="drawerValue"
+    >
+        ₹12.40L
+    </div>
+
+
+    <div class="detail-list">
+
+
+        <div class="detail">
+
+            <span>
+                Invested
+            </span>
+
+            <strong>
+                ₹10.10L
+            </strong>
+
+        </div>
+
+
+        <div class="detail">
+
+            <span>
+                Current value
+            </span>
+
+            <strong>
+                ₹12.40L
+            </strong>
+
+        </div>
+
+
+        <div class="detail">
+
+            <span>
+                Gain
+            </span>
+
+            <strong class="positive">
+                +₹2.30L
+            </strong>
+
+        </div>
+
+
+        <div class="detail">
+
+            <span>
+                Return
+            </span>
+
+            <strong class="positive">
+                +22.40%
+            </strong>
+
+        </div>
+
+
+        <div class="detail">
+
+            <span>
+                Monthly SIP
+            </span>
+
+            <strong>
+                ₹51,000
+            </strong>
+
+        </div>
+
+
+        <div class="detail">
+
+            <span>
+                Last updated
+            </span>
+
+            <strong>
+                12 Aug 2026
+            </strong>
+
+        </div>
+
+
+    </div>
+
+</aside>
+
+
+<script>
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+function scrollToSection(id) {
+
+    document
+        .getElementById(id)
+        .scrollIntoView({
+            behavior:"smooth"
+        });
+
+}
+
+function goHome() {
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
     });
 
-    // ============================================================================
-    // GOOGLE SHEETS SYNC LOGIC
-    // ============================================================================
-    function handleKey(e) { if (e.key === "Enter") syncGoogleSheet(); }
+}
 
-    async function syncGoogleSheet() {
-      const pass = document.getElementById("sheet-passcode").value.trim();
-      const btn = document.getElementById("sync-btn");
-      const log = document.getElementById("sys-log");
-      const led = document.getElementById("sys-status-led");
 
-      if (!pass) return alert("NO KEY ENTERED");
+/* =========================================================
+   ACTIVE NAVIGATION
+========================================================= */
 
-      // UI Loading State
-      btn.innerText = "WAIT";
-      btn.classList.add("animate-pulse");
-      log.innerText = "SYS.STATE: ESTABLISHING UPLINK...";
-      led.className = "w-3 h-3 rounded-full bg-yellow-500 animate-pulse";
+const sections = [
+    document.getElementById("home"),
+    document.getElementById("portfolio"),
+    document.getElementById("performance"),
+    document.getElementById("activity")
+];
 
-      try {
-        /* 
-          IMPORTANT: 
-          To make this work live, deploy your Google Sheet via Apps Script.
-          The script should return JSON like: { assets: [{ Asset: "Name", Invested: 100, ... }] }
+const navButtons =
+    document.querySelectorAll(".nav button");
+
+window.addEventListener(
+    "scroll",
+    () => {
+
+        let current = 0;
+
+        sections.forEach(
+            (section,index) => {
+
+                const rect =
+                    section.getBoundingClientRect();
+
+                if(rect.top <= 160) {
+
+                    current = index;
+
+                }
+
+            }
+        );
+
+        navButtons.forEach(
+            button =>
+                button.classList.remove("active")
+        );
+
+        if(navButtons[current]) {
+
+            navButtons[current]
+                .classList.add("active");
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   DRAWER
+========================================================= */
+
+function openDrawer(title,value) {
+
+    document
+        .getElementById("drawerTitle")
+        .textContent = title;
+
+    document
+        .getElementById("drawerValue")
+        .textContent = value;
+
+    document
+        .getElementById("drawer")
+        .classList.add("open");
+
+}
+
+function closeDrawer() {
+
+    document
+        .getElementById("drawer")
+        .classList.remove("open");
+
+}
+
+
+/* Close drawer with Escape */
+
+document.addEventListener(
+    "keydown",
+    event => {
+
+        if(event.key === "Escape") {
+
+            closeDrawer();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   CHART
+========================================================= */
+
+const chartContext =
+    document
+        .getElementById("growthChart")
+        .getContext("2d");
+
+
+const gradient =
+    chartContext.createLinearGradient(
+        0,
+        0,
+        0,
+        410
+    );
+
+gradient.addColorStop(
+    0,
+    "rgba(188,161,107,.16)"
+);
+
+gradient.addColorStop(
+    1,
+    "rgba(188,161,107,0)"
+);
+
+
+new Chart(
+    chartContext,
+    {
+
+        type:"line",
+
+        data:{
+
+            labels:[
+                "2022",
+                "2023",
+                "2024",
+                "2025",
+                "2026"
+            ],
+
+            datasets:[{
+
+                data:[
+                    9.00,
+                    15.00,
+                    23.00,
+                    32.00,
+                    43.00
+                ],
+
+                borderColor:
+                    "#bca16b",
+
+                backgroundColor:
+                    gradient,
+
+                borderWidth:2,
+
+                pointRadius:0,
+
+                pointHoverRadius:5,
+
+                tension:.42,
+
+                fill:true
+
+            }]
+
+        },
+
+        options:{
+
+            responsive:true,
+
+            maintainAspectRatio:false,
+
+            interaction:{
+
+                intersect:false,
+
+                mode:"index"
+
+            },
+
+            plugins:{
+
+                legend:{
+                    display:false
+                },
+
+                tooltip:{
+
+                    backgroundColor:
+                        "#111512",
+
+                    borderColor:
+                        "rgba(255,255,255,.1)",
+
+                    borderWidth:1,
+
+                    titleColor:
+                        "#e9e6dc",
+
+                    bodyColor:
+                        "#bca16b",
+
+                    padding:12,
+
+                    displayColors:false,
+
+                    callbacks:{
+
+                        label:
+                            function(context) {
+
+                                return "₹" +
+                                    Number(
+                                        context.raw
+                                    ).toFixed(2) +
+                                    "L";
+
+                            }
+
+                    }
+
+                }
+
+            },
+
+            scales:{
+
+                x:{
+
+                    border:{
+                        display:false
+                    },
+
+                    grid:{
+                        display:false
+                    },
+
+                    ticks:{
+
+                        color:"#656c65",
+
+                        font:{
+                            family:"DM Sans",
+                            size:10
+                        }
+
+                    }
+
+                },
+
+                y:{
+
+                    border:{
+                        display:false
+                    },
+
+                    grid:{
+
+                        color:
+                            "rgba(255,255,255,.05)"
+
+                    },
+
+                    ticks:{
+
+                        color:"#656c65",
+
+                        font:{
+                            family:"DM Sans",
+                            size:10
+                        },
+
+                        callback:
+                            function(value) {
+
+                                return "₹" +
+                                    Number(value)
+                                    .toFixed(0) +
+                                    "L";
+
+                            }
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   GOOGLE SHEETS CONNECTION
+=========================================================
+
+   Paste your Google Apps Script Web App URL below.
+
+   Example:
+
+   const GOOGLE_SCRIPT_URL =
+   "https://script.google.com/macros/s/XXXXXXXX/exec";
+
+========================================================= */
+
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwXU92UaymOUfanDm1SkGEHlTKzzsGxHxGn38fGNhJKjUgKemlQ9y47vd-ZA5zEIYyA/exec";
+
+
+/* =========================================================
+   LOAD GOOGLE SHEET DATA
+========================================================= */
+
+async function loadPortfolio() {
+
+    if(!GOOGLE_SCRIPT_URL) {
+
+        console.log(
+            "Google Sheets connection not configured yet."
+        );
+
+        return;
+
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                GOOGLE_SCRIPT_URL
+            );
+
+
+        if(!response.ok) {
+
+            throw new Error(
+                "Unable to load portfolio data."
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        console.log(
+            "Portfolio data:",
+            data
+        );
+
+
+        /*
+        ====================================================
+        EXAMPLE DATA STRUCTURE
+
+        {
+            netWorth: "₹43.00L",
+            invested: "₹38.00L",
+            gains: "+₹5.00L",
+            sip: "₹51,000"
+        }
+
+        Then update the DOM here.
+        ====================================================
         */
-        const response = await fetch(`${GOOGLE_SHEET_API_URL}?passcode=${encodeURIComponent(pass)}`);
-        
-        // If the URL is fake/fails (which it will by default until you add yours), it hits the catch block.
-        if(!response.ok) throw new Error("Network response was not ok");
-        
-        const data = await response.json();
-        
-        if (data.error) {
-          throw new Error(data.error);
-        }
 
-        portfolioData = data.assets;
-        
-        // Success State
-        btn.innerText = "SYNCED";
-        btn.classList.remove("animate-pulse");
-        btn.classList.replace("text-green-400", "text-black");
-        btn.classList.replace("bg-green-500/20", "bg-green-500");
-        log.innerText = "SYS.STATE: UPLINK SECURE (LIVE)";
-        led.className = "w-3 h-3 rounded-full bg-green-500";
-        
-        renderDashboard();
 
-      } catch (err) {
-        // Fallback / Error State
-        console.warn("API Call Failed. Ensuring Demo Data remains.", err);
-        btn.innerText = "ERR_RETRY";
-        btn.classList.remove("animate-pulse");
-        btn.classList.replace("text-green-400", "text-red-500");
-        log.innerText = "SYS.STATE: UPLINK FAILED // DEMO ACTIVE";
-        led.className = "w-3 h-3 rounded-full bg-red-500";
-        
-        // Ensure we still render something
-        portfolioData = [...fallbackData];
-        renderDashboard();
-      }
     }
 
-    // ============================================================================
-    // RENDER LOGIC
-    // ============================================================================
-    function renderDashboard() {
-      let netWorth = 0;
-      let totalInvested = 0;
-      let categories = {};
-      let tickerHtml = "";
+    catch(error) {
 
-      const listContainer = document.getElementById("asset-list");
-      listContainer.innerHTML = "";
+        console.error(
+            "Google Sheets error:",
+            error
+        );
 
-      // Sort by Value descending
-      portfolioData.sort((a, b) => b.CurrentValue - a.CurrentValue);
-
-      portfolioData.forEach(asset => {
-        // Calculations
-        netWorth += asset.CurrentValue;
-        totalInvested += asset.Invested;
-        categories[asset.Category] = (categories[asset.Category] || 0) + asset.CurrentValue;
-        
-        const profit = asset.CurrentValue - asset.Invested;
-        const roiPct = asset.Invested > 0 ? (profit / asset.Invested) * 100 : 0;
-        const isProfit = profit >= 0;
-        const isDayProfit = asset.DayChangePct >= 0;
-
-        // 1. Build Asset Nodes (List)
-        const node = document.createElement("div");
-        node.className = "asset-node p-3 mb-2 bg-black/30 border border-green-500/10 flex justify-between items-center cursor-pointer glitch-hover";
-        node.innerHTML = `
-          <div>
-            <h4 class="text-sm font-bold text-gray-200 uppercase">${asset.Asset}</h4>
-            <div class="flex gap-2 text-[10px] mt-1 tracking-widest font-mono">
-              <span class="text-gray-500">${asset.Ticker}</span>
-              <span class="${isDayProfit ? 'text-green-500' : 'text-red-500'}">${isDayProfit ? '+' : ''}${asset.DayChangePct.toFixed(1)}% 1D</span>
-            </div>
-          </div>
-          <div class="text-right">
-            <p class="text-sm font-bold text-white">${formatNum(asset.CurrentValue)}</p>
-            <p class="text-[10px] tracking-widest font-mono ${isProfit ? 'text-green-500' : 'text-red-500'}">
-              ${isProfit ? '+' : ''}${roiPct.toFixed(1)}%
-            </p>
-          </div>
-        `;
-        listContainer.appendChild(node);
-
-        // 2. Build Ticker Tape
-        tickerHtml += `
-          <span class="mx-8">
-            <span class="text-gray-400">${asset.Ticker}</span>
-            <span class="text-white ml-2">${formatNum(asset.CurrentValue)}</span>
-            <span class="${isDayProfit ? 'text-green-500' : 'text-red-500'} ml-1">
-              ${isDayProfit ? '▲' : '▼'}${Math.abs(asset.DayChangePct)}%
-            </span>
-          </span>
-        `;
-      });
-
-      // Update KPIs
-      const globalROI = totalInvested > 0 ? ((netWorth - totalInvested) / totalInvested) * 100 : 0;
-      document.getElementById("kpi-networth").innerText = formatNum(netWorth);
-      document.getElementById("kpi-invested").innerText = formatNum(totalInvested);
-      
-      const roiElem = document.getElementById("kpi-roi");
-      roiElem.innerText = `${globalROI >= 0 ? '+' : ''}${globalROI.toFixed(2)}%`;
-      roiElem.className = `text-3xl font-bold tracking-tighter mt-1 ${globalROI >= 0 ? 'glow-green' : 'glow-red'}`;
-
-      document.getElementById("asset-count").innerText = `${portfolioData.length} DETECTED`;
-      
-      // Update Ticker
-      // Duplicate it so the CSS scroll is seamless
-      document.getElementById("ticker-content").innerHTML = tickerHtml + tickerHtml;
-
-      // Render Charts
-      drawAllocChart(categories);
-      drawProjectionChart(netWorth, globalROI);
     }
 
-    // ============================================================================
-    // CHARTING LOGIC
-    // ============================================================================
-    function drawAllocChart(categories) {
-      const ctx = document.getElementById("allocChart").getContext("2d");
-      if (allocChartInst) allocChartInst.destroy();
+}
 
-      const labels = Object.keys(categories);
-      const data = Object.values(categories);
-      
-      // Cyber colors
-      const bgColors = ['#00ff66', '#00e5ff', '#ff0055', '#bb00ff', '#facc15'];
 
-      allocChartInst = new Chart(ctx, {
-        type: "doughnut",
-        data: {
-          labels: labels,
-          datasets: [{
-            data: data, 
-            backgroundColor: bgColors,
-            borderWidth: 2,
-            borderColor: '#050505',
-            hoverOffset: 4
-          }]
-        },
-        options: {
-          responsive: true, maintainAspectRatio: false,
-          plugins: {
-            legend: { position: "right", labels: { color: "#888", font: { size: 10, family: 'Space Grotesk' }, boxWidth: 10 } },
-            tooltip: { backgroundColor: 'rgba(0,0,0,0.9)', titleColor: '#00ff66', bodyFont: {family: 'Space Grotesk'} }
-          },
-          cutout: "70%"
-        }
-      });
-    }
+loadPortfolio();
 
-    function drawProjectionChart(currentWorth, roiPct) {
-      const ctx = document.getElementById("mainChart").getContext("2d");
-      if (mainChartInst) mainChartInst.destroy();
+</script>
 
-      // Simple Compound Interest Math (Assuming 10k monthly injection for the simulation)
-      const monthlySIP = 10000; 
-      const safeRate = roiPct > 0 ? (roiPct / 100) : 0.08; // Default 8% if negative
-      
-      let points = [currentWorth];
-      for(let y = 1; y <= 15; y++) {
-        // FV = PV * (1+r)^n + PMT * [ ((1+r)^n - 1) / r ]
-        const fv = currentWorth * Math.pow(1 + safeRate, y) + (monthlySIP * 12) * ((Math.pow(1 + safeRate, y) - 1) / safeRate);
-        points.push(fv);
-      }
-
-      mainChartInst = new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: ['NOW', 'Y1', 'Y2', 'Y3', 'Y4', 'Y5', 'Y6', 'Y7', 'Y8', 'Y9', 'Y10', 'Y11', 'Y12', 'Y13', 'Y14', 'Y15'],
-          datasets: [{
-            label: 'Projected Output',
-            data: points,
-            borderColor: '#00e5ff', 
-            backgroundColor: 'rgba(0, 229, 255, 0.1)',
-            borderWidth: 2,
-            pointBackgroundColor: '#050505',
-            pointBorderColor: '#00ff66',
-            pointRadius: 3,
-            pointHoverRadius: 6,
-            fill: true,
-            tension: 0.1,
-            stepped: false
-          }]
-        },
-        options: {
-          responsive: true, maintainAspectRatio: false,
-          plugins: {
-            legend: { display: false },
-            tooltip: { backgroundColor: 'rgba(0,0,0,0.9)', titleColor: '#00ff66', bodyFont: {family: 'Space Grotesk'}, callbacks: { label: (c) => formatNum(c.raw) } }
-          },
-          scales: {
-            y: { grid: { color: 'rgba(0,255,102,0.05)' }, ticks: { color: '#555', callback: v => '₹' + (v/100000).toFixed(0) + 'L' } },
-            x: { grid: { display: false }, ticks: { color: '#555' } }
-          }
-        }
-      });
-    }
-
-    // Helper: Indian Rupee formatting
-    function formatNum(val) {
-      return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(val || 0);
-    }
-  </script>
 </body>
+
 </html>
