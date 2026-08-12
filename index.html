@@ -66,7 +66,7 @@
     </div>
   </header>
 
-  <!-- KPI CARDS -->
+  <!-- KPI CARDS (Always shows Global Portfolio Totals) -->
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 my-6">
     <div class="glass-panel p-6 rounded-3xl relative">
       <div class="flex justify-between items-start">
@@ -155,6 +155,10 @@
         </div>
         <div class="bg-slate-950/50 p-5 rounded-2xl border border-slate-800 space-y-4">
           <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+            <span class="text-xs font-bold text-slate-400 uppercase">Base Net Worth</span>
+            <span id="projBaseWorth" class="text-sm font-black text-white sensitive">₹0</span>
+          </div>
+          <div class="flex justify-between items-center border-b border-slate-800 pb-3">
             <span class="text-xs font-bold text-slate-400 uppercase">Actual Annualized Rate</span>
             <span id="projBaseRate" class="text-sm font-black text-emerald-400">0%</span>
           </div>
@@ -239,7 +243,6 @@
     const API_URL = "https://script.google.com/macros/s/AKfycbyaFeW3jP8aoK-T0fu_8uGZMNYzEj1R4_nXkkzrJqpmcsEpyF-5tOioKit4iR1TaIRd/exec";
     const CURRENT_YEAR = 2026;
 
-    // Fallback Taxonomy & Demo Data
     let defaultTaxonomy = {
       "ACMESOLAR": { sector: "Renewable Energy", underlying: ["ACMESOLAR"] },
       "BEL": { sector: "Defense & Aerospace", underlying: ["BEL"] },
@@ -274,7 +277,6 @@
     let globalReturnRate = 0;
 
     window.addEventListener("DOMContentLoaded", () => {
-      // Load demo state initially or auto-trigger if desired
       loadDemoData();
     });
 
@@ -292,7 +294,7 @@
         { Asset: "Gold BeES ETF", Category: "Gold", Invested: 49215, CurrentValue: 52852, Ticker: "NSE:GOLDBEES", PurchaseDate: "2021-11-05", DayChangePct: 0.1 },
         { Asset: "Public Provident Fund (PPF)", Category: "Fixed Income", Invested: 466300, CurrentValue: 499348, Ticker: "DEBT:PPF", PurchaseDate: "2020-04-01", DayChangePct: 0.0 }
       ];
-      renderDashboard();
+      computeAndRender();
     }
 
     function handleKeyPress(e) { if (e.key === "Enter") handleAuth(); }
@@ -330,7 +332,7 @@
         btnText.innerText = "Lock";
         statusText.innerText = "🟢 LIVE CONNECTED: DATA SYNCED SECURELY";
         statusText.className = "text-xs text-emerald-400 font-bold mt-1 uppercase tracking-wider";
-        renderDashboard();
+        computeAndRender();
       } catch (e) {
         btnText.innerText = "Unlock";
         statusText.innerText = "❌ Connection failed. Reverting to demo data.";
@@ -355,16 +357,8 @@
       return (Math.pow((current / invested), (365.25 / days)) - 1) * 100;
     }
 
-    function renderDashboard() {
-      renderAssets();
-    }
-
-    function renderAssets() {
-      const query = document.getElementById("searchInput").value.toLowerCase();
-      const sortMode = document.getElementById("sortSelect").value;
-      const container = document.getElementById("assetCardsContainer");
-      container.innerHTML = "";
-
+    function computeAndRender() {
+      // 1. Compute global totals and metrics across ENTIRE portfolio first
       let totalVal = 0, totalInv = 0, total1DProfit = 0;
       const categoriesCount = {};
       const sectorCount = {};
@@ -386,12 +380,91 @@
         const tax = sectorTaxonomy[item.Asset] || { sector: "Other / Unclassified", underlying: [item.Asset] };
         sectorCount[tax.sector] = (sectorCount[tax.sector] || 0) + val;
 
+        // Dynamic look-through proportional allocation based on live valuations
         tax.underlying.forEach(stock => {
           stockExposureMap[stock] = (stockExposureMap[stock] || 0) + (val / tax.underlying.length);
           if(!stockSourceMap[stock]) stockSourceMap[stock] = [];
           stockSourceMap[stock].push(item.Asset);
         });
       });
+
+      globalNetWorth = totalVal;
+      const totalProfit = totalVal - totalInv;
+      globalReturnRate = totalInv > 0 ? (totalProfit / totalInv) * 100 : 0;
+      const total1DPct = totalVal > 0 ? (total1DProfit / totalVal) * 100 : 0;
+
+      // Update Global KPIs (Unaffected by filter pills)
+      document.getElementById("totalValue").textContent = formatCurrency(totalVal);
+      document.getElementById("totalInvested").textContent = formatCurrency(totalInv);
+      document.getElementById("totalReturn").textContent = `${globalReturnRate >= 0 ? '+' : ''}${globalReturnRate.toFixed(2)}%`;
+      document.getElementById("totalReturn").className = `text-3xl font-black mt-2 ${globalReturnRate >= 0 ? 'text-emerald-400' : 'text-rose-400'}`;
+      document.getElementById("totalProfitDiff").textContent = `${totalProfit >= 0 ? '+' : '-'}${formatCurrency(Math.abs(totalProfit))} P&L`;
+      document.getElementById("dailyChange").textContent = `${total1DProfit >= 0 ? '+' : '-'}${formatCurrency(Math.abs(total1DProfit))} (${total1DPct.toFixed(2)}%) 1D`;
+      
+      // Wealth Projection Base Net Worth fix
+      document.getElementById("projBaseWorth").textContent = formatCurrency(totalVal);
+      document.getElementById("projBaseRate").textContent = globalReturnRate.toFixed(2) + "% p.a.";
+
+      // Top / Worst Performer
+      let sortedByRet = [...portfolioData].sort((a,b) => b.actualRet - a.actualRet);
+      if(sortedByRet.length > 0) {
+        const top = sortedByRet[0];
+        const worst = sortedByRet[sortedByRet.length - 1];
+        document.getElementById("topAsset").textContent = top.Asset;
+        document.getElementById("topAssetRet").textContent = "+" + top.actualRet.toFixed(1) + "%";
+        document.getElementById("topAssetCAGR").textContent = "CAGR: " + top.cagr.toFixed(1) + "%";
+        
+        document.getElementById("worstAsset").textContent = worst.Asset;
+        document.getElementById("worstAssetRet").textContent = worst.actualRet.toFixed(1) + "%";
+        document.getElementById("worstAssetCAGR").textContent = "CAGR: " + worst.cagr.toFixed(1) + "%";
+      }
+
+      // Populate Intelligence Bar
+      let topSectorName = Object.keys(sectorCount).reduce((a, b) => sectorCount[a] > sectorCount[b] ? a : b, "None");
+      let totalUniqueStocks = Object.keys(stockExposureMap).length;
+      let topExposureStock = Object.entries(stockExposureMap).sort((a,b)=>b[1]-a[1])[0]?.[0] || "Diversified";
+      
+      document.getElementById("intelUnderlying").textContent = totalUniqueStocks + " Constituents";
+      document.getElementById("intelLargestSector").textContent = topSectorName;
+      document.getElementById("intelTopExposure").textContent = topExposureStock;
+
+      // Populate Underlying Stocks List (Dynamic based on live values)
+      const underlyingContainer = document.getElementById("underlyingExposureList");
+      underlyingContainer.innerHTML = "";
+      Object.entries(stockExposureMap).sort((a,b)=>b[1]-a[1]).forEach(([stock, amt]) => {
+        const row = document.createElement("div");
+        row.className = "flex justify-between items-center bg-slate-950/40 px-3 py-2 rounded-xl text-xs";
+        row.innerHTML = `<span class="font-bold text-slate-300">${stock}</span><span class="font-black text-indigo-300 sensitive">${formatCurrency(amt)}</span>`;
+        underlyingContainer.appendChild(row);
+      });
+
+      // Populate Fund Overlap List
+      const overlapContainer = document.getElementById("fundOverlapList");
+      overlapContainer.innerHTML = "";
+      let overlapFound = false;
+      Object.entries(stockSourceMap).forEach(([stock, sources]) => {
+        if(sources.length > 1) {
+          overlapFound = true;
+          const row = document.createElement("div");
+          row.className = "flex justify-between items-center bg-purple-950/20 border border-purple-500/20 px-3 py-2 rounded-xl text-xs";
+          row.innerHTML = `<span class="font-bold text-purple-200">${stock}</span><span class="text-[10px] text-purple-300 font-semibold">${sources.join(", ")}</span>`;
+          overlapContainer.appendChild(row);
+        }
+      });
+      if(!overlapFound) {
+        overlapContainer.innerHTML = `<p class="text-xs text-slate-500 italic">No multi-source overlap detected.</p>`;
+      }
+
+      updateCharts(categoriesCount, sectorCount);
+      updateProjection();
+      renderAssets();
+    }
+
+    function renderAssets() {
+      const query = document.getElementById("searchInput").value.toLowerCase();
+      const sortMode = document.getElementById("sortSelect").value;
+      const container = document.getElementById("assetCardsContainer");
+      container.innerHTML = "";
 
       let filtered = portfolioData.filter(item => {
         const matchesCat = activeFilter === 'All' || item.Category === activeFilter;
@@ -436,71 +509,6 @@
         `;
         container.appendChild(card);
       });
-
-      // Global Metrics
-      const totalProfit = totalVal - totalInv;
-      globalReturnRate = totalInv > 0 ? (totalProfit / totalInv) * 100 : 0;
-      globalNetWorth = totalVal;
-      const total1DPct = totalVal > 0 ? (total1DProfit / totalVal) * 100 : 0;
-
-      document.getElementById("totalValue").textContent = formatCurrency(totalVal);
-      document.getElementById("totalInvested").textContent = formatCurrency(totalInv);
-      document.getElementById("totalReturn").textContent = `${globalReturnRate >= 0 ? '+' : ''}${globalReturnRate.toFixed(2)}%`;
-      document.getElementById("totalReturn").className = `text-3xl font-black mt-2 ${globalReturnRate >= 0 ? 'text-emerald-400' : 'text-rose-400'}`;
-      document.getElementById("totalProfitDiff").textContent = `${totalProfit >= 0 ? '+' : '-'}${formatCurrency(Math.abs(totalProfit))} P&L`;
-      document.getElementById("dailyChange").textContent = `${total1DProfit >= 0 ? '+' : '-'}${formatCurrency(Math.abs(total1DProfit))} (${total1DPct.toFixed(2)}%) 1D`;
-      document.getElementById("projBaseRate").textContent = globalReturnRate.toFixed(2) + "% p.a.";
-
-      // Top / Worst Performer
-      let sortedByRet = [...portfolioData].sort((a,b) => b.actualRet - a.actualRet);
-      if(sortedByRet.length > 0) {
-        const top = sortedByRet[0];
-        const worst = sortedByRet[sortedByRet.length - 1];
-        document.getElementById("topAsset").textContent = top.Asset;
-        document.getElementById("topAssetRet").textContent = "+" + top.actualRet.toFixed(1) + "%";
-        document.getElementById("topAssetCAGR").textContent = "CAGR: " + top.cagr.toFixed(1) + "%";
-        
-        document.getElementById("worstAsset").textContent = worst.Asset;
-        document.getElementById("worstAssetRet").textContent = worst.actualRet.toFixed(1) + "%";
-        document.getElementById("worstAssetCAGR").textContent = "CAGR: " + worst.cagr.toFixed(1) + "%";
-      }
-
-      // Populate Intelligence Section
-      let topSectorName = Object.keys(sectorCount).reduce((a, b) => sectorCount[a] > sectorCount[b] ? a : b, "None");
-      let totalUniqueStocks = Object.keys(stockExposureMap).length;
-      document.getElementById("intelUnderlying").textContent = totalUniqueStocks + " Constituents";
-      document.getElementById("intelLargestSector").textContent = topSectorName;
-      document.getElementById("intelTopExposure").textContent = Object.keys(stockExposureMap)[0] || "Diversified";
-
-      // Populate Underlying Stocks List
-      const underlyingContainer = document.getElementById("underlyingExposureList");
-      underlyingContainer.innerHTML = "";
-      Object.entries(stockExposureMap).sort((a,b)=>b[1]-a[1]).forEach(([stock, amt]) => {
-        const row = document.createElement("div");
-        row.className = "flex justify-between items-center bg-slate-950/40 px-3 py-2 rounded-xl text-xs";
-        row.innerHTML = `<span class="font-bold text-slate-300">${stock}</span><span class="font-black text-indigo-300 sensitive">${formatCurrency(amt)}</span>`;
-        underlyingContainer.appendChild(row);
-      });
-
-      // Populate Fund Overlap List
-      const overlapContainer = document.getElementById("fundOverlapList");
-      overlapContainer.innerHTML = "";
-      let overlapFound = false;
-      Object.entries(stockSourceMap).forEach(([stock, sources]) => {
-        if(sources.length > 1) {
-          overlapFound = true;
-          const row = document.createElement("div");
-          row.className = "flex justify-between items-center bg-purple-950/20 border border-purple-500/20 px-3 py-2 rounded-xl text-xs";
-          row.innerHTML = `<span class="font-bold text-purple-200">${stock}</span><span class="text-[10px] text-purple-300 font-semibold">${sources.join(", ")}</span>`;
-          overlapContainer.appendChild(row);
-        }
-      });
-      if(!overlapFound) {
-        overlapContainer.innerHTML = `<p class="text-xs text-slate-500 italic">No significant multi-source overlap detected.</p>`;
-      }
-
-      updateCharts(categoriesCount, sectorCount);
-      updateProjection();
     }
 
     function calculateFV(pv, pmt, ratePct, years) {
