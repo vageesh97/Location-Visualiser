@@ -3,11 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Portfolio Pulse | Autonomous AI Fintech</title>
-  <!-- Tailwind CSS & Chart.js -->
+  <title>Portfolio Pulse | Autonomous AI Intelligence</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <!-- Inter Font -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   
   <style>
@@ -31,100 +29,58 @@
       border-color: rgba(99, 102, 241, 0.35); 
       background: rgba(15, 23, 42, 0.75);
       transform: translateY(-2px); 
-      box-shadow: 0 20px 40px -15px rgba(99, 102, 241, 0.2);
     }
-    .interactive { cursor: pointer; }
-    
-    /* Zen Privacy Blur */
+    .interactive:hover { cursor: pointer; }
     .zen-active .sensitive { filter: blur(10px); opacity: 0.3; user-select: none; pointer-events: none; }
     .sensitive { transition: filter 0.4s ease, opacity 0.4s ease; }
-
-    /* Custom smooth scrollbars */
     ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: #334155; border-radius: 9999px; }
-    ::-webkit-scrollbar-thumb:hover { background: #475569; }
-
-    @keyframes shimmer {
-      0% { background-position: -200% 0; }
-      100% { background-position: 200% 0; }
-    }
-    .ai-shimmer {
-      background: linear-gradient(90deg, rgba(99,102,241,0.1) 0%, rgba(168,85,247,0.2) 50%, rgba(99,102,241,0.1) 100%);
-      background-size: 200% 100%;
-      animation: shimmer 6s infinite linear;
-    }
   </style>
 </head>
 <body class="p-4 sm:p-6 lg:p-10 max-w-[1500px] mx-auto pb-20">
 
-  <!-- ================= TOP NAVIGATION / HEADER ================= -->
+  <!-- HEADER -->
   <header class="flex flex-col md:flex-row items-start md:items-center justify-between pb-6 border-b border-slate-800/80 gap-6">
     <div class="flex items-center gap-4">
       <div class="h-14 w-14 rounded-2xl bg-gradient-to-tr from-indigo-600 via-purple-600 to-pink-600 flex items-center justify-center text-2xl shadow-[0_0_30px_rgba(99,102,241,0.4)]">⚡</div>
       <div>
         <div class="flex items-center gap-3">
           <h1 class="text-3xl sm:text-4xl font-black tracking-tight text-white">Portfolio Pulse</h1>
-          <span class="text-[10px] font-extrabold px-2.5 py-1 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 uppercase tracking-widest">Fluid AI v3</span>
+          <span class="text-[10px] font-extrabold px-2.5 py-1 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 uppercase tracking-widest">Live Look-Through AI</span>
         </div>
-        <p id="status-text" class="text-xs text-amber-400 font-medium mt-1 uppercase tracking-wider">Public Demo Mode • Authenticate to sync live spreadsheet</p>
+        <p id="status-text" class="text-xs text-amber-400 font-medium mt-1 uppercase tracking-wider">Public Mode (Demo Data) • Enter passcode to sync live sheet</p>
       </div>
     </div>
     
-    <!-- Controls: Zen Mode & Sheet Sync -->
     <div class="flex items-center gap-3 w-full md:w-auto">
       <button onclick="toggleZenMode()" class="p-3 rounded-xl glass-panel text-indigo-300 hover:text-white transition" title="Toggle Privacy Mode">
         <svg id="zenIcon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
       </button>
       <div class="w-px h-6 bg-slate-800 mx-1"></div>
-      <input type="password" id="auth-passcode" placeholder="Passcode" autocomplete="new-password" onkeypress="handleKeyPress(event)"
-             class="glass-panel rounded-xl px-4 py-2.5 text-sm text-indigo-200 focus:outline-none focus:border-indigo-500 transition w-full md:w-44 placeholder-slate-500">
+      <input type="password" id="auth-passcode" placeholder="Passcode (vageesh1994)" autocomplete="new-password" onkeypress="handleKeyPress(event)"
+             class="glass-panel rounded-xl px-4 py-2.5 text-sm text-indigo-200 focus:outline-none focus:border-indigo-500 transition w-full md:w-48 placeholder-slate-500">
       <button onclick="handleAuth()" id="auth-btn" class="px-6 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-sm transition shadow-lg shadow-indigo-600/25 flex items-center justify-center min-w-[100px]">
         <span id="auth-btn-text">Unlock</span>
       </button>
     </div>
   </header>
 
-  <!-- ================= AI COPILOT INSIGHT BANNER ================= -->
-  <section class="my-6 ai-shimmer glass-panel rounded-3xl p-6 border border-indigo-500/30 relative overflow-hidden">
-    <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 relative z-10">
-      <div class="flex items-start gap-4">
-        <div class="h-12 w-12 rounded-2xl bg-indigo-600/30 border border-indigo-400/30 text-indigo-300 flex items-center justify-center text-xl shrink-0">🧠</div>
-        <div>
-          <div class="flex items-center gap-2">
-            <h2 class="text-sm font-black text-white uppercase tracking-wider">AI Portfolio Copilot & Macro Scanner</h2>
-            <span class="text-[9px] font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">Live Diagnostics</span>
-          </div>
-          <p id="aiInsightText" class="text-sm text-slate-300 mt-1 leading-relaxed">Analyzing asset correlation, risk exposure, and sector diversification...</p>
-        </div>
-      </div>
-      <div class="flex items-center gap-3 shrink-0 w-full lg:w-auto justify-end">
-        <div class="bg-slate-950/60 px-4 py-2 rounded-xl border border-slate-800 text-center">
-          <span class="text-[9px] text-slate-400 uppercase font-bold block">Portfolio Health</span>
-          <span id="aiHealthScore" class="text-sm font-black text-emerald-400">94 / 100 (Optimal)</span>
-        </div>
-        <button onclick="triggerAIAnalysis()" class="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-bold text-indigo-300 hover:text-white transition">
-          ✨ Re-Scan AI
-        </button>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= KEY PERFORMANCE METRICS ================= -->
+  <!-- KPI CARDS -->
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 my-6">
     <div class="glass-panel p-6 rounded-3xl relative">
       <div class="flex justify-between items-start">
-        <span class="text-[10px] font-extrabold uppercase tracking-widest text-slate-400">Total Net Worth</span>
+        <span class="text-[10px] font-extrabold uppercase tracking-widest text-slate-400">Total Portfolio Value</span>
         <span id="dailyChange" class="text-[10px] font-bold px-2 py-1 rounded-lg bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 sensitive">+₹0 (0.00%) 1D</span>
       </div>
       <h3 id="totalValue" class="text-3xl font-black mt-2 text-white sensitive">₹0</h3>
-      <span class="text-xs text-slate-500 mt-2 block font-medium">Aggregated real-time valuation</span>
+      <span class="text-xs text-slate-500 mt-2 block">Current valuation</span>
     </div>
     
     <div class="glass-panel p-6 rounded-3xl">
-      <span class="text-[10px] font-extrabold uppercase tracking-widest text-slate-400">Total Capital Invested</span>
+      <span class="text-[10px] font-extrabold uppercase tracking-widest text-slate-400">Total Invested</span>
       <h3 id="totalInvested" class="text-3xl font-black mt-2 text-slate-300 sensitive">₹0</h3>
-      <span class="text-xs text-slate-500 mt-2 block font-medium">Original cost basis</span>
+      <span class="text-xs text-slate-500 mt-2 block">Original cost basis</span>
     </div>
     
     <div class="glass-panel p-6 rounded-3xl">
@@ -136,39 +92,77 @@
     <div class="glass-panel p-5 rounded-3xl flex flex-col justify-between">
       <div class="flex justify-between items-center border-b border-slate-800 pb-2">
         <div>
-          <span class="text-[9px] text-slate-400 uppercase font-bold tracking-wider block"><span class="text-emerald-400">▲</span> Top Performer</span>
+          <span class="text-[9px] text-slate-400 uppercase font-bold"><span class="text-emerald-400">▲</span> Top Performer</span>
           <span id="topAsset" class="text-sm font-bold text-white">--</span>
         </div>
-        <span id="topAssetRet" class="text-xs font-black text-emerald-400 bg-emerald-500/10 px-2 py-1 rounded">0%</span>
+        <div class="text-right">
+          <span id="topAssetRet" class="text-xs font-black text-emerald-400 bg-emerald-500/10 px-2 py-1 rounded block">0%</span>
+          <span id="topAssetCAGR" class="text-[9px] text-slate-400 font-bold">CAGR: 0%</span>
+        </div>
       </div>
       <div class="flex justify-between items-center pt-2">
         <div>
-          <span class="text-[9px] text-slate-400 uppercase font-bold tracking-wider block"><span class="text-rose-400">▼</span> Laggard Asset</span>
+          <span class="text-[9px] text-slate-400 uppercase font-bold"><span class="text-rose-400">▼</span> Biggest Laggard</span>
           <span id="worstAsset" class="text-sm font-bold text-slate-300">--</span>
         </div>
-        <span id="worstAssetRet" class="text-xs font-black text-rose-400 bg-rose-500/10 px-2 py-1 rounded">0%</span>
+        <div class="text-right">
+          <span id="worstAssetRet" class="text-xs font-black text-rose-400 bg-rose-500/10 px-2 py-1 rounded block">0%</span>
+          <span id="worstAssetCAGR" class="text-[9px] text-slate-400 font-bold">CAGR: 0%</span>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- ================= WEALTH PROJECTION SIMULATOR ================= -->
-  <div class="glass-panel rounded-3xl p-6 sm:p-8 mb-8 relative overflow-hidden">
-    <div class="flex flex-col lg:flex-row gap-8 items-center relative z-10">
+  <!-- PORTFOLIO INTELLIGENCE BAR -->
+  <section class="my-6 glass-panel rounded-3xl p-6 border border-indigo-500/30">
+    <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 mb-4">
+      <div class="flex items-center gap-3">
+        <div class="h-10 w-10 rounded-xl bg-indigo-600/30 border border-indigo-500/40 text-indigo-300 flex items-center justify-center text-lg">🧠</div>
+        <div>
+          <h2 class="text-sm font-black text-white uppercase tracking-wider flex items-center gap-2">Portfolio Intelligence <span class="text-[9px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">AI Active</span></h2>
+          <p id="aiSubtitle" class="text-xs text-slate-300 mt-0.5">Look-through analysis active across your direct equities and mutual funds.</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-2">
+      <div class="bg-slate-950/50 p-4 rounded-2xl border border-slate-800">
+        <span class="text-[9px] font-bold text-slate-500 uppercase tracking-widest block">Underlying Stocks</span>
+        <p id="intelUnderlying" class="text-sm font-black text-white mt-1">--</p>
+      </div>
+      <div class="bg-slate-950/50 p-4 rounded-2xl border border-slate-800">
+        <span class="text-[9px] font-bold text-slate-500 uppercase tracking-widest block">Top Exposure</span>
+        <p id="intelTopExposure" class="text-sm font-black text-indigo-300 mt-1">--</p>
+      </div>
+      <div class="bg-slate-950/50 p-4 rounded-2xl border border-slate-800">
+        <span class="text-[9px] font-bold text-slate-500 uppercase tracking-widest block">Largest Sector</span>
+        <p id="intelLargestSector" class="text-sm font-black text-purple-300 mt-1">--</p>
+      </div>
+      <div class="bg-slate-950/50 p-4 rounded-2xl border border-slate-800">
+        <span class="text-[9px] font-bold text-slate-500 uppercase tracking-widest block">Concentration Risk</span>
+        <p id="intelConcentration" class="text-sm font-black text-emerald-400 mt-1">Optimal Diversification</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- WEALTH PROJECTION SIMULATOR -->
+  <div class="glass-panel rounded-3xl p-6 sm:p-8 mb-8 relative">
+    <div class="flex flex-col lg:flex-row gap-8 items-center">
       <div class="w-full lg:w-1/3 space-y-6">
         <div>
           <h2 class="text-xl font-black text-white flex items-center gap-2">🚀 Wealth Projection</h2>
-          <p class="text-xs text-slate-400 mt-1 leading-relaxed">Forecast compounding trajectories using your portfolio's actual weighted return rate.</p>
+          <p class="text-xs text-slate-400 mt-1">Simulates compounding based on your live portfolio's actual calculated annualized return.</p>
         </div>
-        <div class="bg-slate-950/50 p-5 rounded-2xl border border-slate-800/80 space-y-4">
+        <div class="bg-slate-950/50 p-5 rounded-2xl border border-slate-800 space-y-4">
           <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-            <span class="text-xs font-bold text-slate-400 uppercase">Annualized ROI</span>
+            <span class="text-xs font-bold text-slate-400 uppercase">Actual Annualized Rate</span>
             <span id="projBaseRate" class="text-sm font-black text-emerald-400">0%</span>
           </div>
           <div>
             <label class="text-xs font-bold text-slate-300 uppercase block mb-2">Simulate Monthly SIP (₹)</label>
-            <input type="range" id="sipSlider" min="0" max="200000" step="5000" value="20000" oninput="updateProjection()" class="w-full accent-indigo-500 cursor-pointer h-1.5 bg-slate-700 rounded-lg appearance-none">
+            <input type="range" id="sipSlider" min="0" max="200000" step="5000" value="25000" oninput="updateProjection()" class="w-full accent-indigo-500 cursor-pointer h-1.5 bg-slate-700 rounded-lg appearance-none">
             <div class="text-right mt-2">
-              <span id="sipLabel" class="text-lg font-black text-indigo-400 sensitive">₹20,000</span><span class="text-xs text-slate-500"> / mo</span>
+              <span id="sipLabel" class="text-lg font-black text-indigo-400 sensitive">₹25,000</span><span class="text-xs text-slate-500"> / mo</span>
             </div>
           </div>
         </div>
@@ -179,132 +173,175 @@
     </div>
   </div>
 
-  <!-- ================= CONTROLS & FILTERS ================= -->
+  <!-- FILTERS & TABS -->
   <div class="flex flex-col lg:flex-row gap-4 items-stretch lg:items-center justify-between mb-6">
     <div class="flex flex-wrap gap-2" id="filterPills">
-      <button onclick="setFilter('All')" class="filter-pill active px-5 py-2 rounded-xl text-xs font-bold transition bg-indigo-600 text-white shadow-lg shadow-indigo-600/30">All Assets</button>
+      <button onclick="setFilter('All')" class="filter-pill active px-5 py-2 rounded-xl text-xs font-bold transition bg-indigo-600 text-white shadow-lg shadow-indigo-600/30">All</button>
       <button onclick="setFilter('Equity')" class="filter-pill px-5 py-2 rounded-xl text-xs font-bold transition bg-slate-900/80 text-slate-300 hover:bg-slate-800">Equity</button>
       <button onclick="setFilter('Mutual Funds')" class="filter-pill px-5 py-2 rounded-xl text-xs font-bold transition bg-slate-900/80 text-slate-300 hover:bg-slate-800">Mutual Funds</button>
       <button onclick="setFilter('Gold')" class="filter-pill px-5 py-2 rounded-xl text-xs font-bold transition bg-slate-900/80 text-slate-300 hover:bg-slate-800">Gold</button>
       <button onclick="setFilter('Fixed Income')" class="filter-pill px-5 py-2 rounded-xl text-xs font-bold transition bg-slate-900/80 text-slate-300 hover:bg-slate-800">Fixed Income</button>
     </div>
     <div class="flex items-center gap-3">
-      <input type="text" id="searchInput" onkeyup="renderAssets()" placeholder="Search assets or tickers..." class="w-full sm:w-64 glass-panel border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 transition" />
+      <input type="text" id="searchInput" onkeyup="renderAssets()" placeholder="Search asset or ticker..." class="w-full sm:w-64 glass-panel border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 transition" />
       <select id="sortSelect" onchange="renderAssets()" class="glass-panel border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-slate-300 focus:outline-none focus:border-indigo-500 transition cursor-pointer">
-        <option value="value_desc">Highest Valuation</option>
-        <option value="gain_desc">Top Gainers %</option>
+        <option value="value_desc">Highest Value</option>
+        <option value="gain_desc">Highest Returns %</option>
       </select>
     </div>
   </div>
 
-  <!-- ================= ASSET ALLOCATION & GRID ================= -->
-  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-    <div class="glass-panel p-6 rounded-3xl lg:col-span-1 flex flex-col items-center justify-between">
+  <!-- ALLOCATION & SECTOR DISTRIBUTION CHARTS -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+    <div class="glass-panel p-6 rounded-3xl flex flex-col items-center">
       <div class="w-full flex justify-between items-center mb-4">
         <h2 class="text-sm font-black text-white uppercase tracking-wider">Asset Allocation</h2>
-        <span class="text-[9px] bg-indigo-500/20 text-indigo-300 px-2 py-0.5 rounded font-bold uppercase">Real-Time</span>
+        <span class="text-[9px] bg-indigo-500/20 text-indigo-300 px-2 py-0.5 rounded font-bold uppercase">Live</span>
       </div>
       <div class="w-full h-[240px] relative flex justify-center items-center">
         <canvas id="allocationChart"></canvas>
       </div>
-      <p class="text-[10px] text-slate-500 mt-4 uppercase font-semibold">Click a segment to filter categories</p>
     </div>
     
-    <div class="lg:col-span-2">
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-[520px] overflow-y-auto pr-2" id="assetCardsContainer"></div>
+    <div class="glass-panel p-6 rounded-3xl flex flex-col items-center">
+      <div class="w-full flex justify-between items-center mb-4">
+        <h2 class="text-sm font-black text-white uppercase tracking-wider">Sector Allocation</h2>
+        <span class="text-[9px] bg-purple-500/20 text-purple-300 px-2 py-0.5 rounded font-bold uppercase">Look-Through</span>
+      </div>
+      <div class="w-full h-[240px] relative flex justify-center items-center">
+        <canvas id="sectorChart"></canvas>
+      </div>
     </div>
   </div>
 
-  <!-- ================= FLUID SCRIPT ENGINE ================= -->
+  <!-- YOUR ASSETS GRID -->
+  <div class="mb-4">
+    <h3 class="text-sm font-black uppercase tracking-wider text-slate-400 mb-4">Your Assets</h3>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-[600px] overflow-y-auto pr-2" id="assetCardsContainer"></div>
+  </div>
+
+  <!-- BOTTOM INTELLIGENCE GRIDS (Underlying Stocks & Overlap) -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
+    <div class="glass-panel p-6 rounded-3xl">
+      <h4 class="text-xs font-black uppercase tracking-widest text-indigo-400 mb-1">Underlying Stock Exposure</h4>
+      <p class="text-[10px] text-slate-400 mb-4">Direct holdings + mutual-fund look-through constituent weights</p>
+      <div id="underlyingExposureList" class="space-y-2 max-h-48 overflow-y-auto pr-1"></div>
+    </div>
+    <div class="glass-panel p-6 rounded-3xl">
+      <h4 class="text-xs font-black uppercase tracking-widest text-purple-400 mb-1">Fund Overlap</h4>
+      <p class="text-[10px] text-slate-400 mb-4">Stocks appearing across multiple direct and fund sources</p>
+      <div id="fundOverlapList" class="space-y-2 max-h-48 overflow-y-auto pr-1"></div>
+    </div>
+  </div>
+
+  <!-- SCRIPT ENGINE -->
   <script>
     const API_URL = "https://script.google.com/macros/s/AKfycbyaFeW3jP8aoK-T0fu_8uGZMNYzEj1R4_nXkkzrJqpmcsEpyF-5tOioKit4iR1TaIRd/exec";
     const CURRENT_YEAR = 2026;
 
-    // Comprehensive robust demo data matching your structure
-    const demoData = [
-      { Asset: "ACMESOLAR", Category: "Equity", Invested: 118069, CurrentValue: 157186, Ticker: "NSE:ACMESOLAR", PurchaseDate: "2024-02-10", DayChangePct: 1.4 },
-      { Asset: "BEL", Category: "Equity", Invested: 121800, CurrentValue: 123012, Ticker: "NSE:BEL", PurchaseDate: "2023-06-15", DayChangePct: -0.4 },
-      { Asset: "CDSL", Category: "Equity", Invested: 211027, CurrentValue: 199183, Ticker: "NSE:CDSL", PurchaseDate: "2023-01-10", DayChangePct: 0.8 },
-      { Asset: "Axis Small Cap Fund", Category: "Mutual Funds", Invested: 197700, CurrentValue: 226140, Ticker: "MF:AXIS_SMALL", PurchaseDate: "2022-01-10", DayChangePct: 1.1 },
-      { Asset: "SBI Nifty Index Fund", Category: "Mutual Funds", Invested: 302448, CurrentValue: 307114, Ticker: "MF:SBI_NIFTY", PurchaseDate: "2023-03-20", DayChangePct: 0.3 },
-      { Asset: "Parag Parikh Flexi Cap", Category: "Mutual Funds", Invested: 255000, CurrentValue: 257000, Ticker: "MF:PPFAS", PurchaseDate: "2023-08-12", DayChangePct: 0.6 },
-      { Asset: "Gold BeES ETF", Category: "Gold", Invested: 49215, CurrentValue: 52852, Ticker: "NSE:GOLDBEES", PurchaseDate: "2021-11-05", DayChangePct: 0.2 },
-      { Asset: "Public Provident Fund (PPF)", Category: "Fixed Income", Invested: 466300, CurrentValue: 499348, Ticker: "DEBT:PPF", PurchaseDate: "2020-04-01", DayChangePct: 0.0 }
-    ];
+    // Fallback Taxonomy & Demo Data
+    let defaultTaxonomy = {
+      "ACMESOLAR": { sector: "Renewable Energy", underlying: ["ACMESOLAR"] },
+      "BEL": { sector: "Defense & Aerospace", underlying: ["BEL"] },
+      "CDSL": { sector: "Financial Services", underlying: ["CDSL"] },
+      "HDFC Bank": { sector: "Banking & Financials", underlying: ["HDFCBANK"] },
+      "IRCTC": { sector: "Consumer Services", underlying: ["IRCTC"] },
+      "IREDA": { sector: "Green Energy Finance", underlying: ["IREDA"] },
+      "JIOFIN": { sector: "Financial Services", underlying: ["JIOFIN"] },
+      "LGEINDIA": { sector: "Consumer Durables", underlying: ["LGEINDIA"] },
+      "NHPC": { sector: "Utilities & Power", underlying: ["NHPC"] },
+      "PREMIERENE": { sector: "Renewable Energy", underlying: ["PREMIERENE"] },
+      "SUZLON": { sector: "Renewable Energy", underlying: ["SUZLON"] },
+      "TMCV": { sector: "Automobile", underlying: ["TMCV"] },
+      "TMPV": { sector: "Automobile", underlying: ["TMPV"] },
+      "Axis Small Cap Fund": { sector: "Diversified Small Cap", underlying: ["Narayana Hrudayalaya", "Cholamandalam", "Tube Investments"] },
+      "SBI Nifty Index Fund": { sector: "Large Cap Index", underlying: ["HDFCBANK", "Reliance", "ICICI Bank", "Infosys"] },
+      "Parag Parikh Flexi Cap": { sector: "Flexi Cap", underlying: ["HDFCBANK", "Bajaj Holdings", "Power Grid", "Alphabet"] },
+      "Jio Blackrock Midcap 150": { sector: "Mid Cap Equity", underlying: ["Persistent Systems", "Max Healthcare", "Coforge"] },
+      "Parag Parikh ELSS": { sector: "Tax Saver / Flexi Cap", underlying: ["HDFCBANK", "Bajaj Holdings", "Power Grid"] },
+      "Gold BeES ETF": { sector: "Commodities / Gold", underlying: ["Physical Gold"] },
+      "Public Provident Fund (PPF)": { sector: "Fixed Income", underlying: ["Government Sovereign Bond"] }
+    };
 
-    let portfolioData = [...demoData];
+    let portfolioData = [];
+    let sectorTaxonomy = {...defaultTaxonomy};
     let activeFilter = 'All';
     let allocChartInstance = null;
+    let sectorChartInstance = null;
     let projChartInstance = null;
     let isZenMode = false;
     let globalNetWorth = 0;
     let globalReturnRate = 0;
 
     window.addEventListener("DOMContentLoaded", () => {
-      renderAssets();
-      triggerAIAnalysis();
+      // Load demo state initially or auto-trigger if desired
+      loadDemoData();
     });
+
+    function loadDemoData() {
+      portfolioData = [
+        { Asset: "ACMESOLAR", Category: "Equity", Invested: 118069, CurrentValue: 157186, Ticker: "NSE:ACMESOLAR", PurchaseDate: "2024-02-10", DayChangePct: 1.4 },
+        { Asset: "BEL", Category: "Equity", Invested: 121800, CurrentValue: 123012, Ticker: "NSE:BEL", PurchaseDate: "2023-06-15", DayChangePct: -0.3 },
+        { Asset: "CDSL", Category: "Equity", Invested: 211027, CurrentValue: 199183, Ticker: "NSE:CDSL", PurchaseDate: "2023-01-10", DayChangePct: 0.5 },
+        { Asset: "HDFC Bank", Category: "Equity", Invested: 79678, CurrentValue: 64315, Ticker: "NSE:HDFCBANK", PurchaseDate: "2024-05-10", DayChangePct: -0.5 },
+        { Asset: "IRCTC", Category: "Equity", Invested: 50380, CurrentValue: 33514, Ticker: "NSE:IRCTC", PurchaseDate: "2023-09-12", DayChangePct: -1.2 },
+        { Asset: "IREDA", Category: "Equity", Invested: 54888, CurrentValue: 37867, Ticker: "NSE:IREDA", PurchaseDate: "2024-01-15", DayChangePct: 2.1 },
+        { Asset: "Axis Small Cap Fund", Category: "Mutual Funds", Invested: 197700, CurrentValue: 226140, Ticker: "MF:AXIS_SMALL", PurchaseDate: "2022-01-10", DayChangePct: 0.7 },
+        { Asset: "SBI Nifty Index Fund", Category: "Mutual Funds", Invested: 302448, CurrentValue: 307114, Ticker: "MF:SBI_NIFTY", PurchaseDate: "2023-03-20", DayChangePct: 0.4 },
+        { Asset: "Parag Parikh Flexi Cap", Category: "Mutual Funds", Invested: 255000, CurrentValue: 257000, Ticker: "MF:PPFAS", PurchaseDate: "2023-08-12", DayChangePct: 0.5 },
+        { Asset: "Gold BeES ETF", Category: "Gold", Invested: 49215, CurrentValue: 52852, Ticker: "NSE:GOLDBEES", PurchaseDate: "2021-11-05", DayChangePct: 0.1 },
+        { Asset: "Public Provident Fund (PPF)", Category: "Fixed Income", Invested: 466300, CurrentValue: 499348, Ticker: "DEBT:PPF", PurchaseDate: "2020-04-01", DayChangePct: 0.0 }
+      ];
+      renderDashboard();
+    }
 
     function handleKeyPress(e) { if (e.key === "Enter") handleAuth(); }
 
     function toggleZenMode() {
       isZenMode = !isZenMode;
       document.body.classList.toggle('zen-active', isZenMode);
-      const icon = document.getElementById('zenIcon');
-      icon.innerHTML = isZenMode 
-        ? `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"></path>`
-        : `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>`;
     }
 
     async function handleAuth() {
-      const passInput = document.getElementById("auth-passcode");
+      const pass = document.getElementById("auth-passcode").value.trim();
       const btnText = document.getElementById("auth-btn-text");
       const statusText = document.getElementById("status-text");
-      const pass = passInput.value.trim();
+      if (!pass) return alert("Please enter your passcode.");
 
       if (btnText.innerText === "Lock") {
-        passInput.value = "";
-        portfolioData = [...demoData];
+        document.getElementById("auth-passcode").value = "";
         btnText.innerText = "Unlock";
-        statusText.innerText = "Public Demo Mode • Authenticate to sync live spreadsheet";
+        statusText.innerText = "Public Mode (Demo Data) • Enter passcode to sync live sheet";
         statusText.className = "text-xs text-amber-400 font-medium mt-1 uppercase tracking-wider";
-        renderAssets();
+        loadDemoData();
         return;
       }
-
-      if (!pass) return alert("Please enter your passcode.");
+      
       btnText.innerText = "Syncing...";
-      statusText.innerText = "⏳ Connecting to Google Sheets API...";
-
+      statusText.innerText = "⏳ Connecting to Google Sheets...";
       try {
-        const response = await fetch(`${API_URL}?passcode=${encodeURIComponent(pass)}`);
-        const data = await response.json();
-        if (data.error) {
-          alert(data.error);
-          btnText.innerText = "Unlock";
-          statusText.innerText = "Public Demo Mode (Authentication Failed)";
-          return;
-        }
-        portfolioData = (data.assets || []).map(item => ({
-          ...item,
-          PurchaseDate: item.PurchaseDate || "2024-01-01",
-          DayChangePct: item.DayChangePct || (Math.random() * 2 - 1)
-        }));
+        const res = await fetch(`${API_URL}?passcode=${encodeURIComponent(pass)}`);
+        const data = await res.json();
+        if (data.error) { alert(data.error); btnText.innerText = "Unlock"; statusText.innerText = "Authentication Failed"; return; }
+        
+        portfolioData = data.assets || [];
+        if (data.sectorTaxonomy) sectorTaxonomy = data.sectorTaxonomy;
+
         btnText.innerText = "Lock";
-        statusText.innerText = "🟢 Live Connected: Data synced securely from Google Sheet";
+        statusText.innerText = "🟢 LIVE CONNECTED: DATA SYNCED SECURELY";
         statusText.className = "text-xs text-emerald-400 font-bold mt-1 uppercase tracking-wider";
-        renderAssets();
-        triggerAIAnalysis();
-      } catch (err) {
+        renderDashboard();
+      } catch (e) {
         btnText.innerText = "Unlock";
-        statusText.innerText = "❌ Network error. Running on local fallback data.";
+        statusText.innerText = "❌ Connection failed. Reverting to demo data.";
+        loadDemoData();
       }
     }
 
     function setFilter(cat) {
       activeFilter = cat;
       document.querySelectorAll('.filter-pill').forEach(btn => {
-        btn.className = btn.textContent.includes(cat) || (cat === 'All' && btn.textContent === 'All Assets')
+        btn.className = btn.textContent.includes(cat) || (cat === 'All' && btn.textContent === 'All')
           ? "filter-pill active px-5 py-2 rounded-xl text-xs font-bold transition bg-indigo-600 text-white shadow-lg shadow-indigo-600/30"
           : "filter-pill px-5 py-2 rounded-xl text-xs font-bold transition bg-slate-900/80 text-slate-300 hover:bg-slate-800";
       });
@@ -318,17 +355,42 @@
       return (Math.pow((current / invested), (365.25 / days)) - 1) * 100;
     }
 
+    function renderDashboard() {
+      renderAssets();
+    }
+
     function renderAssets() {
       const query = document.getElementById("searchInput").value.toLowerCase();
       const sortMode = document.getElementById("sortSelect").value;
       const container = document.getElementById("assetCardsContainer");
       container.innerHTML = "";
 
-      let total1DProfit = 0;
+      let totalVal = 0, totalInv = 0, total1DProfit = 0;
+      const categoriesCount = {};
+      const sectorCount = {};
+      const stockExposureMap = {};
+      const stockSourceMap = {};
+
       portfolioData.forEach(item => {
         item.actualRet = item.Invested > 0 ? ((item.CurrentValue - item.Invested) / item.Invested) * 100 : 0;
         item.cagr = calculateCAGR(item.Invested, item.CurrentValue, item.PurchaseDate);
-        total1DProfit += (item.CurrentValue * ((item.DayChangePct || 0) / 100));
+        
+        const val = Number(item.CurrentValue || 0);
+        const inv = Number(item.Invested || 0);
+        totalVal += val;
+        totalInv += inv;
+        total1DProfit += val * ((item.DayChangePct || 0) / 100);
+
+        categoriesCount[item.Category] = (categoriesCount[item.Category] || 0) + val;
+
+        const tax = sectorTaxonomy[item.Asset] || { sector: "Other / Unclassified", underlying: [item.Asset] };
+        sectorCount[tax.sector] = (sectorCount[tax.sector] || 0) + val;
+
+        tax.underlying.forEach(stock => {
+          stockExposureMap[stock] = (stockExposureMap[stock] || 0) + (val / tax.underlying.length);
+          if(!stockSourceMap[stock]) stockSourceMap[stock] = [];
+          stockSourceMap[stock].push(item.Asset);
+        });
       });
 
       let filtered = portfolioData.filter(item => {
@@ -342,30 +404,24 @@
         if (sortMode === "gain_desc") return b.actualRet - a.actualRet;
       });
 
-      let totalVal = 0, totalInv = 0;
-      const categoriesCount = {};
-
-      filtered.forEach((item) => {
-        totalVal += Number(item.CurrentValue);
-        totalInv += Number(item.Invested);
-        categoriesCount[item.Category] = (categoriesCount[item.Category] || 0) + Number(item.CurrentValue);
-
+      filtered.forEach(item => {
         const isProfit = item.actualRet >= 0;
         const isDayProfit = (item.DayChangePct || 0) >= 0;
+        const tax = sectorTaxonomy[item.Asset] || { sector: "General" };
 
         const card = document.createElement("div");
         card.className = "glass-panel p-4 rounded-2xl flex flex-col justify-between";
         card.innerHTML = `
           <div>
             <div class="flex justify-between items-start">
-              <span class="text-[9px] font-extrabold px-2 py-0.5 uppercase tracking-wider rounded bg-slate-900 text-slate-400 border border-slate-800">${item.Category}</span>
+              <span class="text-[9px] font-extrabold px-2 py-0.5 rounded bg-slate-900 text-slate-400 border border-slate-800">${item.Category}</span>
               <div class="flex gap-1.5">
-                <span class="text-[10px] font-bold px-1.5 py-0.5 rounded ${isDayProfit ? 'bg-indigo-500/20 text-indigo-300' : 'bg-slate-800 text-slate-400'}">${isDayProfit ? '+' : ''}${(item.DayChangePct || 0).toFixed(1)}%</span>
+                <span class="text-[10px] font-bold px-1.5 py-0.5 rounded ${isDayProfit ? 'bg-indigo-500/20 text-indigo-300' : 'bg-slate-800 text-slate-400'}">${isDayProfit ? '+' : ''}${(item.DayChangePct || 0).toFixed(1)}% 1D</span>
                 <span class="text-[10px] font-bold px-1.5 py-0.5 rounded ${isProfit ? 'bg-emerald-500/10 text-emerald-400' : 'bg-rose-500/10 text-rose-400'}">${isProfit ? '▲' : '▼'} ${Math.abs(item.actualRet).toFixed(1)}%</span>
               </div>
             </div>
             <h4 class="text-base font-black text-white mt-3">${item.Asset}</h4>
-            <p class="text-[10px] text-slate-500 uppercase tracking-widest mt-0.5">${item.Ticker || 'Asset'}</p>
+            <p class="text-[10px] text-slate-400 uppercase tracking-widest mt-0.5">${item.Ticker || tax.sector}</p>
           </div>
           <div class="flex justify-between items-end mt-4 pt-3 border-t border-slate-800/80">
             <div>
@@ -381,40 +437,70 @@
         container.appendChild(card);
       });
 
-      globalNetWorth = portfolioData.reduce((sum, item) => sum + Number(item.CurrentValue), 0);
-      let globalInv = portfolioData.reduce((sum, item) => sum + Number(item.Invested), 0);
-      const totalProfit = globalNetWorth - globalInv;
-      globalReturnRate = globalInv > 0 ? (totalProfit / globalInv) * 100 : 0;
-      const total1DPct = globalNetWorth > 0 ? (total1DProfit / globalNetWorth) * 100 : 0;
+      // Global Metrics
+      const totalProfit = totalVal - totalInv;
+      globalReturnRate = totalInv > 0 ? (totalProfit / totalInv) * 100 : 0;
+      globalNetWorth = totalVal;
+      const total1DPct = totalVal > 0 ? (total1DProfit / totalVal) * 100 : 0;
 
-      document.getElementById("totalValue").textContent = formatCurrency(globalNetWorth);
-      document.getElementById("totalInvested").textContent = formatCurrency(globalInv);
+      document.getElementById("totalValue").textContent = formatCurrency(totalVal);
+      document.getElementById("totalInvested").textContent = formatCurrency(totalInv);
       document.getElementById("totalReturn").textContent = `${globalReturnRate >= 0 ? '+' : ''}${globalReturnRate.toFixed(2)}%`;
       document.getElementById("totalReturn").className = `text-3xl font-black mt-2 ${globalReturnRate >= 0 ? 'text-emerald-400' : 'text-rose-400'}`;
       document.getElementById("totalProfitDiff").textContent = `${totalProfit >= 0 ? '+' : '-'}${formatCurrency(Math.abs(totalProfit))} P&L`;
-      
-      const dElem = document.getElementById("dailyChange");
-      dElem.textContent = `${total1DProfit >= 0 ? '+' : '-'}${formatCurrency(Math.abs(total1DProfit))} (${total1DPct.toFixed(2)}%) 1D`;
+      document.getElementById("dailyChange").textContent = `${total1DProfit >= 0 ? '+' : '-'}${formatCurrency(Math.abs(total1DProfit))} (${total1DPct.toFixed(2)}%) 1D`;
+      document.getElementById("projBaseRate").textContent = globalReturnRate.toFixed(2) + "% p.a.";
 
+      // Top / Worst Performer
       let sortedByRet = [...portfolioData].sort((a,b) => b.actualRet - a.actualRet);
       if(sortedByRet.length > 0) {
-        document.getElementById("topAsset").textContent = sortedByRet[0].Asset;
-        document.getElementById("topAssetRet").textContent = "+" + sortedByRet[0].actualRet.toFixed(1) + "%";
-        document.getElementById("worstAsset").textContent = sortedByRet[sortedByRet.length-1].Asset;
-        document.getElementById("worstAssetRet").textContent = sortedByRet[sortedByRet.length-1].actualRet.toFixed(1) + "%";
+        const top = sortedByRet[0];
+        const worst = sortedByRet[sortedByRet.length - 1];
+        document.getElementById("topAsset").textContent = top.Asset;
+        document.getElementById("topAssetRet").textContent = "+" + top.actualRet.toFixed(1) + "%";
+        document.getElementById("topAssetCAGR").textContent = "CAGR: " + top.cagr.toFixed(1) + "%";
+        
+        document.getElementById("worstAsset").textContent = worst.Asset;
+        document.getElementById("worstAssetRet").textContent = worst.actualRet.toFixed(1) + "%";
+        document.getElementById("worstAssetCAGR").textContent = "CAGR: " + worst.cagr.toFixed(1) + "%";
       }
 
-      updateAllocChart(categoriesCount);
-      updateProjection();
-    }
+      // Populate Intelligence Section
+      let topSectorName = Object.keys(sectorCount).reduce((a, b) => sectorCount[a] > sectorCount[b] ? a : b, "None");
+      let totalUniqueStocks = Object.keys(stockExposureMap).length;
+      document.getElementById("intelUnderlying").textContent = totalUniqueStocks + " Constituents";
+      document.getElementById("intelLargestSector").textContent = topSectorName;
+      document.getElementById("intelTopExposure").textContent = Object.keys(stockExposureMap)[0] || "Diversified";
 
-    function triggerAIAnalysis() {
-      const insights = [
-        "🤖 AI Diagnostic: Your portfolio displays a robust defensive allocation, with Fixed Income and Mutual Funds cushioning equity beta volatility.",
-        "💡 AI Optimization: Consider balancing periodic SIP inflows toward underweighted asset sectors to capture mean-reversion upside.",
-        "⚡ AI Alpha Insight: Your top large-cap equity and index holdings are driving strong compounding velocity. Maintain disciplined DCA."
-      ];
-      document.getElementById("aiInsightText").textContent = insights[Math.floor(Math.random() * insights.length)];
+      // Populate Underlying Stocks List
+      const underlyingContainer = document.getElementById("underlyingExposureList");
+      underlyingContainer.innerHTML = "";
+      Object.entries(stockExposureMap).sort((a,b)=>b[1]-a[1]).forEach(([stock, amt]) => {
+        const row = document.createElement("div");
+        row.className = "flex justify-between items-center bg-slate-950/40 px-3 py-2 rounded-xl text-xs";
+        row.innerHTML = `<span class="font-bold text-slate-300">${stock}</span><span class="font-black text-indigo-300 sensitive">${formatCurrency(amt)}</span>`;
+        underlyingContainer.appendChild(row);
+      });
+
+      // Populate Fund Overlap List
+      const overlapContainer = document.getElementById("fundOverlapList");
+      overlapContainer.innerHTML = "";
+      let overlapFound = false;
+      Object.entries(stockSourceMap).forEach(([stock, sources]) => {
+        if(sources.length > 1) {
+          overlapFound = true;
+          const row = document.createElement("div");
+          row.className = "flex justify-between items-center bg-purple-950/20 border border-purple-500/20 px-3 py-2 rounded-xl text-xs";
+          row.innerHTML = `<span class="font-bold text-purple-200">${stock}</span><span class="text-[10px] text-purple-300 font-semibold">${sources.join(", ")}</span>`;
+          overlapContainer.appendChild(row);
+        }
+      });
+      if(!overlapFound) {
+        overlapContainer.innerHTML = `<p class="text-xs text-slate-500 italic">No significant multi-source overlap detected.</p>`;
+      }
+
+      updateCharts(categoriesCount, sectorCount);
+      updateProjection();
     }
 
     function calculateFV(pv, pmt, ratePct, years) {
@@ -427,8 +513,6 @@
     function updateProjection() {
       const sip = Number(document.getElementById("sipSlider").value);
       document.getElementById("sipLabel").textContent = formatCurrency(sip);
-      document.getElementById("projBaseRate").textContent = globalReturnRate.toFixed(2) + "% p.a.";
-
       const safeRate = globalReturnRate > 0 ? globalReturnRate : 12;
       const points = [
         globalNetWorth,
@@ -440,21 +524,11 @@
 
       const ctx = document.getElementById("projectionChart").getContext("2d");
       if (projChartInstance) projChartInstance.destroy();
-
       projChartInstance = new Chart(ctx, {
         type: 'line',
         data: {
           labels: ['Now', 'Year 3', 'Year 5', 'Year 10', 'Year 15'],
-          datasets: [{
-            data: points,
-            borderColor: '#6366f1',
-            backgroundColor: 'rgba(99, 102, 241, 0.12)',
-            borderWidth: 3,
-            pointBackgroundColor: '#a855f7',
-            pointRadius: 4,
-            fill: true,
-            tension: 0.4
-          }]
+          datasets: [{ data: points, borderColor: '#6366f1', backgroundColor: 'rgba(99, 102, 241, 0.12)', borderWidth: 3, pointRadius: 4, fill: true, tension: 0.4 }]
         },
         options: {
           responsive: true, maintainAspectRatio: false,
@@ -467,29 +541,21 @@
       });
     }
 
-    function updateAllocChart(categories) {
-      const ctx = document.getElementById("allocationChart").getContext("2d");
+    function updateCharts(categories, sectors) {
+      const ctx1 = document.getElementById("allocationChart").getContext("2d");
       if (allocChartInstance) allocChartInstance.destroy();
-      
-      const labels = Object.keys(categories);
-      const data = Object.values(categories);
-      const colorMap = { 'Equity': '#6366f1', 'Mutual Funds': '#10b981', 'Gold': '#f59e0b', 'Fixed Income': '#a855f7' };
-
-      allocChartInstance = new Chart(ctx, {
+      allocChartInstance = new Chart(ctx1, {
         type: "doughnut",
-        data: {
-          labels: labels,
-          datasets: [{ data: data, backgroundColor: labels.map(l => colorMap[l] || '#ec4899'), borderWidth: 0, hoverOffset: 4 }]
-        },
-        options: {
-          responsive: true, maintainAspectRatio: false,
-          onClick: (evt, elements) => { if(elements.length > 0) setFilter(labels[elements[0].index]); },
-          plugins: {
-            legend: { position: "right", labels: { color: "#94a3b8", usePointStyle: true, boxWidth: 6, font: { size: 10, weight: 'bold' } } },
-            tooltip: { callbacks: { label: (c) => ` ${formatCurrency(c.raw)}` } }
-          },
-          cutout: "75%"
-        }
+        data: { labels: Object.keys(categories), datasets: [{ data: Object.values(categories), backgroundColor: ['#6366f1', '#10b981', '#f59e0b', '#a855f7'], borderWidth: 0 }] },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: "right", labels: { color: "#94a3b8", font: { size: 10 } } } }, cutout: "75%" }
+      });
+
+      const ctx2 = document.getElementById("sectorChart").getContext("2d");
+      if (sectorChartInstance) sectorChartInstance.destroy();
+      sectorChartInstance = new Chart(ctx2, {
+        type: "doughnut",
+        data: { labels: Object.keys(sectors), datasets: [{ data: Object.values(sectors), backgroundColor: ['#3b82f6', '#ec4899', '#8b5cf6', '#14b8a6', '#f97316', '#6366f1'], borderWidth: 0 }] },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: "right", labels: { color: "#94a3b8", font: { size: 10 } } } }, cutout: "75%" }
       });
     }
 
