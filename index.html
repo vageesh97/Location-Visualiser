@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Live Dashboard</title>
+<title>Dashboard</title>
 
 <!-- Tailwind CSS -->
 <script src="https://cdn.tailwindcss.com"></script>
@@ -22,12 +22,15 @@
     --card-border: rgba(255,255,255,.08);
     --text: #f5f7fb;
     --muted: #858b9b;
-    --purple: #8b5cf6;
-    --purple-light: #a78bfa;
+    
+    /* Golden Theme Colors */
+    --primary: #fbbf24; /* Amber 400 */
+    --primary-light: #fde047; /* Yellow 300 */
+    --primary-dark: #d97706; /* Amber 600 */
+    
     --cyan: #22d3ee;
     --green: #34d399;
     --red: #fb7185;
-    --yellow: #fbbf24;
     --radius: 22px;
 }
 
@@ -35,8 +38,8 @@
 html { scroll-behavior: smooth; }
 
 body {
-    background: radial-gradient(circle at 20% 0%, rgba(139,92,246,.14), transparent 32%),
-                radial-gradient(circle at 85% 10%, rgba(34,211,238,.08), transparent 30%),
+    background: radial-gradient(circle at 20% 0%, rgba(251, 191, 36, 0.12), transparent 32%),
+                radial-gradient(circle at 85% 10%, rgba(251, 191, 36, 0.05), transparent 30%),
                 var(--bg);
     color: var(--text);
     font-family: 'Inter', -apple-system, sans-serif;
@@ -65,8 +68,9 @@ body::before {
 .logo { display: flex; align-items: center; gap: 12px; padding: 0 10px 35px; }
 .logo-icon {
     width: 38px; height: 38px; display: grid; place-items: center; border-radius: 12px;
-    background: linear-gradient(135deg, var(--purple), var(--cyan));
-    box-shadow: 0 0 30px rgba(139,92,246,.25);
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    box-shadow: 0 0 30px rgba(251, 191, 36, 0.25);
+    color: #07080c;
 }
 .logo strong { font-size: 15px; }
 .logo span { display: block; color: var(--muted); font-size: 11px; margin-top: 3px; }
@@ -78,7 +82,7 @@ body::before {
     font-size: 13px; cursor: pointer; transition: .25s; width: 100%;
 }
 .nav button:hover, .nav button.active { background: rgba(255,255,255,.06); color: white; }
-.nav button.active { box-shadow: inset 2px 0 var(--purple); }
+.nav button.active { box-shadow: inset 2px 0 var(--primary); }
 
 /* Main Content */
 .main { margin-left: 250px; width: calc(100% - 250px); padding: 35px; max-width: 1700px; }
@@ -100,19 +104,19 @@ body::before {
     color: white; padding: 10px 14px; border-radius: 12px; font-size: 13px;
     outline: none; transition: border-color 0.3s;
 }
-.input-field:focus { border-color: var(--purple); }
+.input-field:focus { border-color: var(--primary); }
 
 /* Hero */
 .hero {
     position: relative; padding: 32px; border-radius: 28px;
     border: 1px solid var(--card-border);
-    background: radial-gradient(circle at 80% 20%, rgba(139,92,246,.16), transparent 35%),
+    background: radial-gradient(circle at 80% 20%, rgba(251, 191, 36, 0.12), transparent 35%),
                 linear-gradient(135deg, rgba(255,255,255,.055), rgba(255,255,255,.015));
     backdrop-filter: blur(25px); overflow: hidden; margin-bottom: 20px;
 }
 .hero::after {
     content: ""; position: absolute; width: 400px; height: 400px; right: -180px; top: -180px;
-    border-radius: 50%; background: rgba(139,92,246,.08); filter: blur(60px);
+    border-radius: 50%; background: rgba(251, 191, 36, 0.08); filter: blur(60px);
 }
 .hero-label { color: var(--muted); font-size: 12px; letter-spacing: 1px; text-transform: uppercase; }
 .hero-value { margin-top: 8px; font-size: clamp(40px, 5vw, 70px); font-weight: 700; letter-spacing: -3px; position: relative; z-index: 2; }
@@ -140,7 +144,7 @@ body::before {
     transition: transform .3s ease, border-color .3s ease;
     animation: rise .7s ease both;
 }
-.card.interactive:hover { transform: translateY(-3px); border-color: rgba(139,92,246,.25); cursor: pointer; }
+.card.interactive:hover { transform: translateY(-3px); border-color: rgba(251, 191, 36, 0.3); cursor: pointer; }
 
 .card-title { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
 .card-title h2 { font-size: 15px; font-weight: 600; }
@@ -152,7 +156,7 @@ body::before {
 
 /* Allocation */
 .allocation { display: flex; align-items: center; gap: 30px; }
-.donut-wrapper { width: 170px; height: 170px; position: relative; animation: spinIn 1s ease; }
+.donut-wrapper { width: 170px; height: 170px; position: relative; animation: spinIn 1s ease; cursor: pointer; }
 .legend { flex: 1; display: flex; flex-direction: column; gap: 14px; }
 .legend-row { display: flex; align-items: center; justify-content: space-between; font-size: 12px; cursor: pointer; padding: 4px; border-radius: 6px; transition: 0.2s;}
 .legend-row:hover { background: rgba(255,255,255,0.05); }
@@ -164,13 +168,13 @@ body::before {
 .performer:last-child { border-bottom: 0; }
 .performer:hover { padding-left: 5px; }
 .asset { display: flex; align-items: center; gap: 10px; }
-.asset-icon { width: 35px; height: 35px; display: grid; place-items: center; border-radius: 10px; background: rgba(255,255,255,.06); font-size: 12px; font-weight: 600;}
+.asset-icon { width: 35px; height: 35px; display: grid; place-items: center; border-radius: 10px; font-size: 12px; font-weight: 600;}
 
 /* Projection Slider */
 .projection-number { font-size: 30px; font-weight: 600; margin-bottom: 5px; }
 .slider-group { margin-top: 22px; }
 .slider-group label { display: flex; justify-content: space-between; color: var(--muted); font-size: 11px; margin-bottom: 9px; }
-input[type=range] { width: 100%; accent-color: var(--purple); cursor: pointer; }
+input[type=range] { width: 100%; accent-color: var(--primary); cursor: pointer; }
 
 /* Holdings List */
 .transaction { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; padding: 13px 10px; border-bottom: 1px solid rgba(255,255,255,.05); font-size: 12px; align-items: center; transition: 0.2s; cursor: pointer; border-radius: 8px;}
@@ -212,7 +216,7 @@ input[type=range] { width: 100%; accent-color: var(--purple); cursor: pointer; }
      ========================================================= -->
 <aside class="sidebar">
     <div class="logo">
-        <div class="logo-icon"><i data-lucide="orbit" class="text-white"></i></div>
+        <div class="logo-icon"><i data-lucide="orbit" class="text-[#07080c]"></i></div>
         <div>
             <strong class="text-white">Vageesh's Portfolio</strong>
             <span>Personal Finance</span>
@@ -239,6 +243,11 @@ input[type=range] { width: 100%; accent-color: var(--purple); cursor: pointer; }
             <h1 id="greetingText">Good afternoon.</h1>
         </div>
         <div class="top-actions w-full md:w-auto">
+            <!-- LIVE BADGE (Hidden by default) -->
+            <div id="liveBadge" class="hidden items-center gap-2 px-3 py-1.5 rounded-lg bg-green-500/10 text-green-400 text-xs font-bold border border-green-500/20">
+                <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>LIVE
+            </div>
+            
             <input type="password" id="auth-passcode" placeholder="Passcode" onkeypress="handleKeyPress(event)" class="input-field w-full md:w-32">
             <button class="btn" id="auth-btn" onclick="handleAuth()">
                 <i data-lucide="cloud"></i>
@@ -250,7 +259,7 @@ input[type=range] { width: 100%; accent-color: var(--purple); cursor: pointer; }
     <!-- HERO -->
     <section class="hero">
         <div class="hero-label">Filtered Portfolio Value</div>
-        <div class="hero-value sensitive" id="heroTotalWealth">₹0</div>
+        <div class="hero-value sensitive text-white" id="heroTotalWealth">₹0</div>
         
         <div class="hero-change">
             <span class="positive font-semibold" id="heroProfitAbs">+₹0</span>
@@ -271,8 +280,8 @@ input[type=range] { width: 100%; accent-color: var(--purple); cursor: pointer; }
     <section class="kpis">
         <div class="card">
             <div class="kpi-label">Invested Capital</div>
-            <div class="kpi-value sensitive" id="kpiInvested">₹0</div>
-            <div class="kpi-sub"><i data-lucide="wallet" class="w-3 h-3"></i> Original cost basis</div>
+            <div class="kpi-value sensitive text-white" id="kpiInvested">₹0</div>
+            <div class="kpi-sub"><i data-lucide="wallet" class="w-3 h-3 text-[#fbbf24]"></i> Original cost basis</div>
         </div>
         <div class="card">
             <div class="kpi-label">Total Profit / Loss</div>
@@ -286,7 +295,7 @@ input[type=range] { width: 100%; accent-color: var(--purple); cursor: pointer; }
         </div>
         <div class="card">
             <div class="kpi-label">Portfolio CAGR</div>
-            <div class="kpi-value positive" id="kpiCAGR">0.00%</div>
+            <div class="kpi-value text-[#fbbf24]" id="kpiCAGR">0.00%</div>
             <div class="kpi-sub">Annualised return</div>
         </div>
     </section>
@@ -296,10 +305,10 @@ input[type=range] { width: 100%; accent-color: var(--purple); cursor: pointer; }
         <div class="card">
             <div class="card-title">
                 <h2>Asset Allocation</h2>
-                <span>Live Filter</span>
+                <span>Interactive</span>
             </div>
             <div class="allocation">
-                <div class="donut-wrapper">
+                <div class="donut-wrapper" title="Click chart to filter">
                     <canvas id="allocationChart"></canvas>
                 </div>
                 <div class="legend" id="allocLegend">
@@ -316,13 +325,13 @@ input[type=range] { width: 100%; accent-color: var(--purple); cursor: pointer; }
             </div>
             
             <div class="kpi-label">Projected Wealth</div>
-            <div class="projection-number sensitive text-cyan-400" id="projectionValue">₹0</div>
+            <div class="projection-number sensitive text-[#fbbf24]" id="projectionValue">₹0</div>
             <div style="color:var(--muted); font-size:11px;">Compounding based on actual ROI</div>
 
             <div class="slider-group">
                 <label>
                     Monthly SIP Contribution
-                    <strong id="sipValue" class="sensitive">₹15,000</strong>
+                    <strong id="sipValue" class="sensitive text-white">₹15,000</strong>
                 </label>
                 <input id="sipSlider" type="range" min="0" max="200000" step="1000" value="15000" oninput="updateProjection()">
             </div>
@@ -330,11 +339,10 @@ input[type=range] { width: 100%; accent-color: var(--purple); cursor: pointer; }
             <div class="slider-group">
                 <label>
                     Calculated Base ROI
-                    <strong id="roiValue" class="text-green-400">0%</strong>
+                    <strong id="roiValue" class="text-[#fbbf24]">0%</strong>
                 </label>
-                <!-- Visual disabled track to represent active ROI -->
                 <div class="w-full h-1 bg-white/10 rounded-full overflow-hidden mt-1">
-                    <div class="h-full bg-green-400 w-1/2"></div>
+                    <div class="h-full bg-[#fbbf24] w-1/2"></div>
                 </div>
             </div>
         </div>
@@ -349,7 +357,7 @@ input[type=range] { width: 100%; accent-color: var(--purple); cursor: pointer; }
                 <div class="asset">
                     <div class="asset-icon text-green-400 bg-green-400/10"><i data-lucide="trending-up" class="w-4 h-4"></i></div>
                     <div>
-                        <strong class="group-hover:text-cyan-400 transition" id="topAsset">--</strong>
+                        <strong class="group-hover:text-[#fbbf24] transition text-white" id="topAsset">--</strong>
                         <div style="color:var(--muted); font-size:10px;" id="topCat">--</div>
                     </div>
                 </div>
@@ -364,7 +372,7 @@ input[type=range] { width: 100%; accent-color: var(--purple); cursor: pointer; }
                 <div class="asset">
                     <div class="asset-icon text-red-400 bg-red-400/10"><i data-lucide="trending-down" class="w-4 h-4"></i></div>
                     <div>
-                        <strong class="group-hover:text-cyan-400 transition" id="worstAsset">--</strong>
+                        <strong class="group-hover:text-[#fbbf24] transition text-white" id="worstAsset">--</strong>
                         <div style="color:var(--muted); font-size:10px;" id="worstCat">--</div>
                     </div>
                 </div>
@@ -376,9 +384,9 @@ input[type=range] { width: 100%; accent-color: var(--purple); cursor: pointer; }
         <div class="card flex flex-col justify-center gap-4">
             <div class="relative w-full">
                 <i data-lucide="search" class="absolute left-3 top-3 w-4 h-4 text-muted"></i>
-                <input type="text" id="searchInput" onkeyup="renderAssets()" placeholder="Search holdings..." class="w-full bg-black/20 border border-white/10 rounded-xl pl-10 pr-4 py-2.5 text-sm text-white focus:outline-none focus:border-purple-500 transition">
+                <input type="text" id="searchInput" onkeyup="renderAssets()" placeholder="Search holdings..." class="w-full bg-black/20 border border-white/10 rounded-xl pl-10 pr-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#fbbf24] transition">
             </div>
-            <select id="sortSelect" onchange="renderAssets()" class="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-purple-500 transition cursor-pointer">
+            <select id="sortSelect" onchange="renderAssets()" class="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#fbbf24] transition cursor-pointer">
                 <option value="value_desc">Sort by: Highest Value</option>
                 <option value="gain_desc">Sort by: Highest Return %</option>
                 <option value="gain_asc">Sort by: Lowest Return %</option>
@@ -407,7 +415,6 @@ input[type=range] { width: 100%; accent-color: var(--purple); cursor: pointer; }
     </section>
 
     <div class="footer">
-        
     </div>
 
 </main>
@@ -421,10 +428,10 @@ input[type=range] { width: 100%; accent-color: var(--purple); cursor: pointer; }
         <button onclick="closeModal()" class="absolute top-4 right-4 text-muted hover:text-white"><i data-lucide="x"></i></button>
         
         <div class="flex items-center gap-4 mb-6">
-            <div class="w-12 h-12 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center"><i data-lucide="briefcase"></i></div>
+            <div class="w-12 h-12 rounded-xl bg-[#fbbf24]/20 text-[#fbbf24] flex items-center justify-center"><i data-lucide="briefcase"></i></div>
             <div>
                 <h3 id="modalTitle" class="text-xl font-bold text-white">Asset Name</h3>
-                <span id="modalCategory" class="text-xs text-purple-400 font-medium">Category</span>
+                <span id="modalCategory" class="text-xs text-[#fbbf24] font-medium">Category</span>
             </div>
         </div>
 
@@ -449,7 +456,7 @@ input[type=range] { width: 100%; accent-color: var(--purple); cursor: pointer; }
 
         <div class="bg-black/20 border border-white/5 p-5 rounded-xl">
             <div class="flex justify-between items-center mb-3">
-                <label class="text-[10px] text-cyan-400 font-bold uppercase tracking-wider"><i data-lucide="zap" class="w-3 h-3 inline"></i> Stress Test</label>
+                <label class="text-[10px] text-[#fbbf24] font-bold uppercase tracking-wider"><i data-lucide="zap" class="w-3 h-3 inline"></i> Stress Test</label>
                 <span id="sliderLabel" class="text-xs font-bold text-white bg-white/10 px-2 py-0.5 rounded">0%</span>
             </div>
             <input type="range" id="priceSlider" min="-50" max="50" value="0" oninput="simulatePrice(this.value)" class="w-full mb-4">
@@ -490,15 +497,17 @@ let globalNetWorth = 0;
 let globalReturnRate = 0;
 let isZenMode = false;
 
-// Theme Colors
+// Golden Theme Colors
 const themeColors = {
-    purple: '#8b5cf6',
+    primary: '#fbbf24',
     cyan: '#22d3ee',
     green: '#34d399',
     red: '#fb7185',
-    yellow: '#fbbf24',
-    gray: '#64748b',
-    donut: ['#8b5cf6', '#22d3ee', '#34d399', '#fbbf24', '#64748b']
+    orange: '#fb923c',
+    blue: '#60a5fa',
+    gray: '#9ca3af',
+    // Mapped for Donut Chart
+    donut: ['#fbbf24', '#22d3ee', '#34d399', '#fb923c', '#8b5cf6']
 };
 
 window.addEventListener("DOMContentLoaded", () => {
@@ -506,7 +515,6 @@ window.addEventListener("DOMContentLoaded", () => {
     Chart.defaults.color = '#858b9b';
     Chart.defaults.font.family = "'Inter', sans-serif";
     
-    // Set dynamic date and greeting
     const d = new Date(`August 12, ${CURRENT_YEAR}`);
     document.getElementById('dateText').innerText = d.toLocaleDateString('en-US', {weekday:'long', month:'long', day:'numeric', year:'numeric'});
     const hr = new Date().getHours();
@@ -524,13 +532,16 @@ function toggleZenMode() {
     isZenMode = !isZenMode;
     document.body.classList.toggle('zen-active', isZenMode);
     document.getElementById('zenText').innerText = isZenMode ? "Disable Zen" : "Zen Mode";
+    
+    document.querySelectorAll('.nav button').forEach(btn => btn.classList.remove('active'));
+    if(isZenMode) event.currentTarget.classList.add('active');
+    else document.querySelector(`[data-target="${activeFilter}"]`).classList.add('active'); 
 }
 
 function setFilter(cat) {
     activeFilter = cat;
     document.getElementById("tableTitle").innerText = cat === 'All' ? 'Portfolio Holdings' : `${cat} Holdings`;
     
-    // Safely update Sidebar Nav UI without throwing an event.currentTarget error
     document.querySelectorAll('.nav-btn').forEach(btn => {
         btn.classList.remove('active');
         if (btn.getAttribute('data-target') === cat) {
@@ -547,6 +558,7 @@ function setFilter(cat) {
 async function handleAuth() {
     const passInput = document.getElementById("auth-passcode");
     const btnText = document.getElementById("auth-btn-text");
+    const liveBadge = document.getElementById("liveBadge");
     const pass = passInput.value.trim();
 
     if (sessionStorage.getItem("authenticated_passcode") && btnText.innerText === "Disconnect") {
@@ -554,6 +566,8 @@ async function handleAuth() {
         passInput.value = "";
         portfolioData = [...demoData];
         btnText.innerText = "Connect";
+        liveBadge.classList.add("hidden");
+        liveBadge.classList.remove("flex");
         setFilter('All'); 
         return;
     }
@@ -573,7 +587,6 @@ async function handleAuth() {
 
         sessionStorage.setItem("authenticated_passcode", pass);
         
-        // Clean injected data
         portfolioData = (data.assets || []).map(item => ({
             ...item,
             PurchaseDate: item.PurchaseDate || "2024-01-01",
@@ -581,7 +594,9 @@ async function handleAuth() {
         }));
         
         btnText.innerText = "Disconnect";
-        setFilter('All'); // Safely updates everything
+        liveBadge.classList.remove("hidden");
+        liveBadge.classList.add("flex");
+        setFilter('All'); 
     } catch (err) {
         console.error("Fetch Error:", err);
         btnText.innerText = "Connect";
@@ -602,34 +617,44 @@ function calculateCAGR(invested, current, pDateStr) {
     return (Math.pow((current / invested), (1 / years)) - 1) * 100;
 }
 
+// Dynamic Asset Colors
+function getAssetColorClass(category) {
+    const colorMap = {
+        'Equity': { text: 'text-blue-400', bg: 'bg-blue-400/10' },
+        'Mutual Funds': { text: 'text-yellow-400', bg: 'bg-yellow-400/10' },
+        'Gold': { text: 'text-orange-400', bg: 'bg-orange-400/10' },
+        'Fixed Income': { text: 'text-green-400', bg: 'bg-green-400/10' }
+    };
+    return colorMap[category] || { text: 'text-gray-300', bg: 'bg-white/5' };
+}
+
 function renderAssets() {
     const query = document.getElementById("searchInput").value.toLowerCase();
     const sortMode = document.getElementById("sortSelect").value;
     const container = document.getElementById("holdingsContainer");
     container.innerHTML = "";
 
-    // Apply calculations to entire dataset first
+    let total1DProfit = 0;
+
     portfolioData.forEach(item => {
         item.actualRet = item.Invested > 0 ? ((item.CurrentValue - item.Invested) / item.Invested) * 100 : 0;
         item.cagr = calculateCAGR(item.Invested, item.CurrentValue, item.PurchaseDate);
+        total1DProfit += (item.CurrentValue * (item.DayChangePct / 100));
     });
 
-    // 1. FILTER the data based on sidebar clicks
     let filtered = portfolioData.filter(item => {
         const matchesCat = activeFilter === 'All' || item.Category === activeFilter;
         const matchesQuery = item.Asset.toLowerCase().includes(query) || (item.Ticker && item.Ticker.toLowerCase().includes(query));
         return matchesCat && matchesQuery;
     });
 
-    // 2. SORT the data
     filtered.sort((a, b) => {
         if (sortMode === "value_desc") return b.CurrentValue - a.CurrentValue;
         if (sortMode === "gain_desc") return b.actualRet - a.actualRet;
         if (sortMode === "gain_asc") return a.actualRet - b.actualRet;
     });
 
-    // Variables specifically for the FILTERED current view
-    let totalVal = 0, totalInv = 0, total1DProfit = 0;
+    let totalVal = 0, totalInv = 0;
     const categoriesCount = {};
 
     if (filtered.length === 0) {
@@ -640,9 +665,9 @@ function renderAssets() {
         totalVal += Number(item.CurrentValue);
         totalInv += Number(item.Invested);
         categoriesCount[item.Category] = (categoriesCount[item.Category] || 0) + Number(item.CurrentValue);
-        total1DProfit += (item.CurrentValue * (item.DayChangePct / 100));
-
+        
         const isProfit = item.actualRet >= 0;
+        const colors = getAssetColorClass(item.Category);
 
         const row = document.createElement("div");
         row.className = "transaction";
@@ -650,13 +675,13 @@ function renderAssets() {
         
         row.innerHTML = `
             <div class="flex items-center gap-3">
-                <div class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center font-bold text-white">${item.Asset.charAt(0)}</div>
+                <div class="w-8 h-8 rounded-lg ${colors.bg} ${colors.text} flex items-center justify-center font-bold">${item.Asset.charAt(0)}</div>
                 <div class="flex flex-col">
                     <strong class="text-white">${item.Asset}</strong>
                     <span class="text-[10px] text-muted uppercase">${item.Ticker || 'Asset'}</span>
                 </div>
             </div>
-            <span class="text-purple-400 font-medium">${item.Category}</span>
+            <span class="${colors.text} font-medium">${item.Category}</span>
             <span class="text-right sensitive">${formatCurrency(item.Invested)}</span>
             <div class="flex flex-col items-end text-right">
                 <strong class="text-white sensitive">${formatCurrency(item.CurrentValue)}</strong>
@@ -666,12 +691,6 @@ function renderAssets() {
         container.appendChild(row);
     });
 
-    // =====================================
-    // RESPONSIVE GLOBAL KPI CALCULATIONS
-    // =====================================
-    // Using `filtered` instead of `portfolioData` means the whole UI changes instantly
-    // when you click "Equities" or "Funds" in the sidebar!
-    
     globalNetWorth = totalVal;
     let globalInv = totalInv;
     const totalProfit = globalNetWorth - globalInv;
@@ -702,7 +721,7 @@ function renderAssets() {
     kDaily.className = `kpi-value sensitive ${total1DProfit >= 0 ? 'text-cyan-400' : 'negative'}`;
     document.getElementById("kpiDailySub").innerHTML = `<i data-lucide="activity" class="w-3 h-3"></i> ${Math.abs(total1DPct).toFixed(2)}% 1D change`;
 
-    // Top/Worst Performers (Based on filtered view!)
+    // Top/Worst Performers
     let allSorted = [...filtered].sort((a,b) => b.actualRet - a.actualRet);
     if(allSorted.length > 0) {
         topAssetRef = allSorted[0];
@@ -725,7 +744,6 @@ function renderAssets() {
         document.getElementById("worstRet").textContent = "0%";
     }
 
-    // Refresh Icons (important for dynamically injected HTML)
     lucide.createIcons();
 
     updateMainChart();
@@ -738,28 +756,27 @@ function renderAssets() {
 // ==========================================
 
 function updateMainChart() {
-    // Generate a beautiful, smooth curve mapping to the current filtered Net Worth
     const labels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug"];
     const base = globalNetWorth * 0.7;
     const dataPoints = labels.map((_, i) => {
         if(globalNetWorth === 0) return 0;
         return base + (globalNetWorth - base) * (i / 7) + (Math.sin(i) * (globalNetWorth*0.05));
     });
-    dataPoints[dataPoints.length - 1] = globalNetWorth; // End exactly on current
+    dataPoints[dataPoints.length - 1] = globalNetWorth;
 
     const ctx = document.getElementById("mainChart").getContext("2d");
     if (mainChartInstance) mainChartInstance.destroy();
 
     const gradient = ctx.createLinearGradient(0, 0, 0, 280);
-    gradient.addColorStop(0, "rgba(139,92,246,.25)"); // Purple
-    gradient.addColorStop(1, "rgba(139,92,246,0)");
+    gradient.addColorStop(0, "rgba(251,191,36,.25)"); // Golden primary
+    gradient.addColorStop(1, "rgba(251,191,36,0)");
 
     mainChartInstance = new Chart(ctx, {
         type: "line",
         data: {
             labels: labels,
             datasets: [{
-                data: dataPoints, borderColor: themeColors.purpleLight, backgroundColor: gradient,
+                data: dataPoints, borderColor: themeColors.primary, backgroundColor: gradient,
                 borderWidth: 2, fill: true, tension: 0.42, pointRadius: 0, pointHoverRadius: 5
             }]
         },
@@ -785,15 +802,16 @@ function updateAllocChart(categories) {
     const labels = Object.keys(categories);
     const data = Object.values(categories);
 
-    const dotClasses = ['dot-purple', 'dot-cyan', 'dot-green', 'dot-yellow', 'dot-gray'];
+    const dotClasses = ['dot-yellow', 'dot-cyan', 'dot-green', 'dot-purple', 'dot-gray'];
+    const customColors = ['#fbbf24', '#22d3ee', '#34d399', '#fb923c', '#64748b'];
 
     labels.forEach((label, i) => {
         const pct = globalNetWorth > 0 ? ((data[i] / globalNetWorth) * 100).toFixed(0) : 0;
         legendContainer.innerHTML += `
-            <div class="legend-row" onclick="setFilter('${label}')">
+            <div class="legend-row" onclick="setFilter('${label}')" title="Click to filter by ${label}">
                 <div class="legend-left">
-                    <span class="dot ${dotClasses[i % dotClasses.length]}"></span>
-                    <span class="text-white hover:text-cyan-400 transition">${label}</span>
+                    <span class="w-2 h-2 rounded-full" style="background-color: ${customColors[i % customColors.length]}"></span>
+                    <span class="text-white hover:text-[#fbbf24] transition">${label}</span>
                 </div>
                 <strong>${pct}%</strong>
             </div>
@@ -801,6 +819,7 @@ function updateAllocChart(categories) {
     });
     
     const donutDiv = document.querySelector('.donut-wrapper');
+    donutDiv.style.background = 'transparent'; 
     donutDiv.innerHTML = '<canvas id="donutCanvas"></canvas>';
     
     const ctx = document.getElementById("donutCanvas").getContext("2d");
@@ -810,10 +829,16 @@ function updateAllocChart(categories) {
         type: "doughnut",
         data: {
             labels: labels,
-            datasets: [{ data: data, backgroundColor: themeColors.donut, borderWidth: 0, hoverOffset: 4 }]
+            datasets: [{ data: data, backgroundColor: customColors, borderWidth: 0, hoverOffset: 4 }]
         },
         options: {
             responsive: true, maintainAspectRatio: false,
+            onClick: (evt, activeElements) => {
+                if (activeElements.length > 0) {
+                    const idx = activeElements[0].index;
+                    setFilter(labels[idx]); 
+                }
+            },
             plugins: { legend: { display: false }, tooltip: { enabled: false } },
             cutout: "80%"
         }
@@ -836,7 +861,6 @@ function updateProjection() {
     
     const fv = calculateFV(globalNetWorth, sip, safeRate, 15);
     
-    // Display converted to Cr (Crores) or Lakhs based on size
     if (fv > 10000000) {
         document.getElementById("projectionValue").textContent = "₹" + (fv / 10000000).toFixed(2) + " Cr";
     } else {
