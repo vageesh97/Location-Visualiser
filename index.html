@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Portfolio Pulse | Autonomous AI Intelligence</title>
+  <title>Dashboard</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -46,8 +46,8 @@
       <div class="h-14 w-14 rounded-2xl bg-gradient-to-tr from-indigo-600 via-purple-600 to-pink-600 flex items-center justify-center text-2xl shadow-[0_0_30px_rgba(99,102,241,0.4)]">⚡</div>
       <div>
         <div class="flex items-center gap-3">
-          <h1 class="text-3xl sm:text-4xl font-black tracking-tight text-white">Portfolio Pulse</h1>
-          <span class="text-[10px] font-extrabold px-2.5 py-1 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 uppercase tracking-widest">Live Look-Through AI</span>
+          <h1 class="text-3xl sm:text-4xl font-black tracking-tight text-white">Vageesh's Portfolio</h1>
+          <span class="text-[10px] font-extrabold px-2.5 py-1 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 uppercase tracking-widest"></span>
         </div>
         <p id="status-text" class="text-xs text-amber-400 font-medium mt-1 uppercase tracking-wider">Public Mode (Demo Data) • Enter passcode to sync live sheet</p>
       </div>
@@ -66,7 +66,7 @@
     </div>
   </header>
 
-  <!-- KPI CARDS (Always shows Global Portfolio Totals) -->
+  <!-- KPI CARDS -->
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 my-6">
     <div class="glass-panel p-6 rounded-3xl relative">
       <div class="flex justify-between items-start">
@@ -115,13 +115,11 @@
 
   <!-- PORTFOLIO INTELLIGENCE BAR -->
   <section class="my-6 glass-panel rounded-3xl p-6 border border-indigo-500/30">
-    <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 mb-4">
-      <div class="flex items-center gap-3">
-        <div class="h-10 w-10 rounded-xl bg-indigo-600/30 border border-indigo-500/40 text-indigo-300 flex items-center justify-center text-lg">🧠</div>
-        <div>
-          <h2 class="text-sm font-black text-white uppercase tracking-wider flex items-center gap-2">Portfolio Intelligence <span class="text-[9px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">AI Active</span></h2>
-          <p id="aiSubtitle" class="text-xs text-slate-300 mt-0.5">Look-through analysis active across your direct equities and mutual funds.</p>
-        </div>
+    <div class="flex items-center gap-3 mb-4">
+      <div class="h-10 w-10 rounded-xl bg-indigo-600/30 border border-indigo-500/40 text-indigo-300 flex items-center justify-center text-lg">🧠</div>
+      <div>
+        <h2 class="text-sm font-black text-white uppercase tracking-wider flex items-center gap-2">Portfolio Intelligence <span class="text-[9px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Dynamic Look-Through</span></h2>
+        <p class="text-xs text-slate-300 mt-0.5">Automatically computes constituent weight shifts and overlaps on sync.</p>
       </div>
     </div>
     
@@ -195,7 +193,7 @@
     </div>
   </div>
 
-  <!-- ALLOCATION & SECTOR DISTRIBUTION CHARTS -->
+  <!-- CHARTS -->
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
     <div class="glass-panel p-6 rounded-3xl flex flex-col items-center">
       <div class="w-full flex justify-between items-center mb-4">
@@ -218,56 +216,33 @@
     </div>
   </div>
 
-  <!-- YOUR ASSETS GRID -->
+  <!-- ASSETS GRID -->
   <div class="mb-4">
     <h3 class="text-sm font-black uppercase tracking-wider text-slate-400 mb-4">Your Assets</h3>
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-[600px] overflow-y-auto pr-2" id="assetCardsContainer"></div>
   </div>
 
-  <!-- BOTTOM INTELLIGENCE GRIDS (Underlying Stocks & Overlap) -->
+  <!-- BOTTOM INTELLIGENCE GRIDS -->
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
     <div class="glass-panel p-6 rounded-3xl">
       <h4 class="text-xs font-black uppercase tracking-widest text-indigo-400 mb-1">Underlying Stock Exposure</h4>
-      <p class="text-[10px] text-slate-400 mb-4">Direct holdings + mutual-fund look-through constituent weights</p>
+      <p class="text-[10px] text-slate-400 mb-4">Dynamic constituent valuation weights</p>
       <div id="underlyingExposureList" class="space-y-2 max-h-48 overflow-y-auto pr-1"></div>
     </div>
     <div class="glass-panel p-6 rounded-3xl">
       <h4 class="text-xs font-black uppercase tracking-widest text-purple-400 mb-1">Fund Overlap</h4>
-      <p class="text-[10px] text-slate-400 mb-4">Stocks appearing across multiple direct and fund sources</p>
+      <p class="text-[10px] text-slate-400 mb-4">Cross-source stock occurrences</p>
       <div id="fundOverlapList" class="space-y-2 max-h-48 overflow-y-auto pr-1"></div>
     </div>
   </div>
 
-  <!-- SCRIPT ENGINE -->
+  <!-- ENGINE -->
   <script>
     const API_URL = "https://script.google.com/macros/s/AKfycbyaFeW3jP8aoK-T0fu_8uGZMNYzEj1R4_nXkkzrJqpmcsEpyF-5tOioKit4iR1TaIRd/exec";
     const CURRENT_YEAR = 2026;
 
-    let defaultTaxonomy = {
-      "ACMESOLAR": { sector: "Renewable Energy", underlying: ["ACMESOLAR"] },
-      "BEL": { sector: "Defense & Aerospace", underlying: ["BEL"] },
-      "CDSL": { sector: "Financial Services", underlying: ["CDSL"] },
-      "HDFC Bank": { sector: "Banking & Financials", underlying: ["HDFCBANK"] },
-      "IRCTC": { sector: "Consumer Services", underlying: ["IRCTC"] },
-      "IREDA": { sector: "Green Energy Finance", underlying: ["IREDA"] },
-      "JIOFIN": { sector: "Financial Services", underlying: ["JIOFIN"] },
-      "LGEINDIA": { sector: "Consumer Durables", underlying: ["LGEINDIA"] },
-      "NHPC": { sector: "Utilities & Power", underlying: ["NHPC"] },
-      "PREMIERENE": { sector: "Renewable Energy", underlying: ["PREMIERENE"] },
-      "SUZLON": { sector: "Renewable Energy", underlying: ["SUZLON"] },
-      "TMCV": { sector: "Automobile", underlying: ["TMCV"] },
-      "TMPV": { sector: "Automobile", underlying: ["TMPV"] },
-      "Axis Small Cap Fund": { sector: "Diversified Small Cap", underlying: ["Narayana Hrudayalaya", "Cholamandalam", "Tube Investments"] },
-      "SBI Nifty Index Fund": { sector: "Large Cap Index", underlying: ["HDFCBANK", "Reliance", "ICICI Bank", "Infosys"] },
-      "Parag Parikh Flexi Cap": { sector: "Flexi Cap", underlying: ["HDFCBANK", "Bajaj Holdings", "Power Grid", "Alphabet"] },
-      "Jio Blackrock Midcap 150": { sector: "Mid Cap Equity", underlying: ["Persistent Systems", "Max Healthcare", "Coforge"] },
-      "Parag Parikh ELSS": { sector: "Tax Saver / Flexi Cap", underlying: ["HDFCBANK", "Bajaj Holdings", "Power Grid"] },
-      "Gold BeES ETF": { sector: "Commodities / Gold", underlying: ["Physical Gold"] },
-      "Public Provident Fund (PPF)": { sector: "Fixed Income", underlying: ["Government Sovereign Bond"] }
-    };
-
     let portfolioData = [];
-    let sectorTaxonomy = {...defaultTaxonomy};
+    let sectorTaxonomy = {};
     let activeFilter = 'All';
     let allocChartInstance = null;
     let sectorChartInstance = null;
@@ -286,23 +261,28 @@
         { Asset: "BEL", Category: "Equity", Invested: 121800, CurrentValue: 123012, Ticker: "NSE:BEL", PurchaseDate: "2023-06-15", DayChangePct: -0.3 },
         { Asset: "CDSL", Category: "Equity", Invested: 211027, CurrentValue: 199183, Ticker: "NSE:CDSL", PurchaseDate: "2023-01-10", DayChangePct: 0.5 },
         { Asset: "HDFC Bank", Category: "Equity", Invested: 79678, CurrentValue: 64315, Ticker: "NSE:HDFCBANK", PurchaseDate: "2024-05-10", DayChangePct: -0.5 },
-        { Asset: "IRCTC", Category: "Equity", Invested: 50380, CurrentValue: 33514, Ticker: "NSE:IRCTC", PurchaseDate: "2023-09-12", DayChangePct: -1.2 },
-        { Asset: "IREDA", Category: "Equity", Invested: 54888, CurrentValue: 37867, Ticker: "NSE:IREDA", PurchaseDate: "2024-01-15", DayChangePct: 2.1 },
         { Asset: "Axis Small Cap Fund", Category: "Mutual Funds", Invested: 197700, CurrentValue: 226140, Ticker: "MF:AXIS_SMALL", PurchaseDate: "2022-01-10", DayChangePct: 0.7 },
         { Asset: "SBI Nifty Index Fund", Category: "Mutual Funds", Invested: 302448, CurrentValue: 307114, Ticker: "MF:SBI_NIFTY", PurchaseDate: "2023-03-20", DayChangePct: 0.4 },
         { Asset: "Parag Parikh Flexi Cap", Category: "Mutual Funds", Invested: 255000, CurrentValue: 257000, Ticker: "MF:PPFAS", PurchaseDate: "2023-08-12", DayChangePct: 0.5 },
         { Asset: "Gold BeES ETF", Category: "Gold", Invested: 49215, CurrentValue: 52852, Ticker: "NSE:GOLDBEES", PurchaseDate: "2021-11-05", DayChangePct: 0.1 },
         { Asset: "Public Provident Fund (PPF)", Category: "Fixed Income", Invested: 466300, CurrentValue: 499348, Ticker: "DEBT:PPF", PurchaseDate: "2020-04-01", DayChangePct: 0.0 }
       ];
+      sectorTaxonomy = {
+        "ACMESOLAR": { sector: "Renewable Energy", underlying: { "ACMESOLAR": 1.0 } },
+        "BEL": { sector: "Defense & Aerospace", underlying: { "BEL": 1.0 } },
+        "CDSL": { sector: "Financial Services", underlying: { "CDSL": 1.0 } },
+        "HDFC Bank": { sector: "Banking & Financials", underlying: { "HDFCBANK": 1.0 } },
+        "Axis Small Cap Fund": { sector: "Diversified Small Cap", underlying: { "Narayana Hrudayalaya": 0.35, "Cholamandalam": 0.40, "Tube Investments": 0.25 } },
+        "SBI Nifty Index Fund": { sector: "Large Cap Index", underlying: { "HDFCBANK": 0.30, "Reliance": 0.30, "ICICI Bank": 0.25, "Infosys": 0.15 } },
+        "Parag Parikh Flexi Cap": { sector: "Flexi Cap", underlying: { "HDFCBANK": 0.35, "Bajaj Holdings": 0.25, "Power Grid": 0.20, "Alphabet": 0.20 } },
+        "Gold BeES ETF": { sector: "Commodities / Gold", underlying: { "Physical Gold": 1.0 } },
+        "Public Provident Fund (PPF)": { sector: "Fixed Income", underlying: { "Government Sovereign Bond": 1.0 } }
+      };
       computeAndRender();
     }
 
     function handleKeyPress(e) { if (e.key === "Enter") handleAuth(); }
-
-    function toggleZenMode() {
-      isZenMode = !isZenMode;
-      document.body.classList.toggle('zen-active', isZenMode);
-    }
+    function toggleZenMode() { isZenMode = !isZenMode; document.body.classList.toggle('zen-active', isZenMode); }
 
     async function handleAuth() {
       const pass = document.getElementById("auth-passcode").value.trim();
@@ -313,29 +293,26 @@
       if (btnText.innerText === "Lock") {
         document.getElementById("auth-passcode").value = "";
         btnText.innerText = "Unlock";
-        statusText.innerText = "Public Mode (Demo Data) • Enter passcode to sync live sheet";
-        statusText.className = "text-xs text-amber-400 font-medium mt-1 uppercase tracking-wider";
+        statusText.innerText = "Public Mode (Demo Data)";
         loadDemoData();
         return;
       }
       
       btnText.innerText = "Syncing...";
-      statusText.innerText = "⏳ Connecting to Google Sheets...";
       try {
         const res = await fetch(`${API_URL}?passcode=${encodeURIComponent(pass)}`);
         const data = await res.json();
-        if (data.error) { alert(data.error); btnText.innerText = "Unlock"; statusText.innerText = "Authentication Failed"; return; }
+        if (data.error) { alert(data.error); btnText.innerText = "Unlock"; return; }
         
         portfolioData = data.assets || [];
         if (data.sectorTaxonomy) sectorTaxonomy = data.sectorTaxonomy;
 
         btnText.innerText = "Lock";
-        statusText.innerText = "🟢 LIVE CONNECTED: DATA SYNCED SECURELY";
+        statusText.innerText = "🟢 LIVE CONNECTED: DYNAMICALLY SYNCED";
         statusText.className = "text-xs text-emerald-400 font-bold mt-1 uppercase tracking-wider";
         computeAndRender();
       } catch (e) {
         btnText.innerText = "Unlock";
-        statusText.innerText = "❌ Connection failed. Reverting to demo data.";
         loadDemoData();
       }
     }
@@ -358,7 +335,6 @@
     }
 
     function computeAndRender() {
-      // 1. Compute global totals and metrics across ENTIRE portfolio first
       let totalVal = 0, totalInv = 0, total1DProfit = 0;
       const categoriesCount = {};
       const sectorCount = {};
@@ -377,15 +353,17 @@
 
         categoriesCount[item.Category] = (categoriesCount[item.Category] || 0) + val;
 
-        const tax = sectorTaxonomy[item.Asset] || { sector: "Other / Unclassified", underlying: [item.Asset] };
+        const tax = sectorTaxonomy[item.Asset] || { sector: "Other", underlying: { [item.Asset]: 1.0 } };
         sectorCount[tax.sector] = (sectorCount[tax.sector] || 0) + val;
 
-        // Dynamic look-through proportional allocation based on live valuations
-        tax.underlying.forEach(stock => {
-          stockExposureMap[stock] = (stockExposureMap[stock] || 0) + (val / tax.underlying.length);
-          if(!stockSourceMap[stock]) stockSourceMap[stock] = [];
-          stockSourceMap[stock].push(item.Asset);
-        });
+        // Fully Dynamic Proportional Weight Calculation based on backend dictionary
+        if (tax.underlying) {
+          Object.entries(tax.underlying).forEach(([stock, weight]) => {
+            stockExposureMap[stock] = (stockExposureMap[stock] || 0) + (val * weight);
+            if(!stockSourceMap[stock]) stockSourceMap[stock] = [];
+            stockSourceMap[stock].push(item.Asset);
+          });
+        }
       });
 
       globalNetWorth = totalVal;
@@ -393,7 +371,6 @@
       globalReturnRate = totalInv > 0 ? (totalProfit / totalInv) * 100 : 0;
       const total1DPct = totalVal > 0 ? (total1DProfit / totalVal) * 100 : 0;
 
-      // Update Global KPIs (Unaffected by filter pills)
       document.getElementById("totalValue").textContent = formatCurrency(totalVal);
       document.getElementById("totalInvested").textContent = formatCurrency(totalInv);
       document.getElementById("totalReturn").textContent = `${globalReturnRate >= 0 ? '+' : ''}${globalReturnRate.toFixed(2)}%`;
@@ -401,34 +378,25 @@
       document.getElementById("totalProfitDiff").textContent = `${totalProfit >= 0 ? '+' : '-'}${formatCurrency(Math.abs(totalProfit))} P&L`;
       document.getElementById("dailyChange").textContent = `${total1DProfit >= 0 ? '+' : '-'}${formatCurrency(Math.abs(total1DProfit))} (${total1DPct.toFixed(2)}%) 1D`;
       
-      // Wealth Projection Base Net Worth fix
       document.getElementById("projBaseWorth").textContent = formatCurrency(totalVal);
       document.getElementById("projBaseRate").textContent = globalReturnRate.toFixed(2) + "% p.a.";
 
-      // Top / Worst Performer
       let sortedByRet = [...portfolioData].sort((a,b) => b.actualRet - a.actualRet);
       if(sortedByRet.length > 0) {
-        const top = sortedByRet[0];
-        const worst = sortedByRet[sortedByRet.length - 1];
-        document.getElementById("topAsset").textContent = top.Asset;
-        document.getElementById("topAssetRet").textContent = "+" + top.actualRet.toFixed(1) + "%";
-        document.getElementById("topAssetCAGR").textContent = "CAGR: " + top.cagr.toFixed(1) + "%";
+        document.getElementById("topAsset").textContent = sortedByRet[0].Asset;
+        document.getElementById("topAssetRet").textContent = "+" + sortedByRet[0].actualRet.toFixed(1) + "%";
+        document.getElementById("topAssetCAGR").textContent = "CAGR: " + sortedByRet[0].cagr.toFixed(1) + "%";
         
-        document.getElementById("worstAsset").textContent = worst.Asset;
-        document.getElementById("worstAssetRet").textContent = worst.actualRet.toFixed(1) + "%";
-        document.getElementById("worstAssetCAGR").textContent = "CAGR: " + worst.cagr.toFixed(1) + "%";
+        document.getElementById("worstAsset").textContent = sortedByRet[sortedByRet.length - 1].Asset;
+        document.getElementById("worstAssetRet").textContent = sortedByRet[sortedByRet.length - 1].actualRet.toFixed(1) + "%";
+        document.getElementById("worstAssetCAGR").textContent = "CAGR: " + sortedByRet[sortedByRet.length - 1].cagr.toFixed(1) + "%";
       }
 
-      // Populate Intelligence Bar
-      let topSectorName = Object.keys(sectorCount).reduce((a, b) => sectorCount[a] > sectorCount[b] ? a : b, "None");
-      let totalUniqueStocks = Object.keys(stockExposureMap).length;
-      let topExposureStock = Object.entries(stockExposureMap).sort((a,b)=>b[1]-a[1])[0]?.[0] || "Diversified";
-      
-      document.getElementById("intelUnderlying").textContent = totalUniqueStocks + " Constituents";
-      document.getElementById("intelLargestSector").textContent = topSectorName;
-      document.getElementById("intelTopExposure").textContent = topExposureStock;
+      document.getElementById("intelUnderlying").textContent = Object.keys(stockExposureMap).length + " Constituents";
+      document.getElementById("intelLargestSector").textContent = Object.keys(sectorCount).reduce((a, b) => sectorCount[a] > sectorCount[b] ? a : b, "None");
+      document.getElementById("intelTopExposure").textContent = Object.entries(stockExposureMap).sort((a,b)=>b[1]-a[1])[0]?.[0] || "Diversified";
 
-      // Populate Underlying Stocks List (Dynamic based on live values)
+      // Underlying Exposure List
       const underlyingContainer = document.getElementById("underlyingExposureList");
       underlyingContainer.innerHTML = "";
       Object.entries(stockExposureMap).sort((a,b)=>b[1]-a[1]).forEach(([stock, amt]) => {
@@ -438,7 +406,7 @@
         underlyingContainer.appendChild(row);
       });
 
-      // Populate Fund Overlap List
+      // Fund Overlap List
       const overlapContainer = document.getElementById("fundOverlapList");
       overlapContainer.innerHTML = "";
       let overlapFound = false;
@@ -451,9 +419,7 @@
           overlapContainer.appendChild(row);
         }
       });
-      if(!overlapFound) {
-        overlapContainer.innerHTML = `<p class="text-xs text-slate-500 italic">No multi-source overlap detected.</p>`;
-      }
+      if(!overlapFound) overlapContainer.innerHTML = `<p class="text-xs text-slate-500 italic">No multi-source overlap detected.</p>`;
 
       updateCharts(categoriesCount, sectorCount);
       updateProjection();
@@ -468,20 +434,14 @@
 
       let filtered = portfolioData.filter(item => {
         const matchesCat = activeFilter === 'All' || item.Category === activeFilter;
-        const matchesQuery = item.Asset.toLowerCase().includes(query) || (item.Ticker && item.Ticker.toLowerCase().includes(query));
-        return matchesCat && matchesQuery;
+        return matchesCat && (item.Asset.toLowerCase().includes(query) || (item.Ticker && item.Ticker.toLowerCase().includes(query)));
       });
 
-      filtered.sort((a, b) => {
-        if (sortMode === "value_desc") return b.CurrentValue - a.CurrentValue;
-        if (sortMode === "gain_desc") return b.actualRet - a.actualRet;
-      });
+      filtered.sort((a, b) => sortMode === "value_desc" ? b.CurrentValue - a.CurrentValue : b.actualRet - a.actualRet);
 
       filtered.forEach(item => {
         const isProfit = item.actualRet >= 0;
         const isDayProfit = (item.DayChangePct || 0) >= 0;
-        const tax = sectorTaxonomy[item.Asset] || { sector: "General" };
-
         const card = document.createElement("div");
         card.className = "glass-panel p-4 rounded-2xl flex flex-col justify-between";
         card.innerHTML = `
@@ -494,7 +454,7 @@
               </div>
             </div>
             <h4 class="text-base font-black text-white mt-3">${item.Asset}</h4>
-            <p class="text-[10px] text-slate-400 uppercase tracking-widest mt-0.5">${item.Ticker || tax.sector}</p>
+            <p class="text-[10px] text-slate-400 uppercase tracking-widest mt-0.5">${item.Ticker || 'Asset'}</p>
           </div>
           <div class="flex justify-between items-end mt-4 pt-3 border-t border-slate-800/80">
             <div>
@@ -514,57 +474,32 @@
     function calculateFV(pv, pmt, ratePct, years) {
       if(ratePct === 0) return pv + (pmt * years * 12);
       const r = ratePct / 100 / 12;
-      const n = years * 12;
-      return pv * Math.pow(1 + r, n) + pmt * ( (Math.pow(1 + r, n) - 1) / r );
+      return pv * Math.pow(1 + r, years * 12) + pmt * ( (Math.pow(1 + r, years * 12) - 1) / r );
     }
 
     function updateProjection() {
       const sip = Number(document.getElementById("sipSlider").value);
       document.getElementById("sipLabel").textContent = formatCurrency(sip);
       const safeRate = globalReturnRate > 0 ? globalReturnRate : 12;
-      const points = [
-        globalNetWorth,
-        calculateFV(globalNetWorth, sip, safeRate, 3),
-        calculateFV(globalNetWorth, sip, safeRate, 5),
-        calculateFV(globalNetWorth, sip, safeRate, 10),
-        calculateFV(globalNetWorth, sip, safeRate, 15)
-      ];
+      const points = [globalNetWorth, calculateFV(globalNetWorth, sip, safeRate, 3), calculateFV(globalNetWorth, sip, safeRate, 5), calculateFV(globalNetWorth, sip, safeRate, 10), calculateFV(globalNetWorth, sip, safeRate, 15)];
 
       const ctx = document.getElementById("projectionChart").getContext("2d");
       if (projChartInstance) projChartInstance.destroy();
       projChartInstance = new Chart(ctx, {
         type: 'line',
-        data: {
-          labels: ['Now', 'Year 3', 'Year 5', 'Year 10', 'Year 15'],
-          datasets: [{ data: points, borderColor: '#6366f1', backgroundColor: 'rgba(99, 102, 241, 0.12)', borderWidth: 3, pointRadius: 4, fill: true, tension: 0.4 }]
-        },
-        options: {
-          responsive: true, maintainAspectRatio: false,
-          plugins: { legend: { display: false }, tooltip: { callbacks: { label: (c) => formatCurrency(c.raw) } } },
-          scales: {
-            y: { grid: { color: 'rgba(255,255,255,0.03)' }, ticks: { color: '#64748b', callback: v => '₹' + (v / 100000).toFixed(0) + 'L' } },
-            x: { grid: { display: false }, ticks: { color: '#64748b' } }
-          }
-        }
+        data: { labels: ['Now', 'Year 3', 'Year 5', 'Year 10', 'Year 15'], datasets: [{ data: points, borderColor: '#6366f1', backgroundColor: 'rgba(99, 102, 241, 0.12)', borderWidth: 3, pointRadius: 4, fill: true, tension: 0.4 }] },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { callbacks: { label: (c) => formatCurrency(c.raw) } } }, scales: { y: { grid: { color: 'rgba(255,255,255,0.03)' }, ticks: { color: '#64748b', callback: v => '₹' + (v / 100000).toFixed(0) + 'L' } }, x: { grid: { display: false }, ticks: { color: '#64748b' } } } }
       });
     }
 
     function updateCharts(categories, sectors) {
       const ctx1 = document.getElementById("allocationChart").getContext("2d");
       if (allocChartInstance) allocChartInstance.destroy();
-      allocChartInstance = new Chart(ctx1, {
-        type: "doughnut",
-        data: { labels: Object.keys(categories), datasets: [{ data: Object.values(categories), backgroundColor: ['#6366f1', '#10b981', '#f59e0b', '#a855f7'], borderWidth: 0 }] },
-        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: "right", labels: { color: "#94a3b8", font: { size: 10 } } } }, cutout: "75%" }
-      });
+      allocChartInstance = new Chart(ctx1, { type: "doughnut", data: { labels: Object.keys(categories), datasets: [{ data: Object.values(categories), backgroundColor: ['#6366f1', '#10b981', '#f59e0b', '#a855f7'], borderWidth: 0 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: "right", labels: { color: "#94a3b8", font: { size: 10 } } } }, cutout: "75%" } });
 
       const ctx2 = document.getElementById("sectorChart").getContext("2d");
       if (sectorChartInstance) sectorChartInstance.destroy();
-      sectorChartInstance = new Chart(ctx2, {
-        type: "doughnut",
-        data: { labels: Object.keys(sectors), datasets: [{ data: Object.values(sectors), backgroundColor: ['#3b82f6', '#ec4899', '#8b5cf6', '#14b8a6', '#f97316', '#6366f1'], borderWidth: 0 }] },
-        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: "right", labels: { color: "#94a3b8", font: { size: 10 } } } }, cutout: "75%" }
-      });
+      sectorChartInstance = new Chart(ctx2, { type: "doughnut", data: { labels: Object.keys(sectors), datasets: [{ data: Object.values(sectors), backgroundColor: ['#3b82f6', '#ec4899', '#8b5cf6', '#14b8a6', '#f97316', '#6366f1'], borderWidth: 0 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: "right", labels: { color: "#94a3b8", font: { size: 10 } } } }, cutout: "75%" } });
     }
 
     function formatCurrency(val) {
