@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Dashboard</title>
+<title>Vageesh's Portfolio</title>
 
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -15,10 +15,6 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
 
 <style>
-
-/* =========================================================
-   GLOBAL
-========================================================= */
 
 *{
     box-sizing:border-box;
@@ -44,7 +40,6 @@ input{
 button{
     -webkit-tap-highlight-color:transparent;
 }
-
 
 /* =========================================================
    BACKGROUND
@@ -101,7 +96,6 @@ button{
     pointer-events:none;
 }
 
-
 /* =========================================================
    FLOATING LIGHTS
 ========================================================= */
@@ -112,7 +106,6 @@ button{
     pointer-events:none;
     filter:blur(3px);
     opacity:.45;
-
     animation:floating 12s ease-in-out infinite;
 }
 
@@ -143,7 +136,6 @@ button{
 }
 
 @keyframes floating{
-
     0%,100%{
         transform:translate3d(0,0,0);
     }
@@ -152,7 +144,6 @@ button{
         transform:translate3d(0,-28px,0);
     }
 }
-
 
 /* =========================================================
    CONTAINER
@@ -164,7 +155,6 @@ button{
     position:relative;
     z-index:5;
 }
-
 
 /* =========================================================
    NAVBAR
@@ -189,7 +179,6 @@ button{
     color:#ffc36d;
 }
 
-
 /* =========================================================
    CONNECTION
 ========================================================= */
@@ -201,7 +190,6 @@ button{
 }
 
 .connection-status{
-
     display:flex;
     align-items:center;
     gap:8px;
@@ -226,7 +214,6 @@ button{
 }
 
 .status-dot{
-
     width:8px;
     height:8px;
 
@@ -241,7 +228,6 @@ button{
 }
 
 .connection-status.live .status-dot{
-
     background:#5ff0a5;
 
     box-shadow:
@@ -256,7 +242,6 @@ button{
 }
 
 @keyframes livePulse{
-
     0%,100%{
         opacity:1;
     }
@@ -266,13 +251,11 @@ button{
     }
 }
 
-
 /* =========================================================
    PASSWORD
 ========================================================= */
 
 .password-box{
-
     display:flex;
     gap:6px;
 
@@ -288,7 +271,6 @@ button{
 }
 
 .password-box input{
-
     width:170px;
 
     background:transparent;
@@ -306,7 +288,6 @@ button{
 }
 
 .password-box button{
-
     border:none;
 
     padding:9px 15px;
@@ -330,7 +311,6 @@ button{
 }
 
 .password-box button:hover{
-
     transform:translateY(-2px);
 
     box-shadow:
@@ -342,7 +322,6 @@ button{
     cursor:wait;
 }
 
-
 /* =========================================================
    HERO
 ========================================================= */
@@ -352,7 +331,6 @@ button{
 }
 
 .kicker{
-
     display:inline-flex;
 
     align-items:center;
@@ -376,7 +354,6 @@ button{
 }
 
 .hero-title{
-
     font-family:"Playfair Display",serif;
 
     font-size:clamp(50px,7vw,100px);
@@ -395,7 +372,6 @@ button{
 }
 
 .hero-subtitle{
-
     color:rgba(255,255,255,.72);
 
     font-size:17px;
@@ -405,13 +381,11 @@ button{
     line-height:1.7;
 }
 
-
 /* =========================================================
    GLASS
 ========================================================= */
 
 .glass{
-
     background:rgba(9,19,33,.47);
 
     border:1px solid rgba(255,255,255,.13);
@@ -427,13 +401,11 @@ button{
     border-radius:24px;
 }
 
-
 /* =========================================================
    STATS
 ========================================================= */
 
 .stats{
-
     display:grid;
 
     grid-template-columns:
@@ -445,7 +417,6 @@ button{
 }
 
 .stat{
-
     padding:23px;
 
     transition:.35s;
@@ -454,14 +425,12 @@ button{
 }
 
 .stat:hover{
-
     transform:translateY(-5px);
 
     background:rgba(15,28,47,.60);
 }
 
 .stat-label{
-
     color:rgba(255,255,255,.50);
 
     font-size:11px;
@@ -472,7 +441,6 @@ button{
 }
 
 .stat-value{
-
     font-size:28px;
 
     font-weight:700;
@@ -481,7 +449,6 @@ button{
 }
 
 .stat-change{
-
     margin-top:8px;
 
     font-size:13px;
@@ -499,7 +466,6 @@ button{
     color:#ffc46b;
 }
 
-
 /* =========================================================
    DASHBOARD
 ========================================================= */
@@ -509,7 +475,6 @@ button{
 }
 
 .grid{
-
     display:grid;
 
     grid-template-columns:
@@ -523,7 +488,6 @@ button{
 }
 
 .card-title{
-
     display:flex;
 
     justify-content:space-between;
@@ -534,14 +498,12 @@ button{
 }
 
 .card-title h2{
-
     margin:0;
 
     font-size:18px;
 }
 
 .card-title span{
-
     color:rgba(255,255,255,.40);
 
     font-size:11px;
@@ -551,7 +513,6 @@ button{
     letter-spacing:.7px;
 }
 
-
 /* =========================================================
    CHART
 ========================================================= */
@@ -560,13 +521,11 @@ button{
     height:320px;
 }
 
-
 /* =========================================================
    ALLOCATION
 ========================================================= */
 
 .allocation{
-
     display:flex;
 
     align-items:center;
@@ -586,7 +545,6 @@ button{
 }
 
 .legend-row{
-
     display:flex;
 
     justify-content:space-between;
@@ -602,29 +560,22 @@ button{
 
     border-radius:10px;
 
-    transition:
-        background .25s ease,
-        transform .25s ease,
-        opacity .25s ease;
+    transition:.25s;
 }
 
 .legend-row:hover{
-
     background:rgba(255,255,255,.06);
 
     transform:translateX(5px);
 }
 
 .legend-row.selected{
-
     background:rgba(255,196,107,.10);
 
-    box-shadow:
-        inset 2px 0 0 rgba(255,196,107,.65);
+    color:#ffc46b;
 }
 
 .legend-left{
-
     display:flex;
 
     gap:8px;
@@ -633,91 +584,96 @@ button{
 }
 
 .legend-dot{
-
     width:8px;
     height:8px;
 
     border-radius:50%;
-
-    background:#ffc46b;
-
-    flex-shrink:0;
 }
 
-
 /* =========================================================
-   FILTER SUMMARY
+   ALLOCATION SNAPSHOT
 ========================================================= */
 
-.portfolio-filter-summary{
+.allocation-snapshot{
+    margin-top:22px;
 
-    display:flex;
+    padding:16px 18px;
 
-    align-items:center;
-
-    justify-content:space-between;
-
-    gap:12px;
-
-    margin:-4px 0 16px;
-
-    padding:10px 13px;
-
-    border-radius:12px;
+    border-radius:16px;
 
     background:rgba(255,255,255,.035);
 
     border:1px solid rgba(255,255,255,.07);
 
-    font-size:12px;
-
-    color:rgba(255,255,255,.55);
-
-    transition:.3s ease;
+    transition:.35s;
 }
 
-.portfolio-filter-summary strong{
+.snapshot-top{
+    display:flex;
 
-    color:#ffc46b;
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:15px;
+
+    margin-bottom:12px;
+}
+
+.snapshot-title{
+    font-size:13px;
 
     font-weight:600;
 }
 
-.clear-filter{
+.snapshot-pill{
+    padding:5px 9px;
 
-    border:1px solid rgba(255,196,107,.20);
+    border-radius:100px;
 
-    background:rgba(255,196,107,.07);
+    background:rgba(255,196,107,.10);
 
     color:#ffc46b;
 
-    padding:6px 10px;
+    font-size:10px;
 
-    border-radius:8px;
+    text-transform:uppercase;
 
-    font-size:11px;
-
-    cursor:pointer;
-
-    transition:.2s ease;
-
-    white-space:nowrap;
+    letter-spacing:.7px;
 }
 
-.clear-filter:hover{
+.snapshot-grid{
+    display:grid;
 
-    background:rgba(255,196,107,.14);
+    grid-template-columns:
+        repeat(3,1fr);
 
-    transform:translateY(-1px);
+    gap:12px;
 }
 
+.snapshot-item-label{
+    color:rgba(255,255,255,.38);
+
+    font-size:9px;
+
+    text-transform:uppercase;
+
+    letter-spacing:.8px;
+}
+
+.snapshot-item-value{
+    margin-top:5px;
+
+    font-size:14px;
+
+    font-weight:700;
+}
 
 /* =========================================================
    INSIGHTS
 ========================================================= */
 
 .insights{
-
     display:grid;
 
     grid-template-columns:
@@ -729,7 +685,6 @@ button{
 }
 
 .insight{
-
     padding:22px;
 
     transition:.3s;
@@ -742,21 +697,18 @@ button{
 }
 
 .insight-icon{
-
     font-size:27px;
 
     margin-bottom:15px;
 }
 
 .insight h3{
-
     margin:0 0 8px;
 
     font-size:15px;
 }
 
 .insight p{
-
     color:rgba(255,255,255,.55);
 
     font-size:13px;
@@ -766,22 +718,82 @@ button{
     margin:0;
 }
 
+.insight small{
+    display:inline-block;
+
+    margin-top:8px;
+
+    color:rgba(255,255,255,.35);
+
+    font-size:10px;
+}
+
+/* =========================================================
+   HEALTH SNAPSHOT
+========================================================= */
+
+.health-strip{
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:15px;
+
+    margin-top:18px;
+}
+
+.health-item{
+    padding:17px 19px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:15px;
+}
+
+.health-left{
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+}
+
+.health-icon{
+    font-size:19px;
+}
+
+.health-label{
+    font-size:11px;
+
+    color:rgba(255,255,255,.45);
+
+    text-transform:uppercase;
+
+    letter-spacing:.7px;
+}
+
+.health-value{
+    font-size:15px;
+
+    font-weight:700;
+}
 
 /* =========================================================
    PORTFOLIO TABLE
 ========================================================= */
 
 .table-card{
-
     margin-top:18px;
 
     overflow:hidden;
-
-    scroll-margin-top:25px;
 }
 
 .table-toolbar{
-
     display:flex;
 
     gap:10px;
@@ -792,7 +804,6 @@ button{
 }
 
 .search-box{
-
     flex:1;
 
     min-width:220px;
@@ -811,13 +822,11 @@ button{
 }
 
 .search-box:focus{
-
     border-color:
         rgba(255,196,107,.5);
 }
 
 .filter-btn{
-
     border:1px solid rgba(255,255,255,.10);
 
     background:rgba(255,255,255,.05);
@@ -835,7 +844,6 @@ button{
 
 .filter-btn:hover,
 .filter-btn.active{
-
     background:rgba(255,196,107,.14);
 
     border-color:rgba(255,196,107,.35);
@@ -848,14 +856,12 @@ button{
 }
 
 table{
-
     width:100%;
 
     border-collapse:collapse;
 }
 
 th{
-
     color:rgba(255,255,255,.40);
 
     font-size:10px;
@@ -870,7 +876,6 @@ th{
 }
 
 td{
-
     padding:15px 12px;
 
     border-top:
@@ -880,14 +885,12 @@ td{
 }
 
 tbody tr{
-
     transition:.25s;
 
     cursor:pointer;
 }
 
 tbody tr:hover{
-
     background:rgba(255,255,255,.055);
 
     transform:translateX(4px);
@@ -898,7 +901,6 @@ tbody tr:hover{
 }
 
 .badge{
-
     padding:5px 9px;
 
     border-radius:100px;
@@ -908,13 +910,11 @@ tbody tr:hover{
     background:rgba(255,255,255,.08);
 }
 
-
 /* =========================================================
    VIEW HEADER
 ========================================================= */
 
 .view-header{
-
     display:none;
 
     align-items:center;
@@ -922,14 +922,27 @@ tbody tr:hover{
     gap:12px;
 
     margin-bottom:18px;
+
+    animation:viewHeaderIn .4s ease;
 }
 
 .view-header.active{
     display:flex;
 }
 
-.back-button{
+@keyframes viewHeaderIn{
+    from{
+        opacity:0;
+        transform:translateY(-8px);
+    }
 
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.back-button{
     border:1px solid rgba(255,255,255,.13);
 
     background:rgba(255,255,255,.06);
@@ -946,14 +959,12 @@ tbody tr:hover{
 }
 
 .back-button:hover{
-
     background:rgba(255,255,255,.11);
 
     transform:translateX(-3px);
 }
 
 .view-title{
-
     font-family:"Playfair Display",serif;
 
     font-size:27px;
@@ -962,7 +973,6 @@ tbody tr:hover{
 }
 
 .view-subtitle{
-
     color:rgba(255,255,255,.4);
 
     font-size:11px;
@@ -972,13 +982,11 @@ tbody tr:hover{
     letter-spacing:1px;
 }
 
-
 /* =========================================================
    DETAIL OVERLAY
 ========================================================= */
 
 .detail-overlay{
-
     position:fixed;
 
     inset:0;
@@ -1007,14 +1015,12 @@ tbody tr:hover{
 }
 
 .detail-overlay.open{
-
     opacity:1;
 
     visibility:visible;
 }
 
 .detail-panel{
-
     width:min(1000px,100%);
 
     max-height:90vh;
@@ -1047,14 +1053,12 @@ tbody tr:hover{
 }
 
 .detail-overlay.open .detail-panel{
-
     transform:
         translateY(0)
         scale(1);
 }
 
 .detail-top{
-
     display:flex;
 
     justify-content:space-between;
@@ -1065,7 +1069,6 @@ tbody tr:hover{
 }
 
 .detail-category{
-
     color:#ffc46b;
 
     font-size:11px;
@@ -1078,7 +1081,6 @@ tbody tr:hover{
 }
 
 .detail-name{
-
     font-family:"Playfair Display",serif;
 
     font-size:clamp(30px,5vw,52px);
@@ -1089,7 +1091,6 @@ tbody tr:hover{
 }
 
 .close-detail{
-
     width:42px;
     height:42px;
 
@@ -1111,14 +1112,12 @@ tbody tr:hover{
 }
 
 .close-detail:hover{
-
     transform:rotate(90deg);
 
     background:rgba(255,255,255,.12);
 }
 
 .detail-main-stat{
-
     margin-top:30px;
 
     padding:25px;
@@ -1137,7 +1136,6 @@ tbody tr:hover{
 }
 
 .detail-current-label{
-
     color:rgba(255,255,255,.45);
 
     font-size:11px;
@@ -1148,7 +1146,6 @@ tbody tr:hover{
 }
 
 .detail-current{
-
     font-size:44px;
 
     font-weight:700;
@@ -1161,7 +1158,6 @@ tbody tr:hover{
 }
 
 .detail-grid{
-
     display:grid;
 
     grid-template-columns:
@@ -1173,7 +1169,6 @@ tbody tr:hover{
 }
 
 .detail-box{
-
     padding:19px;
 
     border-radius:18px;
@@ -1186,7 +1181,6 @@ tbody tr:hover{
 }
 
 .detail-box-label{
-
     color:rgba(255,255,255,.4);
 
     font-size:10px;
@@ -1197,7 +1191,6 @@ tbody tr:hover{
 }
 
 .detail-box-value{
-
     margin-top:7px;
 
     font-size:18px;
@@ -1206,7 +1199,6 @@ tbody tr:hover{
 }
 
 .detail-meta{
-
     display:grid;
 
     grid-template-columns:1fr 1fr;
@@ -1217,7 +1209,6 @@ tbody tr:hover{
 }
 
 .meta-item{
-
     padding:17px;
 
     border-radius:16px;
@@ -1226,7 +1217,6 @@ tbody tr:hover{
 }
 
 .meta-label{
-
     color:rgba(255,255,255,.4);
 
     font-size:10px;
@@ -1235,28 +1225,23 @@ tbody tr:hover{
 }
 
 .meta-value{
-
     margin-top:5px;
 
     font-size:14px;
 }
-
 
 /* =========================================================
    VIEW TRANSITION
 ========================================================= */
 
 .dashboard.view-changing{
-
-    animation:
-        viewShift .5s ease;
+    animation:viewShift .45s ease;
 }
 
 @keyframes viewShift{
-
     0%{
-        opacity:.3;
-        transform:translateY(25px);
+        opacity:.65;
+        transform:translateY(8px);
     }
 
     100%{
@@ -1265,13 +1250,11 @@ tbody tr:hover{
     }
 }
 
-
 /* =========================================================
    FOOTER
 ========================================================= */
 
 .footer{
-
     text-align:center;
 
     color:rgba(255,255,255,.32);
@@ -1281,13 +1264,11 @@ tbody tr:hover{
     padding:30px 0;
 }
 
-
 /* =========================================================
    TOAST
 ========================================================= */
 
 .toast{
-
     position:fixed;
 
     bottom:25px;
@@ -1319,13 +1300,11 @@ tbody tr:hover{
 }
 
 .toast.show{
-
     opacity:1;
 
     transform:
         translate(-50%,0);
 }
-
 
 /* =========================================================
    MOBILE
@@ -1346,6 +1325,10 @@ tbody tr:hover{
         grid-template-columns:1fr;
     }
 
+    .health-strip{
+        grid-template-columns:1fr;
+    }
+
     .detail-grid{
         grid-template-columns:
             repeat(2,1fr);
@@ -1355,65 +1338,57 @@ tbody tr:hover{
 @media(max-width:650px){
 
     .navbar{
-
         align-items:flex-start;
 
         flex-direction:column;
     }
 
     .connection-area{
-
         width:100%;
 
         flex-wrap:wrap;
     }
 
     .password-box{
-
         flex:1;
     }
 
     .password-box input{
-
         width:auto;
 
         flex:1;
     }
 
     .hero-content{
-
         padding-top:45px;
     }
 
     .hero-title{
-
         letter-spacing:-1px;
     }
 
     .stats{
-
         grid-template-columns:1fr;
     }
 
     .allocation{
-
         flex-direction:column;
     }
 
-    .portfolio-filter-summary{
+    .donut{
+        width:190px;
+        height:190px;
+    }
 
-        align-items:flex-start;
-
-        flex-direction:column;
+    .snapshot-grid{
+        grid-template-columns:1fr;
     }
 
     .detail-overlay{
-
         padding:10px;
     }
 
     .detail-panel{
-
         padding:22px;
 
         border-radius:24px;
@@ -1422,21 +1397,17 @@ tbody tr:hover{
     }
 
     .detail-grid{
-
         grid-template-columns:
             repeat(2,1fr);
     }
 
     .detail-meta{
-
         grid-template-columns:1fr;
     }
-
 }
 
 </style>
 </head>
-
 
 <body>
 
@@ -1446,9 +1417,7 @@ tbody tr:hover{
 <div class="orb two"></div>
 <div class="orb three"></div>
 
-
 <div class="container">
-
 
 <!-- =====================================================
      NAVBAR
@@ -1460,9 +1429,7 @@ tbody tr:hover{
 Vageesh's <span>Portfolio</span>
 </div>
 
-
 <div class="connection-area">
-
 
 <div
     id="connectionStatus"
@@ -1479,7 +1446,6 @@ DEMO MODE
 </span>
 
 </div>
-
 
 <div class="password-box">
 
@@ -1502,7 +1468,6 @@ Unlock
 
 </nav>
 
-
 <!-- =====================================================
      HERO
 ===================================================== -->
@@ -1522,15 +1487,10 @@ Demo portfolio
 
 </div>
 
-
 <h1 class="hero-title">
-
-<br>
-
-<span></span>
-
+Your Money.<br>
+Your <span>Journey.</span>
 </h1>
-
 
 <p class="hero-subtitle">
 
@@ -1542,7 +1502,6 @@ and the road ahead.
 
 </section>
 
-
 <!-- =====================================================
      DASHBOARD
 ===================================================== -->
@@ -1551,7 +1510,6 @@ and the road ahead.
     id="dashboard"
     class="dashboard"
 >
-
 
 <!-- VIEW HEADER -->
 
@@ -1587,13 +1545,11 @@ All holdings
 
 </div>
 
-
 <!-- =====================================================
      STATS
 ===================================================== -->
 
 <div class="stats">
-
 
 <div class="glass stat">
 
@@ -1617,7 +1573,6 @@ Demo
 
 </div>
 
-
 <div class="glass stat">
 
 <div class="stat-label">
@@ -1636,7 +1591,6 @@ Capital deployed
 </div>
 
 </div>
-
 
 <div class="glass stat">
 
@@ -1660,7 +1614,6 @@ Demo portfolio
 
 </div>
 
-
 <div class="glass stat">
 
 <div class="stat-label">
@@ -1682,13 +1635,11 @@ Current view
 
 </div>
 
-
 <!-- =====================================================
      CHARTS
 ===================================================== -->
 
 <div class="grid">
-
 
 <div class="glass card">
 
@@ -1698,7 +1649,7 @@ Current view
 Portfolio Landscape
 </h2>
 
-<span>
+<span id="portfolioChartSubtitle">
 Invested vs Current
 </span>
 
@@ -1711,7 +1662,6 @@ Invested vs Current
 </div>
 
 </div>
-
 
 <div class="glass card">
 
@@ -1726,7 +1676,6 @@ Click a category
 </span>
 
 </div>
-
 
 <div class="allocation">
 
@@ -1744,17 +1693,21 @@ Click a category
 
 </div>
 
+<div
+    id="allocationSnapshot"
+    class="allocation-snapshot"
+>
 </div>
 
 </div>
 
+</div>
 
 <!-- =====================================================
      INSIGHTS
 ===================================================== -->
 
 <div class="insights">
-
 
 <div
     id="winnerCard"
@@ -1769,12 +1722,9 @@ Click a category
 Top Performer
 </h3>
 
-<p id="topWinner">
-Demo data
-</p>
+<p id="topWinner"></p>
 
 </div>
-
 
 <div
     id="loserCard"
@@ -1789,12 +1739,9 @@ Demo data
 Biggest Drag
 </h3>
 
-<p id="topLoser">
-Demo data
-</p>
+<p id="topLoser"></p>
 
 </div>
-
 
 <div
     id="largestCard"
@@ -1809,24 +1756,27 @@ Demo data
 Largest Position
 </h3>
 
-<p id="largestPosition">
-Demo data
-</p>
+<p id="largestPosition"></p>
 
 </div>
 
-
 </div>
 
+<!-- =====================================================
+     HEALTH SNAPSHOT
+===================================================== -->
+
+<div
+    id="healthStrip"
+    class="health-strip"
+>
+</div>
 
 <!-- =====================================================
      HOLDINGS
 ===================================================== -->
 
-<div
-    id="portfolioTableCard"
-    class="glass card table-card"
->
+<div class="glass card table-card">
 
 <div class="card-title">
 
@@ -1840,32 +1790,6 @@ DEMO DATA
 
 </div>
 
-
-<!-- FILTER SUMMARY -->
-
-<div
-    id="portfolioFilterSummary"
-    class="portfolio-filter-summary"
-    style="display:none;"
->
-
-<div id="portfolioFilterText">
-Showing all holdings
-</div>
-
-<button
-    id="clearFilterButton"
-    class="clear-filter"
-    onclick="showAllAssets()"
->
-View All
-</button>
-
-</div>
-
-
-<!-- SEARCH / FILTER -->
-
 <div class="table-toolbar">
 
 <input
@@ -1873,14 +1797,13 @@ View All
     class="search-box"
     type="text"
     placeholder="Search holdings..."
-    oninput="handleSearch()"
+    oninput="renderDashboard()"
 />
-
 
 <button
     class="filter-btn active"
     data-filter="All"
-    onclick="setCategoryFilter('All', false)"
+    onclick="setCategoryFilter('All')"
 >
 All
 </button>
@@ -1888,7 +1811,7 @@ All
 <button
     class="filter-btn"
     data-filter="Equity"
-    onclick="setCategoryFilter('Equity', true)"
+    onclick="setCategoryFilter('Equity')"
 >
 Equity
 </button>
@@ -1896,7 +1819,7 @@ Equity
 <button
     class="filter-btn"
     data-filter="Mutual Funds"
-    onclick="setCategoryFilter('Mutual Funds', true)"
+    onclick="setCategoryFilter('Mutual Funds')"
 >
 Funds
 </button>
@@ -1904,7 +1827,7 @@ Funds
 <button
     class="filter-btn"
     data-filter="Gold"
-    onclick="setCategoryFilter('Gold', true)"
+    onclick="setCategoryFilter('Gold')"
 >
 Gold
 </button>
@@ -1912,13 +1835,12 @@ Gold
 <button
     class="filter-btn"
     data-filter="Fixed Income"
-    onclick="setCategoryFilter('Fixed Income', true)"
+    onclick="setCategoryFilter('Fixed Income')"
 >
 Fixed Income
 </button>
 
 </div>
-
 
 <div class="table-scroll">
 
@@ -1956,16 +1878,13 @@ Return
 
 </thead>
 
-
-<tbody id="holdingsTable">
-</tbody>
+<tbody id="holdingsTable"></tbody>
 
 </table>
 
 </div>
 
 </div>
-
 
 <div class="footer">
 
@@ -1979,7 +1898,6 @@ My wife is the Best (She made me do it)
 
 </div>
 
-
 <!-- =====================================================
      DETAIL OVERLAY
 ===================================================== -->
@@ -1992,7 +1910,6 @@ My wife is the Best (She made me do it)
 
 <div class="detail-panel">
 
-
 <div class="detail-top">
 
 <div>
@@ -2000,19 +1917,14 @@ My wife is the Best (She made me do it)
 <div
     id="detailCategory"
     class="detail-category"
->
-EQUITY
-</div>
+></div>
 
 <h2
     id="detailName"
     class="detail-name"
->
-Asset
-</h2>
+></h2>
 
 </div>
-
 
 <button
     class="close-detail"
@@ -2023,7 +1935,6 @@ Asset
 
 </div>
 
-
 <div class="detail-main-stat">
 
 <div class="detail-current-label">
@@ -2033,162 +1944,28 @@ Current Value
 <div
     id="detailCurrent"
     class="detail-current"
->
-₹0
-</div>
+></div>
 
 <div
     id="detailReturn"
-    class="detail-return green"
->
-+0%
-</div>
+    class="detail-return"
+></div>
 
-</div>
-
-
-<div class="detail-grid">
-
-
-<div class="detail-box">
-
-<div class="detail-box-label">
-Total Invested
 </div>
 
 <div
-    id="detailInvested"
-    class="detail-box-value"
->
-₹0
-</div>
-
-</div>
-
-
-<div class="detail-box">
-
-<div class="detail-box-label">
-Gain / Loss
-</div>
+    id="detailGrid"
+    class="detail-grid"
+></div>
 
 <div
-    id="detailGain"
-    class="detail-box-value"
->
-₹0
-</div>
-
-</div>
-
-
-<div class="detail-box">
-
-<div class="detail-box-label">
-Portfolio Weight
-</div>
-
-<div
-    id="detailWeight"
-    class="detail-box-value"
->
-0%
-</div>
-
-</div>
-
-
-<div class="detail-box">
-
-<div class="detail-box-label">
-Position Rank
-</div>
-
-<div
-    id="detailRank"
-    class="detail-box-value"
->
-#1
-</div>
+    id="detailMeta"
+    class="detail-meta"
+></div>
 
 </div>
 
 </div>
-
-
-<div class="detail-meta">
-
-
-<div class="meta-item">
-
-<div class="meta-label">
-Category
-</div>
-
-<div
-    id="detailCategoryMeta"
-    class="meta-value"
->
--
-</div>
-
-</div>
-
-
-<div class="meta-item">
-
-<div class="meta-label">
-Ticker / Identifier
-</div>
-
-<div
-    id="detailTicker"
-    class="meta-value"
->
--
-</div>
-
-</div>
-
-
-<div class="meta-item">
-
-<div class="meta-label">
-Position Status
-</div>
-
-<div
-    id="detailStatus"
-    class="meta-value"
->
--
-</div>
-
-</div>
-
-
-<div class="meta-item">
-
-<div class="meta-label">
-Capital Efficiency
-</div>
-
-<div
-    id="detailEfficiency"
-    class="meta-value"
->
--
-</div>
-
-</div>
-
-</div>
-
-
-</div>
-
-</div>
-
 
 <!-- =====================================================
      TOAST
@@ -2199,7 +1976,6 @@ Capital Efficiency
     class="toast"
 ></div>
 
-
 <script>
 
 /* =========================================================
@@ -2209,9 +1985,8 @@ Capital Efficiency
 const API_URL =
 "https://script.google.com/macros/s/AKfycbyaFeW3jP8aoK-T0fu_8uGZMNYzEj1R4_nXkkzrJqpmcsEpyF-5tOioKit4iR1TaIRd/exec";
 
-
 /* =========================================================
-   FICTIONAL DEMO DATA
+   DEMO DATA
 ========================================================= */
 
 const DEMO_ASSETS = [
@@ -2282,14 +2057,11 @@ const DEMO_ASSETS = [
 
 ];
 
-
 /* =========================================================
    STATE
 ========================================================= */
 
-let assets = DEMO_ASSETS;
-
-let displayedAssets = DEMO_ASSETS;
+let assets = [...DEMO_ASSETS];
 
 let currentCategory = "All";
 
@@ -2297,12 +2069,51 @@ let allocationChart = null;
 
 let portfolioChart = null;
 
+/*
+   Stable colors.
+
+   IMPORTANT:
+   These are intentionally kept fixed so the donut does
+   not change colors when a category is selected.
+*/
+
+const ALLOCATION_COLORS = [
+    "#ffc46b",
+    "#6ec8ff",
+    "#8ee6b2",
+    "#ff8e83",
+    "#b79cff",
+    "#f4a261",
+    "#72ddf7",
+    "#d4a5ff"
+];
 
 /* =========================================================
-   FORMATTERS
+   HELPERS
 ========================================================= */
 
+function hasValue(value){
+
+    return value !== undefined &&
+           value !== null &&
+           value !== "" &&
+           !Number.isNaN(Number(value));
+
+}
+
+function numeric(value){
+
+    return hasValue(value)
+        ? Number(value)
+        : null;
+
+}
+
 function money(value){
+
+    if(!hasValue(value)){
+        return "";
+    }
 
     return new Intl.NumberFormat(
         "en-IN",
@@ -2311,22 +2122,65 @@ function money(value){
             currency:"INR",
             maximumFractionDigits:0
         }
-    ).format(value);
+    ).format(Number(value));
 
 }
 
-
 function number(value){
+
+    if(!hasValue(value)){
+        return "";
+    }
 
     return new Intl.NumberFormat(
         "en-IN",
         {
             maximumFractionDigits:0
         }
-    ).format(value);
+    ).format(Number(value));
 
 }
 
+function gainFor(asset){
+
+    const invested = numeric(asset.Invested);
+    const current = numeric(asset.CurrentValue);
+
+    if(invested === null || current === null){
+        return null;
+    }
+
+    return current - invested;
+
+}
+
+function returnFor(asset){
+
+    const invested = numeric(asset.Invested);
+    const gain = gainFor(asset);
+
+    if(
+        invested === null ||
+        gain === null ||
+        invested === 0
+    ){
+        return null;
+    }
+
+    return gain / invested * 100;
+
+}
+
+function escapeHTML(value){
+
+    return String(value ?? "")
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+
+}
 
 /* =========================================================
    TOAST
@@ -2341,13 +2195,15 @@ function showToast(message){
 
     toast.classList.add("show");
 
-    setTimeout(
-        () => toast.classList.remove("show"),
-        3000
-    );
+    clearTimeout(window.toastTimer);
+
+    window.toastTimer =
+        setTimeout(
+            () => toast.classList.remove("show"),
+            3000
+        );
 
 }
-
 
 /* =========================================================
    STATUS
@@ -2376,8 +2232,8 @@ function setDemoStatus(){
         "tableStatus"
     ).innerText =
         "DEMO DATA";
-}
 
+}
 
 function setLiveStatus(){
 
@@ -2402,8 +2258,8 @@ function setLiveStatus(){
         "tableStatus"
     ).innerText =
         "LIVE DATA";
-}
 
+}
 
 /* =========================================================
    CONNECT
@@ -2417,7 +2273,6 @@ async function connectToSheet(){
             .value
             .trim();
 
-
     if(!password){
 
         showToast(
@@ -2426,7 +2281,6 @@ async function connectToSheet(){
 
         return;
     }
-
 
     const button =
         document.getElementById(
@@ -2437,7 +2291,6 @@ async function connectToSheet(){
 
     button.innerText =
         "Connecting…";
-
 
     try{
 
@@ -2455,26 +2308,16 @@ async function connectToSheet(){
 
             );
 
-
         if(!response.ok){
-
-            throw new Error(
-                "Connection failed"
-            );
+            throw new Error("Connection failed");
         }
-
 
         const data =
             await response.json();
 
-
         if(data.error){
-
-            throw new Error(
-                "Invalid passcode"
-            );
+            throw new Error("Invalid passcode");
         }
-
 
         if(
             !data.assets ||
@@ -2485,20 +2328,16 @@ async function connectToSheet(){
             throw new Error(
                 "No portfolio data received"
             );
+
         }
 
+        assets = data.assets;
 
-        assets =
-            data.assets;
-
-
-        currentCategory =
-            "All";
-
+        currentCategory = "All";
 
         setLiveStatus();
 
-        resetCategoryButtons();
+        updateFilterButtons();
 
         renderDashboard();
 
@@ -2506,23 +2345,19 @@ async function connectToSheet(){
             "✓ Portfolio unlocked • Live data connected"
         );
 
-
     }catch(error){
 
         console.error(error);
 
-        assets =
-            DEMO_ASSETS;
+        assets = [...DEMO_ASSETS];
 
-        currentCategory =
-            "All";
+        currentCategory = "All";
 
         setDemoStatus();
 
-        resetCategoryButtons();
+        updateFilterButtons();
 
         renderDashboard();
-
 
         if(
             error.message ===
@@ -2547,119 +2382,10 @@ async function connectToSheet(){
 
         button.innerText =
             "Unlock";
+
     }
 
 }
-
-
-/* =========================================================
-   DASHBOARD
-========================================================= */
-
-function renderDashboard(){
-
-    const currentAssets =
-        getFilteredAssets();
-
-
-    displayedAssets =
-        currentAssets;
-
-
-    let invested = 0;
-
-    let current = 0;
-
-
-    currentAssets.forEach(asset => {
-
-        invested +=
-            Number(asset.Invested) || 0;
-
-        current +=
-            Number(asset.CurrentValue) || 0;
-
-    });
-
-
-    const gain =
-        current - invested;
-
-
-    const returnPercent =
-        invested > 0
-        ? gain / invested * 100
-        : 0;
-
-
-    document.getElementById(
-        "totalValue"
-    ).innerText =
-        money(current);
-
-
-    document.getElementById(
-        "totalInvested"
-    ).innerText =
-        money(invested);
-
-
-    const gainElement =
-        document.getElementById(
-            "totalGain"
-        );
-
-
-    gainElement.innerText =
-        (gain >= 0 ? "+" : "") +
-        money(gain);
-
-
-    gainElement.className =
-        "stat-change " +
-        (gain >= 0 ? "green" : "red");
-
-
-    document.getElementById(
-        "returnPercent"
-    ).innerText =
-        returnPercent.toFixed(2) +
-        "%";
-
-
-    const returnText =
-        document.getElementById(
-            "returnText"
-        );
-
-
-    returnText.innerText =
-        gain >= 0
-        ? "Portfolio is in profit"
-        : "Portfolio is below cost";
-
-
-    returnText.className =
-        "stat-change " +
-        (gain >= 0 ? "green" : "red");
-
-
-    document.getElementById(
-        "holdingCount"
-    ).innerText =
-        currentAssets.length;
-
-
-    renderInsights();
-
-    renderAllocation();
-
-    renderTable();
-
-    updateFilterSummary();
-
-}
-
 
 /* =========================================================
    FILTERED ASSETS
@@ -2674,77 +2400,35 @@ function getFilteredAssets(){
             .toLowerCase()
             .trim();
 
-
     return assets.filter(asset => {
 
         const categoryMatch =
             currentCategory === "All" ||
-            asset.Category === currentCategory;
-
+            String(asset.Category || "") === currentCategory;
 
         const searchMatch =
             !search ||
-            String(asset.Asset)
+            String(asset.Asset || "")
                 .toLowerCase()
                 .includes(search) ||
-            String(asset.Category)
+            String(asset.Category || "")
                 .toLowerCase()
                 .includes(search) ||
             String(asset.Ticker || "")
                 .toLowerCase()
                 .includes(search);
 
-
-        return categoryMatch &&
-               searchMatch;
+        return categoryMatch && searchMatch;
 
     });
 
 }
 
-
 /* =========================================================
-   CATEGORY FILTER
+   FILTER BUTTONS
 ========================================================= */
 
-function setCategoryFilter(category, scrollToTable = false){
-
-    currentCategory =
-        category;
-
-
-    updateCategoryButtons();
-
-    updateViewHeader();
-
-    renderDashboard();
-
-
-    /*
-       IMPORTANT:
-       The allocation donut is NOT rebuilt separately.
-       It remains purely visual and keeps its original
-       hover behaviour.
-    */
-
-
-    if(scrollToTable){
-
-        setTimeout(
-            () => scrollToPortfolioTable(),
-            120
-        );
-
-    }
-
-}
-
-
-/* =========================================================
-   CATEGORY BUTTON STATE
-========================================================= */
-
-function updateCategoryButtons(){
+function updateFilterButtons(){
 
     document
         .querySelectorAll(".filter-btn")
@@ -2759,249 +2443,74 @@ function updateCategoryButtons(){
 
 }
 
-
-/* =========================================================
-   RESET FILTER BUTTONS
-========================================================= */
-
-function resetCategoryButtons(){
-
-    currentCategory = "All";
-
-    updateCategoryButtons();
-
-    updateViewHeader();
-
-    document
-        .getElementById("searchInput")
-        .value = "";
-
-}
-
-
 /* =========================================================
    VIEW HEADER
 ========================================================= */
 
 function updateViewHeader(){
 
-    if(currentCategory === "All"){
-
-        hideViewHeader();
-
-        return;
-
-    }
-
-
-    showViewHeader(
-        currentCategory,
-        currentCategory === "Mutual Funds"
-        ? "Your fund positions"
-        : "Your " +
-          currentCategory.toLowerCase() +
-          " positions"
-    );
-
-}
-
-
-function showViewHeader(
-    title,
-    subtitle
-){
-
-    document
-        .getElementById("viewHeader")
-        .classList.add("active");
-
-
-    document.getElementById(
-        "viewTitle"
-    ).innerText =
-        title;
-
-
-    document.getElementById(
-        "viewSubtitle"
-    ).innerText =
-        subtitle;
-}
-
-
-function hideViewHeader(){
-
-    document
-        .getElementById("viewHeader")
-        .classList.remove("active");
-
-}
-
-
-/* =========================================================
-   SHOW ALL ASSETS
-========================================================= */
-
-function showAllAssets(){
-
-    currentCategory =
-        "All";
-
-
-    document
-        .getElementById("searchInput")
-        .value = "";
-
-
-    updateCategoryButtons();
-
-    hideViewHeader();
-
-    animateDashboard();
-
-    renderDashboard();
-
-
-    setTimeout(
-        () => scrollToPortfolioTable(),
-        100
-    );
-
-}
-
-
-/* =========================================================
-   SEARCH
-========================================================= */
-
-function handleSearch(){
-
-    /*
-       Searching does not alter the allocation donut.
-       It only changes the table/dashboard view.
-    */
-
-    renderDashboard();
-
-}
-
-
-/* =========================================================
-   FILTER SUMMARY
-========================================================= */
-
-function updateFilterSummary(){
-
-    const summary =
+    const header =
         document.getElementById(
-            "portfolioFilterSummary"
+            "viewHeader"
         );
 
-
-    const text =
+    const title =
         document.getElementById(
-            "portfolioFilterText"
+            "viewTitle"
         );
 
+    const subtitle =
+        document.getElementById(
+            "viewSubtitle"
+        );
 
     if(currentCategory === "All"){
 
-        summary.style.display =
-            "none";
+        header.classList.remove("active");
+
+        title.innerText =
+            "Portfolio";
+
+        subtitle.innerText =
+            "All holdings";
 
         return;
 
     }
 
+    header.classList.add("active");
 
-    const count =
-        getFilteredAssets().length;
+    title.innerText =
+        currentCategory;
 
-
-    summary.style.display =
-        "flex";
-
-
-    text.innerHTML = `
-
-        Showing
-        <strong>
-            ${count}
-        </strong>
-
-        ${escapeHTML(
-            currentCategory
-        )}
-
-        ${count === 1
-            ? "holding"
-            : "holdings"}
-
-    `;
+    subtitle.innerText =
+        "Filtered portfolio view";
 
 }
 
-
 /* =========================================================
-   SCROLL TO PORTFOLIO
+   CATEGORY FILTER
+
+   IMPORTANT:
+
+   Selecting a category DOES NOT:
+   - move the allocation card
+   - scroll the page
+   - redraw the donut
+   - change donut colours
+   - animate the donut again
 ========================================================= */
 
-function scrollToPortfolioTable(){
+function setCategoryFilter(category){
 
-    const tableCard =
-        document.getElementById(
-            "portfolioTableCard"
-        );
+    currentCategory = category;
 
+    updateFilterButtons();
 
-    if(!tableCard){
-        return;
-    }
-
-
-    tableCard.scrollIntoView({
-
-        behavior:"smooth",
-
-        block:"start"
-
-    });
-
-
-    /*
-       A subtle visual cue after the scroll.
-    */
-
-    setTimeout(() => {
-
-        tableCard.style.transition =
-            "box-shadow .35s ease";
-
-        tableCard.style.boxShadow =
-            "0 20px 90px rgba(255,196,107,.10)";
-
-        setTimeout(() => {
-
-            tableCard.style.boxShadow =
-                "";
-
-        },700);
-
-    },450);
-
-}
-
-
-/* =========================================================
-   DASHBOARD ANIMATION
-========================================================= */
-
-function animateDashboard(){
+    updateViewHeader();
 
     const dashboard =
-        document.getElementById(
-            "dashboard"
-        );
+        document.getElementById("dashboard");
 
     dashboard.classList.remove(
         "view-changing"
@@ -3012,202 +2521,184 @@ function animateDashboard(){
     dashboard.classList.add(
         "view-changing"
     );
+
+    renderDashboard();
+
 }
 
-
 /* =========================================================
-   INSIGHTS
+   SHOW ALL
 ========================================================= */
 
-function renderInsights(){
+function showAllAssets(){
+
+    currentCategory = "All";
+
+    document
+        .getElementById("searchInput")
+        .value = "";
+
+    updateFilterButtons();
+
+    updateViewHeader();
+
+    renderDashboard();
+
+}
+
+/* =========================================================
+   DASHBOARD
+========================================================= */
+
+function renderDashboard(){
 
     const currentAssets =
         getFilteredAssets();
 
+    renderStats(currentAssets);
 
-    if(!currentAssets.length){
+    renderInsights(currentAssets);
 
-        document.getElementById(
-            "topWinner"
-        ).innerText =
-            "No holdings found.";
+    /*
+       renderAllocation() updates the legend and snapshot
+       but DOES NOT destroy the donut chart every time.
+    */
+    renderAllocation();
 
-        document.getElementById(
-            "topLoser"
-        ).innerText =
-            "No holdings found.";
+    renderAllocationSnapshot();
 
-        document.getElementById(
-            "largestPosition"
-        ).innerText =
-            "No holdings found.";
+    renderHealth(currentAssets);
 
-        return;
-    }
+    renderTable(currentAssets);
 
-
-    const performers =
-        [...currentAssets].sort(
-            (a,b) =>
-                (
-                    Number(b.CurrentValue) -
-                    Number(b.Invested)
-                ) -
-                (
-                    Number(a.CurrentValue) -
-                    Number(a.Invested)
-                )
-        );
-
-
-    const losers =
-        [...currentAssets].sort(
-            (a,b) =>
-                (
-                    Number(a.CurrentValue) -
-                    Number(a.Invested)
-                ) -
-                (
-                    Number(b.CurrentValue) -
-                    Number(b.Invested)
-                )
-        );
-
-
-    const largest =
-        [...currentAssets].sort(
-            (a,b) =>
-                Number(b.CurrentValue) -
-                Number(a.CurrentValue)
-        );
-
-
-    const winner =
-        performers[0];
-
-    const loser =
-        losers[0];
-
-    const biggest =
-        largest[0];
-
-
-    document.getElementById(
-        "topWinner"
-    ).innerHTML = `
-
-        <strong>
-            ${escapeHTML(winner.Asset)}
-        </strong>
-
-        gained
-
-        <strong class="green">
-
-            ${money(
-                Number(winner.CurrentValue) -
-                Number(winner.Invested)
-            )}
-
-        </strong>
-
-        <br>
-
-        <small>
-            Click to inspect
-        </small>
-
-    `;
-
-
-    document.getElementById(
-        "topLoser"
-    ).innerHTML = `
-
-        <strong>
-            ${escapeHTML(loser.Asset)}
-        </strong>
-
-        is at
-
-        <strong class="${
-            Number(loser.CurrentValue) -
-            Number(loser.Invested) >= 0
-            ? "green"
-            : "red"
-        }">
-
-            ${money(
-                Number(loser.CurrentValue) -
-                Number(loser.Invested)
-            )}
-
-        </strong>
-
-        <br>
-
-        <small>
-            Click to inspect
-        </small>
-
-    `;
-
-
-    document.getElementById(
-        "largestPosition"
-    ).innerHTML = `
-
-        <strong>
-            ${escapeHTML(biggest.Asset)}
-        </strong>
-
-        is your largest position at
-
-        <strong class="orange">
-
-            ${money(
-                Number(biggest.CurrentValue)
-            )}
-
-        </strong>
-
-        <br>
-
-        <small>
-            Click to inspect
-        </small>
-
-    `;
-
-
-    document.getElementById(
-        "winnerCard"
-    ).onclick =
-        () => openDetail(winner);
-
-
-    document.getElementById(
-        "loserCard"
-    ).onclick =
-        () => openDetail(loser);
-
-
-    document.getElementById(
-        "largestCard"
-    ).onclick =
-        () => openDetail(biggest);
+    renderPortfolioChart(currentAssets);
 
 }
 
-
 /* =========================================================
-   ALLOCATION
+   STATS
 ========================================================= */
 
-function renderAllocation(){
+function renderStats(currentAssets){
+
+    let invested = 0;
+    let current = 0;
+
+    let investedAvailable = false;
+    let currentAvailable = false;
+
+    currentAssets.forEach(asset => {
+
+        const i = numeric(asset.Invested);
+        const c = numeric(asset.CurrentValue);
+
+        if(i !== null){
+            invested += i;
+            investedAvailable = true;
+        }
+
+        if(c !== null){
+            current += c;
+            currentAvailable = true;
+        }
+
+    });
+
+    const gain =
+        investedAvailable &&
+        currentAvailable
+        ? current - invested
+        : null;
+
+    const returnPercent =
+        investedAvailable &&
+        currentAvailable &&
+        invested > 0
+        ? gain / invested * 100
+        : null;
+
+    document.getElementById(
+        "totalValue"
+    ).innerText =
+        currentAvailable
+        ? money(current)
+        : "—";
+
+    document.getElementById(
+        "totalInvested"
+    ).innerText =
+        investedAvailable
+        ? money(invested)
+        : "—";
+
+    const gainElement =
+        document.getElementById(
+            "totalGain"
+        );
+
+    if(gain !== null){
+
+        gainElement.innerText =
+            (gain >= 0 ? "+" : "") +
+            money(gain);
+
+        gainElement.className =
+            "stat-change " +
+            (gain >= 0 ? "green" : "red");
+
+    }else{
+
+        gainElement.innerText = "";
+
+        gainElement.className =
+            "stat-change";
+
+    }
+
+    document.getElementById(
+        "returnPercent"
+    ).innerText =
+        returnPercent !== null
+        ? returnPercent.toFixed(2) + "%"
+        : "—";
+
+    const returnText =
+        document.getElementById(
+            "returnText"
+        );
+
+    if(returnPercent !== null){
+
+        returnText.innerText =
+            gain >= 0
+            ? "Portfolio is in profit"
+            : "Portfolio is below cost";
+
+        returnText.className =
+            "stat-change " +
+            (gain >= 0 ? "green" : "red");
+
+    }else{
+
+        returnText.innerText = "";
+        returnText.className = "stat-change";
+
+    }
+
+    document.getElementById(
+        "holdingCount"
+    ).innerText =
+        currentAssets.length;
+
+}
+
+/* =========================================================
+   ALLOCATION DATA
+========================================================= */
+
+function getAllocationData(){
 
     const allocation = {};
-
 
     assets.forEach(asset => {
 
@@ -3215,25 +2706,47 @@ function renderAllocation(){
             asset.Category ||
             "Other";
 
+        const value =
+            numeric(asset.CurrentValue);
+
+        if(value === null){
+            return;
+        }
 
         allocation[category] =
-            (
-                allocation[category] || 0
-            ) +
-            (
-                Number(asset.CurrentValue) || 0
-            );
+            (allocation[category] || 0) +
+            value;
 
     });
 
+    return allocation;
+
+}
+
+/* =========================================================
+   ALLOCATION
+
+   KEY FIX:
+   The Chart.js donut is created ONCE.
+
+   Category clicks only update the legend selection.
+   Therefore the donut keeps:
+   - same position
+   - same colours
+   - same hover behaviour
+   - same animation state
+========================================================= */
+
+function renderAllocation(){
+
+    const allocation =
+        getAllocationData();
 
     const labels =
         Object.keys(allocation);
 
-
     const values =
         Object.values(allocation);
-
 
     const total =
         values.reduce(
@@ -3241,118 +2754,160 @@ function renderAllocation(){
             0
         );
 
-
     /*
-       Keep the donut visual and non-clickable.
-       We intentionally don't attach click handlers
-       to the chart.
+       Only create the chart if it doesn't already exist.
     */
 
-    if(allocationChart){
+    if(!allocationChart){
 
-        allocationChart.destroy();
+        allocationChart =
+            new Chart(
 
-    }
+                document.getElementById(
+                    "allocationChart"
+                ),
 
+                {
 
-    allocationChart =
-        new Chart(
+                    type:"doughnut",
 
-            document.getElementById(
-                "allocationChart"
-            ),
+                    data:{
 
-            {
+                        labels,
 
-                type:"doughnut",
+                        datasets:[{
 
-                data:{
+                            data:values,
 
-                    labels,
+                            backgroundColor:
+                                labels.map(
+                                    (_,index) =>
+                                        ALLOCATION_COLORS[
+                                            index %
+                                            ALLOCATION_COLORS.length
+                                        ]
+                                ),
 
-                    datasets:[{
+                            borderWidth:0,
 
-                        data:values,
+                            hoverOffset:12
 
-                        borderWidth:0,
+                        }]
 
-                        hoverOffset:12
+                    },
 
-                    }]
+                    options:{
 
-                },
+                        responsive:true,
 
-                options:{
+                        maintainAspectRatio:false,
 
-                    responsive:true,
+                        cutout:"72%",
 
-                    maintainAspectRatio:false,
+                        plugins:{
 
-                    cutout:"72%",
+                            legend:{
+                                display:false
+                            }
 
-                    plugins:{
+                        },
 
-                        legend:{
-                            display:false
+                        /*
+                           This preserves the nice original
+                           hover response.
+                        */
+
+                        animation:{
+                            duration:1100
+                        },
+
+                        interaction:{
+                            mode:"nearest",
+                            intersect:true
                         }
 
-                    },
-
-                    animation:{
-                        duration:1100
-                    },
-
-                    interaction:{
-                        mode:"nearest",
-
-                        intersect:true
                     }
 
                 }
 
-            }
+            );
 
-        );
+    }else{
 
+        /*
+           If Google Sheet data changes after unlocking,
+           update the donut data without recreating the
+           chart unnecessarily.
+        */
+
+        const existingLabels =
+            allocationChart.data.labels || [];
+
+        const changed =
+            JSON.stringify(existingLabels) !==
+            JSON.stringify(labels);
+
+        if(changed){
+
+            allocationChart.data.labels =
+                labels;
+
+            allocationChart.data.datasets[0].data =
+                values;
+
+            allocationChart.data.datasets[0].backgroundColor =
+                labels.map(
+                    (_,index) =>
+                        ALLOCATION_COLORS[
+                            index %
+                            ALLOCATION_COLORS.length
+                        ]
+                );
+
+            allocationChart.update("none");
+
+        }
+
+    }
+
+    /*
+       Rebuild ONLY the legend.
+       This does not touch the donut.
+    */
 
     const legend =
         document.getElementById(
             "allocationLegend"
         );
 
-
     legend.innerHTML = "";
-
 
     labels.forEach(
         (label,index) => {
 
-            const percentage =
+            const percentageValue =
                 total > 0
                 ? values[index] / total * 100
                 : 0;
-
 
             const row =
                 document.createElement(
                     "div"
                 );
 
-
             row.className =
-                "legend-row";
-
-
-            if(
-                currentCategory === label
-            ){
-
-                row.classList.add(
-                    "selected"
+                "legend-row" +
+                (
+                    currentCategory === label
+                    ? " selected"
+                    : ""
                 );
 
-            }
-
+            const color =
+                ALLOCATION_COLORS[
+                    index %
+                    ALLOCATION_COLORS.length
+                ];
 
             row.innerHTML = `
 
@@ -3360,6 +2915,7 @@ function renderAllocation(){
 
                     <div
                         class="legend-dot"
+                        style="background:${color}"
                     ></div>
 
                     <span>
@@ -3369,27 +2925,19 @@ function renderAllocation(){
                 </div>
 
                 <strong>
-                    ${percentage.toFixed(1)}%
+                    ${percentageValue.toFixed(1)}%
                 </strong>
 
             `;
 
-
             /*
-               ONLY THE LEGEND IS CLICKABLE.
-               The donut itself remains untouched.
+               ONLY THE LEGEND is clickable.
+
+               The donut itself remains hover-only.
             */
 
             row.onclick =
-                () => {
-
-                    setCategoryFilter(
-                        label,
-                        true
-                    );
-
-                };
-
+                () => setCategoryFilter(label);
 
             legend.appendChild(row);
 
@@ -3398,29 +2946,642 @@ function renderAllocation(){
 
 }
 
+/* =========================================================
+   ALLOCATION SNAPSHOT
+========================================================= */
+
+function renderAllocationSnapshot(){
+
+    const box =
+        document.getElementById(
+            "allocationSnapshot"
+        );
+
+    let category =
+        currentCategory;
+
+    if(category === "All"){
+
+        const largest =
+            getLargestPosition();
+
+        box.innerHTML = `
+
+            <div class="snapshot-top">
+
+                <div class="snapshot-title">
+                    Portfolio snapshot
+                </div>
+
+                <div class="snapshot-pill">
+                    All assets
+                </div>
+
+            </div>
+
+            <div class="snapshot-grid">
+
+                <div>
+
+                    <div class="snapshot-item-label">
+                        Categories
+                    </div>
+
+                    <div class="snapshot-item-value">
+                        ${new Set(
+                            assets
+                                .map(a => a.Category)
+                                .filter(Boolean)
+                        ).size}
+                    </div>
+
+                </div>
+
+                <div>
+
+                    <div class="snapshot-item-label">
+                        Positions
+                    </div>
+
+                    <div class="snapshot-item-value">
+                        ${assets.length}
+                    </div>
+
+                </div>
+
+                <div>
+
+                    <div class="snapshot-item-label">
+                        Largest
+                    </div>
+
+                    <div class="snapshot-item-value">
+                        ${
+                            largest
+                            ? escapeHTML(largest.Asset)
+                            : "—"
+                        }
+                    </div>
+
+                </div>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+    const categoryAssets =
+        assets.filter(
+            asset =>
+                String(asset.Category || "") === category
+        );
+
+    let invested = 0;
+    let current = 0;
+
+    let hasInvested = false;
+    let hasCurrent = false;
+
+    categoryAssets.forEach(asset => {
+
+        const i = numeric(asset.Invested);
+        const c = numeric(asset.CurrentValue);
+
+        if(i !== null){
+            invested += i;
+            hasInvested = true;
+        }
+
+        if(c !== null){
+            current += c;
+            hasCurrent = true;
+        }
+
+    });
+
+    const gain =
+        hasInvested && hasCurrent
+        ? current - invested
+        : null;
+
+    const ret =
+        hasInvested &&
+        hasCurrent &&
+        invested > 0
+        ? gain / invested * 100
+        : null;
+
+    const items = [];
+
+    if(hasCurrent){
+
+        items.push(`
+
+            <div>
+
+                <div class="snapshot-item-label">
+                    Current Value
+                </div>
+
+                <div class="snapshot-item-value">
+                    ${money(current)}
+                </div>
+
+            </div>
+
+        `);
+
+    }
+
+    if(hasInvested){
+
+        items.push(`
+
+            <div>
+
+                <div class="snapshot-item-label">
+                    Invested
+                </div>
+
+                <div class="snapshot-item-value">
+                    ${money(invested)}
+                </div>
+
+            </div>
+
+        `);
+
+    }
+
+    if(ret !== null){
+
+        items.push(`
+
+            <div>
+
+                <div class="snapshot-item-label">
+                    Return
+                </div>
+
+                <div
+                    class="snapshot-item-value ${
+                        ret >= 0
+                        ? "green"
+                        : "red"
+                    }"
+                >
+                    ${ret >= 0 ? "+" : ""}
+                    ${ret.toFixed(2)}%
+                </div>
+
+            </div>
+
+        `);
+
+    }
+
+    if(!items.length){
+
+        box.innerHTML = "";
+        return;
+
+    }
+
+    box.innerHTML = `
+
+        <div class="snapshot-top">
+
+            <div class="snapshot-title">
+                ${escapeHTML(category)}
+            </div>
+
+            <div class="snapshot-pill">
+
+                ${categoryAssets.length}
+
+                ${
+                    categoryAssets.length === 1
+                    ? "position"
+                    : "positions"
+                }
+
+            </div>
+
+        </div>
+
+        <div class="snapshot-grid">
+            ${items.join("")}
+        </div>
+
+    `;
+
+}
+
+/* =========================================================
+   HEALTH
+========================================================= */
+
+function renderHealth(currentAssets){
+
+    const strip =
+        document.getElementById(
+            "healthStrip"
+        );
+
+    const items = [];
+
+    const validReturns =
+        currentAssets
+            .map(asset => ({
+                asset,
+                ret:returnFor(asset)
+            }))
+            .filter(x => x.ret !== null);
+
+    if(validReturns.length){
+
+        const profitable =
+            validReturns.filter(
+                x => x.ret >= 0
+            ).length;
+
+        const ratio =
+            profitable /
+            validReturns.length *
+            100;
+
+        items.push(`
+
+            <div class="glass health-item">
+
+                <div class="health-left">
+
+                    <div class="health-icon">
+                        📈
+                    </div>
+
+                    <div>
+
+                        <div class="health-label">
+                            Holdings in profit
+                        </div>
+
+                        <div class="health-value">
+                            ${profitable}/${validReturns.length}
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <strong class="${
+                    ratio >= 50
+                    ? "green"
+                    : "red"
+                }">
+                    ${ratio.toFixed(0)}%
+                </strong>
+
+            </div>
+
+        `);
+
+    }
+
+    const largest =
+        getLargestPosition(currentAssets);
+
+    const total =
+        currentAssets.reduce(
+            (sum,asset) =>
+                sum +
+                (
+                    numeric(asset.CurrentValue) || 0
+                ),
+            0
+        );
+
+    if(
+        largest &&
+        total > 0 &&
+        numeric(largest.CurrentValue) !== null
+    ){
+
+        const concentration =
+            numeric(largest.CurrentValue) /
+            total *
+            100;
+
+        items.push(`
+
+            <div class="glass health-item">
+
+                <div class="health-left">
+
+                    <div class="health-icon">
+                        🎯
+                    </div>
+
+                    <div>
+
+                        <div class="health-label">
+                            Largest position
+                        </div>
+
+                        <div class="health-value">
+                            ${escapeHTML(
+                                largest.Asset
+                            )}
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <strong class="orange">
+                    ${concentration.toFixed(1)}%
+                </strong>
+
+            </div>
+
+        `);
+
+    }
+
+    if(validReturns.length){
+
+        const average =
+            validReturns.reduce(
+                (sum,x) => sum + x.ret,
+                0
+            ) / validReturns.length;
+
+        items.push(`
+
+            <div class="glass health-item">
+
+                <div class="health-left">
+
+                    <div class="health-icon">
+                        ✨
+                    </div>
+
+                    <div>
+
+                        <div class="health-label">
+                            Average holding return
+                        </div>
+
+                        <div class="health-value">
+                            ${average >= 0 ? "+" : ""}
+                            ${average.toFixed(2)}%
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <strong class="${
+                    average >= 0
+                    ? "green"
+                    : "red"
+                }">
+                    ${
+                        average >= 0
+                        ? "Positive"
+                        : "Negative"
+                    }
+                </strong>
+
+            </div>
+
+        `);
+
+    }
+
+    strip.innerHTML =
+        items.join("");
+
+}
+
+/* =========================================================
+   LARGEST POSITION
+========================================================= */
+
+function getLargestPosition(source = assets){
+
+    const valid =
+        source.filter(
+            asset =>
+                numeric(asset.CurrentValue) !== null
+        );
+
+    if(!valid.length){
+        return null;
+    }
+
+    return [...valid].sort(
+        (a,b) =>
+            numeric(b.CurrentValue) -
+            numeric(a.CurrentValue)
+    )[0];
+
+}
+
+/* =========================================================
+   INSIGHTS
+========================================================= */
+
+function renderInsights(currentAssets){
+
+    const valid =
+        currentAssets.filter(
+            asset =>
+                gainFor(asset) !== null
+        );
+
+    const winner =
+        valid.length
+        ? [...valid].sort(
+            (a,b) =>
+                gainFor(b) -
+                gainFor(a)
+        )[0]
+        : null;
+
+    const loser =
+        valid.length
+        ? [...valid].sort(
+            (a,b) =>
+                gainFor(a) -
+                gainFor(b)
+        )[0]
+        : null;
+
+    const biggest =
+        getLargestPosition(currentAssets);
+
+    const winnerCard =
+        document.getElementById(
+            "winnerCard"
+        );
+
+    const loserCard =
+        document.getElementById(
+            "loserCard"
+        );
+
+    const largestCard =
+        document.getElementById(
+            "largestCard"
+        );
+
+    const winnerText =
+        document.getElementById(
+            "topWinner"
+        );
+
+    const loserText =
+        document.getElementById(
+            "topLoser"
+        );
+
+    const largestText =
+        document.getElementById(
+            "largestPosition"
+        );
+
+    if(winner){
+
+        winnerText.innerHTML = `
+
+            <strong>
+                ${escapeHTML(winner.Asset)}
+            </strong>
+
+            gained
+
+            <strong class="${
+                gainFor(winner) >= 0
+                ? "green"
+                : "red"
+            }">
+
+                ${gainFor(winner) >= 0 ? "+" : ""}
+                ${money(gainFor(winner))}
+
+            </strong>
+
+            <br>
+
+            <small>
+                Click to inspect
+            </small>
+
+        `;
+
+        winnerCard.onclick =
+            () => openDetail(winner);
+
+    }else{
+
+        winnerText.innerHTML = "";
+        winnerCard.onclick = null;
+
+    }
+
+    if(loser){
+
+        loserText.innerHTML = `
+
+            <strong>
+                ${escapeHTML(loser.Asset)}
+            </strong>
+
+            is at
+
+            <strong class="${
+                gainFor(loser) >= 0
+                ? "green"
+                : "red"
+            }">
+
+                ${gainFor(loser) >= 0 ? "+" : ""}
+                ${money(gainFor(loser))}
+
+            </strong>
+
+            <br>
+
+            <small>
+                Click to inspect
+            </small>
+
+        `;
+
+        loserCard.onclick =
+            () => openDetail(loser);
+
+    }else{
+
+        loserText.innerHTML = "";
+        loserCard.onclick = null;
+
+    }
+
+    if(biggest){
+
+        largestText.innerHTML = `
+
+            <strong>
+                ${escapeHTML(biggest.Asset)}
+            </strong>
+
+            is your largest position at
+
+            <strong class="orange">
+
+                ${money(
+                    biggest.CurrentValue
+                )}
+
+            </strong>
+
+            <br>
+
+            <small>
+                Click to inspect
+            </small>
+
+        `;
+
+        largestCard.onclick =
+            () => openDetail(biggest);
+
+    }else{
+
+        largestText.innerHTML = "";
+        largestCard.onclick = null;
+
+    }
+
+}
 
 /* =========================================================
    TABLE
 ========================================================= */
 
-function renderTable(){
+function renderTable(currentAssets){
 
     const table =
         document.getElementById(
             "holdingsTable"
         );
 
-
-    const currentAssets =
-        getFilteredAssets();
-
-
-    displayedAssets =
-        currentAssets;
-
-
     table.innerHTML = "";
-
 
     if(!currentAssets.length){
 
@@ -3436,143 +3597,139 @@ function renderTable(){
                         color:rgba(255,255,255,.4);
                     "
                 >
-
-                    No holdings found.
-
+                    No matching holdings.
                 </td>
 
             </tr>
 
         `;
 
-        renderPortfolioChart();
-
         return;
-    }
 
+    }
 
     currentAssets.forEach(asset => {
 
         const invested =
-            Number(asset.Invested) || 0;
-
+            numeric(asset.Invested);
 
         const current =
-            Number(asset.CurrentValue) || 0;
-
+            numeric(asset.CurrentValue);
 
         const gain =
-            current - invested;
+            gainFor(asset);
 
-
-        const percentage =
-            invested > 0
-            ? gain / invested * 100
-            : 0;
-
+        const ret =
+            returnFor(asset);
 
         const row =
             document.createElement("tr");
 
-
         row.innerHTML = `
 
             <td class="asset-name">
-
-                ${escapeHTML(asset.Asset)}
-
+                ${escapeHTML(
+                    asset.Asset
+                )}
             </td>
-
 
             <td>
 
-                <span class="badge">
-
-                    ${escapeHTML(
-                        asset.Category || "Other"
-                    )}
-
-                </span>
+                ${
+                    asset.Category
+                    ? `
+                        <span class="badge">
+                            ${escapeHTML(
+                                asset.Category
+                            )}
+                        </span>
+                    `
+                    : ""
+                }
 
             </td>
-
 
             <td>
-
-                ${money(invested)}
-
+                ${
+                    invested !== null
+                    ? money(invested)
+                    : ""
+                }
             </td>
-
 
             <td>
-
-                ${money(current)}
-
+                ${
+                    current !== null
+                    ? money(current)
+                    : ""
+                }
             </td>
 
-
-            <td
-                class="${
-                    gain >= 0
+            <td class="${
+                gain !== null
+                ? gain >= 0
                     ? "green"
                     : "red"
-                }"
-            >
+                : ""
+            }">
 
-                ${gain >= 0 ? "+" : ""}
-
-                ${money(gain)}
+                ${
+                    gain !== null
+                    ? (gain >= 0 ? "+" : "") +
+                      money(gain)
+                    : ""
+                }
 
             </td>
 
-
-            <td
-                class="${
-                    percentage >= 0
+            <td class="${
+                ret !== null
+                ? ret >= 0
                     ? "green"
                     : "red"
-                }"
-            >
+                : ""
+            }">
 
-                ${percentage >= 0 ? "+" : ""}
-
-                ${percentage.toFixed(2)}%
+                ${
+                    ret !== null
+                    ? (ret >= 0 ? "+" : "") +
+                      ret.toFixed(2) +
+                      "%"
+                    : ""
+                }
 
             </td>
 
         `;
 
-
         row.onclick =
             () => openDetail(asset);
-
 
         table.appendChild(row);
 
     });
 
-
-    renderPortfolioChart();
-
 }
-
 
 /* =========================================================
    PORTFOLIO CHART
 ========================================================= */
 
-function renderPortfolioChart(){
+function renderPortfolioChart(currentAssets){
 
     if(portfolioChart){
-
         portfolioChart.destroy();
-
     }
 
+    const subtitle =
+        document.getElementById(
+            "portfolioChartSubtitle"
+        );
 
-    const currentAssets =
-        getFilteredAssets();
-
+    subtitle.innerText =
+        currentCategory === "All"
+        ? "Invested vs Current"
+        : currentCategory;
 
     portfolioChart =
         new Chart(
@@ -3603,7 +3760,7 @@ function renderPortfolioChart(){
                             data:
                                 currentAssets.map(
                                     asset =>
-                                        Number(
+                                        numeric(
                                             asset.CurrentValue
                                         ) || 0
                                 ),
@@ -3622,7 +3779,7 @@ function renderPortfolioChart(){
                             data:
                                 currentAssets.map(
                                     asset =>
-                                        Number(
+                                        numeric(
                                             asset.Invested
                                         ) || 0
                                 ),
@@ -3719,9 +3876,8 @@ function renderPortfolioChart(){
 
 }
 
-
 /* =========================================================
-   INDIVIDUAL HOLDING DETAIL
+   DETAIL PANEL
 ========================================================= */
 
 function openDetail(asset){
@@ -3730,185 +3886,221 @@ function openDetail(asset){
         return;
     }
 
-
     const invested =
-        Number(asset.Invested) || 0;
-
+        numeric(asset.Invested);
 
     const current =
-        Number(asset.CurrentValue) || 0;
-
+        numeric(asset.CurrentValue);
 
     const gain =
-        current - invested;
+        gainFor(asset);
 
-
-    const percentage =
-        invested > 0
-        ? gain / invested * 100
-        : 0;
-
+    const ret =
+        returnFor(asset);
 
     const portfolioTotal =
         assets.reduce(
             (sum,item) =>
                 sum +
                 (
-                    Number(item.CurrentValue) || 0
+                    numeric(item.CurrentValue) || 0
                 ),
             0
         );
 
-
     const weight =
+        current !== null &&
         portfolioTotal > 0
         ? current / portfolioTotal * 100
-        : 0;
-
+        : null;
 
     const sorted =
-        [...assets].sort(
-            (a,b) =>
-                (
-                    Number(b.CurrentValue) || 0
-                ) -
-                (
-                    Number(a.CurrentValue) || 0
-                )
-        );
+        [...assets]
+            .filter(
+                x =>
+                    numeric(x.CurrentValue) !== null
+            )
+            .sort(
+                (a,b) =>
+                    numeric(b.CurrentValue) -
+                    numeric(a.CurrentValue)
+            );
 
-
-    const rank =
-        sorted.indexOf(asset) + 1;
-
+    const rankIndex =
+        sorted.indexOf(asset);
 
     document.getElementById(
         "detailCategory"
     ).innerText =
-        asset.Category || "OTHER";
-
+        asset.Category || "";
 
     document.getElementById(
         "detailName"
     ).innerText =
         asset.Asset || "Asset";
 
-
     document.getElementById(
         "detailCurrent"
     ).innerText =
-        money(current);
-
+        current !== null
+        ? money(current)
+        : "";
 
     const returnElement =
         document.getElementById(
             "detailReturn"
         );
 
+    if(ret !== null){
 
-    returnElement.innerText =
-        (
-            percentage >= 0
-            ? "+"
-            : ""
-        ) +
-        percentage.toFixed(2) +
-        "%";
+        returnElement.innerText =
+            (ret >= 0 ? "+" : "") +
+            ret.toFixed(2) +
+            "%";
 
+        returnElement.className =
+            "detail-return " +
+            (ret >= 0 ? "green" : "red");
 
-    returnElement.className =
-        "detail-return " +
-        (
-            percentage >= 0
-            ? "green"
-            : "red"
-        );
+    }else{
 
+        returnElement.innerText = "";
 
-    document.getElementById(
-        "detailInvested"
-    ).innerText =
-        money(invested);
+    }
 
-
-    const detailGain =
+    const detailGrid =
         document.getElementById(
-            "detailGain"
+            "detailGrid"
         );
 
+    detailGrid.innerHTML = "";
 
-    detailGain.innerText =
-        (
-            gain >= 0
-            ? "+"
+    addDetailBox(
+        detailGrid,
+        "Total Invested",
+        invested !== null
+            ? money(invested)
             : ""
-        ) +
-        money(gain);
+    );
 
+    addDetailBox(
+        detailGrid,
+        "Gain / Loss",
+        gain !== null
+            ? (gain >= 0 ? "+" : "") +
+              money(gain)
+            : "",
+        gain !== null
+            ? gain >= 0
+                ? "green"
+                : "red"
+            : ""
+    );
 
-    detailGain.className =
-        "detail-box-value " +
-        (
+    addDetailBox(
+        detailGrid,
+        "Portfolio Weight",
+        weight !== null
+            ? weight.toFixed(2) + "%"
+            : ""
+    );
+
+    if(rankIndex >= 0){
+
+        addDetailBox(
+            detailGrid,
+            "Position Rank",
+            "#" + (rankIndex + 1)
+        );
+
+    }
+
+    const meta =
+        document.getElementById(
+            "detailMeta"
+        );
+
+    meta.innerHTML = "";
+
+    addMeta(
+        meta,
+        "Category",
+        asset.Category
+    );
+
+    addMeta(
+        meta,
+        "Ticker / Identifier",
+        asset.Ticker
+    );
+
+    if(gain !== null){
+
+        addMeta(
+            meta,
+            "Position Status",
+            gain >= 0
+            ? "In profit"
+            : "Below invested value",
             gain >= 0
             ? "green"
             : "red"
         );
 
+    }
 
-    document.getElementById(
-        "detailWeight"
-    ).innerText =
-        weight.toFixed(2) +
-        "%";
+    if(ret !== null){
 
-
-    document.getElementById(
-        "detailRank"
-    ).innerText =
-        "#" +
-        rank;
-
-
-    document.getElementById(
-        "detailCategoryMeta"
-    ).innerText =
-        asset.Category ||
-        "Other";
-
-
-    document.getElementById(
-        "detailTicker"
-    ).innerText =
-        asset.Ticker ||
-        "Not supplied";
-
-
-    document.getElementById(
-        "detailStatus"
-    ).innerText =
-        gain >= 0
-        ? "In profit"
-        : "Below invested value";
-
-
-    document.getElementById(
-        "detailStatus"
-    ).className =
-        "meta-value " +
-        (
-            gain >= 0
-            ? "green"
-            : "red"
+        addMeta(
+            meta,
+            "Capital Efficiency",
+            ret >= 0
+            ? "Positive capital growth"
+            : "Capital currently under water"
         );
 
+    }
 
-    document.getElementById(
-        "detailEfficiency"
-    ).innerText =
-        percentage >= 0
-        ? "Positive capital growth"
-        : "Capital currently under water";
+    /*
+       Optional fields.
+       They appear ONLY if your Google Sheet supplies them.
+    */
 
+    const optionalFields = [
+
+        ["Fund", "Fund"],
+        ["AMC", "AMC"],
+        ["ISIN", "ISIN"],
+        ["Sector", "Sector"],
+        ["Units", "Units"],
+        ["NAV", "NAV"],
+        ["Quantity", "Quantity"],
+        ["AveragePrice", "Average Price"],
+        ["PurchaseDate", "Purchase Date"],
+        ["Type", "Type"],
+        ["Broker", "Broker"]
+
+    ];
+
+    optionalFields.forEach(
+        ([key,label]) => {
+
+            if(
+                asset[key] !== undefined &&
+                asset[key] !== null &&
+                asset[key] !== ""
+            ){
+
+                addMeta(
+                    meta,
+                    label,
+                    asset[key]
+                );
+
+            }
+
+        }
+    );
 
     document
         .getElementById(
@@ -3916,12 +4108,84 @@ function openDetail(asset){
         )
         .classList.add("open");
 
-
     document.body.style.overflow =
         "hidden";
 
 }
 
+function addDetailBox(
+    parent,
+    label,
+    value,
+    colorClass = ""
+){
+
+    if(
+        value === undefined ||
+        value === null ||
+        value === ""
+    ){
+        return;
+    }
+
+    const box =
+        document.createElement("div");
+
+    box.className =
+        "detail-box";
+
+    box.innerHTML = `
+
+        <div class="detail-box-label">
+            ${escapeHTML(label)}
+        </div>
+
+        <div class="detail-box-value ${colorClass}">
+            ${escapeHTML(value)}
+        </div>
+
+    `;
+
+    parent.appendChild(box);
+
+}
+
+function addMeta(
+    parent,
+    label,
+    value,
+    colorClass = ""
+){
+
+    if(
+        value === undefined ||
+        value === null ||
+        value === ""
+    ){
+        return;
+    }
+
+    const item =
+        document.createElement("div");
+
+    item.className =
+        "meta-item";
+
+    item.innerHTML = `
+
+        <div class="meta-label">
+            ${escapeHTML(label)}
+        </div>
+
+        <div class="meta-value ${colorClass}">
+            ${escapeHTML(value)}
+        </div>
+
+    `;
+
+    parent.appendChild(item);
+
+}
 
 /* =========================================================
    CLOSE DETAIL
@@ -3935,11 +4199,10 @@ function closeDetail(){
         )
         .classList.remove("open");
 
-
     document.body.style.overflow =
         "";
-}
 
+}
 
 function closeDetailFromOutside(event){
 
@@ -3953,7 +4216,6 @@ function closeDetailFromOutside(event){
     }
 
 }
-
 
 document.addEventListener(
     "keydown",
@@ -3970,31 +4232,17 @@ document.addEventListener(
     }
 );
 
-
-/* =========================================================
-   HTML SAFETY
-========================================================= */
-
-function escapeHTML(value){
-
-    return String(value ?? "")
-        .replaceAll("&","&amp;")
-        .replaceAll("<","&lt;")
-        .replaceAll(">","&gt;")
-        .replaceAll('"',"&quot;")
-        .replaceAll("'","&#039;");
-
-}
-
-
 /* =========================================================
    INITIAL STATE
 ========================================================= */
 
 setDemoStatus();
 
-renderDashboard();
+updateFilterButtons();
 
+updateViewHeader();
+
+renderDashboard();
 
 /* =========================================================
    ENTER KEY
