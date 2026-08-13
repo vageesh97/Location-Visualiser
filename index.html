@@ -43,7 +43,7 @@ button{
 }
 
 /* =========================================================
-   BACKGROUND
+BACKGROUND
 ========================================================= */
 
 .hero{
@@ -94,7 +94,7 @@ button{
 }
 
 /* =========================================================
-   FLOATING LIGHTS
+FLOATING LIGHTS
 ========================================================= */
 
 .orb{
@@ -143,7 +143,7 @@ button{
 }
 
 /* =========================================================
-   CONTAINER
+CONTAINER
 ========================================================= */
 
 .container{
@@ -154,7 +154,7 @@ button{
 }
 
 /* =========================================================
-   NAVBAR
+NAVBAR
 ========================================================= */
 
 .navbar{
@@ -177,7 +177,7 @@ button{
 }
 
 /* =========================================================
-   CONNECTION
+CONNECTION
 ========================================================= */
 
 .connection-area{
@@ -243,7 +243,7 @@ button{
 }
 
 /* =========================================================
-   PASSWORD
+PASSWORD
 ========================================================= */
 
 .password-box{
@@ -314,7 +314,7 @@ button{
 }
 
 /* =========================================================
-   HERO
+HERO
 ========================================================= */
 
 .hero-content{
@@ -373,7 +373,7 @@ button{
 }
 
 /* =========================================================
-   GLASS
+GLASS
 ========================================================= */
 
 .glass{
@@ -393,7 +393,7 @@ button{
 }
 
 /* =========================================================
-   STATS
+STATS
 ========================================================= */
 
 .stats{
@@ -454,7 +454,7 @@ button{
 }
 
 /* =========================================================
-   DASHBOARD
+DASHBOARD
 ========================================================= */
 
 .dashboard{
@@ -500,7 +500,7 @@ button{
 }
 
 /* =========================================================
-   CHART
+CHART
 ========================================================= */
 
 .chart-wrap{
@@ -508,7 +508,7 @@ button{
 }
 
 /* =========================================================
-   ALLOCATION
+ALLOCATION
 ========================================================= */
 
 .allocation{
@@ -577,7 +577,7 @@ button{
 }
 
 /* =========================================================
-   SNAPSHOT
+SNAPSHOT
 ========================================================= */
 
 .allocation-snapshot{
@@ -655,7 +655,7 @@ button{
 }
 
 /* =========================================================
-   INSIGHTS
+INSIGHTS
 ========================================================= */
 
 .insights{
@@ -713,7 +713,7 @@ button{
 }
 
 /* =========================================================
-   HEALTH
+HEALTH
 ========================================================= */
 
 .health-strip{
@@ -767,7 +767,7 @@ button{
 }
 
 /* =========================================================
-   TABLE
+TABLE
 ========================================================= */
 
 .table-card{
@@ -900,7 +900,7 @@ tbody tr:hover{
 }
 
 /* =========================================================
-   MORE ANALYTICS
+ANALYTICS
 ========================================================= */
 
 .analytics-toggle{
@@ -1271,7 +1271,7 @@ tbody tr:hover{
 }
 
 /* =========================================================
-   VIEW HEADER
+VIEW HEADER
 ========================================================= */
 
 .view-header{
@@ -1329,7 +1329,7 @@ tbody tr:hover{
 }
 
 /* =========================================================
-   DETAIL
+DETAIL
 ========================================================= */
 
 .detail-overlay{
@@ -1561,7 +1561,7 @@ tbody tr:hover{
 }
 
 /* =========================================================
-   FOOTER / TOAST
+FOOTER / TOAST
 ========================================================= */
 
 .footer{
@@ -1607,8 +1607,48 @@ tbody tr:hover{
     transform:translate(-50%,0);
 }
 
+
 /* =========================================================
-   MOBILE
+GREETING / WEATHER
+========================================================= */
+.greeting-line{
+    margin-top:18px;
+    min-height:34px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    color:rgba(255,255,255,.82);
+    font-size:15px;
+    font-weight:600;
+    letter-spacing:.2px;
+}
+.greeting-caret{
+    width:2px;
+    height:20px;
+    background:#ffc46b;
+    display:inline-block;
+    animation:caretBlink .9s ease-in-out infinite;
+}
+@keyframes caretBlink{0%,45%{opacity:1}46%,100%{opacity:0}}
+.weather-card{
+    margin-top:18px;
+    padding:18px 20px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:18px;
+    flex-wrap:wrap;
+}
+.weather-left{display:flex;align-items:center;gap:12px}
+.weather-icon{font-size:28px;line-height:1}
+.weather-label{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,.4)}
+.weather-location{font-size:14px;font-weight:700;margin-top:3px}
+.weather-temp{font-size:22px;font-weight:700;color:#ffc46b}
+.weather-meta{font-size:11px;color:rgba(255,255,255,.42);margin-top:2px}
+.demo-note{color:#ffc46b !important}
+
+/* =========================================================
+MOBILE
 ========================================================= */
 
 @media(max-width:1000px){
@@ -1740,10 +1780,6 @@ tbody tr:hover{
 
 <div class="container">
 
-<!-- =====================================================
-     NAVBAR
-===================================================== -->
-
 <nav class="navbar">
 
 <div class="logo">
@@ -1752,18 +1788,12 @@ Vageesh's <span>Portfolio</span>
 
 <div class="connection-area">
 
-<div
-    id="connectionStatus"
-    class="connection-status"
->
+<div id="connectionStatus" class="connection-status">
 
-<div
-    id="statusDot"
-    class="status-dot"
-></div>
+<div id="statusDot" class="status-dot"></div>
 
 <span id="statusText">
-DEMO MODE
+LOCKED
 </span>
 
 </div>
@@ -1771,39 +1801,34 @@ DEMO MODE
 <div class="password-box">
 
 <input
-    id="password"
-    type="password"
-    placeholder="Enter passcode"
+id="password"
+type="password"
+placeholder="Enter passcode"
 />
 
 <button
-    id="unlockButton"
-    onclick="connectToSheet()"
+id="unlockButton"
+onclick="connectToSheet()"
 >
 Unlock
 </button>
 
 </div>
 
+<div id="lastUpdated" class="weather-meta">Demo data • no connection</div>
+
 </div>
 
 </nav>
-
-<!-- =====================================================
-     HERO
-===================================================== -->
 
 <section class="hero-content">
 
 <div class="kicker">
 
-<div
-    id="heroDot"
-    class="status-dot"
-></div>
+<div id="heroDot" class="status-dot"></div>
 
 <span id="heroStatus">
-Demo portfolio
+Private portfolio
 </span>
 
 </div>
@@ -1819,39 +1844,30 @@ investments, allocation, winners, laggards,
 SIP growth and the road ahead.
 </p>
 
-</section>
+<div class="greeting-line" aria-live="polite">
+    <span id="greetingText"></span><span class="greeting-caret"></span>
+</div>
 
-<!-- =====================================================
-     DASHBOARD
-===================================================== -->
+</section>
 
 <section id="dashboard" class="dashboard">
 
-<div
-    id="viewHeader"
-    class="view-header"
->
+<div id="viewHeader" class="view-header">
 
 <button
-    class="back-button"
-    onclick="showAllAssets()"
+class="back-button"
+onclick="showAllAssets()"
 >
 ← Portfolio
 </button>
 
 <div>
 
-<h2
-    id="viewTitle"
-    class="view-title"
->
+<h2 id="viewTitle" class="view-title">
 Portfolio
 </h2>
 
-<div
-    id="viewSubtitle"
-    class="view-subtitle"
->
+<div id="viewSubtitle" class="view-subtitle">
 All holdings
 </div>
 
@@ -1869,18 +1885,12 @@ All holdings
 Current Portfolio
 </div>
 
-<div
-    id="totalValue"
-    class="stat-value"
->
-₹0
+<div id="totalValue" class="stat-value">
+—
 </div>
 
-<div
-    id="totalGain"
-    class="stat-change green"
->
-Demo
+<div id="totalGain" class="stat-change">
+Connect to view
 </div>
 
 </div>
@@ -1891,11 +1901,8 @@ Demo
 Total Invested
 </div>
 
-<div
-    id="totalInvested"
-    class="stat-value"
->
-₹0
+<div id="totalInvested" class="stat-value">
+—
 </div>
 
 <div class="stat-change">
@@ -1910,18 +1917,12 @@ Capital deployed
 Overall Return
 </div>
 
-<div
-    id="returnPercent"
-    class="stat-value"
->
-0%
+<div id="returnPercent" class="stat-value">
+—
 </div>
 
-<div
-    id="returnText"
-    class="stat-change"
->
-Demo portfolio
+<div id="returnText" class="stat-change">
+Live portfolio
 </div>
 
 </div>
@@ -1932,11 +1933,8 @@ Demo portfolio
 Holdings
 </div>
 
-<div
-    id="holdingCount"
-    class="stat-value"
->
-0
+<div id="holdingCount" class="stat-value">
+—
 </div>
 
 <div class="stat-change">
@@ -1960,7 +1958,7 @@ Portfolio Landscape
 </h2>
 
 <span id="portfolioChartSubtitle">
-Invested vs Current
+Current portfolio
 </span>
 
 </div>
@@ -1995,18 +1993,12 @@ Click a category
 
 </div>
 
-<div
-    id="allocationLegend"
-    class="legend"
->
+<div id="allocationLegend" class="legend">
 </div>
 
 </div>
 
-<div
-    id="allocationSnapshot"
-    class="allocation-snapshot"
->
+<div id="allocationSnapshot" class="allocation-snapshot">
 </div>
 
 </div>
@@ -2017,10 +2009,7 @@ Click a category
 
 <div class="insights">
 
-<div
-    id="winnerCard"
-    class="glass insight"
->
+<div id="winnerCard" class="glass insight">
 
 <div class="insight-icon">
 🏆
@@ -2030,14 +2019,13 @@ Click a category
 Top Performer
 </h3>
 
-<p id="topWinner"></p>
+<p id="topWinner">
+Connect your portfolio to see this.
+</p>
 
 </div>
 
-<div
-    id="loserCard"
-    class="glass insight"
->
+<div id="loserCard" class="glass insight">
 
 <div class="insight-icon">
 ⚠️
@@ -2047,14 +2035,13 @@ Top Performer
 Biggest Drag
 </h3>
 
-<p id="topLoser"></p>
+<p id="topLoser">
+Connect your portfolio to see this.
+</p>
 
 </div>
 
-<div
-    id="largestCard"
-    class="glass insight"
->
+<div id="largestCard" class="glass insight">
 
 <div class="insight-icon">
 💰
@@ -2064,7 +2051,9 @@ Biggest Drag
 Largest Position
 </h3>
 
-<p id="largestPosition"></p>
+<p id="largestPosition">
+Connect your portfolio to see this.
+</p>
 
 </div>
 
@@ -2072,15 +2061,25 @@ Largest Position
 
 <!-- HEALTH -->
 
-<div
-    id="healthStrip"
-    class="health-strip"
->
+<div id="healthStrip" class="health-strip">
 </div>
 
-<!-- =====================================================
-     HOLDINGS
-===================================================== -->
+<div class="glass weather-card" id="weatherCard">
+    <div class="weather-left">
+        <div class="weather-icon" id="weatherIcon">☀️</div>
+        <div>
+            <div class="weather-label">Your location</div>
+            <div class="weather-location" id="weatherLocation">Finding your location…</div>
+            <div class="weather-meta" id="weatherMeta">Weather will appear here</div>
+        </div>
+    </div>
+    <div>
+        <div class="weather-temp" id="weatherTemp">—</div>
+        <div class="weather-meta" id="weatherCondition">Local weather</div>
+    </div>
+</div>
+
+<!-- HOLDINGS -->
 
 <div class="glass card table-card">
 
@@ -2091,7 +2090,7 @@ Complete Portfolio
 </h2>
 
 <span id="tableStatus">
-DEMO DATA
+LOCKED
 </span>
 
 </div>
@@ -2099,57 +2098,57 @@ DEMO DATA
 <div class="table-toolbar">
 
 <input
-    id="searchInput"
-    class="search-box"
-    type="text"
-    placeholder="Search holdings..."
-    oninput="renderDashboard()"
+id="searchInput"
+class="search-box"
+type="text"
+placeholder="Search holdings..."
+oninput="renderDashboard()"
 />
 
 <button
-    class="filter-btn active"
-    data-filter="All"
-    onclick="setCategoryFilter('All')"
+class="filter-btn active"
+data-filter="All"
+onclick="setCategoryFilter('All')"
 >
 All
 </button>
 
 <button
-    class="filter-btn"
-    data-filter="Equity"
-    onclick="setCategoryFilter('Equity')"
+class="filter-btn"
+data-filter="Equity"
+onclick="setCategoryFilter('Equity')"
 >
 Equity
 </button>
 
 <button
-    class="filter-btn"
-    data-filter="Mutual Funds"
-    onclick="setCategoryFilter('Mutual Funds')"
+class="filter-btn"
+data-filter="Mutual Funds"
+onclick="setCategoryFilter('Mutual Funds')"
 >
 Funds
 </button>
 
 <button
-    class="filter-btn"
-    data-filter="Gold"
-    onclick="setCategoryFilter('Gold')"
+class="filter-btn"
+data-filter="Gold"
+onclick="setCategoryFilter('Gold')"
 >
 Gold
 </button>
 
 <button
-    class="filter-btn"
-    data-filter="Fixed Income"
-    onclick="setCategoryFilter('Fixed Income')"
+class="filter-btn"
+data-filter="Fixed Income"
+onclick="setCategoryFilter('Fixed Income')"
 >
 Fixed Income
 </button>
 
 <select
-    id="sortSelect"
-    class="sort-select"
-    onchange="renderDashboard()"
+id="sortSelect"
+class="sort-select"
+onchange="renderDashboard()"
 >
 
 <option value="default">
@@ -2215,14 +2214,12 @@ Name A–Z
 
 </div>
 
-<!-- =====================================================
-     MORE ANALYTICS
-===================================================== -->
+<!-- MORE ANALYTICS -->
 
 <button
-    id="analyticsToggle"
-    class="analytics-toggle"
-    onclick="toggleAnalytics()"
+id="analyticsToggle"
+class="analytics-toggle"
+onclick="toggleAnalytics()"
 >
 
 <div class="analytics-toggle-left">
@@ -2238,11 +2235,11 @@ More Analytics
 </div>
 
 <div
-    style="
-    color:rgba(255,255,255,.4);
-    font-size:11px;
-    margin-top:3px;
-    "
+style="
+color:rgba(255,255,255,.4);
+font-size:11px;
+margin-top:3px;
+"
 >
 SIP, projections, milestones & deeper portfolio data
 </div>
@@ -2257,10 +2254,7 @@ SIP, projections, milestones & deeper portfolio data
 
 </button>
 
-<div
-    id="analyticsPanel"
-    class="analytics-panel"
->
+<div id="analyticsPanel" class="analytics-panel">
 
 <div class="analytics-grid">
 
@@ -2273,7 +2267,7 @@ Monthly SIP
 </h3>
 
 <div class="analytics-card-subtitle">
-Live data from <strong>Sip_Config</strong>
+Live data from <strong>SIP_Config</strong>
 </div>
 
 <div class="sip-total">
@@ -2282,26 +2276,17 @@ Live data from <strong>Sip_Config</strong>
 Current Monthly SIP
 </div>
 
-<div
-    id="sipMonthly"
-    class="sip-total-value"
->
-₹0
+<div id="sipMonthly" class="sip-total-value">
+—
 </div>
 
-<div
-    id="sipAnnual"
-    class="sip-annual"
->
-₹0 / year
+<div id="sipAnnual" class="sip-annual">
+—
 </div>
 
 </div>
 
-<div
-    id="sipList"
-    class="sip-list"
->
+<div id="sipList" class="sip-list">
 </div>
 
 </div>
@@ -2321,25 +2306,25 @@ Current corpus + dynamic SIP + selected return assumption
 <div class="projection-controls">
 
 <button
-    class="scenario-btn"
-    data-scenario="conservative"
-    onclick="setProjectionScenario('conservative')"
+class="scenario-btn"
+data-scenario="conservative"
+onclick="setProjectionScenario('conservative')"
 >
 8%
 </button>
 
 <button
-    class="scenario-btn active"
-    data-scenario="actual"
-    onclick="setProjectionScenario('actual')"
+class="scenario-btn active"
+data-scenario="actual"
+onclick="setProjectionScenario('actual')"
 >
 Actual ROI
 </button>
 
 <button
-    class="scenario-btn"
-    data-scenario="optimistic"
-    onclick="setProjectionScenario('optimistic')"
+class="scenario-btn"
+data-scenario="optimistic"
+onclick="setProjectionScenario('optimistic')"
 >
 15%
 </button>
@@ -2352,19 +2337,13 @@ Actual ROI
 Projection return
 </span>
 
-<strong
-    id="projectionROI"
-    class="orange"
->
+<strong id="projectionROI" class="orange">
 —
 </strong>
 
 </div>
 
-<div
-    id="projectionTable"
-    class="projection-table"
->
+<div id="projectionTable" class="projection-table">
 </div>
 
 <div class="projection-chart-wrap">
@@ -2392,10 +2371,7 @@ Financial Milestones
 Estimated time to reach each corpus level
 </div>
 
-<div
-    id="milestoneList"
-    class="milestone-list"
->
+<div id="milestoneList" class="milestone-list">
 </div>
 
 </div>
@@ -2412,9 +2388,7 @@ SIP Allocation
 Where your monthly SIP is going
 </div>
 
-<div
-    id="sipAllocationList"
->
+<div id="sipAllocationList">
 </div>
 
 </div>
@@ -2432,14 +2406,12 @@ My wife is the Best (She made me do it)
 </div>
 </div>
 
-<!-- =====================================================
-     DETAIL OVERLAY
-===================================================== -->
+<!-- DETAIL -->
 
 <div
-    id="detailOverlay"
-    class="detail-overlay"
-    onclick="closeDetailFromOutside(event)"
+id="detailOverlay"
+class="detail-overlay"
+onclick="closeDetailFromOutside(event)"
 >
 
 <div class="detail-panel">
@@ -2448,22 +2420,17 @@ My wife is the Best (She made me do it)
 
 <div>
 
-<div
-    id="detailCategory"
-    class="detail-category"
->
+<div id="detailCategory" class="detail-category">
 </div>
 
-<h2
-    id="detailName"
-    class="detail-name"
-></h2>
+<h2 id="detailName" class="detail-name">
+</h2>
 
 </div>
 
 <button
-    class="close-detail"
-    onclick="closeDetail()"
+class="close-detail"
+onclick="closeDetail()"
 >
 ×
 </button>
@@ -2476,165 +2443,65 @@ My wife is the Best (She made me do it)
 Current Value
 </div>
 
-<div
-    id="detailCurrent"
-    class="detail-current"
->
+<div id="detailCurrent" class="detail-current">
 </div>
 
-<div
-    id="detailReturn"
-    class="detail-return"
->
+<div id="detailReturn" class="detail-return">
 </div>
 
 </div>
 
-<div
-    id="detailGrid"
-    class="detail-grid"
->
+<div id="detailGrid" class="detail-grid">
 </div>
 
-<div
-    id="detailMeta"
-    class="detail-meta"
->
+<div id="detailMeta" class="detail-meta">
 </div>
 
 </div>
 
 </div>
 
-<div
-    id="toast"
-    class="toast"
-></div>
+<div id="toast" class="toast"></div>
 
 <script>
 
 /* =========================================================
-   API
+API
 ========================================================= */
 
 const API_URL =
 "https://script.google.com/macros/s/AKfycbzeuVC1DbCcsMa6mOzABFO4cNOySPvuzoS0dW0aV3mqrjybChk1vpC6Fy7E4l65hHaT/exec";
 
 /* =========================================================
-   DEMO DATA
+STATE
 ========================================================= */
 
-const DEMO_ASSETS = [
+let apiData = null;
 
-{
-    Asset:"Oceanic Technologies",
-    Category:"Equity",
-    Invested:185000,
-    CurrentValue:218500,
-    Ticker:"DEMO:OCEAN"
-},
-
-{
-    Asset:"Sunrise Industries",
-    Category:"Equity",
-    Invested:125000,
-    CurrentValue:119500,
-    Ticker:"DEMO:SUN"
-},
-
-{
-    Asset:"BlueWave Finance",
-    Category:"Equity",
-    Invested:95000,
-    CurrentValue:108000,
-    Ticker:"DEMO:BLUE"
-},
-
-{
-    Asset:"Mountain Index Fund",
-    Category:"Mutual Funds",
-    Invested:240000,
-    CurrentValue:268500,
-    Ticker:"MF:DEMO_INDEX"
-},
-
-{
-    Asset:"Global Flexi Fund",
-    Category:"Mutual Funds",
-    Invested:180000,
-    CurrentValue:194000,
-    Ticker:"MF:DEMO_FLEXI"
-},
-
-{
-    Asset:"Coastal Midcap Fund",
-    Category:"Mutual Funds",
-    Invested:145000,
-    CurrentValue:159000,
-    Ticker:"MF:DEMO_MIDCAP"
-},
-
-{
-    Asset:"Golden Horizon ETF",
-    Category:"Gold",
-    Invested:80000,
-    CurrentValue:91000,
-    Ticker:"DEMO:GOLD"
-},
-
-{
-    Asset:"Safe Harbour Fund",
-    Category:"Fixed Income",
-    Invested:300000,
-    CurrentValue:321000,
-    Ticker:"DEMO:DEBT"
-}
-
+/* Public demo data: intentionally fictional names. */
+const demoAssets = [
+    { Asset:"Asteron Dynamics", Category:"Equity", Invested:185000, CurrentValue:214600, Ticker:"DEMO:ASTD", Quantity:120, AveragePrice:1542 },
+    { Asset:"BlueMango Systems", Category:"Equity", Invested:132500, CurrentValue:119800, Ticker:"DEMO:BMSG", Quantity:75, AveragePrice:1767 },
+    { Asset:"NorthPeak Motors", Category:"Equity", Invested:98000, CurrentValue:108900, Ticker:"DEMO:NPMT", Quantity:140, AveragePrice:700 },
+    { Asset:"Rivera Fintech", Category:"Equity", Invested:76000, CurrentValue:91400, Ticker:"DEMO:RVFT", Quantity:200, AveragePrice:380 },
+    { Asset:"Suntrail Flexi Growth Fund", Category:"Mutual Funds", Invested:245000, CurrentValue:279800, Ticker:"DEMO:STFG" },
+    { Asset:"CedarStone Equity Fund", Category:"Mutual Funds", Invested:180000, CurrentValue:201600, Ticker:"DEMO:CSEF" },
+    { Asset:"Monsoon Balanced Advantage Fund", Category:"Mutual Funds", Invested:155000, CurrentValue:168900, Ticker:"DEMO:MBAF" },
+    { Asset:"PPF", Category:"Fixed Income", Invested:500000, CurrentValue:534800, Ticker:"DEMO:PPF" }
 ];
 
-/* =========================================================
-   DEMO SIP
-========================================================= */
-
-const DEMO_SIP = [
-
-{
-    ticker:"125354",
-    sipAmount:10999.45,
-    sipDay:10,
-    fundName:"Axis Small Cap"
-},
-
-{
-    ticker:"119827",
-    sipAmount:15749.21,
-    sipDay:13,
-    fundName:"SBI Nifty 50 Index"
-},
-
-{
-    ticker:"122639",
-    sipAmount:10000,
-    sipDay:25,
-    fundName:"Parag Parikh Flexi Cap"
-},
-
-{
-    ticker:"153788",
-    sipAmount:14999.25,
-    sipDay:12,
-    fundName:"JIO Blackrock Nifty 150 Midcap"
-}
-
+const demoSipConfig = [
+    { ticker:"DEMO:STFG", sipAmount:15000, sipDay:5, fundName:"Suntrail Flexi Growth Fund" },
+    { ticker:"DEMO:CSEF", sipAmount:10000, sipDay:10, fundName:"CedarStone Equity Fund" },
+    { ticker:"DEMO:MBAF", sipAmount:7500, sipDay:15, fundName:"Monsoon Balanced Advantage Fund" }
 ];
 
-/* =========================================================
-   STATE
-========================================================= */
+let assets = [...demoAssets];
 
-let assets = [...DEMO_ASSETS];
+let sipConfig = [...demoSipConfig];
 
-let sipConfig = [...DEMO_SIP];
+let cachedLiveData = null;
+let lastRefreshInProgress = false;
 
 let currentCategory = "All";
 
@@ -2646,8 +2513,9 @@ let projectionChart = null;
 
 let projectionScenario = "actual";
 
-const ALLOCATION_COLORS = [
+let isLive = false;
 
+const ALLOCATION_COLORS = [
 "#ffc46b",
 "#6ec8ff",
 "#8ee6b2",
@@ -2656,20 +2524,20 @@ const ALLOCATION_COLORS = [
 "#f4a261",
 "#72ddf7",
 "#d4a5ff"
-
 ];
 
 /* =========================================================
-   HELPERS
+HELPERS
 ========================================================= */
 
 function hasValue(value){
 
-    return value !== undefined &&
-           value !== null &&
-           value !== "" &&
-           !Number.isNaN(Number(value));
-
+    return (
+        value !== undefined &&
+        value !== null &&
+        value !== "" &&
+        !Number.isNaN(Number(value))
+    );
 }
 
 function numeric(value){
@@ -2677,7 +2545,6 @@ function numeric(value){
     return hasValue(value)
         ? Number(value)
         : null;
-
 }
 
 function money(value){
@@ -2694,7 +2561,6 @@ function money(value){
             maximumFractionDigits:0
         }
     ).format(Number(value));
-
 }
 
 function number(value){
@@ -2709,39 +2575,6 @@ function number(value){
             maximumFractionDigits:0
         }
     ).format(Number(value));
-
-}
-
-function gainFor(asset){
-
-    const invested = numeric(asset.Invested);
-
-    const current = numeric(asset.CurrentValue);
-
-    if(invested === null || current === null){
-        return null;
-    }
-
-    return current - invested;
-
-}
-
-function returnFor(asset){
-
-    const invested = numeric(asset.Invested);
-
-    const gain = gainFor(asset);
-
-    if(
-        invested === null ||
-        gain === null ||
-        invested === 0
-    ){
-        return null;
-    }
-
-    return gain / invested * 100;
-
 }
 
 function escapeHTML(value){
@@ -2752,7 +2585,6 @@ function escapeHTML(value){
         .replaceAll(">","&gt;")
         .replaceAll('"',"&quot;")
         .replaceAll("'","&#039;");
-
 }
 
 function showToast(message){
@@ -2771,14 +2603,402 @@ function showToast(message){
             () => toast.classList.remove("show"),
             3000
         );
+}
+
+/* =========================================================
+FLEXIBLE FIELD READER
+========================================================= */
+
+function field(object, ...names){
+
+    if(!object){
+        return null;
+    }
+
+    for(const name of names){
+
+        if(
+            object[name] !== undefined &&
+            object[name] !== null &&
+            object[name] !== ""
+        ){
+
+            return object[name];
+
+        }
+
+    }
+
+    return null;
+}
+
+/* =========================================================
+NORMALISE MUTUAL FUNDS
+========================================================= */
+
+function normalizeMutualFunds(){
+
+    const rows =
+        Array.isArray(apiData?.mutualFunds)
+        ? apiData.mutualFunds
+        : [];
+
+    return rows.map(row => {
+
+        const invested =
+            numeric(
+                field(
+                    row,
+                    "invested",
+                    "totalInvested"
+                )
+            );
+
+        const current =
+            numeric(
+                field(
+                    row,
+                    "currentValue"
+                )
+            );
+
+        return {
+
+            Asset:
+                field(
+                    row,
+                    "name",
+                    "fundName",
+                    "fund",
+                    "ticker",
+                    "fundTicker"
+                ) || "Mutual Fund",
+
+            Category:
+                "Mutual Funds",
+
+            Invested:
+                invested,
+
+            CurrentValue:
+                current,
+
+            Ticker:
+                field(
+                    row,
+                    "ticker",
+                    "fundTicker"
+                ),
+
+            Units:
+                field(
+                    row,
+                    "units",
+                    "totalUnits"
+                ),
+
+            NAV:
+                field(
+                    row,
+                    "nav",
+                    "liveNAV"
+                ),
+
+            ProfitLoss:
+                numeric(
+                    field(
+                        row,
+                        "profitLoss"
+                    )
+                ),
+
+            ReturnPercent:
+                numeric(
+                    field(
+                        row,
+                        "returnPercent"
+                    )
+                ),
+
+            Original:
+                row
+
+        };
+
+    });
 
 }
 
 /* =========================================================
-   STATUS
+NORMALISE STOCKS
 ========================================================= */
 
-function setDemoStatus(){
+function normalizeStocks(){
+
+    const rows =
+        Array.isArray(apiData?.stocks)
+        ? apiData.stocks
+        : [];
+
+    return rows.map(row => {
+
+        const invested =
+            numeric(
+                field(
+                    row,
+                    "invested",
+                    "totalInvested"
+                )
+            );
+
+        const current =
+            numeric(
+                field(
+                    row,
+                    "currentValue"
+                )
+            );
+
+        return {
+
+            Asset:
+                field(
+                    row,
+                    "instrument",
+                    "name",
+                    "stockName",
+                    "symbol",
+                    "ticker",
+                    "googleTicker"
+                ) || "Stock",
+
+            Category:
+                "Equity",
+
+            Invested:
+                invested,
+
+            CurrentValue:
+                current,
+
+            Ticker:
+                field(
+                    row,
+                    "ticker",
+                    "symbol",
+                    "googleTicker"
+                ),
+
+            Quantity:
+                field(
+                    row,
+                    "quantity",
+                    "qty"
+                ),
+
+            AveragePrice:
+                field(
+                    row,
+                    "averagePrice",
+                    "avgPrice"
+                ),
+
+            LivePrice:
+                field(
+                    row,
+                    "livePrice"
+                ),
+
+            ProfitLoss:
+                numeric(
+                    field(
+                        row,
+                        "profitLoss"
+                    )
+                ),
+
+            ReturnPercent:
+                numeric(
+                    field(
+                        row,
+                        "returnPercent"
+                    )
+                ),
+
+            Original:
+                row
+
+        };
+
+    });
+
+}
+
+/* =========================================================
+NORMALISE PPF
+========================================================= */
+
+function normalizePPF(){
+
+    const rows =
+        Array.isArray(apiData?.ppf)
+        ? apiData.ppf
+        : [];
+
+    return rows.map(row => {
+
+        const invested =
+            numeric(
+                field(
+                    row,
+                    "deposited",
+                    "totalDeposited",
+                    "invested"
+                )
+            );
+
+        const current =
+            numeric(
+                field(
+                    row,
+                    "currentBalance",
+                    "currentValue"
+                )
+            );
+
+        return {
+
+            Asset:
+                field(
+                    row,
+                    "name",
+                    "fundName"
+                ) || "PPF",
+
+            Category:
+                "Fixed Income",
+
+            Invested:
+                invested,
+
+            CurrentValue:
+                current,
+
+            Ticker:
+                "PPF",
+
+            InterestRate:
+                field(
+                    row,
+                    "interestRate"
+                ),
+
+            InterestEarned:
+                numeric(
+                    field(
+                        row,
+                        "interestEarned"
+                    )
+                ),
+
+            Original:
+                row
+
+        };
+
+    });
+
+}
+
+/* =========================================================
+BUILD ASSETS FROM NEW API
+========================================================= */
+
+function buildAssetsFromAPI(){
+
+    return [
+
+        ...normalizeMutualFunds(),
+
+        ...normalizeStocks(),
+
+        ...normalizePPF()
+
+    ];
+}
+
+/* =========================================================
+NORMALISE SIP CONFIG
+========================================================= */
+
+function normalizeSIP(){
+
+    const rows =
+        Array.isArray(apiData?.sipConfig)
+        ? apiData.sipConfig
+        : [];
+
+    return rows.map(row => {
+
+        return {
+
+            ticker:
+                field(
+                    row,
+                    "ticker",
+                    "fundTicker"
+                ),
+
+            sipAmount:
+                numeric(
+                    field(
+                        row,
+                        "sipAmount",
+                        "amount",
+                        "monthlySIP",
+                        "monthlyAmount"
+                    )
+                ) || 0,
+
+            sipDay:
+                field(
+                    row,
+                    "sipDay",
+                    "day",
+                    "sipDate"
+                ),
+
+            fundName:
+                field(
+                    row,
+                    "fundName",
+                    "name",
+                    "fund",
+                    "schemeName",
+                    "ticker"
+                ) || "SIP",
+
+            Original:
+                row
+
+        };
+
+    });
+
+}
+
+/* =========================================================
+STATUS
+========================================================= */
+
+function setLockedStatus(){
+
+    isLive = false;
+
+    /* Public mode always shows fictional demo holdings. */
+    assets = [...demoAssets];
+    sipConfig = [...demoSipConfig];
+    apiData = null;
 
     const status =
         document.getElementById(
@@ -2790,7 +3010,7 @@ function setDemoStatus(){
     document.getElementById(
         "statusText"
     ).innerText =
-        "DEMO MODE";
+        "DEMO";
 
     document.getElementById(
         "heroStatus"
@@ -2802,9 +3022,14 @@ function setDemoStatus(){
     ).innerText =
         "DEMO DATA";
 
+    const updated = document.getElementById("lastUpdated");
+    if(updated) updated.innerText = "Demo data • live sheet locked";
+
 }
 
 function setLiveStatus(){
+
+    isLive = true;
 
     const status =
         document.getElementById(
@@ -2828,166 +3053,206 @@ function setLiveStatus(){
     ).innerText =
         "LIVE DATA";
 
+    const updated = document.getElementById("lastUpdated");
+    if(updated){
+        const stamp = apiData?.updatedAt ? new Date(apiData.updatedAt) : new Date();
+        updated.innerText = "Last updated • " + stamp.toLocaleString("en-IN", {dateStyle:"medium", timeStyle:"short"});
+    }
+
 }
 
 /* =========================================================
-   CONNECT
+CONNECT TO NEW API
 ========================================================= */
 
-async function connectToSheet(){
+async function hashPasscode(value){
+    const bytes = new TextEncoder().encode(value);
+    const hash = await crypto.subtle.digest("SHA-256", bytes);
+    return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2,"0")).join("");
+}
 
-    const password =
-        document
-            .getElementById("password")
-            .value
-            .trim();
+function saveLiveCache(data, passwordHash){
+    try{
+        sessionStorage.setItem("portfolio_live_cache_v2", JSON.stringify(data));
+        sessionStorage.setItem("portfolio_pass_hash_v2", passwordHash);
+    }catch(e){ console.warn("Cache unavailable", e); }
+}
 
-    if(!password){
+function loadLiveCache(){
+    try{
+        const raw = sessionStorage.getItem("portfolio_live_cache_v2");
+        return raw ? JSON.parse(raw) : null;
+    }catch(e){ return null; }
+}
 
-        showToast(
-            "Enter your passcode first."
-        );
+function applyLiveData(data, showToastMessage = false){
+    apiData = data;
+    assets = buildAssetsFromAPI();
+    sipConfig = normalizeSIP();
 
-        return;
+    if(!assets.length) throw new Error("API connected but no holdings were returned.");
 
-    }
+    currentCategory = "All";
+    setLiveStatus();
+    updateFilterButtons();
+    updateViewHeader();
+    renderDashboard();
+    renderSipAnalytics();
 
-    const button =
-        document.getElementById(
-            "unlockButton"
-        );
+    if(showToastMessage) showToast("✓ Live portfolio connected");
+}
 
-    button.disabled = true;
-
-    button.innerText =
-        "Connecting…";
+async function refreshLiveData(password, silent = false){
+    if(lastRefreshInProgress) return;
+    lastRefreshInProgress = true;
 
     try{
-
-        const response =
-            await fetch(
-                API_URL +
-                "?passcode=" +
-                encodeURIComponent(password) +
-                "&t=" +
-                Date.now(),
-                {
-                    method:"GET",
-                    cache:"no-store"
-                }
-            );
-
-        if(!response.ok){
-
-            throw new Error(
-                "Connection failed"
-            );
-
-        }
-
-        const data =
-            await response.json();
-
-        if(data.error){
-
-            throw new Error(
-                "Invalid passcode"
-            );
-
-        }
-
-        if(
-            !data.assets ||
-            !Array.isArray(data.assets) ||
-            data.assets.length === 0
-        ){
-
-            throw new Error(
-                "No portfolio data received"
-            );
-
-        }
-
-        assets = data.assets;
-
-        /*
-           THIS IS THE IMPORTANT PART.
-
-           The website now receives Sip_Config
-           directly from Google Apps Script.
-        */
-
-        if(
-            Array.isArray(data.sipConfig)
-        ){
-
-            sipConfig =
-                data.sipConfig;
-
-        }
-
-        currentCategory = "All";
-
-        setLiveStatus();
-
-        updateFilterButtons();
-
-        renderDashboard();
-
-        renderSipAnalytics();
-
-        showToast(
-            "✓ Live portfolio + SIP configuration connected"
+        const response = await fetch(
+            API_URL + "?passcode=" + encodeURIComponent(password) + "&t=" + Date.now(),
+            { method:"GET", cache:"no-store" }
         );
 
-    }catch(error){
+        if(!response.ok) throw new Error("Connection failed");
 
-        console.error(error);
+        const data = await response.json();
 
-        assets = [...DEMO_ASSETS];
-
-        sipConfig = [...DEMO_SIP];
-
-        currentCategory = "All";
-
-        setDemoStatus();
-
-        updateFilterButtons();
-
-        renderDashboard();
-
-        renderSipAnalytics();
-
-        if(
-            error.message ===
-            "Invalid passcode"
-        ){
-
-            showToast(
-                "Incorrect passcode."
-            );
-
-        }else{
-
-            showToast(
-                "Could not connect. Demo mode remains active."
-            );
-
+        if(data.success === false || data.error === true || data.error === "true"){
+            throw new Error(data.message || data.error || "Invalid passcode");
         }
 
+        const passwordHash = await hashPasscode(password);
+        saveLiveCache(data, passwordHash);
+        applyLiveData(data, !silent);
+        return true;
+    }catch(error){
+        if(!silent) throw error;
+        console.warn("Silent portfolio refresh failed:", error);
+        return false;
     }finally{
+        lastRefreshInProgress = false;
+    }
+}
 
+async function connectToSheet(){
+    const password = document.getElementById("password").value.trim();
+
+    if(!password){
+        showToast("Enter your passcode first.");
+        return;
+    }
+
+    const button = document.getElementById("unlockButton");
+    button.disabled = true;
+    button.innerText = "Unlocking…";
+
+    try{
+        const suppliedHash = await hashPasscode(password);
+        const cachedHash = sessionStorage.getItem("portfolio_pass_hash_v2");
+        const cache = loadLiveCache();
+
+        /*
+         * FAST PATH:
+         * If this is the same authenticated session, render the cached
+         * live portfolio immediately. Then refresh silently in the background.
+         */
+        if(cache && cachedHash && suppliedHash === cachedHash){
+            cachedLiveData = cache;
+            applyLiveData(cache, false);
+            button.innerText = "Unlock";
+            showToast("✓ Portfolio ready");
+            refreshLiveData(password, true);
+            return;
+        }
+
+        /* First login / changed passcode: validate against Apps Script. */
+        await refreshLiveData(password, false);
+    }catch(error){
+        console.error(error);
+        setLockedStatus();
+        renderDashboard();
+        renderSipAnalytics();
+        showToast(
+            error.message === "Invalid Passcode!" || error.message === "Invalid passcode"
+            ? "Incorrect passcode."
+            : error.message || "Could not connect to portfolio API."
+        );
+    }finally{
         button.disabled = false;
+        button.innerText = "Unlock";
+    }
+}
 
-        button.innerText =
-            "Unlock";
+/* =========================================================
+GAIN / RETURN
+========================================================= */
+
+function gainFor(asset){
+
+    const invested =
+        numeric(asset.Invested);
+
+    const current =
+        numeric(asset.CurrentValue);
+
+    if(
+        invested === null ||
+        current === null
+    ){
+
+        return null;
 
     }
+
+    return current - invested;
+}
+
+function returnFor(asset){
+
+    /*
+    Prefer the returnPercent supplied
+    by the API when available.
+
+    Otherwise calculate it.
+    */
+
+    if(
+        hasValue(
+            asset.ReturnPercent
+        )
+    ){
+
+        return Number(
+            asset.ReturnPercent
+        );
+
+    }
+
+    const invested =
+        numeric(asset.Invested);
+
+    const gain =
+        gainFor(asset);
+
+    if(
+        invested === null ||
+        gain === null ||
+        invested === 0
+    ){
+
+        return null;
+
+    }
+
+    return (
+        gain /
+        invested *
+        100
+    );
 
 }
 
 /* =========================================================
-   FILTERING
+FILTERING
 ========================================================= */
 
 function getFilteredAssets(){
@@ -3004,22 +3269,34 @@ function getFilteredAssets(){
 
             const categoryMatch =
                 currentCategory === "All" ||
-                String(asset.Category || "") ===
-                currentCategory;
+                String(
+                    asset.Category || ""
+                ) === currentCategory;
 
             const searchMatch =
                 !search ||
-                String(asset.Asset || "")
-                    .toLowerCase()
-                    .includes(search) ||
-                String(asset.Category || "")
-                    .toLowerCase()
-                    .includes(search) ||
-                String(asset.Ticker || "")
-                    .toLowerCase()
-                    .includes(search);
+                String(
+                    asset.Asset || ""
+                )
+                .toLowerCase()
+                .includes(search) ||
 
-            return categoryMatch && searchMatch;
+                String(
+                    asset.Category || ""
+                )
+                .toLowerCase()
+                .includes(search) ||
+
+                String(
+                    asset.Ticker || ""
+                )
+                .toLowerCase()
+                .includes(search);
+
+            return (
+                categoryMatch &&
+                searchMatch
+            );
 
         });
 
@@ -3033,48 +3310,59 @@ function getFilteredAssets(){
         switch(sort){
 
             case "returnDesc":
+
                 return (
                     (returnFor(b) ?? -Infinity) -
                     (returnFor(a) ?? -Infinity)
                 );
 
             case "returnAsc":
+
                 return (
                     (returnFor(a) ?? Infinity) -
                     (returnFor(b) ?? Infinity)
                 );
 
             case "gainDesc":
+
                 return (
                     (gainFor(b) ?? -Infinity) -
                     (gainFor(a) ?? -Infinity)
                 );
 
             case "gainAsc":
+
                 return (
                     (gainFor(a) ?? Infinity) -
                     (gainFor(b) ?? Infinity)
                 );
 
             case "valueDesc":
+
                 return (
                     (numeric(b.CurrentValue) ?? -Infinity) -
                     (numeric(a.CurrentValue) ?? -Infinity)
                 );
 
             case "investedDesc":
+
                 return (
                     (numeric(b.Invested) ?? -Infinity) -
                     (numeric(a.Invested) ?? -Infinity)
                 );
 
             case "nameAsc":
-                return String(a.Asset || "")
-                    .localeCompare(
-                        String(b.Asset || "")
-                    );
+
+                return String(
+                    a.Asset || ""
+                ).localeCompare(
+                    String(
+                        b.Asset || ""
+                    )
+                );
 
             default:
+
                 return 0;
 
         }
@@ -3082,11 +3370,10 @@ function getFilteredAssets(){
     });
 
     return result;
-
 }
 
 /* =========================================================
-   FILTER BUTTONS
+FILTER BUTTONS
 ========================================================= */
 
 function updateFilterButtons(){
@@ -3105,8 +3392,36 @@ function updateFilterButtons(){
 
 }
 
+function setCategoryFilter(category){
+
+    currentCategory =
+        category;
+
+    updateFilterButtons();
+
+    updateViewHeader();
+
+    renderDashboard();
+}
+
+function showAllAssets(){
+
+    currentCategory =
+        "All";
+
+    document.getElementById(
+        "searchInput"
+    ).value = "";
+
+    updateFilterButtons();
+
+    updateViewHeader();
+
+    renderDashboard();
+}
+
 /* =========================================================
-   CATEGORY VIEW
+VIEW HEADER
 ========================================================= */
 
 function updateViewHeader(){
@@ -3136,7 +3451,9 @@ function updateViewHeader(){
 
     }
 
-    header.classList.add("active");
+    header.classList.add(
+        "active"
+    );
 
     title.innerText =
         currentCategory;
@@ -3146,36 +3463,8 @@ function updateViewHeader(){
 
 }
 
-function setCategoryFilter(category){
-
-    currentCategory = category;
-
-    updateFilterButtons();
-
-    updateViewHeader();
-
-    renderDashboard();
-
-}
-
-function showAllAssets(){
-
-    currentCategory = "All";
-
-    document.getElementById(
-        "searchInput"
-    ).value = "";
-
-    updateFilterButtons();
-
-    updateViewHeader();
-
-    renderDashboard();
-
-}
-
 /* =========================================================
-   DASHBOARD
+DASHBOARD
 ========================================================= */
 
 function renderDashboard(){
@@ -3183,27 +3472,47 @@ function renderDashboard(){
     const currentAssets =
         getFilteredAssets();
 
-    renderStats(currentAssets);
+    renderStats(
+        currentAssets
+    );
 
-    renderInsights(currentAssets);
+    renderInsights(
+        currentAssets
+    );
 
     renderAllocation();
 
     renderAllocationSnapshot();
 
-    renderHealth(currentAssets);
+    renderHealth(
+        currentAssets
+    );
 
-    renderTable(currentAssets);
+    renderTable(
+        currentAssets
+    );
 
-    renderPortfolioChart(currentAssets);
+    renderPortfolioChart(
+        currentAssets
+    );
 
 }
 
 /* =========================================================
-   STATS
+STATS
 ========================================================= */
 
-function renderStats(currentAssets){
+function renderStats(
+    currentAssets
+){
+
+    /*
+    For "All", prefer the official API
+    summary totals.
+
+    For filtered views, calculate from
+    the filtered rows.
+    */
 
     let invested = 0;
 
@@ -3213,31 +3522,69 @@ function renderStats(currentAssets){
 
     let currentAvailable = false;
 
-    currentAssets.forEach(asset => {
+    if(
+        currentCategory === "All" &&
+        apiData?.summary?.total
+    ){
 
-        const i =
-            numeric(asset.Invested);
+        const summary =
+            apiData.summary.total;
 
-        const c =
-            numeric(asset.CurrentValue);
+        invested =
+            numeric(
+                summary.invested
+            ) || 0;
 
-        if(i !== null){
+        current =
+            numeric(
+                summary.currentValue
+            ) || 0;
 
-            invested += i;
+        investedAvailable =
+            hasValue(
+                summary.invested
+            );
 
-            investedAvailable = true;
+        currentAvailable =
+            hasValue(
+                summary.currentValue
+            );
 
-        }
+    }else{
 
-        if(c !== null){
+        currentAssets.forEach(
+            asset => {
 
-            current += c;
+                const i =
+                    numeric(
+                        asset.Invested
+                    );
 
-            currentAvailable = true;
+                const c =
+                    numeric(
+                        asset.CurrentValue
+                    );
 
-        }
+                if(i !== null){
 
-    });
+                    invested += i;
+
+                    investedAvailable = true;
+
+                }
+
+                if(c !== null){
+
+                    current += c;
+
+                    currentAvailable = true;
+
+                }
+
+            }
+        );
+
+    }
 
     const gain =
         investedAvailable &&
@@ -3249,7 +3596,9 @@ function renderStats(currentAssets){
         investedAvailable &&
         currentAvailable &&
         invested > 0
-        ? gain / invested * 100
+        ? gain /
+          invested *
+          100
         : null;
 
     document.getElementById(
@@ -3274,7 +3623,11 @@ function renderStats(currentAssets){
     if(gain !== null){
 
         gainElement.innerText =
-            (gain >= 0 ? "+" : "") +
+            (
+                gain >= 0
+                ? "+"
+                : ""
+            ) +
             money(gain);
 
         gainElement.className =
@@ -3284,6 +3637,14 @@ function renderStats(currentAssets){
                 ? "green"
                 : "red"
             );
+
+    }else{
+
+        gainElement.innerText =
+            "—";
+
+        gainElement.className =
+            "stat-change";
 
     }
 
@@ -3324,7 +3685,7 @@ function renderStats(currentAssets){
 }
 
 /* =========================================================
-   ALLOCATION
+ALLOCATION
 ========================================================= */
 
 function getAllocationData(){
@@ -3338,20 +3699,23 @@ function getAllocationData(){
             "Other";
 
         const value =
-            numeric(asset.CurrentValue);
+            numeric(
+                asset.CurrentValue
+            );
 
         if(value === null){
             return;
         }
 
         allocation[category] =
-            (allocation[category] || 0) +
-            value;
+            (
+                allocation[category] ||
+                0
+            ) + value;
 
     });
 
     return allocation;
-
 }
 
 function renderAllocation(){
@@ -3360,10 +3724,14 @@ function renderAllocation(){
         getAllocationData();
 
     const labels =
-        Object.keys(allocation);
+        Object.keys(
+            allocation
+        );
 
     const values =
-        Object.values(allocation);
+        Object.values(
+            allocation
+        );
 
     const total =
         values.reduce(
@@ -3431,37 +3799,22 @@ function renderAllocation(){
 
     }else{
 
-        const existingLabels =
-            allocationChart.data.labels || [];
+        allocationChart.data.labels =
+            labels;
 
-        const changed =
-            JSON.stringify(
-                existingLabels
-            ) !==
-            JSON.stringify(labels);
+        allocationChart.data.datasets[0].data =
+            values;
 
-        if(changed){
-
-            allocationChart.data.labels =
-                labels;
-
-            allocationChart.data.datasets[0].data =
-                values;
-
-            allocationChart.data.datasets[0].backgroundColor =
-                labels.map(
-                    (_,index) =>
-                        ALLOCATION_COLORS[
-                            index %
-                            ALLOCATION_COLORS.length
-                        ]
-                );
-
-            allocationChart.update(
-                "none"
+        allocationChart.data.datasets[0].backgroundColor =
+            labels.map(
+                (_,index) =>
+                    ALLOCATION_COLORS[
+                        index %
+                        ALLOCATION_COLORS.length
+                    ]
             );
 
-        }
+        allocationChart.update();
 
     }
 
@@ -3471,6 +3824,22 @@ function renderAllocation(){
         );
 
     legend.innerHTML = "";
+
+    if(!labels.length){
+
+        legend.innerHTML =
+            `
+            <div style="
+                color:rgba(255,255,255,.35);
+                font-size:12px;
+            ">
+                Connect portfolio to view allocation.
+            </div>
+            `;
+
+        return;
+
+    }
 
     labels.forEach(
         (label,index) => {
@@ -3536,7 +3905,7 @@ function renderAllocation(){
 }
 
 /* =========================================================
-   SNAPSHOT
+LARGEST POSITION
 ========================================================= */
 
 function getLargestPosition(
@@ -3557,11 +3926,19 @@ function getLargestPosition(
 
     return [...valid].sort(
         (a,b) =>
-            numeric(b.CurrentValue) -
-            numeric(a.CurrentValue)
+            numeric(
+                b.CurrentValue
+            ) -
+            numeric(
+                a.CurrentValue
+            )
     )[0];
 
 }
+
+/* =========================================================
+SNAPSHOT
+========================================================= */
 
 function renderAllocationSnapshot(){
 
@@ -3569,6 +3946,17 @@ function renderAllocationSnapshot(){
         document.getElementById(
             "allocationSnapshot"
         );
+
+    if(!assets.length){
+
+        box.innerHTML = `
+            <div class="snapshot-title">
+                Connect your portfolio to view live data.
+            </div>
+        `;
+
+        return;
+    }
 
     if(currentCategory === "All"){
 
@@ -3584,7 +3972,7 @@ function renderAllocationSnapshot(){
                 </div>
 
                 <div class="snapshot-pill">
-                    All assets
+                    Live
                 </div>
 
             </div>
@@ -3601,8 +3989,11 @@ function renderAllocationSnapshot(){
                         ${
                             new Set(
                                 assets
-                                .map(a => a.Category)
-                                .filter(Boolean)
+                                    .map(
+                                        a =>
+                                            a.Category
+                                    )
+                                    .filter(Boolean)
                             ).size
                         }
                     </div>
@@ -3659,22 +4050,30 @@ function renderAllocationSnapshot(){
 
     let current = 0;
 
-    categoryAssets.forEach(asset => {
+    categoryAssets.forEach(
+        asset => {
 
-        invested +=
-            numeric(asset.Invested) || 0;
+            invested +=
+                numeric(
+                    asset.Invested
+                ) || 0;
 
-        current +=
-            numeric(asset.CurrentValue) || 0;
+            current +=
+                numeric(
+                    asset.CurrentValue
+                ) || 0;
 
-    });
+        }
+    );
 
     const gain =
         current - invested;
 
     const ret =
         invested > 0
-        ? gain / invested * 100
+        ? gain /
+          invested *
+          100
         : null;
 
     box.innerHTML = `
@@ -3682,7 +4081,9 @@ function renderAllocationSnapshot(){
         <div class="snapshot-top">
 
             <div class="snapshot-title">
-                ${escapeHTML(currentCategory)}
+                ${escapeHTML(
+                    currentCategory
+                )}
             </div>
 
             <div class="snapshot-pill">
@@ -3752,10 +4153,12 @@ function renderAllocationSnapshot(){
 }
 
 /* =========================================================
-   INSIGHTS
+INSIGHTS
 ========================================================= */
 
-function renderInsights(currentAssets){
+function renderInsights(
+    currentAssets
+){
 
     const valid =
         currentAssets.filter(
@@ -3786,88 +4189,95 @@ function renderInsights(currentAssets){
             currentAssets
         );
 
-    if(winner){
+    if(!winner){
 
         document.getElementById(
             "topWinner"
-        ).innerHTML = `
+        ).innerText =
+            "No live data.";
 
-            <strong>
-                ${escapeHTML(
-                    winner.Asset
-                )}
-            </strong>
-
-            gained
-
-            <strong class="green">
-                +
-                ${money(
-                    gainFor(winner)
-                )}
-            </strong>
-
-            <br>
-
-            <small>
-                Click to inspect
-            </small>
-
-        `;
-
-        document.getElementById(
-            "winnerCard"
-        ).onclick =
-            () => openDetail(winner);
+        return;
 
     }
 
-    if(loser){
+    document.getElementById(
+        "topWinner"
+    ).innerHTML = `
 
-        document.getElementById(
-            "topLoser"
-        ).innerHTML = `
+        <strong>
+            ${escapeHTML(
+                winner.Asset
+            )}
+        </strong>
 
-            <strong>
-                ${escapeHTML(
-                    loser.Asset
-                )}
-            </strong>
+        gained
 
-            is at
+        <strong class="green">
+            +
+            ${money(
+                gainFor(winner)
+            )}
+        </strong>
 
-            <strong class="${
+        <br>
+
+        <small>
+            Click to inspect
+        </small>
+
+    `;
+
+    document.getElementById(
+        "winnerCard"
+    ).onclick =
+        () => openDetail(
+            winner
+        );
+
+    document.getElementById(
+        "topLoser"
+    ).innerHTML = `
+
+        <strong>
+            ${escapeHTML(
+                loser.Asset
+            )}
+        </strong>
+
+        is at
+
+        <strong class="${
+            gainFor(loser) >= 0
+            ? "green"
+            : "red"
+        }">
+
+            ${
                 gainFor(loser) >= 0
-                ? "green"
-                : "red"
-            }">
+                ? "+"
+                : ""
+            }
 
-                ${
-                    gainFor(loser) >= 0
-                    ? "+"
-                    : ""
-                }
+            ${money(
+                gainFor(loser)
+            )}
 
-                ${money(
-                    gainFor(loser)
-                )}
+        </strong>
 
-            </strong>
+        <br>
 
-            <br>
+        <small>
+            Click to inspect
+        </small>
 
-            <small>
-                Click to inspect
-            </small>
+    `;
 
-        `;
-
-        document.getElementById(
-            "loserCard"
-        ).onclick =
-            () => openDetail(loser);
-
-    }
+    document.getElementById(
+        "loserCard"
+    ).onclick =
+        () => openDetail(
+            loser
+        );
 
     if(biggest){
 
@@ -3900,14 +4310,16 @@ function renderInsights(currentAssets){
         document.getElementById(
             "largestCard"
         ).onclick =
-            () => openDetail(biggest);
+            () => openDetail(
+                biggest
+            );
 
     }
 
 }
 
 /* =========================================================
-   HEALTH
+HEALTH
 ========================================================= */
 
 function renderHealth(
@@ -3921,13 +4333,17 @@ function renderHealth(
 
     const validReturns =
         currentAssets
-        .map(asset => ({
-            asset,
-            ret:returnFor(asset)
-        }))
-        .filter(x =>
-            x.ret !== null
-        );
+            .map(
+                asset => ({
+                    asset,
+                    ret:
+                        returnFor(asset)
+                })
+            )
+            .filter(
+                x =>
+                    x.ret !== null
+            );
 
     const items = [];
 
@@ -3935,7 +4351,8 @@ function renderHealth(
 
         const profitable =
             validReturns.filter(
-                x => x.ret >= 0
+                x =>
+                    x.ret >= 0
             ).length;
 
         const ratio =
@@ -4111,7 +4528,7 @@ function renderHealth(
 }
 
 /* =========================================================
-   TABLE
+TABLE
 ========================================================= */
 
 function renderTable(
@@ -4139,7 +4556,11 @@ function renderTable(
                     color:rgba(255,255,255,.4);
                     "
                 >
-                    No matching holdings.
+                    ${
+                        isLive
+                        ? "No matching holdings."
+                        : "Demo portfolio — unlock to sync your private holdings."
+                    }
                 </td>
 
             </tr>
@@ -4184,17 +4605,11 @@ function renderTable(
 
                 <td>
 
-                    ${
-                        asset.Category
-                        ? `
-                            <span class="badge">
-                                ${escapeHTML(
-                                    asset.Category
-                                )}
-                            </span>
-                        `
-                        : ""
-                    }
+                    <span class="badge">
+                        ${escapeHTML(
+                            asset.Category
+                        )}
+                    </span>
 
                 </td>
 
@@ -4272,7 +4687,7 @@ function renderTable(
 }
 
 /* =========================================================
-   PORTFOLIO CHART
+PORTFOLIO CHART
 ========================================================= */
 
 function renderPortfolioChart(
@@ -4292,6 +4707,81 @@ function renderPortfolioChart(
         ? "Invested vs Current"
         : currentCategory;
 
+    /*
+    For the complete portfolio we show
+    categories instead of potentially
+    hundreds of individual positions.
+
+    This makes the chart automatically
+    scale with the API data.
+    */
+
+    let chartData = {};
+
+    if(currentCategory === "All"){
+
+        currentAssets.forEach(
+            asset => {
+
+                const category =
+                    asset.Category ||
+                    "Other";
+
+                if(!chartData[category]){
+
+                    chartData[category] = {
+                        current:0,
+                        invested:0
+                    };
+
+                }
+
+                chartData[category].current +=
+                    numeric(
+                        asset.CurrentValue
+                    ) || 0;
+
+                chartData[category].invested +=
+                    numeric(
+                        asset.Invested
+                    ) || 0;
+
+            }
+        );
+
+    }else{
+
+        currentAssets.forEach(
+            asset => {
+
+                const name =
+                    asset.Asset ||
+                    "Asset";
+
+                chartData[name] = {
+
+                    current:
+                        numeric(
+                            asset.CurrentValue
+                        ) || 0,
+
+                    invested:
+                        numeric(
+                            asset.Invested
+                        ) || 0
+
+                };
+
+            }
+        );
+
+    }
+
+    const labels =
+        Object.keys(
+            chartData
+        );
+
     portfolioChart =
         new Chart(
 
@@ -4305,11 +4795,7 @@ function renderPortfolioChart(
 
                 data:{
 
-                    labels:
-                        currentAssets.map(
-                            asset =>
-                                asset.Asset
-                        ),
+                    labels,
 
                     datasets:[
 
@@ -4319,11 +4805,11 @@ function renderPortfolioChart(
                                 "Current Value",
 
                             data:
-                                currentAssets.map(
-                                    asset =>
-                                        numeric(
-                                            asset.CurrentValue
-                                        ) || 0
+                                labels.map(
+                                    label =>
+                                        chartData[
+                                            label
+                                        ].current
                                 ),
 
                             borderRadius:8,
@@ -4338,11 +4824,11 @@ function renderPortfolioChart(
                                 "Invested",
 
                             data:
-                                currentAssets.map(
-                                    asset =>
-                                        numeric(
-                                            asset.Invested
-                                        ) || 0
+                                labels.map(
+                                    label =>
+                                        chartData[
+                                            label
+                                        ].invested
                                 ),
 
                             borderRadius:8,
@@ -4435,10 +4921,44 @@ function renderPortfolioChart(
 }
 
 /* =========================================================
-   SIP
+SIP
 ========================================================= */
 
 function getMonthlySIP(){
+
+    /*
+    Prefer the total supplied by the API
+    when available.
+
+    Otherwise calculate directly from
+    SIP_Config.
+    */
+
+    if(
+        apiData &&
+        hasValue(
+            apiData.totalMonthlySIP
+        )
+    ){
+
+        return Number(
+            apiData.totalMonthlySIP
+        );
+
+    }
+
+    if(
+        apiData?.sip &&
+        hasValue(
+            apiData.sip.MonthlySIP
+        )
+    ){
+
+        return Number(
+            apiData.sip.MonthlySIP
+        );
+
+    }
 
     return sipConfig.reduce(
         (sum,item) =>
@@ -4464,13 +4984,17 @@ function renderSipAnalytics(){
     document.getElementById(
         "sipMonthly"
     ).innerText =
-        money(monthly);
+        monthly > 0
+        ? money(monthly)
+        : "—";
 
     document.getElementById(
         "sipAnnual"
     ).innerText =
-        money(annual) +
-        " / year";
+        monthly > 0
+        ? money(annual) +
+          " / year"
+        : "—";
 
     const list =
         document.getElementById(
@@ -4479,73 +5003,92 @@ function renderSipAnalytics(){
 
     if(!sipConfig.length){
 
-        list.innerHTML =
-            "<div style='color:rgba(255,255,255,.4);font-size:12px;'>No SIP configuration found.</div>";
+        list.innerHTML = `
+
+            <div style="
+                color:rgba(255,255,255,.4);
+                font-size:12px;
+            ">
+                No SIP configuration found.
+            </div>
+
+        `;
+
+        renderSIPAllocation();
 
         return;
 
     }
 
     list.innerHTML =
-        sipConfig.map(item => {
+        sipConfig
+            .map(
+                item => {
 
-            const amount =
-                numeric(
-                    item.sipAmount
-                ) || 0;
+                    const amount =
+                        numeric(
+                            item.sipAmount
+                        ) || 0;
 
-            const percentage =
-                monthly > 0
-                ? amount /
-                  monthly *
-                  100
-                : 0;
+                    const percentage =
+                        monthly > 0
+                        ? amount /
+                          monthly *
+                          100
+                        : 0;
 
-            return `
+                    return `
 
-                <div class="sip-row">
+                        <div class="sip-row">
 
-                    <div>
+                            <div>
 
-                        <div class="sip-fund">
-                            ${escapeHTML(
-                                item.fundName
-                            )}
+                                <div class="sip-fund">
+                                    ${escapeHTML(
+                                        item.fundName
+                                    )}
+                                </div>
+
+                                <div class="progress-bar">
+
+                                    <div
+                                        class="progress-fill"
+                                        style="width:${percentage}%"
+                                    ></div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="sip-day">
+                                ${
+                                    item.sipDay
+                                    ? "Day " +
+                                      escapeHTML(
+                                          item.sipDay
+                                      )
+                                    : ""
+                                }
+                            </div>
+
+                            <div class="sip-amount">
+                                ${money(amount)}
+                            </div>
+
                         </div>
 
-                        <div class="progress-bar">
+                    `;
 
-                            <div
-                                class="progress-fill"
-                                style="width:${percentage}%"
-                            ></div>
-
-                        </div>
-
-                    </div>
-
-                    <div class="sip-day">
-                        Day ${escapeHTML(
-                            item.sipDay
-                        )}
-                    </div>
-
-                    <div class="sip-amount">
-                        ${money(amount)}
-                    </div>
-
-                </div>
-
-            `;
-
-        }).join("");
+                }
+            )
+            .join("");
 
     renderSIPAllocation();
 
 }
 
 /* =========================================================
-   SIP ALLOCATION
+SIP ALLOCATION
 ========================================================= */
 
 function renderSIPAllocation(){
@@ -4557,6 +5100,22 @@ function renderSIPAllocation(){
 
     const monthly =
         getMonthlySIP();
+
+    if(!sipConfig.length){
+
+        box.innerHTML =
+            `
+            <div style="
+                color:rgba(255,255,255,.4);
+                font-size:12px;
+            ">
+                No SIP configuration found.
+            </div>
+            `;
+
+        return;
+
+    }
 
     box.innerHTML =
         sipConfig.map(
@@ -4634,7 +5193,7 @@ function renderSIPAllocation(){
 }
 
 /* =========================================================
-   ANALYTICS TOGGLE
+ANALYTICS TOGGLE
 ========================================================= */
 
 function toggleAnalytics(){
@@ -4670,60 +5229,99 @@ function toggleAnalytics(){
 }
 
 /* =========================================================
-   PROJECTION SCENARIO
-========================================================= */
-
-function setProjectionScenario(
-    scenario
-){
-
-    projectionScenario =
-        scenario;
-
-    document
-        .querySelectorAll(
-            ".scenario-btn"
-        )
-        .forEach(button => {
-
-            button.classList.toggle(
-                "active",
-                button.dataset.scenario ===
-                scenario
-            );
-
-        });
-
-    renderProjection();
-
-}
-
-/* =========================================================
-   CURRENT PORTFOLIO DATA
+PORTFOLIO TOTALS
 ========================================================= */
 
 function getPortfolioTotals(){
+
+    /*
+    Use official API summary for the
+    complete portfolio.
+    */
+
+    if(
+        currentCategory === "All" &&
+        apiData?.summary?.total
+    ){
+
+        const total =
+            apiData.summary.total;
+
+        const current =
+            numeric(
+                total.currentValue
+            ) || 0;
+
+        const invested =
+            numeric(
+                total.invested
+            ) || 0;
+
+        const gain =
+            numeric(
+                total.profitLoss
+            );
+
+        const calculatedGain =
+            current -
+            invested;
+
+        return {
+
+            current,
+
+            invested,
+
+            gain:
+                gain !== null
+                ? gain
+                : calculatedGain,
+
+            roi:
+                numeric(
+                    total.returnPercent
+                ) ??
+                (
+                    invested > 0
+                    ? (
+                        (
+                            gain !== null
+                            ? gain
+                            : calculatedGain
+                        ) /
+                        invested *
+                        100
+                    )
+                    : 0
+                )
+
+        };
+
+    }
 
     let current = 0;
 
     let invested = 0;
 
-    assets.forEach(asset => {
+    assets.forEach(
+        asset => {
 
-        current +=
-            numeric(
-                asset.CurrentValue
-            ) || 0;
+            current +=
+                numeric(
+                    asset.CurrentValue
+                ) || 0;
 
-        invested +=
-            numeric(
-                asset.Invested
-            ) || 0;
+            invested +=
+                numeric(
+                    asset.Invested
+                ) || 0;
 
-    });
+        }
+    );
 
     const gain =
-        current - invested;
+        current -
+        invested;
 
     const roi =
         invested > 0
@@ -4733,16 +5331,18 @@ function getPortfolioTotals(){
         : 0;
 
     return {
+
         current,
         invested,
         gain,
         roi
+
     };
 
 }
 
 /* =========================================================
-   PROJECTION CALCULATION
+FUTURE VALUE
 ========================================================= */
 
 function futureValue(
@@ -4756,7 +5356,9 @@ function futureValue(
         years * 12;
 
     const monthlyRate =
-        annualRate / 100 / 12;
+        annualRate /
+        100 /
+        12;
 
     if(monthlyRate === 0){
 
@@ -4786,6 +5388,10 @@ function futureValue(
 
 }
 
+/* =========================================================
+PROJECTION RATE
+========================================================= */
+
 function projectionRate(){
 
     const portfolio =
@@ -4814,7 +5420,38 @@ function projectionRate(){
 }
 
 /* =========================================================
-   PROJECTION
+PROJECTION SCENARIO
+========================================================= */
+
+function setProjectionScenario(
+    scenario
+){
+
+    projectionScenario =
+        scenario;
+
+    document
+        .querySelectorAll(
+            ".scenario-btn"
+        )
+        .forEach(
+            button => {
+
+                button.classList.toggle(
+                    "active",
+                    button.dataset.scenario ===
+                    scenario
+                );
+
+            }
+        );
+
+    renderProjection();
+
+}
+
+/* =========================================================
+PROJECTION
 ========================================================= */
 
 function renderProjection(){
@@ -4831,7 +5468,8 @@ function renderProjection(){
     document.getElementById(
         "projectionROI"
     ).innerText =
-        rate.toFixed(2) + "% / year";
+        rate.toFixed(2) +
+        "% / year";
 
     const periods =
         [1,3,5,10,15,20];
@@ -4867,66 +5505,68 @@ function renderProjection(){
 
     `;
 
-    periods.forEach(years => {
+    periods.forEach(
+        years => {
 
-        const projected =
-            futureValue(
-                portfolio.current,
-                monthly,
-                rate,
-                years
-            );
+            const projected =
+                futureValue(
+                    portfolio.current,
+                    monthly,
+                    rate,
+                    years
+                );
 
-        const contributions =
-            monthly *
-            years *
-            12;
+            const contributions =
+                monthly *
+                years *
+                12;
 
-        const totalCapital =
-            portfolio.current +
-            contributions;
+            const totalCapital =
+                portfolio.current +
+                contributions;
 
-        const growth =
-            projected -
-            totalCapital;
+            const growth =
+                projected -
+                totalCapital;
 
-        table.innerHTML += `
-
-            <div
-                class="projection-table-row"
-            >
-
-                <div>
-                    ${years}Y
-                </div>
-
-                <div>
-                    ${money(
-                        contributions
-                    )}
-                </div>
+            table.innerHTML += `
 
                 <div
-                    class="projection-value"
+                    class="projection-table-row"
                 >
-                    ${money(
-                        projected
-                    )}
+
+                    <div>
+                        ${years}Y
+                    </div>
+
+                    <div>
+                        ${money(
+                            contributions
+                        )}
+                    </div>
+
+                    <div
+                        class="projection-value"
+                    >
+                        ${money(
+                            projected
+                        )}
+                    </div>
+
+                    <div
+                        class="projection-growth"
+                    >
+                        ${money(
+                            growth
+                        )}
+                    </div>
+
                 </div>
 
-                <div
-                    class="projection-growth"
-                >
-                    ${money(
-                        growth
-                    )}
-                </div>
+            `;
 
-            </div>
-
-        `;
-
-    });
+        }
+    );
 
     renderProjectionChart(
         portfolio.current,
@@ -4943,7 +5583,7 @@ function renderProjection(){
 }
 
 /* =========================================================
-   PROJECTION CHART
+PROJECTION CHART
 ========================================================= */
 
 function renderProjectionChart(
@@ -5079,7 +5719,7 @@ function renderProjectionChart(
 }
 
 /* =========================================================
-   MILESTONES
+MILESTONES
 ========================================================= */
 
 function yearsToReach(
@@ -5096,7 +5736,9 @@ function yearsToReach(
     }
 
     const monthlyRate =
-        rate / 100 / 12;
+        rate /
+        100 /
+        12;
 
     if(monthly <= 0){
 
@@ -5131,11 +5773,6 @@ function yearsToReach(
 
     }
 
-    /*
-       Binary search is more reliable here
-       than trying to invert the SIP formula.
-    */
-
     let low = 0;
 
     let high = 100 * 12;
@@ -5147,7 +5784,8 @@ function yearsToReach(
     ){
 
         const mid =
-            (low + high) / 2;
+            (low + high) /
+            2;
 
         const value =
             futureValue(
@@ -5214,77 +5852,85 @@ function renderMilestones(
         );
 
     box.innerHTML =
-        milestones.map(
-            milestone => {
+        milestones
+            .map(
+                milestone => {
 
-                const years =
-                    yearsToReach(
-                        current,
-                        monthly,
-                        rate,
-                        milestone.value
-                    );
+                    const years =
+                        yearsToReach(
+                            current,
+                            monthly,
+                            rate,
+                            milestone.value
+                        );
 
-                let text;
+                    let text;
 
-                if(years === null){
+                    if(years === null){
 
-                    text =
-                        "Not reachable";
+                        text =
+                            "Not reachable";
 
-                }else if(years === 0){
+                    }else if(years === 0){
 
-                    text =
-                        "Already reached";
+                        text =
+                            "Already reached";
 
-                }else{
+                    }else{
 
-                    text =
-                        years.toFixed(1) +
-                        " years";
+                        text =
+                            years.toFixed(1) +
+                            " years";
+
+                    }
+
+                    return `
+
+                        <div class="milestone">
+
+                            <div class="milestone-value">
+                                ${milestone.label}
+                            </div>
+
+                            <div class="milestone-label">
+                                Target
+                            </div>
+
+                            <div class="milestone-time">
+                                ${text}
+                            </div>
+
+                        </div>
+
+                    `;
 
                 }
-
-                return `
-
-                    <div class="milestone">
-
-                        <div class="milestone-value">
-                            ${milestone.label}
-                        </div>
-
-                        <div class="milestone-label">
-                            Target
-                        </div>
-
-                        <div class="milestone-time">
-                            ${text}
-                        </div>
-
-                    </div>
-
-                `;
-
-            }
-        ).join("");
+            )
+            .join("");
 
 }
 
 /* =========================================================
-   DETAIL PANEL
+DETAIL PANEL
 ========================================================= */
 
-function openDetail(asset){
+function openDetail(
+    asset
+){
 
     if(!asset){
         return;
     }
 
     const invested =
-        numeric(asset.Invested);
+        numeric(
+            asset.Invested
+        );
 
     const current =
-        numeric(asset.CurrentValue);
+        numeric(
+            asset.CurrentValue
+        );
 
     const gain =
         gainFor(asset);
@@ -5314,20 +5960,26 @@ function openDetail(asset){
 
     const sorted =
         [...assets]
-        .filter(
-            x =>
-                numeric(
-                    x.CurrentValue
-                ) !== null
-        )
-        .sort(
-            (a,b) =>
-                numeric(b.CurrentValue) -
-                numeric(a.CurrentValue)
-        );
+            .filter(
+                x =>
+                    numeric(
+                        x.CurrentValue
+                    ) !== null
+            )
+            .sort(
+                (a,b) =>
+                    numeric(
+                        b.CurrentValue
+                    ) -
+                    numeric(
+                        a.CurrentValue
+                    )
+            );
 
     const rankIndex =
-        sorted.indexOf(asset);
+        sorted.indexOf(
+            asset
+        );
 
     document.getElementById(
         "detailCategory"
@@ -5337,7 +5989,8 @@ function openDetail(asset){
     document.getElementById(
         "detailName"
     ).innerText =
-        asset.Asset || "Asset";
+        asset.Asset ||
+        "Asset";
 
     document.getElementById(
         "detailCurrent"
@@ -5433,6 +6086,16 @@ function openDetail(asset){
         : ""
     );
 
+    /* Show quantity once, even though the API exposes both quantity and qty aliases. */
+    if(asset.Quantity !== undefined && asset.Quantity !== null && asset.Quantity !== ""){
+        addDetailBox(detailGrid, "Quantity", asset.Quantity);
+    }
+
+    if(asset.AveragePrice !== undefined && asset.AveragePrice !== null && asset.AveragePrice !== ""){
+        addDetailBox(detailGrid, "Average Price", money(asset.AveragePrice));
+    }
+
+
     if(rankIndex >= 0){
 
         addDetailBox(
@@ -5481,15 +6144,14 @@ function openDetail(asset){
     );
 
     /*
-       Match this asset against Sip_Config
-       where possible.
+    SIP matching remains completely dynamic.
     */
 
     const matchingSIP =
         sipConfig.find(
             sip =>
                 String(
-                    sip.ticker
+                    sip.ticker || ""
                 ) ===
                 String(
                     asset.Ticker || ""
@@ -5510,44 +6172,83 @@ function openDetail(asset){
         addMeta(
             meta,
             "SIP Day",
-            "Day " +
             matchingSIP.sipDay
+            ? "Day " +
+              matchingSIP.sipDay
+            : ""
         );
 
     }
 
-    const optionalFields = [
+    /*
+    Show useful fields from the original
+    API row when available.
 
-        ["Fund","Fund"],
-        ["AMC","AMC"],
-        ["ISIN","ISIN"],
-        ["Sector","Sector"],
-        ["Units","Units"],
-        ["NAV","NAV"],
-        ["Quantity","Quantity"],
-        ["AveragePrice","Average Price"],
-        ["PurchaseDate","Purchase Date"],
-        ["Type","Type"],
-        ["Broker","Broker"]
+    This means newly added columns can
+    appear without changing the HTML.
+    */
 
-    ];
+    const original =
+        asset.Original || {};
 
-    optionalFields.forEach(
-        ([key,label]) => {
+    const ignored =
+        new Set([
+            "name",
+            "fundName",
+            "fund",
+            "ticker",
+            "fundTicker",
+            "instrument",
+            "symbol",
+            "quantity",
+            "qty",
+            "averagePrice",
+            "avgPrice",
+            "livePrice",
+            "googleTicker",
+            "invested",
+            "totalInvested",
+            "currentValue",
+            "profitLoss",
+            "returnPercent",
+            "deposited",
+            "totalDeposited",
+            "currentBalance"
+        ]);
+
+    Object.entries(
+        original
+    ).forEach(
+        ([key,value]) => {
 
             if(
-                asset[key] !== undefined &&
-                asset[key] !== null &&
-                asset[key] !== ""
+                ignored.has(key) ||
+                value === undefined ||
+                value === null ||
+                value === ""
             ){
 
-                addMeta(
-                    meta,
-                    label,
-                    asset[key]
-                );
+                return;
 
             }
+
+            const label =
+                key
+                    .replace(
+                        /([A-Z])/g,
+                        " $1"
+                    )
+                    .replace(
+                        /^./,
+                        c =>
+                            c.toUpperCase()
+                    );
+
+            addMeta(
+                meta,
+                label,
+                value
+            );
 
         }
     );
@@ -5575,7 +6276,9 @@ function addDetailBox(
         value === null ||
         value === ""
     ){
+
         return;
+
     }
 
     const box =
@@ -5598,7 +6301,9 @@ function addDetailBox(
 
     `;
 
-    parent.appendChild(box);
+    parent.appendChild(
+        box
+    );
 
 }
 
@@ -5614,7 +6319,9 @@ function addMeta(
         value === null ||
         value === ""
     ){
+
         return;
+
     }
 
     const item =
@@ -5637,7 +6344,9 @@ function addMeta(
 
     `;
 
-    parent.appendChild(item);
+    parent.appendChild(
+        item
+    );
 
 }
 
@@ -5647,9 +6356,12 @@ function closeDetail(){
         .getElementById(
             "detailOverlay"
         )
-        .classList.remove("open");
+        .classList.remove(
+            "open"
+        );
 
-    document.body.style.overflow = "";
+    document.body.style.overflow =
+        "";
 
 }
 
@@ -5672,7 +6384,10 @@ document.addEventListener(
     "keydown",
     event => {
 
-        if(event.key === "Escape"){
+        if(
+            event.key ===
+            "Escape"
+        ){
 
             closeDetail();
 
@@ -5682,30 +6397,110 @@ document.addEventListener(
 );
 
 /* =========================================================
-   INITIAL
+GREETING ANIMATION
 ========================================================= */
+function startGreetingAnimation(){
+    const el = document.getElementById("greetingText");
+    if(!el) return;
+    const greetings = ["Hello", "नमस्ते", "Hola", "Bonjour", "Ciao", "Vanakkam"];
+    let wordIndex = 0, charIndex = 0, deleting = false;
 
-setDemoStatus();
-
-updateFilterButtons();
-
-updateViewHeader();
-
-renderDashboard();
-
-renderSipAnalytics();
+    function tick(){
+        const word = greetings[wordIndex];
+        el.textContent = word.slice(0, charIndex);
+        let delay = deleting ? 55 : 95;
+        if(!deleting && charIndex < word.length){
+            charIndex++;
+        }else if(!deleting){
+            deleting = true; delay = 1200;
+        }else if(charIndex > 0){
+            charIndex--; 
+        }else{
+            deleting = false;
+            wordIndex = (wordIndex + 1) % greetings.length;
+            delay = 280;
+        }
+        setTimeout(tick, delay);
+    }
+    tick();
+}
 
 /* =========================================================
-   ENTER KEY
+WEATHER / LOCATION
+========================================================= */
+async function loadWeatherLocation(){
+    const locationEl = document.getElementById("weatherLocation");
+    const metaEl = document.getElementById("weatherMeta");
+    const tempEl = document.getElementById("weatherTemp");
+    const conditionEl = document.getElementById("weatherCondition");
+    const iconEl = document.getElementById("weatherIcon");
+    if(!locationEl) return;
+
+    if(!navigator.geolocation){
+        locationEl.textContent = "Location unavailable";
+        metaEl.textContent = "Geolocation is not supported by this browser";
+        return;
+    }
+
+    navigator.geolocation.getCurrentPosition(async position => {
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+        try{
+            const [placeResponse, weatherResponse] = await Promise.all([
+                fetch(`https://geocoding-api.open-meteo.com/v1/reverse?latitude=${lat}&longitude=${lon}&count=1&language=en&format=json`),
+                fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code,relative_humidity_2m,wind_speed_10m&timezone=auto`)
+            ]);
+            const place = await placeResponse.json();
+            const weather = await weatherResponse.json();
+            const p = place.results?.[0];
+            const c = weather.current;
+            const label = p ? [p.name, p.admin1].filter(Boolean).join(", ") : `${lat.toFixed(2)}, ${lon.toFixed(2)}`;
+            locationEl.textContent = label;
+            tempEl.textContent = c ? `${Math.round(c.temperature_2m)}°C` : "—";
+            const code = c?.weather_code;
+            const descriptions = {0:["Clear","☀️"],1:["Mainly clear","🌤️"],2:["Partly cloudy","⛅"],3:["Overcast","☁️"],45:["Fog","🌫️"],48:["Fog","🌫️"],51:["Drizzle","🌦️"],53:["Drizzle","🌦️"],55:["Drizzle","🌧️"],61:["Rain","🌧️"],63:["Rain","🌧️"],65:["Heavy rain","🌧️"],71:["Snow","❄️"],73:["Snow","❄️"],75:["Heavy snow","❄️"],80:["Showers","🌦️"],81:["Showers","🌦️"],82:["Heavy showers","🌧️"],95:["Thunderstorm","⛈️"],96:["Thunderstorm","⛈️"],99:["Thunderstorm","⛈️"]};
+            const desc = descriptions[code] || ["Local weather","🌤️"];
+            conditionEl.textContent = desc[0];
+            iconEl.textContent = desc[1];
+            metaEl.textContent = c ? `Humidity ${c.relative_humidity_2m}% • Wind ${Math.round(c.wind_speed_10m)} km/h` : "Local weather";
+        }catch(error){
+            locationEl.textContent = "Location found";
+            metaEl.textContent = "Weather service unavailable";
+        }
+    }, () => {
+        locationEl.textContent = "Location permission needed";
+        metaEl.textContent = "Allow location access to show local weather";
+    }, {enableHighAccuracy:false, timeout:8000, maximumAge:300000});
+}
+
+/* =========================================================
+INITIAL
+========================================================= */
+
+setLockedStatus();
+updateFilterButtons();
+updateViewHeader();
+renderDashboard();
+renderSipAnalytics();
+startGreetingAnimation();
+loadWeatherLocation();
+
+/* =========================================================
+ENTER KEY
 ========================================================= */
 
 document
-    .getElementById("password")
+    .getElementById(
+        "password"
+    )
     .addEventListener(
         "keydown",
         event => {
 
-            if(event.key === "Enter"){
+            if(
+                event.key ===
+                "Enter"
+            ){
 
                 connectToSheet();
 
