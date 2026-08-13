@@ -245,73 +245,75 @@ CONNECTION
 /* =========================================================
 PASSWORD
 ========================================================= */
-
 .password-box{
     display:flex;
-    gap:6px;
-
-    padding:6px;
-
-    border-radius:14px;
-
-    background:rgba(8,16,28,.46);
-
-    border:1px solid rgba(255,255,255,.15);
-
-    backdrop-filter:blur(20px);
+    align-items:center;
+    gap:4px;
+    min-width:245px;
+    height:42px;
+    padding:4px 5px 4px 14px;
+    border-radius:14px !important;
+    background:rgba(255,255,255,.12) !important;
+    border:1px solid rgba(255,255,255,.24) !important;
+    box-shadow:0 8px 26px rgba(0,0,0,.10), inset 0 1px 0 rgba(255,255,255,.18) !important;
+    backdrop-filter:blur(16px) saturate(120%);
+    -webkit-backdrop-filter:blur(16px) saturate(120%);
+    transition:background .35s ease,border-color .35s ease,box-shadow .35s ease,transform .35s cubic-bezier(.22,1,.36,1);
 }
-
+.password-box:focus-within{
+    background:rgba(255,255,255,.16) !important;
+    border-color:rgba(255,255,255,.38) !important;
+    box-shadow:0 12px 34px rgba(0,0,0,.14),0 0 0 3px rgba(255,255,255,.06),inset 0 1px 0 rgba(255,255,255,.22) !important;
+}
 .password-box input{
-    width:170px;
-
+    flex:1;
+    min-width:0;
+    width:150px;
     background:transparent;
-
     border:none;
     outline:none;
-
-    color:white;
-
-    padding:9px 10px;
+    color:#fff;
+    padding:8px 4px;
+    font:500 13px/1 -apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",sans-serif;
 }
-
-.password-box input::placeholder{
-    color:rgba(255,255,255,.45);
+.password-username{
+    position:absolute !important;
+    width:1px !important;
+    height:1px !important;
+    padding:0 !important;
+    margin:-1px !important;
+    overflow:hidden !important;
+    clip:rect(0,0,0,0) !important;
+    white-space:nowrap !important;
+    border:0 !important;
 }
-
+.password-box input::placeholder{color:rgba(255,255,255,.52);}
 .password-box button{
-    border:none;
-
-    padding:9px 15px;
-
+    flex:0 0 auto;
+    border:1px solid rgba(255,255,255,.18);
+    padding:8px 14px;
+    min-width:70px;
     border-radius:10px;
-
-    background:
-        linear-gradient(
-            135deg,
-            #ffb85f,
-            #ff8658
-        );
-
-    color:white;
-
-    font-weight:700;
-
+    background:rgba(255,255,255,.18);
+    color:#fff;
+    font:600 12px/1 -apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",sans-serif;
+    letter-spacing:.1px;
     cursor:pointer;
-
-    transition:.25s;
+    transition:transform .45s cubic-bezier(.22,1,.36,1),background .3s ease,box-shadow .3s ease,border-color .3s ease;
 }
-
 .password-box button:hover{
-    transform:translateY(-2px);
-
-    box-shadow:
-        0 10px 30px rgba(255,137,88,.3);
+    transform:translateY(-1px);
+    background:rgba(255,255,255,.25);
+    box-shadow:0 7px 18px rgba(0,0,0,.12);
 }
-
-.password-box button:disabled{
-    opacity:.6;
-    cursor:wait;
-}
+.password-box button:active{transform:scale(.97);}
+.password-box button:disabled{opacity:.6;cursor:wait;transform:none;}
+.password-box button.connected{background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.22);cursor:default;}
+.password-box.refresh-only{min-width:112px;justify-content:center;padding-left:5px;}
+.password-box.refresh-only button{width:100%;min-width:0;border-radius:10px;}
+.password-box.is-authenticated{animation:authSwap .55s cubic-bezier(.22,1,.36,1);}
+@keyframes authSwap{0%{opacity:.5;transform:scale(.97);filter:blur(2px)}100%{opacity:1;transform:scale(1);filter:blur(0)}}
+.password-box button.connected:hover{transform:none;}
 
 /* =========================================================
 HERO
@@ -1622,6 +1624,22 @@ GREETING / WEATHER
     font-weight:600;
     letter-spacing:.2px;
 }
+.hero-greeting{
+    margin-top:0;
+    min-height:72px;
+    font-size:clamp(38px, 6vw, 72px);
+    line-height:1.05;
+    font-weight:700;
+    letter-spacing:-2px;
+    color:#fff;
+    text-shadow:0 8px 32px rgba(0,0,0,.22);
+    font-family:ui-rounded, -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+    animation:greetingFloat 900ms cubic-bezier(.22,1,.36,1) both;
+}
+@keyframes greetingFloat{
+    from{opacity:0; transform:translateY(12px) scale(.985); filter:blur(5px)}
+    to{opacity:1; transform:none; filter:blur(0)}
+}
 .greeting-caret{
     width:2px;
     height:20px;
@@ -1648,8 +1666,28 @@ GREETING / WEATHER
 .demo-note{color:#ffc46b !important}
 
 /* =========================================================
-MOBILE
+GREETING POLISH
 ========================================================= */
+.hero-greeting{
+    min-height:1.35em;
+    font-family:ui-rounded,-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif !important;
+    font-size:clamp(44px,6.2vw,78px) !important;
+    font-weight:650 !important;
+    letter-spacing:-.045em !important;
+    line-height:1.02 !important;
+    color:#fff !important;
+    text-shadow:0 8px 32px rgba(0,0,0,.20);
+    transform-origin:left center;
+}
+#greetingText{
+    display:inline-block;
+    min-width:7ch;
+    animation:greetingBreath 8s ease-in-out infinite;
+}
+@keyframes greetingBreath{
+    0%,100%{transform:translateY(0)}
+    50%{transform:translateY(-2px)}
+}
 
 @media(max-width:1000px){
 
@@ -1788,7 +1826,7 @@ Vageesh's <span>Portfolio</span>
 
 <div class="connection-area">
 
-<div id="connectionStatus" class="connection-status">
+<div id="connectionStatus" class="connection-status" style="display:none;">
 
 <div id="statusDot" class="status-dot"></div>
 
@@ -1798,12 +1836,25 @@ LOCKED
 
 </div>
 
-<div class="password-box">
+<div id="authControls" class="password-box">
+
+<input
+class="password-username"
+id="username"
+name="username"
+type="text"
+value="vageesh"
+autocomplete="username"
+tabindex="-1"
+aria-hidden="true"
+/>
 
 <input
 id="password"
+name="password"
 type="password"
 placeholder="Enter passcode"
+autocomplete="current-password"
 />
 
 <button
@@ -1815,7 +1866,7 @@ Unlock
 
 </div>
 
-<div id="lastUpdated" class="weather-meta">Demo data • no connection</div>
+<div id="lastUpdated" class="weather-meta" aria-live="polite"></div>
 
 </div>
 
@@ -1833,19 +1884,8 @@ Private portfolio
 
 </div>
 
-<h1 class="hero-title">
-Your money.<br>
-<span>Your journey.</span>
-</h1>
-
-<p class="hero-subtitle">
-Financial journey —
-investments, allocation, winners, laggards,
-SIP growth and the road ahead.
-</p>
-
-<div class="greeting-line" aria-live="polite">
-    <span id="greetingText"></span><span class="greeting-caret"></span>
+<div class="greeting-line hero-greeting" aria-live="polite">
+    <span id="greetingText"></span>
 </div>
 
 </section>
@@ -2991,26 +3031,38 @@ function normalizeSIP(){
 STATUS
 ========================================================= */
 
+let authenticatedPassword = "";
+
 function setLockedStatus(){
 
     isLive = false;
+    authenticatedPassword = "";
+
+    const status = document.getElementById("connectionStatus");
+    if(status){
+        status.style.display = "none";
+        status.classList.remove("live");
+    }
+
+    const authControls = document.getElementById("authControls");
+    if(authControls){
+        authControls.className = "password-box";
+        authControls.innerHTML = `
+            <input class="password-username" id="username" name="username" type="text" value="vageesh" autocomplete="username" tabindex="-1" aria-hidden="true">
+            <input id="password" name="password" type="password" placeholder="Enter passcode" autocomplete="current-password">
+            <button id="unlockButton" type="button" onclick="connectToSheet()">Unlock</button>
+        `;
+    }
 
     /* Public mode always shows fictional demo holdings. */
     assets = [...demoAssets];
     sipConfig = [...demoSipConfig];
     apiData = null;
 
-    const status =
-        document.getElementById(
-            "connectionStatus"
-        );
-
-    status.classList.remove("live");
-
     document.getElementById(
         "statusText"
     ).innerText =
-        "DEMO";
+        "";
 
     document.getElementById(
         "heroStatus"
@@ -3020,10 +3072,10 @@ function setLockedStatus(){
     document.getElementById(
         "tableStatus"
     ).innerText =
-        "DEMO DATA";
+        "";
 
     const updated = document.getElementById("lastUpdated");
-    if(updated) updated.innerText = "Demo data • live sheet locked";
+    if(updated) updated.innerText = "";
 
 }
 
@@ -3036,6 +3088,7 @@ function setLiveStatus(){
             "connectionStatus"
         );
 
+    status.style.display = "flex";
     status.classList.add("live");
 
     document.getElementById(
@@ -3057,6 +3110,16 @@ function setLiveStatus(){
     if(updated){
         const stamp = apiData?.updatedAt ? new Date(apiData.updatedAt) : new Date();
         updated.innerText = "Last updated • " + stamp.toLocaleString("en-IN", {dateStyle:"medium", timeStyle:"short"});
+    }
+
+    const authControls = document.getElementById("authControls");
+    if(authControls){
+        authControls.classList.add("is-authenticated", "refresh-only");
+        authControls.innerHTML = `
+            <button id="refreshButton" type="button" onclick="refreshAuthenticatedPortfolio()" aria-label="Refresh portfolio">
+                Refresh
+            </button>
+        `;
     }
 
 }
@@ -3156,18 +3219,21 @@ async function connectToSheet(){
          * live portfolio immediately. Then refresh silently in the background.
          */
         if(cache && cachedHash && suppliedHash === cachedHash){
+            authenticatedPassword = password;
             cachedLiveData = cache;
             applyLiveData(cache, false);
-            button.innerText = "Unlock";
             showToast("✓ Portfolio ready");
             refreshLiveData(password, true);
             return;
         }
 
         /* First login / changed passcode: validate against Apps Script. */
+        authenticatedPassword = password;
         await refreshLiveData(password, false);
     }catch(error){
         console.error(error);
+        button.innerText = "Unlock";
+        button.classList.remove("connected");
         setLockedStatus();
         renderDashboard();
         renderSipAnalytics();
@@ -3177,8 +3243,30 @@ async function connectToSheet(){
             : error.message || "Could not connect to portfolio API."
         );
     }finally{
-        button.disabled = false;
-        button.innerText = "Unlock";
+        if(!isLive){
+            const retryButton = document.getElementById("unlockButton");
+            if(retryButton){
+                retryButton.disabled = false;
+                retryButton.innerText = "Unlock";
+            }
+        }
+    }
+}
+
+async function refreshAuthenticatedPortfolio(){
+    if(!authenticatedPassword) return;
+    const button = document.getElementById("refreshButton");
+    if(button){
+        button.disabled = true;
+        button.innerText = "Refreshing…";
+    }
+    try{
+        await refreshLiveData(authenticatedPassword, true);
+    }finally{
+        if(button){
+            button.disabled = false;
+            button.innerText = "Refresh";
+        }
     }
 }
 
@@ -4559,7 +4647,7 @@ function renderTable(
                     ${
                         isLive
                         ? "No matching holdings."
-                        : "Demo portfolio — unlock to sync your private holdings."
+                        : ""
                     }
                 </td>
 
@@ -6402,23 +6490,40 @@ GREETING ANIMATION
 function startGreetingAnimation(){
     const el = document.getElementById("greetingText");
     if(!el) return;
-    const greetings = ["Hello", "नमस्ते", "Hola", "Bonjour", "Ciao", "Vanakkam"];
+    const greetings = [
+        "Hello",
+        "नमस्ते",
+        "こんにちは",
+        "Hola",
+        "Bonjour",
+        "Привет",
+        "Ciao",
+        "Olá",
+        "Guten Tag",
+        "안녕하세요",
+        "你好",
+        "مرحبا",
+        "ਸਤ ਸ੍ਰੀ ਅਕਾਲ",
+        "สวัสดี",
+        "Merhaba",
+        "שלום"
+    ];
     let wordIndex = 0, charIndex = 0, deleting = false;
 
     function tick(){
         const word = greetings[wordIndex];
         el.textContent = word.slice(0, charIndex);
-        let delay = deleting ? 55 : 95;
+        let delay = deleting ? 105 : 155;
         if(!deleting && charIndex < word.length){
             charIndex++;
         }else if(!deleting){
-            deleting = true; delay = 1200;
+            deleting = true; delay = 2100;
         }else if(charIndex > 0){
             charIndex--; 
         }else{
             deleting = false;
             wordIndex = (wordIndex + 1) % greetings.length;
-            delay = 280;
+            delay = 650;
         }
         setTimeout(tick, delay);
     }
