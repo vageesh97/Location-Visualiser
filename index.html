@@ -3073,14 +3073,14 @@ async function hashPasscode(value){
 
 function saveLiveCache(data, passwordHash){
     try{
-        local storage.setItem("portfolio_live_cache_v2", JSON.stringify(data));
-        local storage.setItem("portfolio_pass_hash_v2", passwordHash);
+        session storage.setItem("portfolio_live_cache_v2", JSON.stringify(data));
+        session storage.setItem("portfolio_pass_hash_v2", passwordHash);
     }catch(e){ console.warn("Cache unavailable", e); }
 }
 
 function loadLiveCache(){
     try{
-        const raw = local storage.getItem("portfolio_live_cache_v2");
+        const raw = session storage.getItem("portfolio_live_cache_v2");
         return raw ? JSON.parse(raw) : null;
     }catch(e){ return null; }
 }
@@ -3147,7 +3147,7 @@ async function connectToSheet(){
 
     try{
         const suppliedHash = await hashPasscode(password);
-        const cachedHash = local storage.getItem("portfolio_pass_hash_v2");
+        const cachedHash = session storage.getItem("portfolio_pass_hash_v2");
         const cache = loadLiveCache();
 
         /*
