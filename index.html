@@ -11,1810 +11,466 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
-
-*{
-    box-sizing:border-box;
+* {
+    box-sizing: border-box;
 }
 
-html{
-    scroll-behavior:smooth;
+html {
+    scroll-behavior: smooth;
 }
 
-body{
-    margin:0;
-    font-family:"DM Sans",sans-serif;
-    color:white;
-    background:#07111f;
-    overflow-x:hidden;
+body {
+    margin: 0;
+    font-family: "Montserrat", sans-serif;
+    color: white;
+    background: #000000; /* Pitch black base */
+    overflow-x: hidden;
 }
 
-button,
-input,
-select{
-    font-family:inherit;
+button, input, select {
+    font-family: inherit;
 }
 
-button{
-    -webkit-tap-highlight-color:transparent;
-}
-
-/* =========================================================
-BACKGROUND
-========================================================= */
-
-.hero{
-    min-height:100vh;
-    position:relative;
-
-    background:
-        linear-gradient(
-            180deg,
-            rgba(7,16,29,.05),
-            rgba(7,15,27,.38) 48%,
-            rgba(4,9,18,.96) 100%
-        ),
-        url("https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=2400&q=90")
-        center / cover fixed;
-}
-
-.hero::before{
-    content:"";
-    position:absolute;
-    inset:0;
-
-    background:
-        radial-gradient(
-            circle at 50% 43%,
-            rgba(255,184,95,.20),
-            transparent 28%
-        );
-
-    pointer-events:none;
-}
-
-.hero::after{
-    content:"";
-    position:absolute;
-    inset:0;
-
-    background:
-        linear-gradient(
-            90deg,
-            rgba(2,8,17,.45),
-            transparent 35%,
-            transparent 65%,
-            rgba(2,8,17,.45)
-        );
-
-    pointer-events:none;
+button {
+    -webkit-tap-highlight-color: transparent;
+    cursor: pointer;
 }
 
 /* =========================================================
-FLOATING LIGHTS
+BACKGROUND (Deep Fading Image)
 ========================================================= */
-
-.orb{
-    position:absolute;
-    border-radius:50%;
-    pointer-events:none;
-    filter:blur(3px);
-    opacity:.45;
-    animation:floating 12s ease-in-out infinite;
+.hero {
+    min-height: 100vh;
+    position: relative;
+    /* Fades from the artistic image at the top into pure black at the bottom */
+    background: 
+        linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.8) 40%, #000000 100%),
+        url('https://images.unsplash.com/photo-1604871000636-074fa5117945?auto=format&fit=crop&w=2400&q=80') center top / cover no-repeat fixed;
 }
 
-.orb.one{
-    width:220px;
-    height:220px;
-    left:4%;
-    top:18%;
-    background:rgba(255,175,80,.14);
-}
-
-.orb.two{
-    width:170px;
-    height:170px;
-    right:8%;
-    top:28%;
-    background:rgba(70,160,255,.10);
-    animation-delay:-4s;
-}
-
-.orb.three{
-    width:130px;
-    height:130px;
-    right:27%;
-    bottom:16%;
-    background:rgba(255,110,75,.11);
-    animation-delay:-7s;
-}
-
-@keyframes floating{
-    0%,100%{
-        transform:translate3d(0,0,0);
-    }
-
-    50%{
-        transform:translate3d(0,-28px,0);
-    }
+.orb {
+    display: none !important;
 }
 
 /* =========================================================
 CONTAINER
 ========================================================= */
-
-.container{
-    width:min(1450px,94%);
-    margin:auto;
-    position:relative;
-    z-index:5;
+.container {
+    width: min(1200px, 94%); 
+    margin: auto;
+    position: relative;
+    z-index: 5;
 }
 
 /* =========================================================
 NAVBAR
 ========================================================= */
-
-.navbar{
-    padding:22px 0;
-
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-
-    gap:20px;
+.navbar {
+    padding: 30px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
 }
 
-.logo{
-    font-family:"Playfair Display",serif;
-    font-size:28px;
+.logo {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    color: white;
 }
 
-.logo span{
-    color:#ffc36d;
-}
-
-/* =========================================================
-CONNECTION
-========================================================= */
-
-.connection-area{
-    display:flex;
-    align-items:center;
-    gap:10px;
-}
-
-.connection-status{
-    display:flex;
-    align-items:center;
-    gap:8px;
-
-    padding:9px 13px;
-
-    border-radius:12px;
-
-    background:rgba(8,17,29,.45);
-
-    border:1px solid rgba(255,255,255,.12);
-
-    backdrop-filter:blur(18px);
-
-    font-size:11px;
-    letter-spacing:.8px;
-    font-weight:700;
-
-    text-transform:uppercase;
-
-    white-space:nowrap;
-}
-
-.status-dot{
-    width:8px;
-    height:8px;
-
-    border-radius:50%;
-
-    background:#ffc46b;
-
-    box-shadow:0 0 12px rgba(255,196,107,.7);
-
-    transition:.4s;
-}
-
-.connection-status.live .status-dot{
-    background:#5ff0a5;
-
-    box-shadow:
-        0 0 7px #5ff0a5,
-        0 0 18px rgba(95,240,165,.7);
-
-    animation:livePulse 2s infinite;
-}
-
-.connection-status.live{
-    border-color:rgba(95,240,165,.25);
-}
-
-@keyframes livePulse{
-    0%,100%{opacity:1}
-    50%{opacity:.45}
+.logo span {
+    color: #ffc46b; 
 }
 
 /* =========================================================
-PASSWORD
+CONNECTION & AUTH
 ========================================================= */
-.password-box{
-    display:flex;
-    align-items:center;
-    gap:4px;
-    min-width:245px;
-    height:42px;
-    padding:4px 5px 4px 14px;
-    border-radius:14px !important;
-    background:rgba(255,255,255,.12) !important;
-    border:1px solid rgba(255,255,255,.24) !important;
-    box-shadow:0 8px 26px rgba(0,0,0,.10), inset 0 1px 0 rgba(255,255,255,.18) !important;
-    backdrop-filter:blur(16px) saturate(120%);
-    -webkit-backdrop-filter:blur(16px) saturate(120%);
-    transition:background .35s ease,border-color .35s ease,box-shadow .35s ease,transform .35s cubic-bezier(.22,1,.36,1);
+.connection-area {
+    display: flex;
+    align-items: center;
+    gap: 15px;
 }
-.password-box:focus-within{
-    background:rgba(255,255,255,.16) !important;
-    border-color:rgba(255,255,255,.38) !important;
-    box-shadow:0 12px 34px rgba(0,0,0,.14),0 0 0 3px rgba(255,255,255,.06),inset 0 1px 0 rgba(255,255,255,.22) !important;
+
+.connection-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    background: transparent;
+    font-size: 11px;
+    letter-spacing: 1px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
 }
-.password-box input{
-    flex:1;
-    min-width:0;
-    width:150px;
-    background:transparent;
-    border:none;
-    outline:none;
-    color:#fff;
-    padding:8px 4px;
-    font:500 13px/1 -apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",sans-serif;
+
+.status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #ffc46b;
+    transition: .4s;
 }
-.password-username{
-    position:absolute !important;
-    width:1px !important;
-    height:1px !important;
-    padding:0 !important;
-    margin:-1px !important;
-    overflow:hidden !important;
-    clip:rect(0,0,0,0) !important;
-    white-space:nowrap !important;
-    border:0 !important;
+
+.connection-status.live .status-dot {
+    background: #ffc46b;
+    box-shadow: 0 0 10px rgba(255, 196, 107, 0.5);
 }
-.password-box input::placeholder{color:rgba(255,255,255,.52);}
-.password-box button{
-    flex:0 0 auto;
-    border:1px solid rgba(255,255,255,.18);
-    padding:8px 14px;
-    min-width:70px;
-    border-radius:10px;
-    background:rgba(255,255,255,.18);
-    color:#fff;
-    font:600 12px/1 -apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",sans-serif;
-    letter-spacing:.1px;
-    cursor:pointer;
-    transition:transform .45s cubic-bezier(.22,1,.36,1),background .3s ease,box-shadow .3s ease,border-color .3s ease;
+
+.password-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 4px 4px 4px 16px;
+    border-radius: 100px !important; 
+    background: rgba(10,10,10,0.8) !important;
+    border: 1px solid rgba(255, 196, 107, 0.3) !important; 
+    transition: all .3s ease;
+    backdrop-filter: blur(10px);
 }
-.password-box button:hover{
-    transform:translateY(-1px);
-    background:rgba(255,255,255,.25);
-    box-shadow:0 7px 18px rgba(0,0,0,.12);
+
+.password-box:focus-within {
+    border-color: rgba(255, 196, 107, 1) !important;
+    background: rgba(17,17,17,0.9) !important;
 }
-.password-box button:active{transform:scale(.97);}
-.password-box button:disabled{opacity:.6;cursor:wait;transform:none;}
-.password-box button.connected{background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.22);cursor:default;}
-.password-box.refresh-only{min-width:112px;justify-content:center;padding-left:5px;}
-.password-box.refresh-only button{width:100%;min-width:0;border-radius:10px;}
-.password-box.is-authenticated{animation:authSwap .55s cubic-bezier(.22,1,.36,1);}
-@keyframes authSwap{0%{opacity:.5;transform:scale(.97);filter:blur(2px)}100%{opacity:1;transform:scale(1);filter:blur(0)}}
-.password-box button.connected:hover{transform:none;}
+
+.password-box input {
+    flex: 1;
+    min-width: 0;
+    width: 140px;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #fff;
+    font-weight: 500;
+    font-size: 13px;
+}
+
+.password-username { display: none !important; }
+.password-box input::placeholder { color: #888; }
+
+.password-box button {
+    flex: 0 0 auto;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 100px;
+    background: #ffc46b; 
+    color: #000;
+    font-weight: 700;
+    font-size: 12px;
+    text-transform: uppercase;
+    transition: all .2s ease;
+}
+
+.password-box button:hover {
+    background: #fff;
+    transform: scale(1.03);
+}
 
 /* =========================================================
 HERO
 ========================================================= */
-
-.hero-content{
-    padding:70px 0 45px;
+.hero-content {
+    padding: 60px 0 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
 }
 
-.kicker{
-    display:inline-flex;
-
-    align-items:center;
-    gap:9px;
-
-    padding:8px 14px;
-
-    border-radius:100px;
-
-    background:rgba(255,255,255,.10);
-
-    border:1px solid rgba(255,255,255,.15);
-
-    backdrop-filter:blur(15px);
-
-    font-size:12px;
-
-    letter-spacing:1px;
-
-    text-transform:uppercase;
+.hero-visual-focus {
+    width: 100%;
+    max-width: 800px;
+    height: 180px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    z-index: 1;
+    margin-bottom: 30px;
 }
 
-.hero-title{
-    font-family:"Playfair Display",serif;
-
-    font-size:clamp(50px,7vw,100px);
-
-    line-height:.95;
-
-    max-width:900px;
-
-    margin:22px 0;
-
-    letter-spacing:-3px;
+.greeting-line {
+    font-size: clamp(32px, 5vw, 60px);
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -1px;
+    text-shadow: 0 10px 30px rgba(0,0,0,0.8);
 }
 
-.hero-title span{
-    color:#ffc56e;
+.primary-action-card {
+    position: relative;
+    z-index: 2;
+    background: rgba(8,8,8,0.7);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 196, 107, 0.4); 
+    border-radius: 16px;
+    padding: 30px 40px;
+    width: 100%;
+    max-width: 850px;
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.9);
 }
 
-.hero-subtitle{
-    color:rgba(255,255,255,.72);
+.primary-card-left .eyebrow {
+    color: rgba(255,255,255,0.4);
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+}
 
-    font-size:17px;
+.primary-card-left h1 {
+    margin: 0 0 8px 0;
+    font-size: 24px;
+    font-weight: 500;
+}
+.primary-card-left h1 span {
+    color: #ffc46b;
+    font-weight: 700;
+}
 
-    max-width:650px;
-
-    line-height:1.7;
+.primary-card-left p {
+    margin: 0;
+    color: rgba(255,255,255,0.5);
+    font-size: 13px;
+    line-height: 1.5;
 }
 
 /* =========================================================
-GLASS
+CARDS
 ========================================================= */
-
-.glass{
-    background:rgba(9,19,33,.47);
-
-    border:1px solid rgba(255,255,255,.13);
-
-    box-shadow:
-        0 20px 80px rgba(0,0,0,.24),
-        inset 0 1px 0 rgba(255,255,255,.07);
-
-    backdrop-filter:blur(22px);
-
-    -webkit-backdrop-filter:blur(22px);
-
-    border-radius:24px;
+.glass {
+    background: #080808;
+    border: 1px solid rgba(255, 196, 107, 0.25);
+    border-radius: 16px;
+    transition: all .3s ease;
+}
+.glass:hover {
+    border-color: rgba(255, 196, 107, 0.6);
 }
 
 /* =========================================================
 STATS
 ========================================================= */
-
-.stats{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-
-    gap:15px;
-
-    margin:30px 0;
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin: 40px 0;
 }
 
-.stat{
-    padding:23px;
+.stat { padding: 25px; }
+.stat-label { color: rgba(255,255,255,0.4); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+.stat-value { font-size: 28px; font-weight: 700; margin-top: 10px; letter-spacing: -0.5px; }
+.stat-change { margin-top: 8px; font-size: 13px; font-weight: 500; }
 
-    transition:.35s;
-}
-
-.stat:hover{
-    transform:translateY(-5px);
-
-    background:rgba(15,28,47,.60);
-}
-
-.stat-label{
-    color:rgba(255,255,255,.50);
-
-    font-size:11px;
-
-    text-transform:uppercase;
-
-    letter-spacing:1px;
-}
-
-.stat-value{
-    font-size:28px;
-
-    font-weight:700;
-
-    margin-top:7px;
-}
-
-.stat-change{
-    margin-top:8px;
-
-    font-size:13px;
-}
-
-.green{
-    color:#63e6a4;
-}
-
-.red{
-    color:#ff8e83;
-}
-
-.orange{
-    color:#ffc46b;
-}
+.green { color: #5ff0a5; }
+.red { color: #ff5e5e; }
+.orange { color: #ffc46b; }
 
 /* =========================================================
-DASHBOARD
+DASHBOARD GRIDS
 ========================================================= */
+.dashboard { padding-bottom: 100px; }
+.grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 15px; }
+.card { padding: 30px; }
 
-.dashboard{
-    padding-bottom:100px;
+.card-title {
+    display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;
 }
-
-.grid{
-    display:grid;
-
-    grid-template-columns:1.5fr 1fr;
-
-    gap:18px;
-}
-
-.card{
-    padding:25px;
-}
-
-.card-title{
-    display:flex;
-
-    justify-content:space-between;
-
-    align-items:center;
-
-    margin-bottom:22px;
-}
-
-.card-title h2{
-    margin:0;
-
-    font-size:18px;
-}
-
-.card-title span{
-    color:rgba(255,255,255,.40);
-
-    font-size:11px;
-
-    text-transform:uppercase;
-
-    letter-spacing:.7px;
-}
+.card-title h2 { margin: 0; font-size: 18px; font-weight: 600; }
+.card-title span { color: rgba(255,255,255,0.4); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+.chart-wrap { height: 320px; }
 
 /* =========================================================
-CHART
+ALLOCATION & INSIGHTS
 ========================================================= */
+.allocation { display: flex; align-items: center; gap: 25px; }
+.donut { width: 190px; height: 190px; flex-shrink: 0; }
+.legend { flex: 1; }
+.legend-row { display: flex; justify-content: space-between; padding: 12px 10px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 13px; cursor: pointer; transition: .2s; border-radius: 8px; }
+.legend-row:hover { background: rgba(255,255,255,0.03); }
+.legend-row.selected { background: rgba(255, 196, 107, 0.05); color: #ffc46b; }
+.legend-left { display: flex; gap: 10px; align-items: center; }
+.legend-dot { width: 8px; height: 8px; border-radius: 50%; }
 
-.chart-wrap{
-    height:320px;
-}
+.allocation-snapshot { margin-top: 25px; padding: 20px; background: rgba(255,255,255,0.02); border-radius: 12px; }
+.snapshot-top { display: flex; justify-content: space-between; align-items: center; gap: 15px; margin-bottom: 15px; }
+.snapshot-title { font-size: 14px; font-weight: 600; }
+.snapshot-pill { padding: 4px 10px; border-radius: 100px; background: rgba(255, 196, 107, 0.1); color: #ffc46b; font-size: 10px; font-weight: 600; text-transform: uppercase; }
+.snapshot-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+.snapshot-item-label { color: rgba(255,255,255,0.4); font-size: 10px; font-weight: 600; text-transform: uppercase; }
+.snapshot-item-value { margin-top: 6px; font-size: 15px; font-weight: 600; }
+
+.insights { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 15px; }
+.insight { padding: 25px; cursor: pointer; }
+.insight-icon { font-size: 24px; margin-bottom: 15px; opacity: 0.8; }
+.insight h3 { margin: 0 0 10px; font-size: 15px; font-weight: 600; }
+.insight p { color: rgba(255,255,255,0.5); font-size: 13px; line-height: 1.6; margin: 0; }
+.insight small { display: inline-block; margin-top: 12px; color: rgba(255, 196, 107, 0.7); font-size: 10px; font-weight: 600; text-transform: uppercase; }
 
 /* =========================================================
-ALLOCATION
+HEALTH & TABLES
 ========================================================= */
+.health-strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 15px; }
+.health-item { padding: 20px; display: flex; justify-content: space-between; align-items: center; gap: 15px; }
+.health-left { display: flex; align-items: center; gap: 12px; }
+.health-label { font-size: 11px; font-weight: 600; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 0.5px; }
+.health-value { font-size: 15px; font-weight: 600; }
 
-.allocation{
-    display:flex;
+.table-card { margin-top: 15px; overflow: hidden; }
+.table-toolbar { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+.search-box { flex: 1; min-width: 220px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 100px; padding: 12px 18px; color: white; outline: none; font-size: 13px; }
+.search-box:focus { border-color: rgba(255, 196, 107, 0.5); }
 
-    align-items:center;
-
-    gap:25px;
+.filter-btn, .sort-select {
+    border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.03); color: rgba(255,255,255,0.6);
+    border-radius: 100px; padding: 10px 18px; cursor: pointer; font-size: 12px; font-weight: 500; transition: .2s;
 }
+.filter-btn:hover, .filter-btn.active, .sort-select:focus { background: rgba(255, 196, 107, 0.1); border-color: rgba(255, 196, 107, 0.5); color: #ffc46b; }
+.sort-select option { background: #0a0a0a; color: white; }
 
-.donut{
-    width:190px;
-    height:190px;
-
-    flex-shrink:0;
-}
-
-.legend{
-    flex:1;
-}
-
-.legend-row{
-    display:flex;
-
-    justify-content:space-between;
-
-    padding:11px 9px;
-
-    border-bottom:
-        1px solid rgba(255,255,255,.07);
-
-    font-size:13px;
-
-    cursor:pointer;
-
-    border-radius:10px;
-
-    transition:.25s;
-}
-
-.legend-row:hover{
-    background:rgba(255,255,255,.06);
-
-    transform:translateX(5px);
-}
-
-.legend-row.selected{
-    background:rgba(255,196,107,.10);
-
-    color:#ffc46b;
-}
-
-.legend-left{
-    display:flex;
-
-    gap:8px;
-
-    align-items:center;
-}
-
-.legend-dot{
-    width:8px;
-    height:8px;
-
-    border-radius:50%;
-}
+table { width: 100%; border-collapse: collapse; }
+th { color: rgba(255,255,255,0.4); font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; text-align: left; padding: 15px 12px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+td { padding: 18px 12px; border-bottom: 1px solid rgba(255,255,255,0.02); font-size: 13px; font-weight: 500; }
+tbody tr { transition: .2s; cursor: pointer; }
+tbody tr:hover { background: rgba(255,255,255,0.02); }
+.asset-name { font-weight: 600; color: #fff; }
+.badge { padding: 4px 10px; border-radius: 100px; font-size: 10px; font-weight: 600; background: rgba(255,255,255,0.05); }
 
 /* =========================================================
-SNAPSHOT
+ANALYTICS & PROJECTIONS
 ========================================================= */
-
-.allocation-snapshot{
-    margin-top:22px;
-
-    padding:16px 18px;
-
-    border-radius:16px;
-
-    background:rgba(255,255,255,.035);
-
-    border:1px solid rgba(255,255,255,.07);
-
-    transition:.35s;
-}
-
-.snapshot-top{
-    display:flex;
-
-    justify-content:space-between;
-
-    align-items:center;
-
-    gap:15px;
-
-    margin-bottom:12px;
-}
-
-.snapshot-title{
-    font-size:13px;
-
-    font-weight:600;
-}
-
-.snapshot-pill{
-    padding:5px 9px;
-
-    border-radius:100px;
-
-    background:rgba(255,196,107,.10);
-
-    color:#ffc46b;
-
-    font-size:10px;
-
-    text-transform:uppercase;
-
-    letter-spacing:.7px;
-}
-
-.snapshot-grid{
-    display:grid;
-
-    grid-template-columns:repeat(3,1fr);
-
-    gap:12px;
-}
-
-.snapshot-item-label{
-    color:rgba(255,255,255,.38);
-
-    font-size:9px;
-
-    text-transform:uppercase;
-
-    letter-spacing:.8px;
-}
-
-.snapshot-item-value{
-    margin-top:5px;
-
-    font-size:14px;
-
-    font-weight:700;
-}
-
-/* =========================================================
-INSIGHTS
-========================================================= */
-
-.insights{
-    display:grid;
-
-    grid-template-columns:repeat(3,1fr);
-
-    gap:15px;
-
-    margin-top:18px;
-}
-
-.insight{
-    padding:22px;
-
-    transition:.3s;
-
-    cursor:pointer;
-}
-
-.insight:hover{
-    transform:translateY(-5px);
-}
-
-.insight-icon{
-    font-size:27px;
-
-    margin-bottom:15px;
-}
-
-.insight h3{
-    margin:0 0 8px;
-
-    font-size:15px;
-}
-
-.insight p{
-    color:rgba(255,255,255,.55);
-
-    font-size:13px;
-
-    line-height:1.6;
-
-    margin:0;
-}
-
-.insight small{
-    display:inline-block;
-
-    margin-top:8px;
-
-    color:rgba(255,255,255,.35);
-
-    font-size:10px;
-}
-
-/* =========================================================
-HEALTH
-========================================================= */
-
-.health-strip{
-    display:grid;
-
-    grid-template-columns:repeat(3,1fr);
-
-    gap:15px;
-
-    margin-top:18px;
-}
-
-.health-item{
-    padding:17px 19px;
-
-    display:flex;
-
-    justify-content:space-between;
-
-    align-items:center;
-
-    gap:15px;
-}
-
-.health-left{
-    display:flex;
-
-    align-items:center;
-
-    gap:10px;
-}
-
-.health-icon{
-    font-size:19px;
-}
-
-.health-label{
-    font-size:11px;
-
-    color:rgba(255,255,255,.45);
-
-    text-transform:uppercase;
-
-    letter-spacing:.7px;
-}
-
-.health-value{
-    font-size:15px;
-
-    font-weight:700;
-}
-
-/* =========================================================
-TABLE
-========================================================= */
-
-.table-card{
-    margin-top:18px;
-
-    overflow:hidden;
-}
-
-.table-toolbar{
-    display:flex;
-
-    gap:10px;
-
-    margin-bottom:18px;
-
-    flex-wrap:wrap;
-}
-
-.search-box{
-    flex:1;
-
-    min-width:220px;
-
-    background:rgba(255,255,255,.05);
-
-    border:1px solid rgba(255,255,255,.10);
-
-    border-radius:12px;
-
-    padding:11px 14px;
-
-    color:white;
-
-    outline:none;
-}
-
-.search-box:focus{
-    border-color:rgba(255,196,107,.5);
-}
-
-.filter-btn,
-.sort-select{
-    border:1px solid rgba(255,255,255,.10);
-
-    background:rgba(255,255,255,.05);
-
-    color:rgba(255,255,255,.7);
-
-    border-radius:12px;
-
-    padding:10px 14px;
-
-    cursor:pointer;
-
-    transition:.2s;
-}
-
-.filter-btn:hover,
-.filter-btn.active,
-.sort-select:focus{
-    background:rgba(255,196,107,.14);
-
-    border-color:rgba(255,196,107,.35);
-
-    color:#ffc46b;
-}
-
-.sort-select option{
-    background:#0b1727;
-    color:white;
-}
-
-.table-scroll{
-    overflow-x:auto;
-}
-
-table{
-    width:100%;
-
-    border-collapse:collapse;
-}
-
-th{
-    color:rgba(255,255,255,.40);
-
-    font-size:10px;
-
-    text-transform:uppercase;
-
-    letter-spacing:1px;
-
-    text-align:left;
-
-    padding:14px 12px;
-}
-
-td{
-    padding:15px 12px;
-
-    border-top:
-        1px solid rgba(255,255,255,.07);
-
-    font-size:13px;
-}
-
-tbody tr{
-    transition:.25s;
-
-    cursor:pointer;
-}
-
-tbody tr:hover{
-    background:rgba(255,255,255,.055);
-
-    transform:translateX(4px);
-}
-
-.asset-name{
-    font-weight:600;
-}
-
-.badge{
-    padding:5px 9px;
-
-    border-radius:100px;
-
-    font-size:10px;
-
-    background:rgba(255,255,255,.08);
-}
-
-/* =========================================================
-ANALYTICS
-========================================================= */
-
-.analytics-toggle{
-    margin-top:25px;
-
-    width:100%;
-
-    display:flex;
-
-    justify-content:space-between;
-
-    align-items:center;
-
-    padding:18px 22px;
-
-    border-radius:18px;
-
-    background:rgba(255,255,255,.055);
-
-    border:1px solid rgba(255,255,255,.11);
-
-    color:white;
-
-    cursor:pointer;
-
-    transition:.3s;
-}
-
-.analytics-toggle:hover{
-    background:rgba(255,255,255,.085);
-
-    border-color:rgba(255,196,107,.3);
-}
-
-.analytics-toggle-left{
-    display:flex;
-
-    align-items:center;
-
-    gap:12px;
-}
-
-.analytics-toggle-icon{
-    width:38px;
-    height:38px;
-
-    display:grid;
-    place-items:center;
-
-    border-radius:12px;
-
-    background:rgba(255,196,107,.10);
-
-    color:#ffc46b;
-}
-
-.analytics-arrow{
-    transition:.35s;
-
-    font-size:18px;
-}
-
-.analytics-toggle.open .analytics-arrow{
-    transform:rotate(180deg);
-}
-
-.analytics-panel{
-    display:none;
-
-    margin-top:15px;
-
-    animation:analyticsIn .45s ease;
-}
-
-.analytics-panel.open{
-    display:block;
-}
-
-@keyframes analyticsIn{
-    from{
-        opacity:0;
-        transform:translateY(-10px);
-    }
-
-    to{
-        opacity:1;
-        transform:translateY(0);
-    }
-}
-
-.analytics-grid{
-    display:grid;
-
-    grid-template-columns:1fr 1fr;
-
-    gap:18px;
-}
-
-.analytics-card{
-    padding:24px;
-}
-
-.analytics-card h3{
-    margin:0 0 5px;
-
-    font-size:17px;
-}
-
-.analytics-card-subtitle{
-    color:rgba(255,255,255,.4);
-
-    font-size:11px;
-
-    margin-bottom:20px;
-}
-
-.sip-total{
-    padding:22px;
-
-    border-radius:18px;
-
-    background:
-        linear-gradient(
-            135deg,
-            rgba(255,196,107,.13),
-            rgba(255,255,255,.025)
-        );
-
-    border:1px solid rgba(255,196,107,.15);
-}
-
-.sip-total-label{
-    color:rgba(255,255,255,.45);
-
-    text-transform:uppercase;
-
-    letter-spacing:1px;
-
-    font-size:10px;
-}
-
-.sip-total-value{
-    font-size:32px;
-
-    font-weight:700;
-
-    margin-top:6px;
-}
-
-.sip-annual{
-    color:#63e6a4;
-
-    margin-top:5px;
-
-    font-size:13px;
-}
-
-.sip-list{
-    margin-top:18px;
-}
-
-.sip-row{
-    display:grid;
-
-    grid-template-columns:1fr auto auto;
-
-    gap:12px;
-
-    align-items:center;
-
-    padding:12px 4px;
-
-    border-bottom:1px solid rgba(255,255,255,.07);
-
-    font-size:12px;
-}
-
-.sip-fund{
-    font-weight:600;
-}
-
-.sip-day{
-    color:rgba(255,255,255,.38);
-
-    font-size:10px;
-}
-
-.sip-amount{
-    color:#ffc46b;
-
-    font-weight:700;
-}
-
-.progress-bar{
-    height:6px;
-
-    margin-top:7px;
-
-    border-radius:10px;
-
-    background:rgba(255,255,255,.08);
-
-    overflow:hidden;
-}
-
-.progress-fill{
-    height:100%;
-
-    border-radius:10px;
-
-    background:linear-gradient(
-        90deg,
-        #ffc46b,
-        #ff8658
-    );
-}
-
-.projection-controls{
-    display:flex;
-
-    gap:8px;
-
-    flex-wrap:wrap;
-
-    margin-bottom:18px;
-}
-
-.scenario-btn{
-    padding:8px 12px;
-
-    border-radius:10px;
-
-    border:1px solid rgba(255,255,255,.10);
-
-    background:rgba(255,255,255,.05);
-
-    color:rgba(255,255,255,.6);
-
-    cursor:pointer;
-}
-
-.scenario-btn.active{
-    background:rgba(255,196,107,.13);
-
-    color:#ffc46b;
-
-    border-color:rgba(255,196,107,.3);
-}
-
-.roi-display{
-    display:flex;
-
-    align-items:center;
-
-    justify-content:space-between;
-
-    padding:12px 14px;
-
-    border-radius:12px;
-
-    background:rgba(255,255,255,.035);
-
-    margin-bottom:15px;
-
-    font-size:12px;
-}
-
-.projection-table{
-    width:100%;
-}
-
-.projection-table-row{
-    display:grid;
-
-    grid-template-columns:70px 1fr 1fr 1fr;
-
-    gap:10px;
-
-    padding:13px 5px;
-
-    border-bottom:1px solid rgba(255,255,255,.07);
-
-    font-size:12px;
-
-    align-items:center;
-}
-
-.projection-table-row.header{
-    color:rgba(255,255,255,.35);
-
-    font-size:9px;
-
-    text-transform:uppercase;
-
-    letter-spacing:.8px;
-}
-
-.projection-value{
-    font-weight:700;
-
-    color:#ffc46b;
-}
-
-.projection-growth{
-    color:#63e6a4;
-}
-
-.milestone-list{
-    display:grid;
-
-    grid-template-columns:repeat(5,1fr);
-
-    gap:10px;
-}
-
-.milestone{
-    padding:16px 12px;
-
-    border-radius:15px;
-
-    background:rgba(255,255,255,.035);
-
-    border:1px solid rgba(255,255,255,.07);
-
-    text-align:center;
-}
-
-.milestone-value{
-    font-weight:700;
-
-    font-size:15px;
-
-    color:#ffc46b;
-}
-
-.milestone-label{
-    margin-top:5px;
-
-    color:rgba(255,255,255,.4);
-
-    font-size:9px;
-
-    text-transform:uppercase;
-}
-
-.milestone-time{
-    margin-top:9px;
-
-    font-size:12px;
-
-    font-weight:700;
-}
-
-.projection-chart-wrap{
-    height:300px;
-
-    margin-top:20px;
-}
-
-.scenario-note{
-    margin-top:12px;
-
-    color:rgba(255,255,255,.35);
-
-    font-size:10px;
-
-    line-height:1.6;
-}
+.analytics-toggle {
+    margin-top: 25px; width: 100%; display: flex; justify-content: space-between; align-items: center;
+    padding: 20px 25px; border-radius: 16px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.1); color: white; cursor: pointer; transition: .3s;
+}
+.analytics-toggle:hover { border-color: rgba(255, 196, 107, 0.4); background: rgba(255,255,255,0.04); }
+.analytics-toggle-left { display: flex; align-items: center; gap: 15px; }
+.analytics-toggle-icon { width: 40px; height: 40px; display: grid; place-items: center; border-radius: 50%; background: rgba(255, 196, 107, 0.1); color: #ffc46b; }
+.analytics-arrow { transition: .3s; font-size: 14px; opacity: 0.5; }
+.analytics-toggle.open .analytics-arrow { transform: rotate(180deg); }
+
+.analytics-panel { display: none; margin-top: 15px; }
+.analytics-panel.open { display: block; }
+.analytics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+.analytics-card { padding: 25px; }
+.analytics-card h3 { margin: 0 0 6px; font-size: 16px; font-weight: 600; }
+.analytics-card-subtitle { color: rgba(255,255,255,0.4); font-size: 11px; margin-bottom: 25px; }
+
+.sip-total { padding: 25px; border-radius: 12px; background: rgba(255, 196, 107, 0.03); border: 1px solid rgba(255, 196, 107, 0.2); }
+.sip-total-label { color: rgba(255,255,255,0.5); font-weight: 600; text-transform: uppercase; font-size: 10px; letter-spacing: 1px; }
+.sip-total-value { font-size: 32px; font-weight: 700; margin-top: 8px; color: #ffc46b; }
+.sip-annual { color: rgba(255,255,255,0.5); margin-top: 6px; font-size: 12px; }
+
+.sip-row { display: grid; grid-template-columns: 1fr auto auto; gap: 12px; align-items: center; padding: 12px 5px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 12px; }
+.sip-fund { font-weight: 500; }
+.sip-day { color: rgba(255,255,255,0.4); font-size: 10px; }
+.sip-amount { color: #fff; font-weight: 600; }
+.progress-bar { height: 4px; margin-top: 8px; border-radius: 100px; background: rgba(255,255,255,0.05); overflow: hidden; }
+.progress-fill { height: 100%; background: #ffc46b; border-radius: 100px; }
+
+.scenario-btn { padding: 8px 14px; border-radius: 100px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.02); color: rgba(255,255,255,0.6); cursor: pointer; font-size: 11px; font-weight: 500; }
+.scenario-btn.active { background: rgba(255, 196, 107, 0.1); color: #ffc46b; border-color: rgba(255, 196, 107, 0.4); }
+
+.roi-display { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; border-radius: 8px; background: rgba(255,255,255,0.02); margin-bottom: 15px; font-size: 12px; color: rgba(255,255,255,0.6); }
+.projection-table-row { display: grid; grid-template-columns: 70px 1fr 1fr 1fr; gap: 10px; padding: 14px 5px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 12px; align-items: center; }
+.projection-table-row.header { color: rgba(255,255,255,0.4); font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+.projection-value { font-weight: 600; color: #fff; }
+.projection-growth { color: #5ff0a5; font-weight: 500; }
+
+.milestone-list { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+.milestone { padding: 16px 12px; border-radius: 12px; background: rgba(255,255,255,0.02); text-align: center; }
+.milestone-value { font-weight: 600; font-size: 15px; color: #fff; }
+.milestone-label { margin-top: 6px; color: rgba(255,255,255,0.4); font-size: 9px; font-weight: 600; text-transform: uppercase; }
+.milestone-time { margin-top: 8px; font-size: 11px; color: #ffc46b; }
 
 /* =========================================================
 VIEW HEADER
 ========================================================= */
-
-.view-header{
-    display:none;
-
-    align-items:center;
-
-    gap:12px;
-
-    margin-bottom:18px;
-}
-
-.view-header.active{
-    display:flex;
-}
-
-.back-button{
-    border:1px solid rgba(255,255,255,.13);
-
-    background:rgba(255,255,255,.06);
-
-    color:white;
-
-    border-radius:12px;
-
-    padding:10px 15px;
-
-    cursor:pointer;
-
-    transition:.25s;
-}
-
-.back-button:hover{
-    background:rgba(255,255,255,.11);
-
-    transform:translateX(-3px);
-}
-
-.view-title{
-    font-family:"Playfair Display",serif;
-
-    font-size:27px;
-
-    margin:0;
-}
-
-.view-subtitle{
-    color:rgba(255,255,255,.4);
-
-    font-size:11px;
-
-    text-transform:uppercase;
-
-    letter-spacing:1px;
-}
+.view-header { display: none; align-items: center; gap: 15px; margin-bottom: 20px; }
+.view-header.active { display: flex; }
+.back-button { border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); border-radius: 100px; color: white; padding: 8px 16px; cursor: pointer; font-size: 12px; font-weight: 500; transition: .2s; }
+.back-button:hover { background: rgba(255, 196, 107, 0.1); color: #ffc46b; border-color: rgba(255, 196, 107, 0.4); }
+.view-title { font-size: 24px; font-weight: 600; margin: 0; }
+.view-subtitle { color: rgba(255,255,255,0.4); font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
 
 /* =========================================================
 DETAIL
 ========================================================= */
-
-.detail-overlay{
-    position:fixed;
-
-    inset:0;
-
-    z-index:200;
-
-    display:flex;
-
-    align-items:flex-end;
-
-    justify-content:center;
-
-    padding:25px;
-
-    background:rgba(2,7,14,.68);
-
-    backdrop-filter:blur(14px);
-
-    opacity:0;
-
-    visibility:hidden;
-
-    transition:
-        opacity .45s ease,
-        visibility .45s ease;
-}
-
-.detail-overlay.open{
-    opacity:1;
-
-    visibility:visible;
-}
-
-.detail-panel{
-    width:min(1050px,100%);
-
-    max-height:90vh;
-
-    overflow:auto;
-
-    background:
-        linear-gradient(
-            145deg,
-            rgba(19,34,54,.94),
-            rgba(7,16,28,.96)
-        );
-
-    border:1px solid rgba(255,255,255,.15);
-
-    border-radius:30px;
-
-    box-shadow:0 40px 120px rgba(0,0,0,.55);
-
-    padding:32px;
-
-    transform:
-        translateY(100px)
-        scale(.96);
-
-    transition:
-        transform .55s cubic-bezier(.2,.8,.2,1);
-}
-
-.detail-overlay.open .detail-panel{
-    transform:
-        translateY(0)
-        scale(1);
-}
-
-.detail-top{
-    display:flex;
-
-    justify-content:space-between;
-
-    align-items:flex-start;
-
-    gap:20px;
-}
-
-.detail-category{
-    color:#ffc46b;
-
-    font-size:11px;
-
-    text-transform:uppercase;
-
-    letter-spacing:1.3px;
-
-    margin-bottom:8px;
-}
-
-.detail-name{
-    font-family:"Playfair Display",serif;
-
-    font-size:clamp(30px,5vw,52px);
-
-    margin:0;
-
-    line-height:1;
-}
-
-.close-detail{
-    width:42px;
-    height:42px;
-
-    border-radius:50%;
-
-    border:1px solid rgba(255,255,255,.13);
-
-    background:rgba(255,255,255,.06);
-
-    color:white;
-
-    cursor:pointer;
-
-    font-size:18px;
-}
-
-.detail-main-stat{
-    margin-top:30px;
-
-    padding:25px;
-
-    border-radius:22px;
-
-    background:
-        linear-gradient(
-            135deg,
-            rgba(255,188,99,.12),
-            rgba(255,255,255,.025)
-        );
-
-    border:1px solid rgba(255,255,255,.10);
-}
-
-.detail-current-label{
-    color:rgba(255,255,255,.45);
-
-    font-size:11px;
-
-    text-transform:uppercase;
-
-    letter-spacing:1px;
-}
-
-.detail-current{
-    font-size:44px;
-
-    font-weight:700;
-
-    margin:6px 0;
-}
-
-.detail-return{
-    font-size:15px;
-}
-
-.detail-grid{
-    display:grid;
-
-    grid-template-columns:repeat(4,1fr);
-
-    gap:12px;
-
-    margin-top:15px;
-}
-
-.detail-box{
-    padding:19px;
-
-    border-radius:18px;
-
-    background:rgba(255,255,255,.045);
-
-    border:1px solid rgba(255,255,255,.07);
-}
-
-.detail-box-label{
-    color:rgba(255,255,255,.4);
-
-    font-size:10px;
-
-    text-transform:uppercase;
-
-    letter-spacing:.8px;
-}
-
-.detail-box-value{
-    margin-top:7px;
-
-    font-size:18px;
-
-    font-weight:700;
-}
-
-.detail-meta{
-    display:grid;
-
-    grid-template-columns:1fr 1fr;
-
-    gap:12px;
-
-    margin-top:15px;
-}
-
-.meta-item{
-    padding:17px;
-
-    border-radius:16px;
-
-    background:rgba(255,255,255,.035);
-}
-
-.meta-label{
-    color:rgba(255,255,255,.4);
-
-    font-size:10px;
-
-    text-transform:uppercase;
-}
-
-.meta-value{
-    margin-top:5px;
-
-    font-size:14px;
-}
+.detail-overlay { position: fixed; inset: 0; z-index: 200; display: flex; align-items: center; justify-content: center; padding: 25px; background: rgba(0,0,0,0.9); opacity: 0; visibility: hidden; transition: .4s ease; }
+.detail-overlay.open { opacity: 1; visibility: visible; }
+.detail-panel { width: min(900px, 100%); max-height: 90vh; overflow: auto; background: #080808; border: 1px solid rgba(255, 196, 107, 0.4); border-radius: 20px; padding: 40px; transform: scale(0.95); transition: .4s cubic-bezier(.2,.8,.2,1); }
+.detail-overlay.open .detail-panel { transform: scale(1); }
+
+.detail-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; }
+.detail-category { color: #ffc46b; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+.detail-name { font-size: clamp(28px, 4vw, 42px); font-weight: 600; margin: 0; line-height: 1.1; letter-spacing: -0.5px; }
+.close-detail { width: 40px; height: 40px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); color: white; cursor: pointer; font-size: 18px; display: grid; place-items: center; }
+.close-detail:hover { background: rgba(255,255,255,0.1); }
+
+.detail-main-stat { margin-top: 35px; padding: 30px; border-radius: 16px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); }
+.detail-current-label { color: rgba(255,255,255,0.4); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+.detail-current { font-size: 42px; font-weight: 600; margin: 8px 0; }
+.detail-return { font-size: 15px; font-weight: 500; }
+
+.detail-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 15px; }
+.detail-box { padding: 20px; border-radius: 12px; background: rgba(255,255,255,0.02); }
+.detail-box-label { color: rgba(255,255,255,0.4); font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+.detail-box-value { margin-top: 8px; font-size: 18px; font-weight: 600; }
+
+.detail-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 15px; }
+.meta-item { padding: 18px; border-radius: 12px; background: rgba(255,255,255,0.02); }
+.meta-label { color: rgba(255,255,255,0.4); font-size: 10px; font-weight: 600; text-transform: uppercase; }
+.meta-value { margin-top: 6px; font-size: 14px; }
 
 /* =========================================================
 FOOTER / TOAST
 ========================================================= */
+.footer { text-align: center; color: rgba(255,255,255,0.3); font-size: 11px; font-weight: 500; padding: 40px 0; text-transform: uppercase; letter-spacing: 1px; }
+.toast { position: fixed; bottom: 25px; left: 50%; transform: translate(-50%, 120px); z-index: 500; padding: 12px 20px; border-radius: 100px; background: #fff; color: #000; font-weight: 600; font-size: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); opacity: 0; transition: .4s; }
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
 
-.footer{
-    text-align:center;
 
-    color:rgba(255,255,255,.32);
-
-    font-size:12px;
-
-    padding:30px 0;
+@media(max-width:1000px) {
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .grid { grid-template-columns: 1fr; }
+    .insights, .health-strip, .analytics-grid { grid-template-columns: 1fr; }
+    .milestone-list { grid-template-columns: repeat(3, 1fr); }
+    .detail-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
-.toast{
-    position:fixed;
-
-    bottom:25px;
-    left:50%;
-
-    transform:translate(-50%,120px);
-
-    z-index:500;
-
-    padding:12px 18px;
-
-    border-radius:12px;
-
-    background:rgba(7,16,28,.88);
-
-    border:1px solid rgba(255,255,255,.15);
-
-    backdrop-filter:blur(20px);
-
-    font-size:13px;
-
-    opacity:0;
-
-    transition:.4s;
+@media(max-width:650px) {
+    .navbar { align-items: flex-start; flex-direction: column; }
+    .connection-area { width: 100%; flex-wrap: wrap; }
+    .primary-action-card { flex-direction: column; text-align: center; gap: 20px; padding: 25px 20px; }
+    #authControls { width: 100%; justify-content: center; }
+    .stats, .snapshot-grid, .detail-meta { grid-template-columns: 1fr; }
+    .allocation { flex-direction: column; }
+    .milestone-list, .detail-grid { grid-template-columns: repeat(2, 1fr); }
+    .projection-table-row { grid-template-columns: 55px 1fr 1fr; }
+    .projection-table-row > div:last-child { display: none; }
+    .detail-overlay { padding: 10px; }
+    .detail-panel { padding: 25px; border-radius: 16px; }
+    .sip-row { grid-template-columns: 1fr auto; }
+    .sip-day { display: none; }
 }
-
-.toast.show{
-    opacity:1;
-
-    transform:translate(-50%,0);
-}
-
-
-/* =========================================================
-GREETING / WEATHER
-========================================================= */
-.greeting-line{
-    margin-top:18px;
-    min-height:34px;
-    display:flex;
-    align-items:center;
-    gap:10px;
-    color:rgba(255,255,255,.82);
-    font-size:15px;
-    font-weight:600;
-    letter-spacing:.2px;
-}
-.hero-greeting{
-    margin-top:0;
-    min-height:72px;
-    font-size:clamp(38px, 6vw, 72px);
-    line-height:1.05;
-    font-weight:700;
-    letter-spacing:-2px;
-    color:#fff;
-    text-shadow:0 8px 32px rgba(0,0,0,.22);
-    font-family:ui-rounded, -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
-    animation:greetingFloat 900ms cubic-bezier(.22,1,.36,1) both;
-}
-@keyframes greetingFloat{
-    from{opacity:0; transform:translateY(12px) scale(.985); filter:blur(5px)}
-    to{opacity:1; transform:none; filter:blur(0)}
-}
-.greeting-caret{
-    width:2px;
-    height:20px;
-    background:#ffc46b;
-    display:inline-block;
-    animation:caretBlink .9s ease-in-out infinite;
-}
-@keyframes caretBlink{0%,45%{opacity:1}46%,100%{opacity:0}}
-.weather-card{
-    margin-top:18px;
-    padding:18px 20px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:18px;
-    flex-wrap:wrap;
-}
-.weather-left{display:flex;align-items:center;gap:12px}
-.weather-icon{font-size:28px;line-height:1}
-.weather-label{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,.4)}
-.weather-location{font-size:14px;font-weight:700;margin-top:3px}
-.weather-temp{font-size:22px;font-weight:700;color:#ffc46b}
-.weather-meta{font-size:11px;color:rgba(255,255,255,.42);margin-top:2px}
-.demo-note{color:#ffc46b !important}
-
-/* =========================================================
-GREETING POLISH
-========================================================= */
-.hero-greeting{
-    min-height:1.35em;
-    font-family:ui-rounded,-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif !important;
-    font-size:clamp(44px,6.2vw,78px) !important;
-    font-weight:650 !important;
-    letter-spacing:-.045em !important;
-    line-height:1.02 !important;
-    color:#fff !important;
-    text-shadow:0 8px 32px rgba(0,0,0,.20);
-    transform-origin:left center;
-}
-#greetingText{
-    display:inline-block;
-    min-width:7ch;
-    animation:greetingBreath 8s ease-in-out infinite;
-}
-@keyframes greetingBreath{
-    0%,100%{transform:translateY(0)}
-    50%{transform:translateY(-2px)}
-}
-
-@media(max-width:1000px){
-
-    .stats{
-        grid-template-columns:repeat(2,1fr);
-    }
-
-    .grid{
-        grid-template-columns:1fr;
-    }
-
-    .insights{
-        grid-template-columns:1fr;
-    }
-
-    .health-strip{
-        grid-template-columns:1fr;
-    }
-
-    .analytics-grid{
-        grid-template-columns:1fr;
-    }
-
-    .milestone-list{
-        grid-template-columns:repeat(3,1fr);
-    }
-
-    .detail-grid{
-        grid-template-columns:repeat(2,1fr);
-    }
-}
-
-@media(max-width:650px){
-
-    .navbar{
-        align-items:flex-start;
-
-        flex-direction:column;
-    }
-
-    .connection-area{
-        width:100%;
-
-        flex-wrap:wrap;
-    }
-
-    .password-box{
-        flex:1;
-    }
-
-    .password-box input{
-        width:auto;
-
-        flex:1;
-    }
-
-    .hero-content{
-        padding-top:45px;
-    }
-
-    .hero-title{
-        letter-spacing:-1px;
-    }
-
-    .stats{
-        grid-template-columns:1fr;
-    }
-
-    .allocation{
-        flex-direction:column;
-    }
-
-    .snapshot-grid{
-        grid-template-columns:1fr;
-    }
-
-    .milestone-list{
-        grid-template-columns:repeat(2,1fr);
-    }
-
-    .projection-table-row{
-        grid-template-columns:55px 1fr 1fr;
-    }
-
-    .projection-table-row > div:last-child{
-        display:none;
-    }
-
-    .detail-overlay{
-        padding:10px;
-    }
-
-    .detail-panel{
-        padding:22px;
-
-        border-radius:24px;
-
-        max-height:94vh;
-    }
-
-    .detail-grid{
-        grid-template-columns:repeat(2,1fr);
-    }
-
-    .detail-meta{
-        grid-template-columns:1fr;
-    }
-
-    .sip-row{
-        grid-template-columns:1fr auto;
-    }
-
-    .sip-day{
-        display:none;
-    }
-}
-
 </style>
 </head>
 
 <body>
 
 <div class="hero">
-
-<div class="orb one"></div>
-<div class="orb two"></div>
-<div class="orb three"></div>
 
 <div class="container">
 
@@ -1827,46 +483,11 @@ Vageesh's <span>Portfolio</span>
 <div class="connection-area">
 
 <div id="connectionStatus" class="connection-status" style="display:none;">
-
 <div id="statusDot" class="status-dot"></div>
-
-<span id="statusText">
-LOCKED
-</span>
-
+<span id="statusText">LOCKED</span>
 </div>
 
-<div id="authControls" class="password-box">
-
-<input
-class="password-username"
-id="username"
-name="username"
-type="text"
-value="vageesh"
-autocomplete="username"
-tabindex="-1"
-aria-hidden="true"
-/>
-
-<input
-id="password"
-name="password"
-type="password"
-placeholder="Enter passcode"
-autocomplete="current-password"
-/>
-
-<button
-id="unlockButton"
-onclick="connectToSheet()"
->
-Unlock
-</button>
-
-</div>
-
-<div id="lastUpdated" class="weather-meta" aria-live="polite"></div>
+<div id="lastUpdated" style="font-size: 10px; color: rgba(255,255,255,0.3); font-weight:600; text-transform:uppercase;" aria-live="polite"></div>
 
 </div>
 
@@ -1874,18 +495,25 @@ Unlock
 
 <section class="hero-content">
 
-<div class="kicker">
-
-<div id="heroDot" class="status-dot"></div>
-
-<span id="heroStatus">
-Private portfolio
-</span>
-
+<div class="hero-visual-focus">
+    <div class="greeting-line hero-greeting" aria-live="polite">
+        <span id="greetingText"></span>
+    </div>
 </div>
 
-<div class="greeting-line hero-greeting" aria-live="polite">
-    <span id="greetingText"></span>
+<div class="primary-action-card">
+    <div class="primary-card-left">
+        <div class="eyebrow">DASHBOARD</div>
+        <h1><span>View</span> Vageesh's Live Portfolio</h1>
+        <p id="heroStatus">Connect securely to view all private portfolio data and holdings.</p>
+    </div>
+    
+    <!-- AUTH MOVED HERE -->
+    <div id="authControls" class="password-box">
+        <input class="password-username" id="username" name="username" type="text" value="vageesh" autocomplete="username" tabindex="-1" aria-hidden="true"/>
+        <input id="password" name="password" type="password" placeholder="Enter passcode" autocomplete="current-password"/>
+        <button id="unlockButton" onclick="connectToSheet()">Unlock</button>
+    </div>
 </div>
 
 </section>
@@ -1893,548 +521,190 @@ Private portfolio
 <section id="dashboard" class="dashboard">
 
 <div id="viewHeader" class="view-header">
-
-<button
-class="back-button"
-onclick="showAllAssets()"
->
-← Portfolio
-</button>
-
+<button class="back-button" onclick="showAllAssets()">Back to Portfolio</button>
 <div>
-
-<h2 id="viewTitle" class="view-title">
-Portfolio
-</h2>
-
-<div id="viewSubtitle" class="view-subtitle">
-All holdings
+<h2 id="viewTitle" class="view-title">Portfolio</h2>
+<div id="viewSubtitle" class="view-subtitle">All holdings</div>
 </div>
-
-</div>
-
 </div>
 
 <!-- STATS -->
-
 <div class="stats">
-
 <div class="glass stat">
-
-<div class="stat-label">
-Current Portfolio
+<div class="stat-label">Current Portfolio</div>
+<div id="totalValue" class="stat-value">—</div>
+<div id="totalGain" class="stat-change">Connect to view</div>
 </div>
-
-<div id="totalValue" class="stat-value">
-—
-</div>
-
-<div id="totalGain" class="stat-change">
-Connect to view
-</div>
-
-</div>
-
 <div class="glass stat">
-
-<div class="stat-label">
-Total Invested
+<div class="stat-label">Total Invested</div>
+<div id="totalInvested" class="stat-value">—</div>
+<div class="stat-change" style="color: rgba(255,255,255,0.4)">Capital deployed</div>
 </div>
-
-<div id="totalInvested" class="stat-value">
-—
-</div>
-
-<div class="stat-change">
-Capital deployed
-</div>
-
-</div>
-
 <div class="glass stat">
-
-<div class="stat-label">
-Overall Return
+<div class="stat-label">Overall Return</div>
+<div id="returnPercent" class="stat-value">—</div>
+<div id="returnText" class="stat-change">Live portfolio</div>
 </div>
-
-<div id="returnPercent" class="stat-value">
-—
-</div>
-
-<div id="returnText" class="stat-change">
-Live portfolio
-</div>
-
-</div>
-
 <div class="glass stat">
-
-<div class="stat-label">
-Holdings
+<div class="stat-label">Holdings</div>
+<div id="holdingCount" class="stat-value">—</div>
+<div class="stat-change" style="color: rgba(255,255,255,0.4)">Current view</div>
 </div>
-
-<div id="holdingCount" class="stat-value">
-—
-</div>
-
-<div class="stat-change">
-Current view
-</div>
-
-</div>
-
 </div>
 
 <!-- CHARTS -->
-
 <div class="grid">
-
 <div class="glass card">
-
 <div class="card-title">
-
-<h2>
-Portfolio Landscape
-</h2>
-
-<span id="portfolioChartSubtitle">
-Current portfolio
-</span>
-
+<h2>Portfolio Landscape</h2>
+<span id="portfolioChartSubtitle">Current portfolio</span>
 </div>
-
 <div class="chart-wrap">
-
 <canvas id="portfolioChart"></canvas>
-
 </div>
-
 </div>
 
 <div class="glass card">
-
 <div class="card-title">
-
-<h2>
-Asset Allocation
-</h2>
-
-<span>
-Click a category
-</span>
-
+<h2>Asset Allocation</h2>
+<span>Click a category</span>
 </div>
-
 <div class="allocation">
-
 <div class="donut">
-
 <canvas id="allocationChart"></canvas>
-
 </div>
-
-<div id="allocationLegend" class="legend">
+<div id="allocationLegend" class="legend"></div>
 </div>
-
+<div id="allocationSnapshot" class="allocation-snapshot"></div>
 </div>
-
-<div id="allocationSnapshot" class="allocation-snapshot">
-</div>
-
-</div>
-
 </div>
 
 <!-- INSIGHTS -->
-
 <div class="insights">
-
 <div id="winnerCard" class="glass insight">
-
-<div class="insight-icon">
-🏆
+<div class="insight-icon">✨</div>
+<h3>Top Performer</h3>
+<p id="topWinner">Connect your portfolio to see this.</p>
 </div>
-
-<h3>
-Top Performer
-</h3>
-
-<p id="topWinner">
-Connect your portfolio to see this.
-</p>
-
-</div>
-
 <div id="loserCard" class="glass insight">
-
-<div class="insight-icon">
-⚠️
+<div class="insight-icon">📉</div>
+<h3>Biggest Drag</h3>
+<p id="topLoser">Connect your portfolio to see this.</p>
 </div>
-
-<h3>
-Biggest Drag
-</h3>
-
-<p id="topLoser">
-Connect your portfolio to see this.
-</p>
-
-</div>
-
 <div id="largestCard" class="glass insight">
-
-<div class="insight-icon">
-💰
+<div class="insight-icon">💎</div>
+<h3>Largest Position</h3>
+<p id="largestPosition">Connect your portfolio to see this.</p>
 </div>
-
-<h3>
-Largest Position
-</h3>
-
-<p id="largestPosition">
-Connect your portfolio to see this.
-</p>
-
-</div>
-
 </div>
 
 <!-- HEALTH -->
-
-<div id="healthStrip" class="health-strip">
-</div>
-
-<div class="glass weather-card" id="weatherCard">
-    <div class="weather-left">
-        <div class="weather-icon" id="weatherIcon">☀️</div>
-        <div>
-            <div class="weather-label">Your location</div>
-            <div class="weather-location" id="weatherLocation">Finding your location…</div>
-            <div class="weather-meta" id="weatherMeta">Weather will appear here</div>
-        </div>
-    </div>
-    <div>
-        <div class="weather-temp" id="weatherTemp">—</div>
-        <div class="weather-meta" id="weatherCondition">Local weather</div>
-    </div>
-</div>
+<div id="healthStrip" class="health-strip"></div>
 
 <!-- HOLDINGS -->
-
 <div class="glass card table-card">
-
 <div class="card-title">
-
-<h2>
-Complete Portfolio
-</h2>
-
-<span id="tableStatus">
-LOCKED
-</span>
-
+<h2>Complete Portfolio</h2>
+<span id="tableStatus" style="background: rgba(255,255,255,0.1); padding: 4px 10px; border-radius: 100px; color: #fff;">LOCKED</span>
 </div>
-
 <div class="table-toolbar">
-
-<input
-id="searchInput"
-class="search-box"
-type="text"
-placeholder="Search holdings..."
-oninput="renderDashboard()"
-/>
-
-<button
-class="filter-btn active"
-data-filter="All"
-onclick="setCategoryFilter('All')"
->
-All
-</button>
-
-<button
-class="filter-btn"
-data-filter="Equity"
-onclick="setCategoryFilter('Equity')"
->
-Equity
-</button>
-
-<button
-class="filter-btn"
-data-filter="Mutual Funds"
-onclick="setCategoryFilter('Mutual Funds')"
->
-Funds
-</button>
-
-<button
-class="filter-btn"
-data-filter="Gold"
-onclick="setCategoryFilter('Gold')"
->
-Gold
-</button>
-
-<button
-class="filter-btn"
-data-filter="Fixed Income"
-onclick="setCategoryFilter('Fixed Income')"
->
-Fixed Income
-</button>
-
-<select
-id="sortSelect"
-class="sort-select"
-onchange="renderDashboard()"
->
-
-<option value="default">
-Sort: Default
-</option>
-
-<option value="returnDesc">
-Highest Return %
-</option>
-
-<option value="returnAsc">
-Lowest Return %
-</option>
-
-<option value="gainDesc">
-Highest Gain
-</option>
-
-<option value="gainAsc">
-Lowest Gain
-</option>
-
-<option value="valueDesc">
-Largest Position
-</option>
-
-<option value="investedDesc">
-Highest Invested
-</option>
-
-<option value="nameAsc">
-Name A–Z
-</option>
-
+<input id="searchInput" class="search-box" type="text" placeholder="Search holdings..." oninput="renderDashboard()"/>
+<button class="filter-btn active" data-filter="All" onclick="setCategoryFilter('All')">All</button>
+<button class="filter-btn" data-filter="Equity" onclick="setCategoryFilter('Equity')">Equity</button>
+<button class="filter-btn" data-filter="Mutual Funds" onclick="setCategoryFilter('Mutual Funds')">Funds</button>
+<button class="filter-btn" data-filter="Gold" onclick="setCategoryFilter('Gold')">Gold</button>
+<button class="filter-btn" data-filter="Fixed Income" onclick="setCategoryFilter('Fixed Income')">Fixed Income</button>
+<select id="sortSelect" class="sort-select" onchange="renderDashboard()">
+<option value="default">Sort: Default</option>
+<option value="returnDesc">Highest Return %</option>
+<option value="returnAsc">Lowest Return %</option>
+<option value="gainDesc">Highest Gain</option>
+<option value="gainAsc">Lowest Gain</option>
+<option value="valueDesc">Largest Position</option>
+<option value="investedDesc">Highest Invested</option>
+<option value="nameAsc">Name A–Z</option>
 </select>
-
 </div>
-
 <div class="table-scroll">
-
 <table>
-
 <thead>
-
 <tr>
-
 <th>Asset</th>
 <th>Category</th>
 <th>Invested</th>
 <th>Current Value</th>
 <th>Gain / Loss</th>
 <th>Return</th>
-
 </tr>
-
 </thead>
-
 <tbody id="holdingsTable"></tbody>
-
 </table>
-
 </div>
-
 </div>
 
 <!-- MORE ANALYTICS -->
-
-<button
-id="analyticsToggle"
-class="analytics-toggle"
-onclick="toggleAnalytics()"
->
-
+<button id="analyticsToggle" class="analytics-toggle" onclick="toggleAnalytics()">
 <div class="analytics-toggle-left">
-
-<div class="analytics-toggle-icon">
-✦
-</div>
-
+<div class="analytics-toggle-icon">📊</div>
 <div>
-
-<div style="font-weight:700;">
-More Analytics
+<div style="font-weight:600;">More Analytics</div>
+<div style="color:rgba(255,255,255,0.4); font-size:11px; margin-top:4px;">SIP, projections, milestones & deeper portfolio data</div>
 </div>
-
-<div
-style="
-color:rgba(255,255,255,.4);
-font-size:11px;
-margin-top:3px;
-"
->
-SIP, projections, milestones & deeper portfolio data
 </div>
-
-</div>
-
-</div>
-
-<div class="analytics-arrow">
-⌄
-</div>
-
+<div class="analytics-arrow">▼</div>
 </button>
 
 <div id="analyticsPanel" class="analytics-panel">
-
 <div class="analytics-grid">
-
 <!-- SIP -->
-
 <div class="glass analytics-card">
-
-<h3>
-Monthly SIP
-</h3>
-
-<div class="analytics-card-subtitle">
-Live data from <strong>SIP_Config</strong>
-</div>
-
+<h3>Monthly SIP</h3>
+<div class="analytics-card-subtitle">Live data from SIP_Config</div>
 <div class="sip-total">
-
-<div class="sip-total-label">
-Current Monthly SIP
+<div class="sip-total-label">Current Monthly SIP</div>
+<div id="sipMonthly" class="sip-total-value">—</div>
+<div id="sipAnnual" class="sip-annual">—</div>
 </div>
-
-<div id="sipMonthly" class="sip-total-value">
-—
-</div>
-
-<div id="sipAnnual" class="sip-annual">
-—
-</div>
-
-</div>
-
-<div id="sipList" class="sip-list">
-</div>
-
+<div id="sipList" class="sip-list" style="margin-top: 20px;"></div>
 </div>
 
 <!-- PROJECTION -->
-
 <div class="glass analytics-card">
-
-<h3>
-Wealth Projection
-</h3>
-
-<div class="analytics-card-subtitle">
-Current corpus + dynamic SIP + selected return assumption
+<h3>Wealth Projection</h3>
+<div class="analytics-card-subtitle">Current corpus + dynamic SIP + selected return assumption</div>
+<div class="projection-controls" style="display:flex; gap:10px; margin-bottom: 20px;">
+<button class="scenario-btn" data-scenario="conservative" onclick="setProjectionScenario('conservative')">8%</button>
+<button class="scenario-btn active" data-scenario="actual" onclick="setProjectionScenario('actual')">Actual ROI</button>
+<button class="scenario-btn" data-scenario="optimistic" onclick="setProjectionScenario('optimistic')">15%</button>
 </div>
-
-<div class="projection-controls">
-
-<button
-class="scenario-btn"
-data-scenario="conservative"
-onclick="setProjectionScenario('conservative')"
->
-8%
-</button>
-
-<button
-class="scenario-btn active"
-data-scenario="actual"
-onclick="setProjectionScenario('actual')"
->
-Actual ROI
-</button>
-
-<button
-class="scenario-btn"
-data-scenario="optimistic"
-onclick="setProjectionScenario('optimistic')"
->
-15%
-</button>
-
-</div>
-
 <div class="roi-display">
-
-<span>
-Projection return
-</span>
-
-<strong id="projectionROI" class="orange">
-—
-</strong>
-
+<span>Projection return</span>
+<strong id="projectionROI" class="orange">—</strong>
 </div>
-
-<div id="projectionTable" class="projection-table">
-</div>
-
-<div class="projection-chart-wrap">
-
+<div id="projectionTable" class="projection-table"></div>
+<div class="projection-chart-wrap" style="height: 250px; margin-top: 20px;">
 <canvas id="projectionChart"></canvas>
-
 </div>
-
-<div class="scenario-note">
-Actual ROI uses your current overall portfolio return as the projection rate.
-This is a mathematical projection, not a prediction of future market returns.
+<div class="scenario-note" style="margin-top:15px; color:rgba(255,255,255,0.3); font-size:10px; line-height: 1.5;">
+Actual ROI uses your current overall portfolio return as the projection rate. This is a mathematical projection, not a prediction of future market returns.
 </div>
-
 </div>
 
 <!-- MILESTONES -->
-
 <div class="glass analytics-card">
-
-<h3>
-Financial Milestones
-</h3>
-
-<div class="analytics-card-subtitle">
-Estimated time to reach each corpus level
-</div>
-
-<div id="milestoneList" class="milestone-list">
-</div>
-
+<h3>Financial Milestones</h3>
+<div class="analytics-card-subtitle">Estimated time to reach each corpus level</div>
+<div id="milestoneList" class="milestone-list"></div>
 </div>
 
 <!-- SIP BREAKDOWN -->
-
 <div class="glass analytics-card">
-
-<h3>
-SIP Allocation
-</h3>
-
-<div class="analytics-card-subtitle">
-Where your monthly SIP is going
-</div>
-
-<div id="sipAllocationList">
+<h3>SIP Allocation</h3>
+<div class="analytics-card-subtitle">Where your monthly SIP is going</div>
+<div id="sipAllocationList"></div>
 </div>
 
 </div>
-
-</div>
-
 </div>
 
 <div class="footer">
@@ -2442,83 +712,38 @@ My wife is the Best (She made me do it)
 </div>
 
 </section>
-
 </div>
 </div>
 
 <!-- DETAIL -->
-
-<div
-id="detailOverlay"
-class="detail-overlay"
-onclick="closeDetailFromOutside(event)"
->
-
+<div id="detailOverlay" class="detail-overlay" onclick="closeDetailFromOutside(event)">
 <div class="detail-panel">
-
 <div class="detail-top">
-
 <div>
-
-<div id="detailCategory" class="detail-category">
+<div id="detailCategory" class="detail-category"></div>
+<h2 id="detailName" class="detail-name"></h2>
 </div>
-
-<h2 id="detailName" class="detail-name">
-</h2>
-
+<button class="close-detail" onclick="closeDetail()">×</button>
 </div>
-
-<button
-class="close-detail"
-onclick="closeDetail()"
->
-×
-</button>
-
-</div>
-
 <div class="detail-main-stat">
-
-<div class="detail-current-label">
-Current Value
+<div class="detail-current-label">Current Value</div>
+<div id="detailCurrent" class="detail-current"></div>
+<div id="detailReturn" class="detail-return"></div>
 </div>
-
-<div id="detailCurrent" class="detail-current">
+<div id="detailGrid" class="detail-grid"></div>
+<div id="detailMeta" class="detail-meta"></div>
 </div>
-
-<div id="detailReturn" class="detail-return">
-</div>
-
-</div>
-
-<div id="detailGrid" class="detail-grid">
-</div>
-
-<div id="detailMeta" class="detail-meta">
-</div>
-
-</div>
-
 </div>
 
 <div id="toast" class="toast"></div>
 
 <script>
-
 /* =========================================================
-API
+API & LOGIC 
 ========================================================= */
-
-const API_URL =
-"https://script.google.com/macros/s/AKfycbyaFeW3jP8aoK-T0fu_8uGZMNYzEj1R4_nXkkzrJqpmcsEpyF-5tOioKit4iR1TaIRd/exec";
-
-/* =========================================================
-STATE
-========================================================= */
+const API_URL = "https://script.google.com/macros/s/AKfycbyaFeW3jP8aoK-T0fu_8uGZMNYzEj1R4_nXkkzrJqpmcsEpyF-5tOioKit4iR1TaIRd/exec";
 
 let apiData = null;
-
-/* Public demo data: intentionally fictional names. */
 const demoAssets = [
     { Asset:"Asteron Dynamics", Category:"Equity", Invested:185000, CurrentValue:214600, Ticker:"DEMO:ASTD", Quantity:120, AveragePrice:1542 },
     { Asset:"BlueMango Systems", Category:"Equity", Invested:132500, CurrentValue:119800, Ticker:"DEMO:BMSG", Quantity:75, AveragePrice:1767 },
@@ -2529,7 +754,6 @@ const demoAssets = [
     { Asset:"Monsoon Balanced Advantage Fund", Category:"Mutual Funds", Invested:155000, CurrentValue:168900, Ticker:"DEMO:MBAF" },
     { Asset:"PPF", Category:"Fixed Income", Invested:500000, CurrentValue:534800, Ticker:"DEMO:PPF" }
 ];
-
 const demoSipConfig = [
     { ticker:"DEMO:STFG", sipAmount:15000, sipDay:5, fundName:"Suntrail Flexi Growth Fund" },
     { ticker:"DEMO:CSEF", sipAmount:10000, sipDay:10, fundName:"CedarStone Equity Fund" },
@@ -2537,596 +761,158 @@ const demoSipConfig = [
 ];
 
 let assets = [...demoAssets];
-
 let sipConfig = [...demoSipConfig];
-
 let cachedLiveData = null;
 let lastRefreshInProgress = false;
-
 let currentCategory = "All";
-
 let allocationChart = null;
-
 let portfolioChart = null;
-
 let projectionChart = null;
-
 let projectionScenario = "actual";
-
 let isLive = false;
 
-const ALLOCATION_COLORS = [
-"#ffc46b",
-"#6ec8ff",
-"#8ee6b2",
-"#ff8e83",
-"#b79cff",
-"#f4a261",
-"#72ddf7",
-"#d4a5ff"
-];
+const ALLOCATION_COLORS = ["#ffc46b", "#e0e0e0", "#888888", "#5ff0a5", "#ff5e5e", "#ffb84d", "#cccccc", "#444444"];
 
-/* =========================================================
-HELPERS
-========================================================= */
-
-function hasValue(value){
-
-    return (
-        value !== undefined &&
-        value !== null &&
-        value !== "" &&
-        !Number.isNaN(Number(value))
-    );
-}
-
-function numeric(value){
-
-    return hasValue(value)
-        ? Number(value)
-        : null;
-}
-
+function hasValue(value){ return (value !== undefined && value !== null && value !== "" && !Number.isNaN(Number(value))); }
+function numeric(value){ return hasValue(value) ? Number(value) : null; }
 function money(value){
-
-    if(!hasValue(value)){
-        return "";
-    }
-
-    return new Intl.NumberFormat(
-        "en-IN",
-        {
-            style:"currency",
-            currency:"INR",
-            maximumFractionDigits:0
-        }
-    ).format(Number(value));
+    if(!hasValue(value)) return "";
+    return new Intl.NumberFormat("en-IN", { style:"currency", currency:"INR", maximumFractionDigits:0 }).format(Number(value));
 }
-
 function number(value){
-
-    if(!hasValue(value)){
-        return "";
-    }
-
-    return new Intl.NumberFormat(
-        "en-IN",
-        {
-            maximumFractionDigits:0
-        }
-    ).format(Number(value));
+    if(!hasValue(value)) return "";
+    return new Intl.NumberFormat("en-IN", { maximumFractionDigits:0 }).format(Number(value));
 }
-
-function escapeHTML(value){
-
-    return String(value ?? "")
-        .replaceAll("&","&amp;")
-        .replaceAll("<","&lt;")
-        .replaceAll(">","&gt;")
-        .replaceAll('"',"&quot;")
-        .replaceAll("'","&#039;");
-}
-
+function escapeHTML(value){ return String(value ?? "").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;"); }
 function showToast(message){
-
-    const toast =
-        document.getElementById("toast");
-
+    const toast = document.getElementById("toast");
     toast.innerText = message;
-
     toast.classList.add("show");
-
     clearTimeout(window.toastTimer);
-
-    window.toastTimer =
-        setTimeout(
-            () => toast.classList.remove("show"),
-            3000
-        );
+    window.toastTimer = setTimeout(() => toast.classList.remove("show"), 3000);
 }
-
-/* =========================================================
-FLEXIBLE FIELD READER
-========================================================= */
-
 function field(object, ...names){
-
-    if(!object){
-        return null;
-    }
-
+    if(!object) return null;
     for(const name of names){
-
-        if(
-            object[name] !== undefined &&
-            object[name] !== null &&
-            object[name] !== ""
-        ){
-
-            return object[name];
-
-        }
-
+        if(object[name] !== undefined && object[name] !== null && object[name] !== "") return object[name];
     }
-
     return null;
 }
 
-/* =========================================================
-NORMALISE MUTUAL FUNDS
-========================================================= */
-
 function normalizeMutualFunds(){
-
-    const rows =
-        Array.isArray(apiData?.mutualFunds)
-        ? apiData.mutualFunds
-        : [];
-
+    const rows = Array.isArray(apiData?.mutualFunds) ? apiData.mutualFunds : [];
     return rows.map(row => {
-
-        const invested =
-            numeric(
-                field(
-                    row,
-                    "invested",
-                    "totalInvested"
-                )
-            );
-
-        const current =
-            numeric(
-                field(
-                    row,
-                    "currentValue"
-                )
-            );
-
         return {
-
-            Asset:
-                field(
-                    row,
-                    "name",
-                    "fundName",
-                    "fund",
-                    "ticker",
-                    "fundTicker"
-                ) || "Mutual Fund",
-
-            Category:
-                "Mutual Funds",
-
-            Invested:
-                invested,
-
-            CurrentValue:
-                current,
-
-            Ticker:
-                field(
-                    row,
-                    "ticker",
-                    "fundTicker"
-                ),
-
-            Units:
-                field(
-                    row,
-                    "units",
-                    "totalUnits"
-                ),
-
-            NAV:
-                field(
-                    row,
-                    "nav",
-                    "liveNAV"
-                ),
-
-            ProfitLoss:
-                numeric(
-                    field(
-                        row,
-                        "profitLoss"
-                    )
-                ),
-
-            ReturnPercent:
-                numeric(
-                    field(
-                        row,
-                        "returnPercent"
-                    )
-                ),
-
-            Original:
-                row
-
+            Asset: field(row, "name", "fundName", "fund", "ticker", "fundTicker") || "Mutual Fund",
+            Category: "Mutual Funds",
+            Invested: numeric(field(row, "invested", "totalInvested")),
+            CurrentValue: numeric(field(row, "currentValue")),
+            Ticker: field(row, "ticker", "fundTicker"),
+            Units: field(row, "units", "totalUnits"),
+            NAV: field(row, "nav", "liveNAV"),
+            ProfitLoss: numeric(field(row, "profitLoss")),
+            ReturnPercent: numeric(field(row, "returnPercent")),
+            Original: row
         };
-
     });
-
 }
-
-/* =========================================================
-NORMALISE STOCKS
-========================================================= */
 
 function normalizeStocks(){
-
-    const rows =
-        Array.isArray(apiData?.stocks)
-        ? apiData.stocks
-        : [];
-
+    const rows = Array.isArray(apiData?.stocks) ? apiData.stocks : [];
     return rows.map(row => {
-
-        const invested =
-            numeric(
-                field(
-                    row,
-                    "invested",
-                    "totalInvested"
-                )
-            );
-
-        const current =
-            numeric(
-                field(
-                    row,
-                    "currentValue"
-                )
-            );
-
         return {
-
-            Asset:
-                field(
-                    row,
-                    "instrument",
-                    "name",
-                    "stockName",
-                    "symbol",
-                    "ticker",
-                    "googleTicker"
-                ) || "Stock",
-
-            Category:
-                "Equity",
-
-            Invested:
-                invested,
-
-            CurrentValue:
-                current,
-
-            Ticker:
-                field(
-                    row,
-                    "ticker",
-                    "symbol",
-                    "googleTicker"
-                ),
-
-            Quantity:
-                field(
-                    row,
-                    "quantity",
-                    "qty"
-                ),
-
-            AveragePrice:
-                field(
-                    row,
-                    "averagePrice",
-                    "avgPrice"
-                ),
-
-            LivePrice:
-                field(
-                    row,
-                    "livePrice"
-                ),
-
-            ProfitLoss:
-                numeric(
-                    field(
-                        row,
-                        "profitLoss"
-                    )
-                ),
-
-            ReturnPercent:
-                numeric(
-                    field(
-                        row,
-                        "returnPercent"
-                    )
-                ),
-
-            Original:
-                row
-
+            Asset: field(row, "instrument", "name", "stockName", "symbol", "ticker", "googleTicker") || "Stock",
+            Category: "Equity",
+            Invested: numeric(field(row, "invested", "totalInvested")),
+            CurrentValue: numeric(field(row, "currentValue")),
+            Ticker: field(row, "ticker", "symbol", "googleTicker"),
+            Quantity: field(row, "quantity", "qty"),
+            AveragePrice: field(row, "averagePrice", "avgPrice"),
+            LivePrice: field(row, "livePrice"),
+            ProfitLoss: numeric(field(row, "profitLoss")),
+            ReturnPercent: numeric(field(row, "returnPercent")),
+            Original: row
         };
-
     });
-
 }
-
-/* =========================================================
-NORMALISE PPF
-========================================================= */
 
 function normalizePPF(){
-
-    const rows =
-        Array.isArray(apiData?.ppf)
-        ? apiData.ppf
-        : [];
-
+    const rows = Array.isArray(apiData?.ppf) ? apiData.ppf : [];
     return rows.map(row => {
-
-        const invested =
-            numeric(
-                field(
-                    row,
-                    "deposited",
-                    "totalDeposited",
-                    "invested"
-                )
-            );
-
-        const current =
-            numeric(
-                field(
-                    row,
-                    "currentBalance",
-                    "currentValue"
-                )
-            );
-
         return {
-
-            Asset:
-                field(
-                    row,
-                    "name",
-                    "fundName"
-                ) || "PPF",
-
-            Category:
-                "Fixed Income",
-
-            Invested:
-                invested,
-
-            CurrentValue:
-                current,
-
-            Ticker:
-                "PPF",
-
-            InterestRate:
-                field(
-                    row,
-                    "interestRate"
-                ),
-
-            InterestEarned:
-                numeric(
-                    field(
-                        row,
-                        "interestEarned"
-                    )
-                ),
-
-            Original:
-                row
-
+            Asset: field(row, "name", "fundName") || "PPF",
+            Category: "Fixed Income",
+            Invested: numeric(field(row, "deposited", "totalDeposited", "invested")),
+            CurrentValue: numeric(field(row, "currentBalance", "currentValue")),
+            Ticker: "PPF",
+            InterestRate: field(row, "interestRate"),
+            InterestEarned: numeric(field(row, "interestEarned")),
+            Original: row
         };
-
     });
-
 }
 
-/* =========================================================
-BUILD ASSETS FROM NEW API
-========================================================= */
-
-function buildAssetsFromAPI(){
-
-    return [
-
-        ...normalizeMutualFunds(),
-
-        ...normalizeStocks(),
-
-        ...normalizePPF()
-
-    ];
-}
-
-/* =========================================================
-NORMALISE SIP CONFIG
-========================================================= */
+function buildAssetsFromAPI(){ return [...normalizeMutualFunds(), ...normalizeStocks(), ...normalizePPF()]; }
 
 function normalizeSIP(){
-
-    const rows =
-        Array.isArray(apiData?.sipConfig)
-        ? apiData.sipConfig
-        : [];
-
+    const rows = Array.isArray(apiData?.sipConfig) ? apiData.sipConfig : [];
     return rows.map(row => {
-
         return {
-
-            ticker:
-                field(
-                    row,
-                    "ticker",
-                    "fundTicker"
-                ),
-
-            sipAmount:
-                numeric(
-                    field(
-                        row,
-                        "sipAmount",
-                        "amount",
-                        "monthlySIP",
-                        "monthlyAmount"
-                    )
-                ) || 0,
-
-            sipDay:
-                field(
-                    row,
-                    "sipDay",
-                    "day",
-                    "sipDate"
-                ),
-
-            fundName:
-                field(
-                    row,
-                    "fundName",
-                    "name",
-                    "fund",
-                    "schemeName",
-                    "ticker"
-                ) || "SIP",
-
-            Original:
-                row
-
+            ticker: field(row, "ticker", "fundTicker"),
+            sipAmount: numeric(field(row, "sipAmount", "amount", "monthlySIP", "monthlyAmount")) || 0,
+            sipDay: field(row, "sipDay", "day", "sipDate"),
+            fundName: field(row, "fundName", "name", "fund", "schemeName", "ticker") || "SIP",
+            Original: row
         };
-
     });
-
 }
 
-/* =========================================================
-STATUS
-========================================================= */
-
 let authenticatedPassword = "";
-
 function setLockedStatus(){
-
     isLive = false;
     authenticatedPassword = "";
-
     const status = document.getElementById("connectionStatus");
-    if(status){
-        status.style.display = "none";
-        status.classList.remove("live");
-    }
-
+    if(status) { status.style.display = "none"; status.classList.remove("live"); }
     const authControls = document.getElementById("authControls");
     if(authControls){
         authControls.className = "password-box";
         authControls.innerHTML = `
-            <input class="password-username" id="username" name="username" type="text" value="vageesh" autocomplete="username" tabindex="-1" aria-hidden="true">
-            <input id="password" name="password" type="password" placeholder="Enter passcode" autocomplete="current-password">
+            <input class="password-username" id="username" name="username" type="text" value="vageesh" autocomplete="username" tabindex="-1" aria-hidden="true"/>
+            <input id="password" name="password" type="password" placeholder="Enter passcode" autocomplete="current-password"/>
             <button id="unlockButton" type="button" onclick="connectToSheet()">Unlock</button>
         `;
     }
-
-    /* Public mode always shows fictional demo holdings. */
     assets = [...demoAssets];
     sipConfig = [...demoSipConfig];
     apiData = null;
-
-    document.getElementById(
-        "statusText"
-    ).innerText =
-        "";
-
-    document.getElementById(
-        "heroStatus"
-    ).innerText =
-        "Demo portfolio";
-
-    document.getElementById(
-        "tableStatus"
-    ).innerText =
-        "";
-
+    document.getElementById("statusText").innerText = "";
+    document.getElementById("heroStatus").innerText = "Demo Portfolio Active. Unlock for private data.";
+    document.getElementById("tableStatus").innerText = "LOCKED";
     const updated = document.getElementById("lastUpdated");
     if(updated) updated.innerText = "";
-
 }
 
 function setLiveStatus(){
-
     isLive = true;
-
-    const status =
-        document.getElementById(
-            "connectionStatus"
-        );
-
+    const status = document.getElementById("connectionStatus");
     status.style.display = "flex";
     status.classList.add("live");
-
-    document.getElementById(
-        "statusText"
-    ).innerText =
-        "LIVE";
-
-    document.getElementById(
-        "heroStatus"
-    ).innerText =
-        "Live portfolio";
-
-    document.getElementById(
-        "tableStatus"
-    ).innerText =
-        "LIVE DATA";
-
+    document.getElementById("statusText").innerText = "LIVE";
+    document.getElementById("heroStatus").innerText = "Live portfolio connected successfully.";
+    document.getElementById("tableStatus").innerText = "LIVE DATA";
     const updated = document.getElementById("lastUpdated");
     if(updated){
         const stamp = apiData?.updatedAt ? new Date(apiData.updatedAt) : new Date();
         updated.innerText = "Last updated • " + stamp.toLocaleString("en-IN", {dateStyle:"medium", timeStyle:"short"});
     }
-
     const authControls = document.getElementById("authControls");
     if(authControls){
         authControls.classList.add("is-authenticated", "refresh-only");
         authControls.innerHTML = `
-            <button id="refreshButton" type="button" onclick="refreshAuthenticatedPortfolio()" aria-label="Refresh portfolio">
-                Refresh
-            </button>
+            <button id="refreshButton" type="button" onclick="refreshAuthenticatedPortfolio()" aria-label="Refresh portfolio">Refresh Data</button>
         `;
     }
-
 }
-
-/* =========================================================
-CONNECT TO NEW API
-========================================================= */
 
 async function hashPasscode(value){
     const bytes = new TextEncoder().encode(value);
@@ -3152,37 +938,26 @@ function applyLiveData(data, showToastMessage = false){
     apiData = data;
     assets = buildAssetsFromAPI();
     sipConfig = normalizeSIP();
-
     if(!assets.length) throw new Error("API connected but no holdings were returned.");
-
     currentCategory = "All";
     setLiveStatus();
     updateFilterButtons();
     updateViewHeader();
     renderDashboard();
     renderSipAnalytics();
-
-    if(showToastMessage) showToast("✓ Live portfolio connected");
+    if(showToastMessage) showToast("Live portfolio connected");
 }
 
 async function refreshLiveData(password, silent = false){
     if(lastRefreshInProgress) return;
     lastRefreshInProgress = true;
-
     try{
-        const response = await fetch(
-            API_URL + "?passcode=" + encodeURIComponent(password) + "&t=" + Date.now(),
-            { method:"GET", cache:"no-store" }
-        );
-
+        const response = await fetch(API_URL + "?passcode=" + encodeURIComponent(password) + "&t=" + Date.now(), { method:"GET", cache:"no-store" });
         if(!response.ok) throw new Error("Connection failed");
-
         const data = await response.json();
-
         if(data.success === false || data.error === true || data.error === "true"){
             throw new Error(data.message || data.error || "Invalid passcode");
         }
-
         const passwordHash = await hashPasscode(password);
         saveLiveCache(data, passwordHash);
         applyLiveData(data, !silent);
@@ -3198,36 +973,22 @@ async function refreshLiveData(password, silent = false){
 
 async function connectToSheet(){
     const password = document.getElementById("password").value.trim();
-
-    if(!password){
-        showToast("Enter your passcode first.");
-        return;
-    }
-
+    if(!password){ showToast("Enter your passcode first."); return; }
     const button = document.getElementById("unlockButton");
     button.disabled = true;
     button.innerText = "Unlocking…";
-
     try{
         const suppliedHash = await hashPasscode(password);
         const cachedHash = localStorage.getItem("portfolio_pass_hash_v2");
         const cache = loadLiveCache();
-
-        /*
-         * FAST PATH:
-         * If this is the same authenticated session, render the cached
-         * live portfolio immediately. Then refresh silently in the background.
-         */
         if(cache && cachedHash && suppliedHash === cachedHash){
             authenticatedPassword = password;
             cachedLiveData = cache;
             applyLiveData(cache, false);
-            showToast("✓ Portfolio ready");
+            showToast("Portfolio ready");
             refreshLiveData(password, true);
             return;
         }
-
-        /* First login / changed passcode: validate against Apps Script. */
         authenticatedPassword = password;
         await refreshLiveData(password, false);
     }catch(error){
@@ -3237,18 +998,11 @@ async function connectToSheet(){
         setLockedStatus();
         renderDashboard();
         renderSipAnalytics();
-        showToast(
-            error.message === "Invalid Passcode!" || error.message === "Invalid passcode"
-            ? "Incorrect passcode."
-            : error.message || "Could not connect to portfolio API."
-        );
+        showToast(error.message === "Invalid Passcode!" || error.message === "Invalid passcode" ? "Incorrect passcode." : error.message || "Could not connect to portfolio API.");
     }finally{
         if(!isLive){
             const retryButton = document.getElementById("unlockButton");
-            if(retryButton){
-                retryButton.disabled = false;
-                retryButton.innerText = "Unlock";
-            }
+            if(retryButton){ retryButton.disabled = false; retryButton.innerText = "Unlock"; }
         }
     }
 }
@@ -3256,3233 +1010,616 @@ async function connectToSheet(){
 async function refreshAuthenticatedPortfolio(){
     if(!authenticatedPassword) return;
     const button = document.getElementById("refreshButton");
-    if(button){
-        button.disabled = true;
-        button.innerText = "Refreshing…";
-    }
-    try{
-        await refreshLiveData(authenticatedPassword, true);
-    }finally{
-        if(button){
-            button.disabled = false;
-            button.innerText = "Refresh";
-        }
-    }
+    if(button){ button.disabled = true; button.innerText = "Refreshing…"; }
+    try{ await refreshLiveData(authenticatedPassword, true); }
+    finally{ if(button){ button.disabled = false; button.innerText = "Refresh Data"; } }
 }
 
-/* =========================================================
-GAIN / RETURN
-========================================================= */
-
 function gainFor(asset){
-
-    const invested =
-        numeric(asset.Invested);
-
-    const current =
-        numeric(asset.CurrentValue);
-
-    if(
-        invested === null ||
-        current === null
-    ){
-
-        return null;
-
-    }
-
+    const invested = numeric(asset.Invested);
+    const current = numeric(asset.CurrentValue);
+    if(invested === null || current === null) return null;
     return current - invested;
 }
 
 function returnFor(asset){
-
-    /*
-    Prefer the returnPercent supplied
-    by the API when available.
-
-    Otherwise calculate it.
-    */
-
-    if(
-        hasValue(
-            asset.ReturnPercent
-        )
-    ){
-
-        return Number(
-            asset.ReturnPercent
-        );
-
-    }
-
-    const invested =
-        numeric(asset.Invested);
-
-    const gain =
-        gainFor(asset);
-
-    if(
-        invested === null ||
-        gain === null ||
-        invested === 0
-    ){
-
-        return null;
-
-    }
-
-    return (
-        gain /
-        invested *
-        100
-    );
-
+    if(hasValue(asset.ReturnPercent)) return Number(asset.ReturnPercent);
+    const invested = numeric(asset.Invested);
+    const gain = gainFor(asset);
+    if(invested === null || gain === null || invested === 0) return null;
+    return (gain / invested * 100);
 }
 
-/* =========================================================
-FILTERING
-========================================================= */
-
 function getFilteredAssets(){
-
-    const search =
-        document
-            .getElementById("searchInput")
-            .value
-            .toLowerCase()
-            .trim();
-
-    let result =
-        assets.filter(asset => {
-
-            const categoryMatch =
-                currentCategory === "All" ||
-                String(
-                    asset.Category || ""
-                ) === currentCategory;
-
-            const searchMatch =
-                !search ||
-                String(
-                    asset.Asset || ""
-                )
-                .toLowerCase()
-                .includes(search) ||
-
-                String(
-                    asset.Category || ""
-                )
-                .toLowerCase()
-                .includes(search) ||
-
-                String(
-                    asset.Ticker || ""
-                )
-                .toLowerCase()
-                .includes(search);
-
-            return (
-                categoryMatch &&
-                searchMatch
-            );
-
-        });
-
-    const sort =
-        document.getElementById(
-            "sortSelect"
-        ).value;
-
-    result.sort((a,b) => {
-
-        switch(sort){
-
-            case "returnDesc":
-
-                return (
-                    (returnFor(b) ?? -Infinity) -
-                    (returnFor(a) ?? -Infinity)
-                );
-
-            case "returnAsc":
-
-                return (
-                    (returnFor(a) ?? Infinity) -
-                    (returnFor(b) ?? Infinity)
-                );
-
-            case "gainDesc":
-
-                return (
-                    (gainFor(b) ?? -Infinity) -
-                    (gainFor(a) ?? -Infinity)
-                );
-
-            case "gainAsc":
-
-                return (
-                    (gainFor(a) ?? Infinity) -
-                    (gainFor(b) ?? Infinity)
-                );
-
-            case "valueDesc":
-
-                return (
-                    (numeric(b.CurrentValue) ?? -Infinity) -
-                    (numeric(a.CurrentValue) ?? -Infinity)
-                );
-
-            case "investedDesc":
-
-                return (
-                    (numeric(b.Invested) ?? -Infinity) -
-                    (numeric(a.Invested) ?? -Infinity)
-                );
-
-            case "nameAsc":
-
-                return String(
-                    a.Asset || ""
-                ).localeCompare(
-                    String(
-                        b.Asset || ""
-                    )
-                );
-
-            default:
-
-                return 0;
-
-        }
-
+    const search = document.getElementById("searchInput").value.toLowerCase().trim();
+    let result = assets.filter(asset => {
+        const categoryMatch = currentCategory === "All" || String(asset.Category || "") === currentCategory;
+        const searchMatch = !search || String(asset.Asset || "").toLowerCase().includes(search) || String(asset.Category || "").toLowerCase().includes(search) || String(asset.Ticker || "").toLowerCase().includes(search);
+        return categoryMatch && searchMatch;
     });
-
+    const sort = document.getElementById("sortSelect").value;
+    result.sort((a,b) => {
+        switch(sort){
+            case "returnDesc": return ((returnFor(b) ?? -Infinity) - (returnFor(a) ?? -Infinity));
+            case "returnAsc": return ((returnFor(a) ?? Infinity) - (returnFor(b) ?? Infinity));
+            case "gainDesc": return ((gainFor(b) ?? -Infinity) - (gainFor(a) ?? -Infinity));
+            case "gainAsc": return ((gainFor(a) ?? Infinity) - (gainFor(b) ?? Infinity));
+            case "valueDesc": return ((numeric(b.CurrentValue) ?? -Infinity) - (numeric(a.CurrentValue) ?? -Infinity));
+            case "investedDesc": return ((numeric(b.Invested) ?? -Infinity) - (numeric(a.Invested) ?? -Infinity));
+            case "nameAsc": return String(a.Asset || "").localeCompare(String(b.Asset || ""));
+            default: return 0;
+        }
+    });
     return result;
 }
 
-/* =========================================================
-FILTER BUTTONS
-========================================================= */
-
 function updateFilterButtons(){
-
-    document
-        .querySelectorAll(".filter-btn")
-        .forEach(button => {
-
-            button.classList.toggle(
-                "active",
-                button.dataset.filter ===
-                currentCategory
-            );
-
-        });
-
+    document.querySelectorAll(".filter-btn").forEach(button => {
+        button.classList.toggle("active", button.dataset.filter === currentCategory);
+    });
 }
 
 function setCategoryFilter(category){
-
-    currentCategory =
-        category;
-
+    currentCategory = category;
     updateFilterButtons();
-
     updateViewHeader();
-
     renderDashboard();
 }
 
 function showAllAssets(){
-
-    currentCategory =
-        "All";
-
-    document.getElementById(
-        "searchInput"
-    ).value = "";
-
+    currentCategory = "All";
+    document.getElementById("searchInput").value = "";
     updateFilterButtons();
-
     updateViewHeader();
-
     renderDashboard();
 }
 
-/* =========================================================
-VIEW HEADER
-========================================================= */
-
 function updateViewHeader(){
-
-    const header =
-        document.getElementById(
-            "viewHeader"
-        );
-
-    const title =
-        document.getElementById(
-            "viewTitle"
-        );
-
-    const subtitle =
-        document.getElementById(
-            "viewSubtitle"
-        );
-
-    if(currentCategory === "All"){
-
-        header.classList.remove(
-            "active"
-        );
-
-        return;
-
-    }
-
-    header.classList.add(
-        "active"
-    );
-
-    title.innerText =
-        currentCategory;
-
-    subtitle.innerText =
-        "Filtered portfolio view";
-
+    const header = document.getElementById("viewHeader");
+    const title = document.getElementById("viewTitle");
+    const subtitle = document.getElementById("viewSubtitle");
+    if(currentCategory === "All"){ header.classList.remove("active"); return; }
+    header.classList.add("active");
+    title.innerText = currentCategory;
+    subtitle.innerText = "Filtered portfolio view";
 }
-
-/* =========================================================
-DASHBOARD
-========================================================= */
 
 function renderDashboard(){
-
-    const currentAssets =
-        getFilteredAssets();
-
-    renderStats(
-        currentAssets
-    );
-
-    renderInsights(
-        currentAssets
-    );
-
+    const currentAssets = getFilteredAssets();
+    renderStats(currentAssets);
+    renderInsights(currentAssets);
     renderAllocation();
-
     renderAllocationSnapshot();
-
-    renderHealth(
-        currentAssets
-    );
-
-    renderTable(
-        currentAssets
-    );
-
-    renderPortfolioChart(
-        currentAssets
-    );
-
+    renderHealth(currentAssets);
+    renderTable(currentAssets);
+    renderPortfolioChart(currentAssets);
 }
 
-/* =========================================================
-STATS
-========================================================= */
-
-function renderStats(
-    currentAssets
-){
-
-    /*
-    For "All", prefer the official API
-    summary totals.
-
-    For filtered views, calculate from
-    the filtered rows.
-    */
-
+function renderStats(currentAssets){
     let invested = 0;
-
     let current = 0;
-
     let investedAvailable = false;
-
     let currentAvailable = false;
-
-    if(
-        currentCategory === "All" &&
-        apiData?.summary?.total
-    ){
-
-        const summary =
-            apiData.summary.total;
-
-        invested =
-            numeric(
-                summary.invested
-            ) || 0;
-
-        current =
-            numeric(
-                summary.currentValue
-            ) || 0;
-
-        investedAvailable =
-            hasValue(
-                summary.invested
-            );
-
-        currentAvailable =
-            hasValue(
-                summary.currentValue
-            );
-
+    if(currentCategory === "All" && apiData?.summary?.total){
+        const summary = apiData.summary.total;
+        invested = numeric(summary.invested) || 0;
+        current = numeric(summary.currentValue) || 0;
+        investedAvailable = hasValue(summary.invested);
+        currentAvailable = hasValue(summary.currentValue);
     }else{
-
-        currentAssets.forEach(
-            asset => {
-
-                const i =
-                    numeric(
-                        asset.Invested
-                    );
-
-                const c =
-                    numeric(
-                        asset.CurrentValue
-                    );
-
-                if(i !== null){
-
-                    invested += i;
-
-                    investedAvailable = true;
-
-                }
-
-                if(c !== null){
-
-                    current += c;
-
-                    currentAvailable = true;
-
-                }
-
-            }
-        );
-
+        currentAssets.forEach(asset => {
+            const i = numeric(asset.Invested);
+            const c = numeric(asset.CurrentValue);
+            if(i !== null){ invested += i; investedAvailable = true; }
+            if(c !== null){ current += c; currentAvailable = true; }
+        });
     }
+    const gain = investedAvailable && currentAvailable ? current - invested : null;
+    const returnPercent = investedAvailable && currentAvailable && invested > 0 ? gain / invested * 100 : null;
 
-    const gain =
-        investedAvailable &&
-        currentAvailable
-        ? current - invested
-        : null;
-
-    const returnPercent =
-        investedAvailable &&
-        currentAvailable &&
-        invested > 0
-        ? gain /
-          invested *
-          100
-        : null;
-
-    document.getElementById(
-        "totalValue"
-    ).innerText =
-        currentAvailable
-        ? money(current)
-        : "—";
-
-    document.getElementById(
-        "totalInvested"
-    ).innerText =
-        investedAvailable
-        ? money(invested)
-        : "—";
-
-    const gainElement =
-        document.getElementById(
-            "totalGain"
-        );
-
+    document.getElementById("totalValue").innerText = currentAvailable ? money(current) : "—";
+    document.getElementById("totalInvested").innerText = investedAvailable ? money(invested) : "—";
+    const gainElement = document.getElementById("totalGain");
     if(gain !== null){
-
-        gainElement.innerText =
-            (
-                gain >= 0
-                ? "+"
-                : ""
-            ) +
-            money(gain);
-
-        gainElement.className =
-            "stat-change " +
-            (
-                gain >= 0
-                ? "green"
-                : "red"
-            );
-
+        gainElement.innerText = (gain >= 0 ? "+" : "") + money(gain);
+        gainElement.className = "stat-change " + (gain >= 0 ? "green" : "red");
     }else{
-
-        gainElement.innerText =
-            "—";
-
-        gainElement.className =
-            "stat-change";
-
+        gainElement.innerText = "—";
+        gainElement.className = "stat-change";
     }
-
-    document.getElementById(
-        "returnPercent"
-    ).innerText =
-        returnPercent !== null
-        ? returnPercent.toFixed(2) + "%"
-        : "—";
-
-    const returnText =
-        document.getElementById(
-            "returnText"
-        );
-
+    document.getElementById("returnPercent").innerText = returnPercent !== null ? returnPercent.toFixed(2) + "%" : "—";
+    const returnText = document.getElementById("returnText");
     if(returnPercent !== null){
-
-        returnText.innerText =
-            gain >= 0
-            ? "Portfolio is in profit"
-            : "Portfolio is below cost";
-
-        returnText.className =
-            "stat-change " +
-            (
-                gain >= 0
-                ? "green"
-                : "red"
-            );
-
+        returnText.innerText = gain >= 0 ? "Portfolio is in profit" : "Portfolio is below cost";
+        returnText.className = "stat-change " + (gain >= 0 ? "green" : "red");
     }
-
-    document.getElementById(
-        "holdingCount"
-    ).innerText =
-        currentAssets.length;
-
+    document.getElementById("holdingCount").innerText = currentAssets.length;
 }
-
-/* =========================================================
-ALLOCATION
-========================================================= */
 
 function getAllocationData(){
-
     const allocation = {};
-
     assets.forEach(asset => {
-
-        const category =
-            asset.Category ||
-            "Other";
-
-        const value =
-            numeric(
-                asset.CurrentValue
-            );
-
-        if(value === null){
-            return;
-        }
-
-        allocation[category] =
-            (
-                allocation[category] ||
-                0
-            ) + value;
-
+        const category = asset.Category || "Other";
+        const value = numeric(asset.CurrentValue);
+        if(value === null) return;
+        allocation[category] = (allocation[category] || 0) + value;
     });
-
     return allocation;
 }
 
 function renderAllocation(){
-
-    const allocation =
-        getAllocationData();
-
-    const labels =
-        Object.keys(
-            allocation
-        );
-
-    const values =
-        Object.values(
-            allocation
-        );
-
-    const total =
-        values.reduce(
-            (a,b) => a+b,
-            0
-        );
+    const allocation = getAllocationData();
+    const labels = Object.keys(allocation);
+    const values = Object.values(allocation);
+    const total = values.reduce((a,b) => a+b, 0);
 
     if(!allocationChart){
-
-        allocationChart =
-            new Chart(
-                document.getElementById(
-                    "allocationChart"
-                ),
-                {
-
-                    type:"doughnut",
-
-                    data:{
-                        labels,
-
-                        datasets:[{
-
-                            data:values,
-
-                            backgroundColor:
-                                labels.map(
-                                    (_,index) =>
-                                        ALLOCATION_COLORS[
-                                            index %
-                                            ALLOCATION_COLORS.length
-                                        ]
-                                ),
-
-                            borderWidth:0,
-
-                            hoverOffset:12
-
-                        }]
-
-                    },
-
-                    options:{
-
-                        responsive:true,
-
-                        maintainAspectRatio:false,
-
-                        cutout:"72%",
-
-                        plugins:{
-                            legend:{
-                                display:false
-                            }
-                        },
-
-                        animation:{
-                            duration:1100
-                        }
-
-                    }
-
-                }
-            );
-
+        Chart.defaults.color = 'rgba(255,255,255,0.4)';
+        Chart.defaults.font.family = '"Montserrat", sans-serif';
+        allocationChart = new Chart(document.getElementById("allocationChart"), {
+            type:"doughnut",
+            data:{
+                labels,
+                datasets:[{
+                    data:values,
+                    backgroundColor: labels.map((_,index) => ALLOCATION_COLORS[index % ALLOCATION_COLORS.length]),
+                    borderWidth: 0,
+                    hoverOffset: 5
+                }]
+            },
+            options:{
+                responsive:true,
+                maintainAspectRatio:false,
+                cutout:"75%",
+                plugins:{ legend:{ display:false } },
+                animation:{ duration:900 }
+            }
+        });
     }else{
-
-        allocationChart.data.labels =
-            labels;
-
-        allocationChart.data.datasets[0].data =
-            values;
-
-        allocationChart.data.datasets[0].backgroundColor =
-            labels.map(
-                (_,index) =>
-                    ALLOCATION_COLORS[
-                        index %
-                        ALLOCATION_COLORS.length
-                    ]
-            );
-
+        allocationChart.data.labels = labels;
+        allocationChart.data.datasets[0].data = values;
+        allocationChart.data.datasets[0].backgroundColor = labels.map((_,index) => ALLOCATION_COLORS[index % ALLOCATION_COLORS.length]);
         allocationChart.update();
-
     }
 
-    const legend =
-        document.getElementById(
-            "allocationLegend"
-        );
-
+    const legend = document.getElementById("allocationLegend");
     legend.innerHTML = "";
-
     if(!labels.length){
-
-        legend.innerHTML =
-            `
-            <div style="
-                color:rgba(255,255,255,.35);
-                font-size:12px;
-            ">
-                Connect portfolio to view allocation.
-            </div>
-            `;
-
+        legend.innerHTML = `<div style="color:rgba(255,255,255,0.4); font-size:11px; font-weight:500;">Connect portfolio to view allocation.</div>`;
         return;
-
     }
-
-    labels.forEach(
-        (label,index) => {
-
-            const percentage =
-                total > 0
-                ? values[index] /
-                  total *
-                  100
-                : 0;
-
-            const row =
-                document.createElement(
-                    "div"
-                );
-
-            row.className =
-                "legend-row" +
-                (
-                    currentCategory === label
-                    ? " selected"
-                    : ""
-                );
-
-            const color =
-                ALLOCATION_COLORS[
-                    index %
-                    ALLOCATION_COLORS.length
-                ];
-
-            row.innerHTML = `
-
-                <div class="legend-left">
-
-                    <div
-                        class="legend-dot"
-                        style="background:${color}"
-                    ></div>
-
-                    <span>
-                        ${escapeHTML(label)}
-                    </span>
-
-                </div>
-
-                <strong>
-                    ${percentage.toFixed(1)}%
-                </strong>
-
-            `;
-
-            row.onclick =
-                () =>
-                    setCategoryFilter(
-                        label
-                    );
-
-            legend.appendChild(row);
-
-        }
-    );
-
+    labels.forEach((label,index) => {
+        const percentage = total > 0 ? values[index] / total * 100 : 0;
+        const row = document.createElement("div");
+        row.className = "legend-row" + (currentCategory === label ? " selected" : "");
+        const color = ALLOCATION_COLORS[index % ALLOCATION_COLORS.length];
+        row.innerHTML = `<div class="legend-left"><div class="legend-dot" style="background:${color}"></div><span>${escapeHTML(label)}</span></div><strong>${percentage.toFixed(1)}%</strong>`;
+        row.onclick = () => setCategoryFilter(label);
+        legend.appendChild(row);
+    });
 }
 
-/* =========================================================
-LARGEST POSITION
-========================================================= */
-
-function getLargestPosition(
-    source = assets
-){
-
-    const valid =
-        source.filter(
-            asset =>
-                numeric(
-                    asset.CurrentValue
-                ) !== null
-        );
-
-    if(!valid.length){
-        return null;
-    }
-
-    return [...valid].sort(
-        (a,b) =>
-            numeric(
-                b.CurrentValue
-            ) -
-            numeric(
-                a.CurrentValue
-            )
-    )[0];
-
+function getLargestPosition(source = assets){
+    const valid = source.filter(asset => numeric(asset.CurrentValue) !== null);
+    if(!valid.length) return null;
+    return [...valid].sort((a,b) => numeric(b.CurrentValue) - numeric(a.CurrentValue))[0];
 }
-
-/* =========================================================
-SNAPSHOT
-========================================================= */
 
 function renderAllocationSnapshot(){
-
-    const box =
-        document.getElementById(
-            "allocationSnapshot"
-        );
-
+    const box = document.getElementById("allocationSnapshot");
     if(!assets.length){
-
-        box.innerHTML = `
-            <div class="snapshot-title">
-                Connect your portfolio to view live data.
-            </div>
-        `;
-
+        box.innerHTML = `<div class="snapshot-title" style="color: rgba(255,255,255,0.4); font-size: 11px;">Connect your portfolio to view live data.</div>`;
         return;
     }
-
     if(currentCategory === "All"){
-
-        const largest =
-            getLargestPosition();
-
+        const largest = getLargestPosition();
         box.innerHTML = `
-
             <div class="snapshot-top">
-
-                <div class="snapshot-title">
-                    Portfolio snapshot
-                </div>
-
-                <div class="snapshot-pill">
-                    Live
-                </div>
-
+                <div class="snapshot-title">Portfolio snapshot</div>
+                <div class="snapshot-pill">Live</div>
             </div>
-
             <div class="snapshot-grid">
-
-                <div>
-
-                    <div class="snapshot-item-label">
-                        Categories
-                    </div>
-
-                    <div class="snapshot-item-value">
-                        ${
-                            new Set(
-                                assets
-                                    .map(
-                                        a =>
-                                            a.Category
-                                    )
-                                    .filter(Boolean)
-                            ).size
-                        }
-                    </div>
-
-                </div>
-
-                <div>
-
-                    <div class="snapshot-item-label">
-                        Positions
-                    </div>
-
-                    <div class="snapshot-item-value">
-                        ${assets.length}
-                    </div>
-
-                </div>
-
-                <div>
-
-                    <div class="snapshot-item-label">
-                        Largest
-                    </div>
-
-                    <div class="snapshot-item-value">
-                        ${
-                            largest
-                            ? escapeHTML(
-                                largest.Asset
-                            )
-                            : "—"
-                        }
-                    </div>
-
-                </div>
-
+                <div><div class="snapshot-item-label">Categories</div><div class="snapshot-item-value">${new Set(assets.map(a => a.Category).filter(Boolean)).size}</div></div>
+                <div><div class="snapshot-item-label">Positions</div><div class="snapshot-item-value">${assets.length}</div></div>
+                <div><div class="snapshot-item-label">Largest</div><div class="snapshot-item-value">${largest ? escapeHTML(largest.Asset) : "—"}</div></div>
             </div>
-
         `;
-
         return;
-
     }
-
-    const categoryAssets =
-        assets.filter(
-            asset =>
-                String(
-                    asset.Category || ""
-                ) === currentCategory
-        );
-
-    let invested = 0;
-
-    let current = 0;
-
-    categoryAssets.forEach(
-        asset => {
-
-            invested +=
-                numeric(
-                    asset.Invested
-                ) || 0;
-
-            current +=
-                numeric(
-                    asset.CurrentValue
-                ) || 0;
-
-        }
-    );
-
-    const gain =
-        current - invested;
-
-    const ret =
-        invested > 0
-        ? gain /
-          invested *
-          100
-        : null;
-
+    const categoryAssets = assets.filter(asset => String(asset.Category || "") === currentCategory);
+    let invested = 0; let current = 0;
+    categoryAssets.forEach(asset => { invested += numeric(asset.Invested) || 0; current += numeric(asset.CurrentValue) || 0; });
+    const gain = current - invested;
+    const ret = invested > 0 ? gain / invested * 100 : null;
     box.innerHTML = `
-
         <div class="snapshot-top">
-
-            <div class="snapshot-title">
-                ${escapeHTML(
-                    currentCategory
-                )}
-            </div>
-
-            <div class="snapshot-pill">
-                ${categoryAssets.length}
-                ${
-                    categoryAssets.length === 1
-                    ? "position"
-                    : "positions"
-                }
-            </div>
-
+            <div class="snapshot-title">${escapeHTML(currentCategory)}</div>
+            <div class="snapshot-pill">${categoryAssets.length} ${categoryAssets.length === 1 ? "position" : "positions"}</div>
         </div>
-
         <div class="snapshot-grid">
-
-            <div>
-
-                <div class="snapshot-item-label">
-                    Current Value
-                </div>
-
-                <div class="snapshot-item-value">
-                    ${money(current)}
-                </div>
-
-            </div>
-
-            <div>
-
-                <div class="snapshot-item-label">
-                    Invested
-                </div>
-
-                <div class="snapshot-item-value">
-                    ${money(invested)}
-                </div>
-
-            </div>
-
-            <div>
-
-                <div class="snapshot-item-label">
-                    Return
-                </div>
-
-                <div
-                    class="snapshot-item-value ${
-                        ret >= 0
-                        ? "green"
-                        : "red"
-                    }"
-                >
-                    ${ret >= 0 ? "+" : ""}
-                    ${
-                        ret !== null
-                        ? ret.toFixed(2) + "%"
-                        : "—"
-                    }
-                </div>
-
-            </div>
-
+            <div><div class="snapshot-item-label">Current Value</div><div class="snapshot-item-value">${money(current)}</div></div>
+            <div><div class="snapshot-item-label">Invested</div><div class="snapshot-item-value">${money(invested)}</div></div>
+            <div><div class="snapshot-item-label">Return</div><div class="snapshot-item-value ${ret >= 0 ? "green" : "red"}">${ret >= 0 ? "+" : ""}${ret !== null ? ret.toFixed(2) + "%" : "—"}</div></div>
         </div>
-
     `;
-
 }
 
-/* =========================================================
-INSIGHTS
-========================================================= */
+function renderInsights(currentAssets){
+    const valid = currentAssets.filter(asset => gainFor(asset) !== null);
+    const winner = valid.length ? [...valid].sort((a,b) => gainFor(b) - gainFor(a))[0] : null;
+    const loser = valid.length ? [...valid].sort((a,b) => gainFor(a) - gainFor(b))[0] : null;
+    const biggest = getLargestPosition(currentAssets);
 
-function renderInsights(
-    currentAssets
-){
+    if(!winner){ document.getElementById("topWinner").innerText = "No live data."; return; }
 
-    const valid =
-        currentAssets.filter(
-            asset =>
-                gainFor(asset) !== null
-        );
+    document.getElementById("topWinner").innerHTML = `<strong style="color:#fff;">${escapeHTML(winner.Asset)}</strong> gained <strong class="green">+${money(gainFor(winner))}</strong><br><small>Click to inspect</small>`;
+    document.getElementById("winnerCard").onclick = () => openDetail(winner);
 
-    const winner =
-        valid.length
-        ? [...valid].sort(
-            (a,b) =>
-                gainFor(b) -
-                gainFor(a)
-        )[0]
-        : null;
-
-    const loser =
-        valid.length
-        ? [...valid].sort(
-            (a,b) =>
-                gainFor(a) -
-                gainFor(b)
-        )[0]
-        : null;
-
-    const biggest =
-        getLargestPosition(
-            currentAssets
-        );
-
-    if(!winner){
-
-        document.getElementById(
-            "topWinner"
-        ).innerText =
-            "No live data.";
-
-        return;
-
-    }
-
-    document.getElementById(
-        "topWinner"
-    ).innerHTML = `
-
-        <strong>
-            ${escapeHTML(
-                winner.Asset
-            )}
-        </strong>
-
-        gained
-
-        <strong class="green">
-            +
-            ${money(
-                gainFor(winner)
-            )}
-        </strong>
-
-        <br>
-
-        <small>
-            Click to inspect
-        </small>
-
-    `;
-
-    document.getElementById(
-        "winnerCard"
-    ).onclick =
-        () => openDetail(
-            winner
-        );
-
-    document.getElementById(
-        "topLoser"
-    ).innerHTML = `
-
-        <strong>
-            ${escapeHTML(
-                loser.Asset
-            )}
-        </strong>
-
-        is at
-
-        <strong class="${
-            gainFor(loser) >= 0
-            ? "green"
-            : "red"
-        }">
-
-            ${
-                gainFor(loser) >= 0
-                ? "+"
-                : ""
-            }
-
-            ${money(
-                gainFor(loser)
-            )}
-
-        </strong>
-
-        <br>
-
-        <small>
-            Click to inspect
-        </small>
-
-    `;
-
-    document.getElementById(
-        "loserCard"
-    ).onclick =
-        () => openDetail(
-            loser
-        );
+    document.getElementById("topLoser").innerHTML = `<strong style="color:#fff;">${escapeHTML(loser.Asset)}</strong> is at <strong class="${gainFor(loser) >= 0 ? "green" : "red"}">${gainFor(loser) >= 0 ? "+" : ""}${money(gainFor(loser))}</strong><br><small>Click to inspect</small>`;
+    document.getElementById("loserCard").onclick = () => openDetail(loser);
 
     if(biggest){
-
-        document.getElementById(
-            "largestPosition"
-        ).innerHTML = `
-
-            <strong>
-                ${escapeHTML(
-                    biggest.Asset
-                )}
-            </strong>
-
-            is your largest position at
-
-            <strong class="orange">
-                ${money(
-                    biggest.CurrentValue
-                )}
-            </strong>
-
-            <br>
-
-            <small>
-                Click to inspect
-            </small>
-
-        `;
-
-        document.getElementById(
-            "largestCard"
-        ).onclick =
-            () => openDetail(
-                biggest
-            );
-
+        document.getElementById("largestPosition").innerHTML = `<strong style="color:#fff;">${escapeHTML(biggest.Asset)}</strong> is your largest position at <strong class="orange">${money(biggest.CurrentValue)}</strong><br><small>Click to inspect</small>`;
+        document.getElementById("largestCard").onclick = () => openDetail(biggest);
     }
-
 }
 
-/* =========================================================
-HEALTH
-========================================================= */
-
-function renderHealth(
-    currentAssets
-){
-
-    const strip =
-        document.getElementById(
-            "healthStrip"
-        );
-
-    const validReturns =
-        currentAssets
-            .map(
-                asset => ({
-                    asset,
-                    ret:
-                        returnFor(asset)
-                })
-            )
-            .filter(
-                x =>
-                    x.ret !== null
-            );
-
+function renderHealth(currentAssets){
+    const strip = document.getElementById("healthStrip");
+    const validReturns = currentAssets.map(asset => ({ asset, ret: returnFor(asset) })).filter(x => x.ret !== null);
     const items = [];
 
     if(validReturns.length){
-
-        const profitable =
-            validReturns.filter(
-                x =>
-                    x.ret >= 0
-            ).length;
-
-        const ratio =
-            profitable /
-            validReturns.length *
-            100;
-
-        items.push(`
-
-            <div class="glass health-item">
-
-                <div class="health-left">
-
-                    <div class="health-icon">
-                        📈
-                    </div>
-
-                    <div>
-
-                        <div class="health-label">
-                            Holdings in profit
-                        </div>
-
-                        <div class="health-value">
-                            ${profitable}/${validReturns.length}
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <strong class="${
-                    ratio >= 50
-                    ? "green"
-                    : "red"
-                }">
-                    ${ratio.toFixed(0)}%
-                </strong>
-
-            </div>
-
-        `);
-
+        const profitable = validReturns.filter(x => x.ret >= 0).length;
+        const ratio = profitable / validReturns.length * 100;
+        items.push(`<div class="glass health-item"><div class="health-left"><div style="font-size: 20px; opacity: 0.7;">📈</div><div><div class="health-label">Holdings in profit</div><div class="health-value">${profitable}/${validReturns.length}</div></div></div><strong class="${ratio >= 50 ? "green" : "red"}">${ratio.toFixed(0)}%</strong></div>`);
     }
 
-    const largest =
-        getLargestPosition(
-            currentAssets
-        );
-
-    const total =
-        currentAssets.reduce(
-            (sum,asset) =>
-                sum +
-                (
-                    numeric(
-                        asset.CurrentValue
-                    ) || 0
-                ),
-            0
-        );
-
-    if(
-        largest &&
-        total > 0
-    ){
-
-        const concentration =
-            numeric(
-                largest.CurrentValue
-            ) /
-            total *
-            100;
-
-        items.push(`
-
-            <div class="glass health-item">
-
-                <div class="health-left">
-
-                    <div class="health-icon">
-                        🎯
-                    </div>
-
-                    <div>
-
-                        <div class="health-label">
-                            Largest position
-                        </div>
-
-                        <div class="health-value">
-                            ${escapeHTML(
-                                largest.Asset
-                            )}
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <strong class="orange">
-                    ${concentration.toFixed(1)}%
-                </strong>
-
-            </div>
-
-        `);
-
+    const largest = getLargestPosition(currentAssets);
+    const total = currentAssets.reduce((sum,asset) => sum + (numeric(asset.CurrentValue) || 0), 0);
+    if(largest && total > 0){
+        const concentration = numeric(largest.CurrentValue) / total * 100;
+        items.push(`<div class="glass health-item"><div class="health-left"><div style="font-size: 20px; opacity: 0.7;">🎯</div><div><div class="health-label">Largest position</div><div class="health-value">${escapeHTML(largest.Asset)}</div></div></div><strong class="orange">${concentration.toFixed(1)}%</strong></div>`);
     }
 
     if(validReturns.length){
-
-        const average =
-            validReturns.reduce(
-                (sum,x) =>
-                    sum + x.ret,
-                0
-            ) /
-            validReturns.length;
-
-        items.push(`
-
-            <div class="glass health-item">
-
-                <div class="health-left">
-
-                    <div class="health-icon">
-                        ✨
-                    </div>
-
-                    <div>
-
-                        <div class="health-label">
-                            Average holding return
-                        </div>
-
-                        <div class="health-value">
-                            ${
-                                average >= 0
-                                ? "+"
-                                : ""
-                            }
-                            ${average.toFixed(2)}%
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <strong class="${
-                    average >= 0
-                    ? "green"
-                    : "red"
-                }">
-
-                    ${
-                        average >= 0
-                        ? "Positive"
-                        : "Negative"
-                    }
-
-                </strong>
-
-            </div>
-
-        `);
-
+        const average = validReturns.reduce((sum,x) => sum + x.ret, 0) / validReturns.length;
+        items.push(`<div class="glass health-item"><div class="health-left"><div style="font-size: 20px; opacity: 0.7;">⚖️</div><div><div class="health-label">Average holding return</div><div class="health-value">${average >= 0 ? "+" : ""}${average.toFixed(2)}%</div></div></div><strong class="${average >= 0 ? "green" : "red"}">${average >= 0 ? "Positive" : "Negative"}</strong></div>`);
     }
 
-    strip.innerHTML =
-        items.join("");
-
+    strip.innerHTML = items.join("");
 }
 
-/* =========================================================
-TABLE
-========================================================= */
-
-function renderTable(
-    currentAssets
-){
-
-    const table =
-        document.getElementById(
-            "holdingsTable"
-        );
-
+function renderTable(currentAssets){
+    const table = document.getElementById("holdingsTable");
     table.innerHTML = "";
-
     if(!currentAssets.length){
-
-        table.innerHTML = `
-
-            <tr>
-
-                <td
-                    colspan="6"
-                    style="
-                    text-align:center;
-                    padding:40px;
-                    color:rgba(255,255,255,.4);
-                    "
-                >
-                    ${
-                        isLive
-                        ? "No matching holdings."
-                        : ""
-                    }
-                </td>
-
-            </tr>
-
-        `;
-
+        table.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:40px; color:rgba(255,255,255,0.4); font-size:12px;">${isLive ? "No matching holdings." : ""}</td></tr>`;
         return;
-
     }
-
-    currentAssets.forEach(
-        asset => {
-
-            const invested =
-                numeric(
-                    asset.Invested
-                );
-
-            const current =
-                numeric(
-                    asset.CurrentValue
-                );
-
-            const gain =
-                gainFor(asset);
-
-            const ret =
-                returnFor(asset);
-
-            const row =
-                document.createElement(
-                    "tr"
-                );
-
-            row.innerHTML = `
-
-                <td class="asset-name">
-                    ${escapeHTML(
-                        asset.Asset
-                    )}
-                </td>
-
-                <td>
-
-                    <span class="badge">
-                        ${escapeHTML(
-                            asset.Category
-                        )}
-                    </span>
-
-                </td>
-
-                <td>
-                    ${
-                        invested !== null
-                        ? money(invested)
-                        : ""
-                    }
-                </td>
-
-                <td>
-                    ${
-                        current !== null
-                        ? money(current)
-                        : ""
-                    }
-                </td>
-
-                <td class="${
-                    gain !== null
-                    ? gain >= 0
-                        ? "green"
-                        : "red"
-                    : ""
-                }">
-
-                    ${
-                        gain !== null
-                        ? (
-                            gain >= 0
-                            ? "+"
-                            : ""
-                        ) +
-                        money(gain)
-                        : ""
-                    }
-
-                </td>
-
-                <td class="${
-                    ret !== null
-                    ? ret >= 0
-                        ? "green"
-                        : "red"
-                    : ""
-                }">
-
-                    ${
-                        ret !== null
-                        ? (
-                            ret >= 0
-                            ? "+"
-                            : ""
-                        ) +
-                        ret.toFixed(2) +
-                        "%"
-                        : ""
-                    }
-
-                </td>
-
-            `;
-
-            row.onclick =
-                () => openDetail(
-                    asset
-                );
-
-            table.appendChild(row);
-
-        }
-    );
-
+    currentAssets.forEach(asset => {
+        const invested = numeric(asset.Invested);
+        const current = numeric(asset.CurrentValue);
+        const gain = gainFor(asset);
+        const ret = returnFor(asset);
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td class="asset-name">${escapeHTML(asset.Asset)}</td>
+            <td><span class="badge">${escapeHTML(asset.Category)}</span></td>
+            <td>${invested !== null ? money(invested) : ""}</td>
+            <td>${current !== null ? money(current) : ""}</td>
+            <td class="${gain !== null ? (gain >= 0 ? "green" : "red") : ""}">${gain !== null ? (gain >= 0 ? "+" : "") + money(gain) : ""}</td>
+            <td class="${ret !== null ? (ret >= 0 ? "green" : "red") : ""}">${ret !== null ? (ret >= 0 ? "+" : "") + ret.toFixed(2) + "%" : ""}</td>
+        `;
+        row.onclick = () => openDetail(asset);
+        table.appendChild(row);
+    });
 }
 
-/* =========================================================
-PORTFOLIO CHART
-========================================================= */
-
-function renderPortfolioChart(
-    currentAssets
-){
-
-    if(portfolioChart){
-
-        portfolioChart.destroy();
-
-    }
-
-    document.getElementById(
-        "portfolioChartSubtitle"
-    ).innerText =
-        currentCategory === "All"
-        ? "Invested vs Current"
-        : currentCategory;
-
-    /*
-    For the complete portfolio we show
-    categories instead of potentially
-    hundreds of individual positions.
-
-    This makes the chart automatically
-    scale with the API data.
-    */
+function renderPortfolioChart(currentAssets){
+    if(portfolioChart) portfolioChart.destroy();
+    document.getElementById("portfolioChartSubtitle").innerText = currentCategory === "All" ? "Invested vs Current" : currentCategory;
 
     let chartData = {};
-
     if(currentCategory === "All"){
-
-        currentAssets.forEach(
-            asset => {
-
-                const category =
-                    asset.Category ||
-                    "Other";
-
-                if(!chartData[category]){
-
-                    chartData[category] = {
-                        current:0,
-                        invested:0
-                    };
-
-                }
-
-                chartData[category].current +=
-                    numeric(
-                        asset.CurrentValue
-                    ) || 0;
-
-                chartData[category].invested +=
-                    numeric(
-                        asset.Invested
-                    ) || 0;
-
-            }
-        );
-
+        currentAssets.forEach(asset => {
+            const category = asset.Category || "Other";
+            if(!chartData[category]) chartData[category] = { current:0, invested:0 };
+            chartData[category].current += numeric(asset.CurrentValue) || 0;
+            chartData[category].invested += numeric(asset.Invested) || 0;
+        });
     }else{
-
-        currentAssets.forEach(
-            asset => {
-
-                const name =
-                    asset.Asset ||
-                    "Asset";
-
-                chartData[name] = {
-
-                    current:
-                        numeric(
-                            asset.CurrentValue
-                        ) || 0,
-
-                    invested:
-                        numeric(
-                            asset.Invested
-                        ) || 0
-
-                };
-
-            }
-        );
-
+        currentAssets.forEach(asset => {
+            const name = asset.Asset || "Asset";
+            chartData[name] = { current: numeric(asset.CurrentValue) || 0, invested: numeric(asset.Invested) || 0 };
+        });
     }
 
-    const labels =
-        Object.keys(
-            chartData
-        );
-
-    portfolioChart =
-        new Chart(
-
-            document.getElementById(
-                "portfolioChart"
-            ),
-
-            {
-
-                type:"bar",
-
-                data:{
-
-                    labels,
-
-                    datasets:[
-
-                        {
-
-                            label:
-                                "Current Value",
-
-                            data:
-                                labels.map(
-                                    label =>
-                                        chartData[
-                                            label
-                                        ].current
-                                ),
-
-                            borderRadius:8,
-
-                            borderSkipped:false
-
-                        },
-
-                        {
-
-                            label:
-                                "Invested",
-
-                            data:
-                                labels.map(
-                                    label =>
-                                        chartData[
-                                            label
-                                        ].invested
-                                ),
-
-                            borderRadius:8,
-
-                            borderSkipped:false
-
-                        }
-
-                    ]
-
-                },
-
-                options:{
-
-                    responsive:true,
-
-                    maintainAspectRatio:false,
-
-                    animation:{
-                        duration:700
-                    },
-
-                    plugins:{
-
-                        legend:{
-
-                            labels:{
-
-                                color:
-                                    "rgba(255,255,255,.7)"
-
-                            }
-
-                        }
-
-                    },
-
-                    scales:{
-
-                        x:{
-
-                            ticks:{
-
-                                color:
-                                    "rgba(255,255,255,.5)",
-
-                                maxRotation:45,
-
-                                minRotation:45
-
-                            },
-
-                            grid:{
-                                display:false
-                            }
-
-                        },
-
-                        y:{
-
-                            ticks:{
-
-                                color:
-                                    "rgba(255,255,255,.5)",
-
-                                callback:
-                                    value =>
-                                        "₹" +
-                                        number(value)
-
-                            },
-
-                            grid:{
-
-                                color:
-                                    "rgba(255,255,255,.07)"
-
-                            }
-
-                        }
-
-                    }
-
-                }
-
+    const labels = Object.keys(chartData);
+    portfolioChart = new Chart(document.getElementById("portfolioChart"), {
+        type:"bar",
+        data:{
+            labels,
+            datasets:[
+                { label: "Current Value", data: labels.map(l => chartData[l].current), backgroundColor: '#ffc46b', borderRadius: 4 },
+                { label: "Invested", data: labels.map(l => chartData[l].invested), backgroundColor: 'rgba(255,255,255,0.1)', borderRadius: 4 }
+            ]
+        },
+        options:{
+            responsive:true, maintainAspectRatio:false, animation:{ duration:700 },
+            plugins:{ legend:{ labels:{ color: "rgba(255,255,255,0.4)", font: {family: "'Montserrat', sans-serif"} } } },
+            scales:{
+                x:{ ticks:{ color: "rgba(255,255,255,0.4)", maxRotation:45, minRotation:45 }, grid:{ display:false } },
+                y:{ ticks:{ color: "rgba(255,255,255,0.4)", callback: value => "" + number(value) }, grid:{ color: "rgba(255,255,255,0.05)" } }
             }
-
-        );
-
+        }
+    });
 }
 
-/* =========================================================
-SIP
-========================================================= */
-
 function getMonthlySIP(){
-
-    /*
-    Prefer the total supplied by the API
-    when available.
-
-    Otherwise calculate directly from
-    SIP_Config.
-    */
-
-    if(
-        apiData &&
-        hasValue(
-            apiData.totalMonthlySIP
-        )
-    ){
-
-        return Number(
-            apiData.totalMonthlySIP
-        );
-
-    }
-
-    if(
-        apiData?.sip &&
-        hasValue(
-            apiData.sip.MonthlySIP
-        )
-    ){
-
-        return Number(
-            apiData.sip.MonthlySIP
-        );
-
-    }
-
-    return sipConfig.reduce(
-        (sum,item) =>
-            sum +
-            (
-                numeric(
-                    item.sipAmount
-                ) || 0
-            ),
-        0
-    );
-
+    if(apiData && hasValue(apiData.totalMonthlySIP)) return Number(apiData.totalMonthlySIP);
+    if(apiData?.sip && hasValue(apiData.sip.MonthlySIP)) return Number(apiData.sip.MonthlySIP);
+    return sipConfig.reduce((sum,item) => sum + (numeric(item.sipAmount) || 0), 0);
 }
 
 function renderSipAnalytics(){
-
-    const monthly =
-        getMonthlySIP();
-
-    const annual =
-        monthly * 12;
-
-    document.getElementById(
-        "sipMonthly"
-    ).innerText =
-        monthly > 0
-        ? money(monthly)
-        : "—";
-
-    document.getElementById(
-        "sipAnnual"
-    ).innerText =
-        monthly > 0
-        ? money(annual) +
-          " / year"
-        : "—";
-
-    const list =
-        document.getElementById(
-            "sipList"
-        );
-
+    const monthly = getMonthlySIP();
+    const annual = monthly * 12;
+    document.getElementById("sipMonthly").innerText = monthly > 0 ? money(monthly) : "—";
+    document.getElementById("sipAnnual").innerText = monthly > 0 ? money(annual) + " / year" : "—";
+    const list = document.getElementById("sipList");
     if(!sipConfig.length){
-
-        list.innerHTML = `
-
-            <div style="
-                color:rgba(255,255,255,.4);
-                font-size:12px;
-            ">
-                No SIP configuration found.
-            </div>
-
-        `;
-
-        renderSIPAllocation();
-
-        return;
-
+        list.innerHTML = `<div style="color:rgba(255,255,255,0.4); font-size:11px;">No SIP configuration found.</div>`;
+        renderSIPAllocation(); return;
     }
-
-    list.innerHTML =
-        sipConfig
-            .map(
-                item => {
-
-                    const amount =
-                        numeric(
-                            item.sipAmount
-                        ) || 0;
-
-                    const percentage =
-                        monthly > 0
-                        ? amount /
-                          monthly *
-                          100
-                        : 0;
-
-                    return `
-
-                        <div class="sip-row">
-
-                            <div>
-
-                                <div class="sip-fund">
-                                    ${escapeHTML(
-                                        item.fundName
-                                    )}
-                                </div>
-
-                                <div class="progress-bar">
-
-                                    <div
-                                        class="progress-fill"
-                                        style="width:${percentage}%"
-                                    ></div>
-
-                                </div>
-
-                            </div>
-
-                            <div class="sip-day">
-                                ${
-                                    item.sipDay
-                                    ? "Day " +
-                                      escapeHTML(
-                                          item.sipDay
-                                      )
-                                    : ""
-                                }
-                            </div>
-
-                            <div class="sip-amount">
-                                ${money(amount)}
-                            </div>
-
-                        </div>
-
-                    `;
-
-                }
-            )
-            .join("");
-
+    list.innerHTML = sipConfig.map(item => {
+        const amount = numeric(item.sipAmount) || 0;
+        const percentage = monthly > 0 ? amount / monthly * 100 : 0;
+        return `
+            <div class="sip-row">
+                <div><div class="sip-fund">${escapeHTML(item.fundName)}</div><div class="progress-bar"><div class="progress-fill" style="width:${percentage}%"></div></div></div>
+                <div class="sip-day">${item.sipDay ? "Day " + escapeHTML(item.sipDay) : ""}</div>
+                <div class="sip-amount">${money(amount)}</div>
+            </div>`;
+    }).join("");
     renderSIPAllocation();
-
 }
-
-/* =========================================================
-SIP ALLOCATION
-========================================================= */
 
 function renderSIPAllocation(){
-
-    const box =
-        document.getElementById(
-            "sipAllocationList"
-        );
-
-    const monthly =
-        getMonthlySIP();
-
+    const box = document.getElementById("sipAllocationList");
+    const monthly = getMonthlySIP();
     if(!sipConfig.length){
-
-        box.innerHTML =
-            `
-            <div style="
-                color:rgba(255,255,255,.4);
-                font-size:12px;
-            ">
-                No SIP configuration found.
-            </div>
-            `;
-
+        box.innerHTML = `<div style="color:rgba(255,255,255,0.4); font-size:11px;">No SIP configuration found.</div>`;
         return;
-
     }
-
-    box.innerHTML =
-        sipConfig.map(
-            (item,index) => {
-
-                const amount =
-                    numeric(
-                        item.sipAmount
-                    ) || 0;
-
-                const pct =
-                    monthly > 0
-                    ? amount /
-                      monthly *
-                      100
-                    : 0;
-
-                const color =
-                    ALLOCATION_COLORS[
-                        index %
-                        ALLOCATION_COLORS.length
-                    ];
-
-                return `
-
-                    <div
-                        style="
-                        padding:13px 5px;
-                        border-bottom:
-                        1px solid rgba(255,255,255,.07);
-                        "
-                    >
-
-                        <div
-                            style="
-                            display:flex;
-                            justify-content:space-between;
-                            gap:10px;
-                            font-size:12px;
-                            "
-                        >
-
-                            <span>
-                                ${escapeHTML(
-                                    item.fundName
-                                )}
-                            </span>
-
-                            <strong
-                                style="color:${color}"
-                            >
-                                ${pct.toFixed(1)}%
-                            </strong>
-
-                        </div>
-
-                        <div
-                            style="
-                            color:rgba(255,255,255,.4);
-                            font-size:10px;
-                            margin-top:4px;
-                            "
-                        >
-                            ${money(amount)}
-                            / month
-                        </div>
-
-                    </div>
-
-                `;
-
-            }
-        ).join("");
-
+    box.innerHTML = sipConfig.map((item,index) => {
+        const amount = numeric(item.sipAmount) || 0;
+        const pct = monthly > 0 ? amount / monthly * 100 : 0;
+        const color = ALLOCATION_COLORS[index % ALLOCATION_COLORS.length];
+        return `
+            <div style="padding:12px 5px; border-bottom: 1px solid rgba(255,255,255,0.05);">
+                <div style="display:flex; justify-content:space-between; gap:10px; font-size:12px; font-weight:500;">
+                    <span>${escapeHTML(item.fundName)}</span>
+                    <strong style="color:${color}">${pct.toFixed(1)}%</strong>
+                </div>
+                <div style="color:rgba(255,255,255,0.4); font-size:10px; margin-top:6px; letter-spacing:0.5px;">${money(amount)} / month</div>
+            </div>`;
+    }).join("");
 }
-
-/* =========================================================
-ANALYTICS TOGGLE
-========================================================= */
 
 function toggleAnalytics(){
-
-    const button =
-        document.getElementById(
-            "analyticsToggle"
-        );
-
-    const panel =
-        document.getElementById(
-            "analyticsPanel"
-        );
-
-    const open =
-        panel.classList.toggle(
-            "open"
-        );
-
-    button.classList.toggle(
-        "open",
-        open
-    );
-
-    if(open){
-
-        renderSipAnalytics();
-
-        renderProjection();
-
-    }
-
+    const button = document.getElementById("analyticsToggle");
+    const panel = document.getElementById("analyticsPanel");
+    const open = panel.classList.toggle("open");
+    button.classList.toggle("open", open);
+    if(open){ renderSipAnalytics(); renderProjection(); }
 }
-
-/* =========================================================
-PORTFOLIO TOTALS
-========================================================= */
 
 function getPortfolioTotals(){
-
-    /*
-    Use official API summary for the
-    complete portfolio.
-    */
-
-    if(
-        currentCategory === "All" &&
-        apiData?.summary?.total
-    ){
-
-        const total =
-            apiData.summary.total;
-
-        const current =
-            numeric(
-                total.currentValue
-            ) || 0;
-
-        const invested =
-            numeric(
-                total.invested
-            ) || 0;
-
-        const gain =
-            numeric(
-                total.profitLoss
-            );
-
-        const calculatedGain =
-            current -
-            invested;
-
+    if(currentCategory === "All" && apiData?.summary?.total){
+        const total = apiData.summary.total;
+        const current = numeric(total.currentValue) || 0;
+        const invested = numeric(total.invested) || 0;
+        const gain = numeric(total.profitLoss);
+        const calculatedGain = current - invested;
         return {
-
-            current,
-
-            invested,
-
-            gain:
-                gain !== null
-                ? gain
-                : calculatedGain,
-
-            roi:
-                numeric(
-                    total.returnPercent
-                ) ??
-                (
-                    invested > 0
-                    ? (
-                        (
-                            gain !== null
-                            ? gain
-                            : calculatedGain
-                        ) /
-                        invested *
-                        100
-                    )
-                    : 0
-                )
-
+            current, invested, gain: gain !== null ? gain : calculatedGain,
+            roi: numeric(total.returnPercent) ?? (invested > 0 ? ((gain !== null ? gain : calculatedGain) / invested * 100) : 0)
         };
-
     }
-
-    let current = 0;
-
-    let invested = 0;
-
-    assets.forEach(
-        asset => {
-
-            current +=
-                numeric(
-                    asset.CurrentValue
-                ) || 0;
-
-            invested +=
-                numeric(
-                    asset.Invested
-                ) || 0;
-
-        }
-    );
-
-    const gain =
-        current -
-        invested;
-
-    const roi =
-        invested > 0
-        ? gain /
-          invested *
-          100
-        : 0;
-
-    return {
-
-        current,
-        invested,
-        gain,
-        roi
-
-    };
-
+    let current = 0; let invested = 0;
+    assets.forEach(asset => { current += numeric(asset.CurrentValue) || 0; invested += numeric(asset.Invested) || 0; });
+    const gain = current - invested;
+    const roi = invested > 0 ? gain / invested * 100 : 0;
+    return { current, invested, gain, roi };
 }
 
-/* =========================================================
-FUTURE VALUE
-========================================================= */
-
-function futureValue(
-    principal,
-    monthlySIP,
-    annualRate,
-    years
-){
-
-    const months =
-        years * 12;
-
-    const monthlyRate =
-        annualRate /
-        100 /
-        12;
-
-    if(monthlyRate === 0){
-
-        return principal +
-            monthlySIP *
-            months;
-
-    }
-
-    return (
-        principal *
-        Math.pow(
-            1 + monthlyRate,
-            months
-        )
-    ) +
-    (
-        monthlySIP *
-        (
-            Math.pow(
-                1 + monthlyRate,
-                months
-            ) - 1
-        ) /
-        monthlyRate
-    );
-
+function futureValue(principal, monthlySIP, annualRate, years){
+    const months = years * 12;
+    const monthlyRate = annualRate / 100 / 12;
+    if(monthlyRate === 0) return principal + monthlySIP * months;
+    return (principal * Math.pow(1 + monthlyRate, months)) + (monthlySIP * (Math.pow(1 + monthlyRate, months) - 1) / monthlyRate);
 }
-
-/* =========================================================
-PROJECTION RATE
-========================================================= */
 
 function projectionRate(){
-
-    const portfolio =
-        getPortfolioTotals();
-
-    if(
-        projectionScenario ===
-        "conservative"
-    ){
-
-        return 8;
-
-    }
-
-    if(
-        projectionScenario ===
-        "optimistic"
-    ){
-
-        return 15;
-
-    }
-
+    const portfolio = getPortfolioTotals();
+    if(projectionScenario === "conservative") return 8;
+    if(projectionScenario === "optimistic") return 15;
     return portfolio.roi;
-
 }
 
-/* =========================================================
-PROJECTION SCENARIO
-========================================================= */
-
-function setProjectionScenario(
-    scenario
-){
-
-    projectionScenario =
-        scenario;
-
-    document
-        .querySelectorAll(
-            ".scenario-btn"
-        )
-        .forEach(
-            button => {
-
-                button.classList.toggle(
-                    "active",
-                    button.dataset.scenario ===
-                    scenario
-                );
-
-            }
-        );
-
+function setProjectionScenario(scenario){
+    projectionScenario = scenario;
+    document.querySelectorAll(".scenario-btn").forEach(button => {
+        button.classList.toggle("active", button.dataset.scenario === scenario);
+    });
     renderProjection();
-
 }
-
-/* =========================================================
-PROJECTION
-========================================================= */
 
 function renderProjection(){
-
-    const portfolio =
-        getPortfolioTotals();
-
-    const monthly =
-        getMonthlySIP();
-
-    const rate =
-        projectionRate();
-
-    document.getElementById(
-        "projectionROI"
-    ).innerText =
-        rate.toFixed(2) +
-        "% / year";
-
-    const periods =
-        [1,3,5,10,15,20];
-
-    const table =
-        document.getElementById(
-            "projectionTable"
-        );
-
+    const portfolio = getPortfolioTotals();
+    const monthly = getMonthlySIP();
+    const rate = projectionRate();
+    document.getElementById("projectionROI").innerText = rate.toFixed(2) + "% / year";
+    const periods = [1,3,5,10,15,20];
+    const table = document.getElementById("projectionTable");
     table.innerHTML = `
-
-        <div
-            class="projection-table-row header"
-        >
-
-            <div>
-                Years
-            </div>
-
-            <div>
-                Contributions
-            </div>
-
-            <div>
-                Projected
-            </div>
-
-            <div>
-                Growth
-            </div>
-
-        </div>
-
+        <div class="projection-table-row header"><div>Years</div><div>Contributions</div><div>Projected</div><div>Growth</div></div>
     `;
-
-    periods.forEach(
-        years => {
-
-            const projected =
-                futureValue(
-                    portfolio.current,
-                    monthly,
-                    rate,
-                    years
-                );
-
-            const contributions =
-                monthly *
-                years *
-                12;
-
-            const totalCapital =
-                portfolio.current +
-                contributions;
-
-            const growth =
-                projected -
-                totalCapital;
-
-            table.innerHTML += `
-
-                <div
-                    class="projection-table-row"
-                >
-
-                    <div>
-                        ${years}Y
-                    </div>
-
-                    <div>
-                        ${money(
-                            contributions
-                        )}
-                    </div>
-
-                    <div
-                        class="projection-value"
-                    >
-                        ${money(
-                            projected
-                        )}
-                    </div>
-
-                    <div
-                        class="projection-growth"
-                    >
-                        ${money(
-                            growth
-                        )}
-                    </div>
-
-                </div>
-
-            `;
-
-        }
-    );
-
-    renderProjectionChart(
-        portfolio.current,
-        monthly,
-        rate
-    );
-
-    renderMilestones(
-        portfolio.current,
-        monthly,
-        rate
-    );
-
+    periods.forEach(years => {
+        const projected = futureValue(portfolio.current, monthly, rate, years);
+        const contributions = monthly * years * 12;
+        const totalCapital = portfolio.current + contributions;
+        const growth = projected - totalCapital;
+        table.innerHTML += `
+            <div class="projection-table-row">
+                <div>${years}Y</div>
+                <div style="color:rgba(255,255,255,0.7);">${money(contributions)}</div>
+                <div class="projection-value">${money(projected)}</div>
+                <div class="projection-growth">+${money(growth)}</div>
+            </div>`;
+    });
+    renderProjectionChart(portfolio.current, monthly, rate);
+    renderMilestones(portfolio.current, monthly, rate);
 }
 
-/* =========================================================
-PROJECTION CHART
-========================================================= */
-
-function renderProjectionChart(
-    current,
-    monthly,
-    rate
-){
-
-    if(projectionChart){
-
-        projectionChart.destroy();
-
-    }
-
-    const years =
-        Array.from(
-            {length:21},
-            (_,i) => i
-        );
-
-    const values =
-        years.map(
-            year =>
-                futureValue(
-                    current,
-                    monthly,
-                    rate,
-                    year
-                )
-        );
-
-    projectionChart =
-        new Chart(
-
-            document.getElementById(
-                "projectionChart"
-            ),
-
-            {
-
-                type:"line",
-
-                data:{
-
-                    labels:
-                        years.map(
-                            y =>
-                                y + "Y"
-                        ),
-
-                    datasets:[{
-
-                        label:
-                            "Projected Portfolio",
-
-                        data:values,
-
-                        tension:.35,
-
-                        fill:true,
-
-                        borderWidth:2,
-
-                        pointRadius:2
-
-                    }]
-
-                },
-
-                options:{
-
-                    responsive:true,
-
-                    maintainAspectRatio:false,
-
-                    plugins:{
-
-                        legend:{
-
-                            labels:{
-                                color:
-                                    "rgba(255,255,255,.65)"
-                            }
-
-                        }
-
-                    },
-
-                    scales:{
-
-                        x:{
-
-                            ticks:{
-                                color:
-                                    "rgba(255,255,255,.4)"
-                            },
-
-                            grid:{
-                                display:false
-                            }
-
-                        },
-
-                        y:{
-
-                            ticks:{
-
-                                color:
-                                    "rgba(255,255,255,.4)",
-
-                                callback:
-                                    value =>
-                                        "₹" +
-                                        number(value)
-
-                            },
-
-                            grid:{
-                                color:
-                                    "rgba(255,255,255,.07)"
-                            }
-
-                        }
-
-                    }
-
-                }
-
+function renderProjectionChart(current, monthly, rate){
+    if(projectionChart) projectionChart.destroy();
+    const years = Array.from({length:21}, (_,i) => i);
+    const values = years.map(year => futureValue(current, monthly, rate, year));
+    projectionChart = new Chart(document.getElementById("projectionChart"), {
+        type:"line",
+        data:{
+            labels: years.map(y => y + "Y"),
+            datasets:[{ label: "Projected Portfolio", data:values, tension:0.4, backgroundColor: 'rgba(255, 196, 107, 0.05)', borderColor: '#ffc46b', fill:true, borderWidth:2, pointRadius:2 }]
+        },
+        options:{
+            responsive:true, maintainAspectRatio:false,
+            plugins:{ legend:{ labels:{ color: "rgba(255,255,255,0.4)", font: {family: "'Montserrat', sans-serif"} } } },
+            scales:{
+                x:{ ticks:{ color: "rgba(255,255,255,0.4)", font: {size: 10} }, grid:{ display:false } },
+                y:{ ticks:{ color: "rgba(255,255,255,0.4)", font: {size: 10}, callback: value => "" + number(value) }, grid:{ color: "rgba(255,255,255,0.05)" } }
             }
-
-        );
-
+        }
+    });
 }
 
-/* =========================================================
-MILESTONES
-========================================================= */
-
-function yearsToReach(
-    current,
-    monthly,
-    rate,
-    target
-){
-
-    if(current >= target){
-
-        return 0;
-
-    }
-
-    const monthlyRate =
-        rate /
-        100 /
-        12;
-
+function yearsToReach(current, monthly, rate, target){
+    if(current >= target) return 0;
+    const monthlyRate = rate / 100 / 12;
     if(monthly <= 0){
-
-        if(rate <= 0){
-
-            return null;
-
-        }
-
-        const months =
-            Math.log(
-                target /
-                current
-            ) /
-            Math.log(
-                1 +
-                monthlyRate
-            );
-
+        if(rate <= 0) return null;
+        const months = Math.log(target / current) / Math.log(1 + monthlyRate);
         return months / 12;
-
     }
-
-    if(monthlyRate === 0){
-
-        return (
-            target -
-            current
-        ) /
-        monthly /
-        12;
-
+    if(monthlyRate === 0) return (target - current) / monthly / 12;
+    let low = 0; let high = 100 * 12;
+    for(let i = 0; i < 100; i++){
+        const mid = (low + high) / 2;
+        const value = futureValue(current, monthly, rate, mid / 12);
+        if(value >= target) high = mid; else low = mid;
     }
-
-    let low = 0;
-
-    let high = 100 * 12;
-
-    for(
-        let i = 0;
-        i < 100;
-        i++
-    ){
-
-        const mid =
-            (low + high) /
-            2;
-
-        const value =
-            futureValue(
-                current,
-                monthly,
-                rate,
-                mid / 12
-            );
-
-        if(value >= target){
-
-            high = mid;
-
-        }else{
-
-            low = mid;
-
-        }
-
-    }
-
     return high / 12;
-
 }
 
-function renderMilestones(
-    current,
-    monthly,
-    rate
-){
-
+function renderMilestones(current, monthly, rate){
     const milestones = [
-
-        {
-            label:"₹25L",
-            value:2500000
-        },
-
-        {
-            label:"₹50L",
-            value:5000000
-        },
-
-        {
-            label:"₹1Cr",
-            value:10000000
-        },
-
-        {
-            label:"₹2Cr",
-            value:20000000
-        },
-
-        {
-            label:"₹5Cr",
-            value:50000000
-        }
-
+        { label:"25L", value:2500000 },
+        { label:"50L", value:5000000 },
+        { label:"1Cr", value:10000000 },
+        { label:"2Cr", value:20000000 },
+        { label:"5Cr", value:50000000 }
     ];
-
-    const box =
-        document.getElementById(
-            "milestoneList"
-        );
-
-    box.innerHTML =
-        milestones
-            .map(
-                milestone => {
-
-                    const years =
-                        yearsToReach(
-                            current,
-                            monthly,
-                            rate,
-                            milestone.value
-                        );
-
-                    let text;
-
-                    if(years === null){
-
-                        text =
-                            "Not reachable";
-
-                    }else if(years === 0){
-
-                        text =
-                            "Already reached";
-
-                    }else{
-
-                        text =
-                            years.toFixed(1) +
-                            " years";
-
-                    }
-
-                    return `
-
-                        <div class="milestone">
-
-                            <div class="milestone-value">
-                                ${milestone.label}
-                            </div>
-
-                            <div class="milestone-label">
-                                Target
-                            </div>
-
-                            <div class="milestone-time">
-                                ${text}
-                            </div>
-
-                        </div>
-
-                    `;
-
-                }
-            )
-            .join("");
-
+    const box = document.getElementById("milestoneList");
+    box.innerHTML = milestones.map(milestone => {
+        const years = yearsToReach(current, monthly, rate, milestone.value);
+        let text;
+        if(years === null) text = "Not reachable";
+        else if(years === 0) text = "Already reached";
+        else text = years.toFixed(1) + " years";
+        return `
+            <div class="milestone">
+                <div class="milestone-value">${milestone.label}</div>
+                <div class="milestone-label">Target</div>
+                <div class="milestone-time">${text}</div>
+            </div>`;
+    }).join("");
 }
 
-/* =========================================================
-DETAIL PANEL
-========================================================= */
+function openDetail(asset){
+    if(!asset) return;
+    const invested = numeric(asset.Invested);
+    const current = numeric(asset.CurrentValue);
+    const gain = gainFor(asset);
+    const ret = returnFor(asset);
+    const portfolioTotal = assets.reduce((sum,item) => sum + (numeric(item.CurrentValue) || 0), 0);
+    const weight = current !== null && portfolioTotal > 0 ? current / portfolioTotal * 100 : null;
+    const sorted = [...assets].filter(x => numeric(x.CurrentValue) !== null).sort((a,b) => numeric(b.CurrentValue) - numeric(a.CurrentValue));
+    const rankIndex = sorted.indexOf(asset);
 
-function openDetail(
-    asset
-){
-
-    if(!asset){
-        return;
-    }
-
-    const invested =
-        numeric(
-            asset.Invested
-        );
-
-    const current =
-        numeric(
-            asset.CurrentValue
-        );
-
-    const gain =
-        gainFor(asset);
-
-    const ret =
-        returnFor(asset);
-
-    const portfolioTotal =
-        assets.reduce(
-            (sum,item) =>
-                sum +
-                (
-                    numeric(
-                        item.CurrentValue
-                    ) || 0
-                ),
-            0
-        );
-
-    const weight =
-        current !== null &&
-        portfolioTotal > 0
-        ? current /
-          portfolioTotal *
-          100
-        : null;
-
-    const sorted =
-        [...assets]
-            .filter(
-                x =>
-                    numeric(
-                        x.CurrentValue
-                    ) !== null
-            )
-            .sort(
-                (a,b) =>
-                    numeric(
-                        b.CurrentValue
-                    ) -
-                    numeric(
-                        a.CurrentValue
-                    )
-            );
-
-    const rankIndex =
-        sorted.indexOf(
-            asset
-        );
-
-    document.getElementById(
-        "detailCategory"
-    ).innerText =
-        asset.Category || "";
-
-    document.getElementById(
-        "detailName"
-    ).innerText =
-        asset.Asset ||
-        "Asset";
-
-    document.getElementById(
-        "detailCurrent"
-    ).innerText =
-        current !== null
-        ? money(current)
-        : "";
-
-    const returnElement =
-        document.getElementById(
-            "detailReturn"
-        );
-
+    document.getElementById("detailCategory").innerText = asset.Category || "";
+    document.getElementById("detailName").innerText = asset.Asset || "Asset";
+    document.getElementById("detailCurrent").innerText = current !== null ? money(current) : "";
+    const returnElement = document.getElementById("detailReturn");
     if(ret !== null){
-
-        returnElement.innerText =
-            (
-                ret >= 0
-                ? "+"
-                : ""
-            ) +
-            ret.toFixed(2) +
-            "%";
-
-        returnElement.className =
-            "detail-return " +
-            (
-                ret >= 0
-                ? "green"
-                : "red"
-            );
-
+        returnElement.innerText = (ret >= 0 ? "+" : "") + ret.toFixed(2) + "%";
+        returnElement.className = "detail-return " + (ret >= 0 ? "green" : "red");
     }
 
-    const detailGrid =
-        document.getElementById(
-            "detailGrid"
-        );
-
+    const detailGrid = document.getElementById("detailGrid");
     detailGrid.innerHTML = "";
+    addDetailBox(detailGrid, "Total Invested", invested !== null ? money(invested) : "");
+    addDetailBox(detailGrid, "Gain / Loss", gain !== null ? (gain >= 0 ? "+" : "") + money(gain) : "", gain !== null ? (gain >= 0 ? "green" : "red") : "");
+    addDetailBox(detailGrid, "Return %", ret !== null ? (ret >= 0 ? "+" : "") + ret.toFixed(2) + "%" : "", ret !== null ? (ret >= 0 ? "green" : "red") : "");
+    addDetailBox(detailGrid, "Portfolio Weight", weight !== null ? weight.toFixed(2) + "%" : "");
 
-    addDetailBox(
-        detailGrid,
-        "Total Invested",
-        invested !== null
-        ? money(invested)
-        : ""
-    );
+    if(asset.Quantity !== undefined && asset.Quantity !== null && asset.Quantity !== "") addDetailBox(detailGrid, "Quantity", asset.Quantity);
+    if(asset.AveragePrice !== undefined && asset.AveragePrice !== null && asset.AveragePrice !== "") addDetailBox(detailGrid, "Average Price", money(asset.AveragePrice));
+    if(rankIndex >= 0) addDetailBox(detailGrid, "Position Rank", "#" + (rankIndex + 1));
 
-    addDetailBox(
-        detailGrid,
-        "Gain / Loss",
-        gain !== null
-        ? (
-            gain >= 0
-            ? "+"
-            : ""
-        ) +
-        money(gain)
-        : "",
-        gain !== null
-        ? gain >= 0
-            ? "green"
-            : "red"
-        : ""
-    );
-
-    addDetailBox(
-        detailGrid,
-        "Return %",
-        ret !== null
-        ? (
-            ret >= 0
-            ? "+"
-            : ""
-        ) +
-        ret.toFixed(2) +
-        "%"
-        : "",
-        ret !== null
-        ? ret >= 0
-            ? "green"
-            : "red"
-        : ""
-    );
-
-    addDetailBox(
-        detailGrid,
-        "Portfolio Weight",
-        weight !== null
-        ? weight.toFixed(2) +
-          "%"
-        : ""
-    );
-
-    /* Show quantity once, even though the API exposes both quantity and qty aliases. */
-    if(asset.Quantity !== undefined && asset.Quantity !== null && asset.Quantity !== ""){
-        addDetailBox(detailGrid, "Quantity", asset.Quantity);
-    }
-
-    if(asset.AveragePrice !== undefined && asset.AveragePrice !== null && asset.AveragePrice !== ""){
-        addDetailBox(detailGrid, "Average Price", money(asset.AveragePrice));
-    }
-
-
-    if(rankIndex >= 0){
-
-        addDetailBox(
-            detailGrid,
-            "Position Rank",
-            "#" +
-            (
-                rankIndex + 1
-            )
-        );
-
-    }
-
-    const meta =
-        document.getElementById(
-            "detailMeta"
-        );
-
+    const meta = document.getElementById("detailMeta");
     meta.innerHTML = "";
+    addMeta(meta, "Category", asset.Category);
+    addMeta(meta, "Ticker / Identifier", asset.Ticker);
+    addMeta(meta, "Position Status", gain !== null ? (gain >= 0 ? "In profit" : "Below invested value") : "", gain !== null ? (gain >= 0 ? "green" : "red") : "");
 
-    addMeta(
-        meta,
-        "Category",
-        asset.Category
-    );
-
-    addMeta(
-        meta,
-        "Ticker / Identifier",
-        asset.Ticker
-    );
-
-    addMeta(
-        meta,
-        "Position Status",
-        gain !== null
-        ? gain >= 0
-            ? "In profit"
-            : "Below invested value"
-        : "",
-        gain !== null
-        ? gain >= 0
-            ? "green"
-            : "red"
-        : ""
-    );
-
-    /*
-    SIP matching remains completely dynamic.
-    */
-
-    const matchingSIP =
-        sipConfig.find(
-            sip =>
-                String(
-                    sip.ticker || ""
-                ) ===
-                String(
-                    asset.Ticker || ""
-                )
-        );
-
+    const matchingSIP = sipConfig.find(sip => String(sip.ticker || "") === String(asset.Ticker || ""));
     if(matchingSIP){
-
-        addMeta(
-            meta,
-            "Monthly SIP",
-            money(
-                matchingSIP.sipAmount
-            ),
-            "orange"
-        );
-
-        addMeta(
-            meta,
-            "SIP Day",
-            matchingSIP.sipDay
-            ? "Day " +
-              matchingSIP.sipDay
-            : ""
-        );
-
+        addMeta(meta, "Monthly SIP", money(matchingSIP.sipAmount), "orange");
+        addMeta(meta, "SIP Day", matchingSIP.sipDay ? "Day " + matchingSIP.sipDay : "");
     }
 
-    /*
-    Show useful fields from the original
-    API row when available.
+    const original = asset.Original || {};
+    const ignored = new Set(["name","fundName","fund","ticker","fundTicker","instrument","symbol","quantity","qty","averagePrice","avgPrice","livePrice","googleTicker","invested","totalInvested","currentValue","profitLoss","returnPercent","deposited","totalDeposited","currentBalance"]);
+    Object.entries(original).forEach(([key,value]) => {
+        if(ignored.has(key) || value === undefined || value === null || value === "") return;
+        const label = key.replace(/([A-Z])/g, " $1").replace(/^./, c => c.toUpperCase());
+        addMeta(meta, label, value);
+    });
 
-    This means newly added columns can
-    appear without changing the HTML.
-    */
-
-    const original =
-        asset.Original || {};
-
-    const ignored =
-        new Set([
-            "name",
-            "fundName",
-            "fund",
-            "ticker",
-            "fundTicker",
-            "instrument",
-            "symbol",
-            "quantity",
-            "qty",
-            "averagePrice",
-            "avgPrice",
-            "livePrice",
-            "googleTicker",
-            "invested",
-            "totalInvested",
-            "currentValue",
-            "profitLoss",
-            "returnPercent",
-            "deposited",
-            "totalDeposited",
-            "currentBalance"
-        ]);
-
-    Object.entries(
-        original
-    ).forEach(
-        ([key,value]) => {
-
-            if(
-                ignored.has(key) ||
-                value === undefined ||
-                value === null ||
-                value === ""
-            ){
-
-                return;
-
-            }
-
-            const label =
-                key
-                    .replace(
-                        /([A-Z])/g,
-                        " $1"
-                    )
-                    .replace(
-                        /^./,
-                        c =>
-                            c.toUpperCase()
-                    );
-
-            addMeta(
-                meta,
-                label,
-                value
-            );
-
-        }
-    );
-
-    document
-        .getElementById(
-            "detailOverlay"
-        )
-        .classList.add("open");
-
-    document.body.style.overflow =
-        "hidden";
-
+    document.getElementById("detailOverlay").classList.add("open");
+    document.body.style.overflow = "hidden";
 }
 
-function addDetailBox(
-    parent,
-    label,
-    value,
-    colorClass = ""
-){
-
-    if(
-        value === undefined ||
-        value === null ||
-        value === ""
-    ){
-
-        return;
-
-    }
-
-    const box =
-        document.createElement(
-            "div"
-        );
-
-    box.className =
-        "detail-box";
-
-    box.innerHTML = `
-
-        <div class="detail-box-label">
-            ${escapeHTML(label)}
-        </div>
-
-        <div class="detail-box-value ${colorClass}">
-            ${escapeHTML(value)}
-        </div>
-
-    `;
-
-    parent.appendChild(
-        box
-    );
-
+function addDetailBox(parent, label, value, colorClass = ""){
+    if(value === undefined || value === null || value === "") return;
+    const box = document.createElement("div");
+    box.className = "detail-box";
+    box.innerHTML = `<div class="detail-box-label">${escapeHTML(label)}</div><div class="detail-box-value ${colorClass}">${escapeHTML(value)}</div>`;
+    parent.appendChild(box);
 }
 
-function addMeta(
-    parent,
-    label,
-    value,
-    colorClass = ""
-){
-
-    if(
-        value === undefined ||
-        value === null ||
-        value === ""
-    ){
-
-        return;
-
-    }
-
-    const item =
-        document.createElement(
-            "div"
-        );
-
-    item.className =
-        "meta-item";
-
-    item.innerHTML = `
-
-        <div class="meta-label">
-            ${escapeHTML(label)}
-        </div>
-
-        <div class="meta-value ${colorClass}">
-            ${escapeHTML(value)}
-        </div>
-
-    `;
-
-    parent.appendChild(
-        item
-    );
-
+function addMeta(parent, label, value, colorClass = ""){
+    if(value === undefined || value === null || value === "") return;
+    const item = document.createElement("div");
+    item.className = "meta-item";
+    item.innerHTML = `<div class="meta-label">${escapeHTML(label)}</div><div class="meta-value ${colorClass}">${escapeHTML(value)}</div>`;
+    parent.appendChild(item);
 }
 
-function closeDetail(){
-
-    document
-        .getElementById(
-            "detailOverlay"
-        )
-        .classList.remove(
-            "open"
-        );
-
-    document.body.style.overflow =
-        "";
-
-}
-
-function closeDetailFromOutside(
-    event
-){
-
-    if(
-        event.target.id ===
-        "detailOverlay"
-    ){
-
-        closeDetail();
-
-    }
-
-}
-
-document.addEventListener(
-    "keydown",
-    event => {
-
-        if(
-            event.key ===
-            "Escape"
-        ){
-
-            closeDetail();
-
-        }
-
-    }
-);
+function closeDetail(){ document.getElementById("detailOverlay").classList.remove("open"); document.body.style.overflow = ""; }
+function closeDetailFromOutside(event){ if(event.target.id === "detailOverlay") closeDetail(); }
+document.addEventListener("keydown", event => { if(event.key === "Escape") closeDetail(); });
 
 /* =========================================================
 GREETING ANIMATION
@@ -6490,130 +1627,34 @@ GREETING ANIMATION
 function startGreetingAnimation(){
     const el = document.getElementById("greetingText");
     if(!el) return;
-    const greetings = [
-        "Hello",
-        "नमस्ते",
-        "こんにちは",
-        "Hola",
-        "Bonjour",
-        "Привет",
-        "Ciao",
-        "Olá",
-        "Guten Tag",
-        "안녕하세요",
-        "你好",
-        "مرحبا",
-        "ਸਤ ਸ੍ਰੀ ਅਕਾਲ",
-        "สวัสดี",
-        "Merhaba",
-        "שלום"
-    ];
+    const greetings = ["Hi", "", "", "Hola", "Bonjour", "", "Ciao", "Olá", "Guten Tag", "", "", "", "  ", "", "Merhaba", ""];
     let wordIndex = 0, charIndex = 0, deleting = false;
-
     function tick(){
         const word = greetings[wordIndex];
         el.textContent = word.slice(0, charIndex);
         let delay = deleting ? 105 : 155;
-        if(!deleting && charIndex < word.length){
-            charIndex++;
-        }else if(!deleting){
-            deleting = true; delay = 2100;
-        }else if(charIndex > 0){
-            charIndex--; 
-        }else{
-            deleting = false;
-            wordIndex = (wordIndex + 1) % greetings.length;
-            delay = 650;
-        }
+        if(!deleting && charIndex < word.length) charIndex++;
+        else if(!deleting){ deleting = true; delay = 2100; }
+        else if(charIndex > 0) charIndex--; 
+        else{ deleting = false; wordIndex = (wordIndex + 1) % greetings.length; delay = 650; }
         setTimeout(tick, delay);
     }
     tick();
 }
 
 /* =========================================================
-WEATHER / LOCATION
-========================================================= */
-async function loadWeatherLocation(){
-    const locationEl = document.getElementById("weatherLocation");
-    const metaEl = document.getElementById("weatherMeta");
-    const tempEl = document.getElementById("weatherTemp");
-    const conditionEl = document.getElementById("weatherCondition");
-    const iconEl = document.getElementById("weatherIcon");
-    if(!locationEl) return;
-
-    if(!navigator.geolocation){
-        locationEl.textContent = "Location unavailable";
-        metaEl.textContent = "Geolocation is not supported by this browser";
-        return;
-    }
-
-    navigator.geolocation.getCurrentPosition(async position => {
-        const lat = position.coords.latitude;
-        const lon = position.coords.longitude;
-        try{
-            const [placeResponse, weatherResponse] = await Promise.all([
-                fetch(`https://geocoding-api.open-meteo.com/v1/reverse?latitude=${lat}&longitude=${lon}&count=1&language=en&format=json`),
-                fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code,relative_humidity_2m,wind_speed_10m&timezone=auto`)
-            ]);
-            const place = await placeResponse.json();
-            const weather = await weatherResponse.json();
-            const p = place.results?.[0];
-            const c = weather.current;
-            const label = p ? [p.name, p.admin1].filter(Boolean).join(", ") : `${lat.toFixed(2)}, ${lon.toFixed(2)}`;
-            locationEl.textContent = label;
-            tempEl.textContent = c ? `${Math.round(c.temperature_2m)}°C` : "—";
-            const code = c?.weather_code;
-            const descriptions = {0:["Clear","☀️"],1:["Mainly clear","🌤️"],2:["Partly cloudy","⛅"],3:["Overcast","☁️"],45:["Fog","🌫️"],48:["Fog","🌫️"],51:["Drizzle","🌦️"],53:["Drizzle","🌦️"],55:["Drizzle","🌧️"],61:["Rain","🌧️"],63:["Rain","🌧️"],65:["Heavy rain","🌧️"],71:["Snow","❄️"],73:["Snow","❄️"],75:["Heavy snow","❄️"],80:["Showers","🌦️"],81:["Showers","🌦️"],82:["Heavy showers","🌧️"],95:["Thunderstorm","⛈️"],96:["Thunderstorm","⛈️"],99:["Thunderstorm","⛈️"]};
-            const desc = descriptions[code] || ["Local weather","🌤️"];
-            conditionEl.textContent = desc[0];
-            iconEl.textContent = desc[1];
-            metaEl.textContent = c ? `Humidity ${c.relative_humidity_2m}% • Wind ${Math.round(c.wind_speed_10m)} km/h` : "Local weather";
-        }catch(error){
-            locationEl.textContent = "Location found";
-            metaEl.textContent = "Weather service unavailable";
-        }
-    }, () => {
-        locationEl.textContent = "Location permission needed";
-        metaEl.textContent = "Allow location access to show local weather";
-    }, {enableHighAccuracy:false, timeout:8000, maximumAge:300000});
-}
-
-/* =========================================================
 INITIAL
 ========================================================= */
-
 setLockedStatus();
 updateFilterButtons();
 updateViewHeader();
 renderDashboard();
 renderSipAnalytics();
 startGreetingAnimation();
-loadWeatherLocation();
 
-/* =========================================================
-ENTER KEY
-========================================================= */
-
-document
-    .getElementById(
-        "password"
-    )
-    .addEventListener(
-        "keydown",
-        event => {
-
-            if(
-                event.key ===
-                "Enter"
-            ){
-
-                connectToSheet();
-
-            }
-
-        }
-    );
-
+document.getElementById("password").addEventListener("keydown", event => {
+    if(event.key === "Enter") connectToSheet();
+});
 </script>
 
 </body>
