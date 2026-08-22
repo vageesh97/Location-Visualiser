@@ -22,7 +22,7 @@
 
   <style>
 /* ==========================================================================
-   Mosby’s Archive — Silky Smooth Precision Architectural Design
+   Mosby’s Archive — Precision Architectural Design
    ========================================================================== */
 
 :root {
@@ -279,6 +279,7 @@ html, body {
 .arch-btn.record-btn.recording {
   background: var(--accent-crimson);
   color: #fff;
+  border-color: var(--accent-crimson);
   animation: pulseRecording 1.2s infinite;
 }
 
@@ -427,6 +428,48 @@ html, body {
 .pill-select option {
   background: #ffffff;
   color: #12141a;
+}
+
+/* Zoom Slider Cluster */
+.zoom-cluster {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+}
+
+.ctrl-btn-mini {
+  background: rgba(18, 20, 26, 0.06);
+  border: 1px solid var(--border-subtle);
+  color: var(--color-ink);
+  width: 22px;
+  height: 22px;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.15s ease;
+}
+
+.ctrl-btn-mini:hover {
+  background: #ffffff;
+  border-color: var(--accent-cobalt);
+}
+
+.zoom-slider {
+  width: 80px;
+  height: 4px;
+}
+
+.zoom-label-text {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--accent-cobalt);
+  min-width: 36px;
+  text-align: right;
 }
 
 .speed-segment {
@@ -743,7 +786,7 @@ html, body {
       </div>
     </div>
 
-    <!-- Top Right Actions (Precision SVG Icons) -->
+    <!-- Top Right Actions -->
     <div class="top-actions">
       <button id="btn-upload-modal" class="arch-btn primary" title="Upload Google Maps Timeline Takeout .zip or .json">
         <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
@@ -755,7 +798,7 @@ html, body {
         Air Horn!
       </button>
 
-      <button id="btn-record" class="arch-btn record-btn" title="Record MP4/WebM Video Animation">
+      <button id="btn-record" class="arch-btn record-btn" title="Record High-Resolution MP4/WebM Video (Map + Vehicle)">
         <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="7"/></svg>
         <span id="record-text">Record Video</span>
       </button>
@@ -803,6 +846,18 @@ html, body {
         <button id="btn-fit-bounds" class="ctrl-btn" title="Fit Entire Bounds">
           <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/></svg>
         </button>
+      </div>
+
+      <!-- Zoom Slider Cluster -->
+      <div class="pill-group zoom-cluster" title="Map Zoom Level">
+        <button id="btn-zoom-out" class="ctrl-btn-mini" title="Zoom Out (−)">
+          <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <input type="range" id="zoom-slider" class="arch-slider zoom-slider" min="2" max="18" step="0.1" value="12" title="Adjust Map Zoom">
+        <button id="btn-zoom-in" class="ctrl-btn-mini" title="Zoom In (+)">
+          <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <span id="zoom-value-label" class="zoom-label-text">12.0x</span>
       </div>
 
       <!-- Year Selector -->
@@ -1427,7 +1482,7 @@ html, body {
   })();
 
   /* --------------------------------------------------------------------------
-     4. ULTRA-SMOOTH MAP ENGINE (INSTANT START CENTERING & ZERO INITIAL JITTER)
+     4. MAP ENGINE (FULL COMPOSITE CANVAS RECORDING + SYNCED ZOOM SLIDER)
      -------------------------------------------------------------------------- */
   window.TimelineMapEngine = (function () {
     const THEMES = {
@@ -1439,7 +1494,6 @@ html, body {
 
     class MapEngine {
       constructor(containerId) {
-        // Initial center set directly to starting point in India
         this.map = L.map(containerId, {
           center: [28.6129, 77.2295],
           zoom: 12,
@@ -1450,14 +1504,21 @@ html, body {
           wheelPxPerZoomLevel: 120
         });
 
-        this.tileLayer = L.tileLayer(THEMES.voyager, { subdomains: "abcd", maxZoom: 19 }).addTo(this.map);
+        // Set crossOrigin: true so browser map tiles can be composited into video recorder
+        this.tileLayer = L.tileLayer(THEMES.voyager, { subdomains: "abcd", maxZoom: 19, crossOrigin: true }).addTo(this.map);
 
+        // Vector Animation Overlay Canvas
         this.canvas = document.createElement("canvas");
         this.canvas.style.position = "absolute";
         this.canvas.style.top = "0"; this.canvas.style.left = "0";
         this.canvas.style.pointerEvents = "none"; this.canvas.style.zIndex = "400";
         this.map.getContainer().appendChild(this.canvas);
         this.ctx = this.canvas.getContext("2d");
+
+        // Composite Canvas for Full Video Recording (Base Map + Animated Car + Route)
+        this.compositeCanvas = document.createElement("canvas");
+        this.compositeCtx = this.compositeCanvas.getContext("2d");
+        this.isRecording = false;
 
         this.dataset = null;
         this.activePoint = null;
@@ -1497,7 +1558,7 @@ html, body {
       setTheme(theme) {
         if (this.tileLayer) this.map.removeLayer(this.tileLayer);
         const url = THEMES[theme] || THEMES.voyager;
-        this.tileLayer = L.tileLayer(url, { subdomains: "abcd", maxZoom: 19 }).addTo(this.map);
+        this.tileLayer = L.tileLayer(url, { subdomains: "abcd", maxZoom: 19, crossOrigin: true }).addTo(this.map);
         this.render();
       }
 
@@ -1508,10 +1569,12 @@ html, body {
         this.canvas.style.width = size.x + "px"; this.canvas.style.height = size.y + "px";
         this.ctx.setTransform(1, 0, 0, 1, 0, 0);
         this.ctx.scale(dpr, dpr);
+
+        this.compositeCanvas.width = this.canvas.width;
+        this.compositeCanvas.height = this.canvas.height;
         this.render();
       }
 
-      // Snap instantly to the first location (zero stutter/crawl from global bounds)
       setDataset(ds, snapToFirstLocation = true) {
         this.dataset = ds;
         const validPts = ds?.points || [];
@@ -1574,6 +1637,43 @@ html, body {
           }
         }
         this.render();
+      }
+
+      updateCompositeCanvas() {
+        const size = this.map.getSize();
+        const dpr = window.devicePixelRatio || 1;
+        if (this.compositeCanvas.width !== this.canvas.width || this.compositeCanvas.height !== this.canvas.height) {
+          this.compositeCanvas.width = this.canvas.width;
+          this.compositeCanvas.height = this.canvas.height;
+        }
+
+        // 1. Draw Map Tile Background Color
+        this.compositeCtx.fillStyle = "#ede8df";
+        this.compositeCtx.fillRect(0, 0, this.compositeCanvas.width, this.compositeCanvas.height);
+
+        // 2. Draw all visible Leaflet Base Map Tiles into Composite Canvas
+        const mapEl = document.getElementById("map");
+        if (mapEl) {
+          const mapRect = mapEl.getBoundingClientRect();
+          const tileImgs = mapEl.querySelectorAll(".leaflet-tile-pane img");
+          tileImgs.forEach(img => {
+            if (img.complete && img.naturalWidth > 0) {
+              const r = img.getBoundingClientRect();
+              try {
+                this.compositeCtx.drawImage(
+                  img,
+                  (r.left - mapRect.left) * dpr,
+                  (r.top - mapRect.top) * dpr,
+                  r.width * dpr,
+                  r.height * dpr
+                );
+              } catch (e) {}
+            }
+          });
+        }
+
+        // 3. Draw Vector Overlay Canvas (Route + Markers + Vehicle + Headlights) on top
+        this.compositeCtx.drawImage(this.canvas, 0, 0);
       }
 
       render() {
@@ -1709,6 +1809,11 @@ html, body {
 
           ctx.restore();
         }
+
+        // Composite frame for video recording
+        if (this.isRecording) {
+          this.updateCompositeCanvas();
+        }
       }
 
       drawVehicleModel(ctx, type) {
@@ -1764,7 +1869,6 @@ html, body {
           ctx.beginPath(); ctx.roundRect(-20, -9, 40, 18, 4); ctx.fill();
           ctx.strokeStyle = "#ffffff"; ctx.lineWidth = 1.5; ctx.stroke();
 
-          // Rear Aero Wing
           ctx.fillStyle = "#12141a";
           ctx.fillRect(-22, -10, 4, 20);
 
@@ -1989,6 +2093,10 @@ html, body {
       btnRewind: document.getElementById("btn-rewind"),
       btnForward: document.getElementById("btn-forward"),
       btnFitBounds: document.getElementById("btn-fit-bounds"),
+      btnZoomIn: document.getElementById("btn-zoom-in"),
+      btnZoomOut: document.getElementById("btn-zoom-out"),
+      zoomSlider: document.getElementById("zoom-slider"),
+      zoomValueLabel: document.getElementById("zoom-value-label"),
       btnHonk: document.getElementById("btn-honk"),
       btnRecord: document.getElementById("btn-record"),
       recordText: document.getElementById("record-text"),
@@ -2028,6 +2136,30 @@ html, body {
       setTimeout(() => el.placeToast.classList.remove("visible"), duration);
     }
 
+    // Zoom Controls Synchronization
+    function updateZoomUI() {
+      const z = mapEngine.map.getZoom();
+      el.zoomSlider.value = z.toFixed(1);
+      el.zoomValueLabel.textContent = z.toFixed(1) + "x";
+    }
+
+    el.zoomSlider.addEventListener("input", (e) => {
+      mapEngine.map.setZoom(parseFloat(e.target.value));
+    });
+
+    el.btnZoomIn.addEventListener("click", () => {
+      TimelineAudio.playClick();
+      mapEngine.map.zoomIn(0.5);
+    });
+
+    el.btnZoomOut.addEventListener("click", () => {
+      TimelineAudio.playClick();
+      mapEngine.map.zoomOut(0.5);
+    });
+
+    mapEngine.map.on("zoom", updateZoomUI);
+    updateZoomUI();
+
     function populateYearSelect(dataset) {
       el.yearFilterSelect.innerHTML = "";
       const sY = new Date(dataset.startTime).getFullYear();
@@ -2058,6 +2190,7 @@ html, body {
       el.yearFilterSelect.value = "all";
       animator.setDataset(ds, "all");
       updateStats();
+      updateZoomUI();
       if (autoPlay) animator.play();
     }
 
@@ -2159,7 +2292,7 @@ html, body {
       showToast("HOOOOOONK! (Air Horn Blast)", 1800);
     });
 
-    // Video Recording Feature
+    // High-Resolution Composite Video Recording (Map + Vehicle + Trail)
     el.btnRecord.addEventListener("click", () => {
       if (!isRecording) {
         startRecording();
@@ -2170,7 +2303,9 @@ html, body {
 
     function startRecording() {
       try {
-        const stream = mapEngine.canvas.captureStream(30);
+        mapEngine.isRecording = true;
+        mapEngine.updateCompositeCanvas();
+        const stream = mapEngine.compositeCanvas.captureStream(30);
         recordedChunks = [];
         mediaRecorder = new MediaRecorder(stream, { mimeType: "video/webm;codecs=vp9" });
         mediaRecorder.ondataavailable = (e) => { if (e.data.size > 0) recordedChunks.push(e.data); };
@@ -2179,7 +2314,7 @@ html, body {
         isRecording = true;
         el.btnRecord.classList.add("recording");
         el.recordText.textContent = "Stop & Save";
-        showToast("Recording road trip animation...", 2500);
+        showToast("Recording Map & Animation...", 2500);
         animator.play();
       } catch (err) {
         showToast("Recording error: " + err.message, 3000);
@@ -2190,6 +2325,7 @@ html, body {
       if (mediaRecorder && isRecording) {
         mediaRecorder.stop();
         isRecording = false;
+        mapEngine.isRecording = false;
         el.btnRecord.classList.remove("recording");
         el.recordText.textContent = "Record Video";
       }
@@ -2202,7 +2338,7 @@ html, body {
       a.href = url;
       a.download = `timeline-expedition-${Date.now()}.webm`;
       a.click();
-      showToast("Video saved successfully!", 3000);
+      showToast("Video (Map + Vehicle) saved successfully!", 3000);
     }
 
     el.timelineScrubber.addEventListener("input", (e) => {
@@ -2248,7 +2384,7 @@ html, body {
     el.uploadModalClose.addEventListener("click", () => el.uploadModal.classList.remove("visible"));
     el.dropZone.addEventListener("click", () => el.fileInput.click());
     el.dropZone.addEventListener("dragover", (e) => { e.preventDefault(); el.dropZone.style.borderColor = "#12141a"; });
-    el.dropZone.addEventListener("dragleave", () => { e.dropZone.style.borderColor = "var(--accent-cobalt)"; });
+    el.dropZone.addEventListener("dragleave", () => { el.dropZone.style.borderColor = "var(--accent-cobalt)"; });
     el.dropZone.addEventListener("drop", (e) => {
       e.preventDefault(); el.dropZone.style.borderColor = "var(--accent-cobalt)";
       if (e.dataTransfer.files?.length) handleUpload(e.dataTransfer.files[0]);
@@ -2268,7 +2404,7 @@ html, body {
           el.uploadProgressText.textContent = msg;
         });
 
-        // Instantly snap to the first location of the uploaded file without zoom-out crawl
+        // Instantly snap to first location
         selectDataset(parsed, false);
         const sYear = new Date(parsed.startTime).getFullYear();
         const eYear = new Date(parsed.endTime).getFullYear();
@@ -2304,6 +2440,8 @@ html, body {
       else if (e.code === "ArrowRight") { e.preventDefault(); animator.stepTime(3600000); }
       else if (e.key.toLowerCase() === "h") { el.btnHonk.click(); }
       else if (e.key.toLowerCase() === "m") { el.btnAudioToggle.click(); }
+      else if (e.key === "+" || e.key === "=") { mapEngine.map.zoomIn(0.5); }
+      else if (e.key === "-" || e.key === "_") { mapEngine.map.zoomOut(0.5); }
     });
 
     // Load India dataset in paused state at 60x speed
