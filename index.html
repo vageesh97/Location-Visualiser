@@ -2292,7 +2292,7 @@ html, body {
       showToast("HOOOOOONK! (Air Horn Blast)", 1800);
     });
 
-    // High-Resolution Composite Video Recording (Map + Vehicle + Trail)
+    // High-Resolution Composite Video Recording (MP4 Format)
     el.btnRecord.addEventListener("click", () => {
       if (!isRecording) {
         startRecording();
@@ -2301,20 +2301,43 @@ html, body {
       }
     });
 
+    let recordedMimeType = "video/mp4";
+
+    function getBestVideoMimeType() {
+      const candidates = [
+        "video/mp4;codecs=avc1",
+        "video/mp4;codecs=h264",
+        "video/mp4",
+        "video/webm;codecs=h264",
+        "video/webm;codecs=vp9",
+        "video/webm"
+      ];
+      for (const t of candidates) {
+        if (window.MediaRecorder && typeof MediaRecorder.isTypeSupported === "function") {
+          if (MediaRecorder.isTypeSupported(t)) return t;
+        }
+      }
+      return "";
+    }
+
     function startRecording() {
       try {
         mapEngine.isRecording = true;
         mapEngine.updateCompositeCanvas();
         const stream = mapEngine.compositeCanvas.captureStream(30);
         recordedChunks = [];
-        mediaRecorder = new MediaRecorder(stream, { mimeType: "video/webm;codecs=vp9" });
-        mediaRecorder.ondataavailable = (e) => { if (e.data.size > 0) recordedChunks.push(e.data); };
+        
+        recordedMimeType = getBestVideoMimeType();
+        const options = recordedMimeType ? { mimeType: recordedMimeType } : {};
+        
+        mediaRecorder = new MediaRecorder(stream, options);
+        mediaRecorder.ondataavailable = (e) => { if (e.data && e.data.size > 0) recordedChunks.push(e.data); };
         mediaRecorder.onstop = saveVideoRecording;
-        mediaRecorder.start();
+        mediaRecorder.start(100);
         isRecording = true;
         el.btnRecord.classList.add("recording");
         el.recordText.textContent = "Stop & Save";
-        showToast("Recording Map & Animation...", 2500);
+        showToast("Recording MP4 road trip animation...", 2500);
         animator.play();
       } catch (err) {
         showToast("Recording error: " + err.message, 3000);
@@ -2332,13 +2355,14 @@ html, body {
     }
 
     function saveVideoRecording() {
-      const blob = new Blob(recordedChunks, { type: "video/webm" });
+      const finalMime = recordedMimeType || "video/mp4";
+      const blob = new Blob(recordedChunks, { type: finalMime });
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = `timeline-expedition-${Date.now()}.webm`;
+      a.download = `timeline-expedition-${Date.now()}.mp4`;
       a.click();
-      showToast("Video (Map + Vehicle) saved successfully!", 3000);
+      showToast("MP4 video saved successfully!", 3000);
     }
 
     el.timelineScrubber.addEventListener("input", (e) => {
