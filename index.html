@@ -977,7 +977,6 @@ html, body {
       return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     }
 
-    // Catmull-Rom Spline Interpolator for organic curved highways
     function catmullRom(p0, p1, p2, p3, t) {
       const t2 = t * t, t3 = t2 * t;
       return 0.5 * (
@@ -1428,7 +1427,7 @@ html, body {
   })();
 
   /* --------------------------------------------------------------------------
-     4. ULTRA-SMOOTH MAP ENGINE (HIGH-FPS SUBPIXEL PHYSICS & PARTICLES)
+     4. ULTRA-SMOOTH MAP ENGINE (INSTANT START CENTERING & ZERO INITIAL JITTER)
      -------------------------------------------------------------------------- */
   window.TimelineMapEngine = (function () {
     const THEMES = {
@@ -1440,9 +1439,10 @@ html, body {
 
     class MapEngine {
       constructor(containerId) {
+        // Initial center set directly to starting point in India
         this.map = L.map(containerId, {
           center: [28.6129, 77.2295],
-          zoom: 5,
+          zoom: 12,
           zoomControl: false,
           attributionControl: false,
           zoomSnap: 0.1,
@@ -1511,14 +1511,19 @@ html, body {
         this.render();
       }
 
-      setDataset(ds, shouldCenter = true) {
+      // Snap instantly to the first location (zero stutter/crawl from global bounds)
+      setDataset(ds, snapToFirstLocation = true) {
         this.dataset = ds;
         const validPts = ds?.points || [];
         this.activePointIndex = 0;
         this.activePoint = validPts[0] || null;
         this.activeTimestamp = validPts[0]?.timestamp || 0;
         this.particles = [];
-        if (shouldCenter) this.fitBounds();
+
+        if (snapToFirstLocation && validPts.length > 0) {
+          const firstPt = validPts[0];
+          this.map.setView([firstPt.lat, firstPt.lng], 12, { animate: false });
+        }
         this.render();
       }
 
@@ -1526,7 +1531,7 @@ html, body {
         if (!this.dataset?.points?.length) return;
         try {
           const b = L.latLngBounds(this.dataset.points.map(p => [p.lat, p.lng]));
-          if (b.isValid()) this.map.fitBounds(b, { padding: [70, 70], maxZoom: 15, animate: false });
+          if (b.isValid()) this.map.fitBounds(b, { padding: [70, 70], maxZoom: 15, animate: true });
         } catch (e) {}
       }
 
@@ -1807,7 +1812,7 @@ html, body {
   })();
 
   /* --------------------------------------------------------------------------
-     5. ULTRA-SMOOTH ANIMATOR (DEFAULT 60X SPEED)
+     5. ULTRA-SMOOTH ANIMATOR
      -------------------------------------------------------------------------- */
   window.TimelineAnimator = (function () {
     class Animator {
@@ -1816,7 +1821,7 @@ html, body {
         this.fullDataset = null;
         this.points = []; this.places = [];
         this.isPlaying = false;
-        this.speedMultiplier = 60; // Default: 60x
+        this.speedMultiplier = 60;
         this.startTimestamp = 0; this.endTimestamp = 0; this.currentTimestamp = 0;
         this.currentIndex = 0; this.currentPoint = null;
         this.rafId = null; this.lastWall = null;
@@ -1849,7 +1854,7 @@ html, body {
           this.currentPoint = this.points[0];
         }
 
-        this.mapEngine.setDataset({ ...ds, points: this.points, places: this.places });
+        this.mapEngine.setDataset({ ...ds, points: this.points, places: this.places }, true);
         this.updateState();
       }
 
@@ -2243,7 +2248,7 @@ html, body {
     el.uploadModalClose.addEventListener("click", () => el.uploadModal.classList.remove("visible"));
     el.dropZone.addEventListener("click", () => el.fileInput.click());
     el.dropZone.addEventListener("dragover", (e) => { e.preventDefault(); el.dropZone.style.borderColor = "#12141a"; });
-    el.dropZone.addEventListener("dragleave", () => { el.dropZone.style.borderColor = "var(--accent-cobalt)"; });
+    el.dropZone.addEventListener("dragleave", () => { e.dropZone.style.borderColor = "var(--accent-cobalt)"; });
     el.dropZone.addEventListener("drop", (e) => {
       e.preventDefault(); el.dropZone.style.borderColor = "var(--accent-cobalt)";
       if (e.dataTransfer.files?.length) handleUpload(e.dataTransfer.files[0]);
@@ -2263,7 +2268,8 @@ html, body {
           el.uploadProgressText.textContent = msg;
         });
 
-        selectDataset(parsed, true);
+        // Instantly snap to the first location of the uploaded file without zoom-out crawl
+        selectDataset(parsed, false);
         const sYear = new Date(parsed.startTime).getFullYear();
         const eYear = new Date(parsed.endTime).getFullYear();
         showToast(`Cataloged archive (${sYear} - ${eYear})!`, 3000);
