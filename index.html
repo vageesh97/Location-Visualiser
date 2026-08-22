@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <title>Timeline</title>
 
   <!-- Typography: Cormorant Garamond + IBM Plex Mono + Plus Jakarta Sans -->
@@ -22,7 +22,7 @@
 
   <style>
 /* ==========================================================================
-   Mosby’s Archive — Precision Architectural Design
+   Mosby’s Archive — Responsive Precision Architectural Design System
    ========================================================================== */
 
 :root {
@@ -59,6 +59,7 @@
 html, body {
   width: 100vw;
   height: 100vh;
+  height: 100dvh;
   overflow: hidden;
   background-color: #ede8df;
   color: var(--color-ink);
@@ -99,14 +100,14 @@ html, body {
    ========================================================================== */
 .the-topbar {
   position: absolute;
-  top: 14px;
-  left: 18px;
-  right: 18px;
+  top: max(12px, env(safe-area-inset-top));
+  left: max(12px, env(safe-area-inset-left));
+  right: max(12px, env(safe-area-inset-right));
   z-index: 1000;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
   pointer-events: none;
 }
 
@@ -128,15 +129,17 @@ html, body {
 .brand-box {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 8px 16px 8px 12px;
+  gap: 8px;
+  padding: 7px 12px;
+  flex-shrink: 0;
 }
 
 .brand-compass-icon {
-  width: 22px;
-  height: 22px;
+  width: 20px;
+  height: 20px;
   color: var(--accent-cobalt);
   transition: transform 0.6s cubic-bezier(0.33, 1, 0.68, 1);
+  flex-shrink: 0;
 }
 
 .brand-box:hover .brand-compass-icon {
@@ -145,28 +148,30 @@ html, body {
 
 .brand-name {
   font-family: var(--font-serif);
-  font-size: 19px;
+  font-size: 18px;
   font-weight: 700;
   letter-spacing: 0.8px;
   text-transform: uppercase;
   color: var(--color-ink);
   line-height: 1.1;
+  white-space: nowrap;
 }
 
 .brand-sub {
   font-family: var(--font-mono);
-  font-size: 9.5px;
+  font-size: 9px;
   color: var(--color-muted);
   text-transform: uppercase;
   letter-spacing: 0.6px;
+  white-space: nowrap;
 }
 
-/* Center HUD Strip */
+/* Center HUD Strip (Desktop) */
 .telemetry-strip {
   display: flex;
   align-items: center;
-  gap: 16px;
-  padding: 7px 18px;
+  gap: 14px;
+  padding: 6px 16px;
 }
 
 .telemetry-col {
@@ -184,7 +189,7 @@ html, body {
 
 .telemetry-data {
   font-family: var(--font-mono);
-  font-size: 12.5px;
+  font-size: 12px;
   font-weight: 700;
   color: var(--color-ink);
   white-space: nowrap;
@@ -192,7 +197,7 @@ html, body {
 
 .telemetry-sep {
   width: 1px;
-  height: 22px;
+  height: 20px;
   background: var(--border-subtle);
 }
 
@@ -200,7 +205,8 @@ html, body {
 .top-actions {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
+  flex-shrink: 0;
 }
 
 .arch-btn, .arch-select {
@@ -214,15 +220,16 @@ html, body {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  padding: 8px 14px;
+  padding: 7px 12px;
   border-radius: 6px;
   cursor: pointer;
   outline: none;
   transition: all 0.2s ease;
   display: inline-flex;
   align-items: center;
-  gap: 7px;
+  gap: 6px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  touch-action: manipulation;
 }
 
 .svg-icon {
@@ -293,20 +300,21 @@ html, body {
    ========================================================================== */
 .bottom-console {
   position: absolute;
-  bottom: 18px;
-  left: 18px;
-  right: 18px;
+  bottom: max(14px, env(safe-area-inset-bottom));
+  left: max(14px, env(safe-area-inset-left));
+  right: max(14px, env(safe-area-inset-right));
   z-index: 1000;
-  padding: 14px 20px;
+  padding: 12px 18px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
+  max-width: 100%;
 }
 
 .scrubber-row {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 3px;
   width: 100%;
 }
 
@@ -342,37 +350,54 @@ html, body {
   justify-content: space-between;
   align-items: center;
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 9.5px;
   color: var(--color-muted);
   text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.controls-scroll-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.controls-scroll-wrapper::-webkit-scrollbar {
+  display: none;
 }
 
 .controls-row {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 12px;
+  gap: 8px;
+  width: max-content;
+  min-width: 100%;
 }
 
 .transport-cluster {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
+  flex-shrink: 0;
 }
 
 .ctrl-btn {
   background: rgba(18, 20, 26, 0.05);
   border: 1px solid var(--border-subtle);
   color: var(--color-ink);
-  width: 34px;
-  height: 34px;
+  width: 32px;
+  height: 32px;
   border-radius: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   transition: all 0.2s ease;
+  flex-shrink: 0;
+  touch-action: manipulation;
 }
 
 .ctrl-btn:hover {
@@ -385,7 +410,7 @@ html, body {
   background: var(--accent-cobalt);
   border-color: var(--accent-cobalt);
   color: #fff;
-  width: 42px;
+  width: 40px;
   box-shadow: 0 2px 12px var(--accent-cobalt-glow);
 }
 
@@ -399,19 +424,21 @@ html, body {
   align-items: center;
   background: rgba(18, 20, 26, 0.04);
   border: 1px solid var(--border-subtle);
-  padding: 3px 10px;
+  padding: 3px 8px;
   border-radius: 4px;
-  gap: 6px;
+  gap: 5px;
+  flex-shrink: 0;
 }
 
 .pill-label {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 9.5px;
   text-transform: uppercase;
   color: var(--color-muted);
   display: flex;
   align-items: center;
   gap: 4px;
+  white-space: nowrap;
 }
 
 .pill-select {
@@ -419,7 +446,7 @@ html, body {
   border: none;
   color: var(--color-ink);
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 10.5px;
   font-weight: 600;
   outline: none;
   cursor: pointer;
@@ -434,8 +461,9 @@ html, body {
 .zoom-cluster {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 4px 10px;
+  gap: 5px;
+  padding: 3px 8px;
+  flex-shrink: 0;
 }
 
 .ctrl-btn-mini {
@@ -451,6 +479,7 @@ html, body {
   cursor: pointer;
   outline: none;
   transition: all 0.15s ease;
+  touch-action: manipulation;
 }
 
 .ctrl-btn-mini:hover {
@@ -459,16 +488,16 @@ html, body {
 }
 
 .zoom-slider {
-  width: 80px;
+  width: 65px;
   height: 4px;
 }
 
 .zoom-label-text {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 9.5px;
   font-weight: 700;
   color: var(--accent-cobalt);
-  min-width: 36px;
+  min-width: 32px;
   text-align: right;
 }
 
@@ -480,6 +509,7 @@ html, body {
   border: 1px solid var(--border-subtle);
   padding: 2px;
   border-radius: 4px;
+  flex-shrink: 0;
 }
 
 .speed-btn {
@@ -487,12 +517,13 @@ html, body {
   border: none;
   color: var(--color-muted);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 9.5px;
   font-weight: 600;
-  padding: 4px 8px;
+  padding: 3px 7px;
   border-radius: 2px;
   cursor: pointer;
   transition: all 0.15s ease;
+  touch-action: manipulation;
 }
 
 .speed-btn:hover {
@@ -508,17 +539,19 @@ html, body {
 .arch-toggle {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 10px;
   color: var(--color-muted);
   cursor: pointer;
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .arch-toggle input[type="checkbox"] {
   accent-color: var(--accent-cobalt);
-  width: 13px;
-  height: 13px;
+  width: 12px;
+  height: 12px;
 }
 
 /* ==========================================================================
@@ -526,10 +559,10 @@ html, body {
    ========================================================================== */
 .dossier-drawer {
   position: absolute;
-  top: 72px;
+  top: 68px;
   right: -440px;
-  width: 400px;
-  bottom: 110px;
+  width: 380px;
+  bottom: 100px;
   z-index: 1001;
   box-shadow: -12px 0 40px rgba(0, 0, 0, 0.18);
   transition: right 0.4s cubic-bezier(0.33, 1, 0.68, 1);
@@ -539,11 +572,11 @@ html, body {
 }
 
 .dossier-drawer.open {
-  right: 18px;
+  right: 14px;
 }
 
 .dossier-header {
-  padding: 16px 20px;
+  padding: 14px 18px;
   border-bottom: 1px solid var(--border-subtle);
   display: flex;
   justify-content: space-between;
@@ -552,7 +585,7 @@ html, body {
 
 .dossier-title {
   font-family: var(--font-serif);
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 600;
   color: var(--color-ink);
   display: flex;
@@ -561,11 +594,11 @@ html, body {
 }
 
 .dossier-body {
-  padding: 18px;
+  padding: 16px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 14px;
 }
 
 .stat-grid-2 {
@@ -577,28 +610,28 @@ html, body {
 .stat-card {
   background: rgba(18, 20, 26, 0.03);
   border: 1px solid var(--border-subtle);
-  padding: 12px;
+  padding: 10px 12px;
   border-radius: 4px;
 }
 
 .stat-card-title {
   font-family: var(--font-mono);
-  font-size: 9px;
+  font-size: 8.5px;
   text-transform: uppercase;
   color: var(--color-muted);
-  margin-bottom: 4px;
+  margin-bottom: 3px;
 }
 
 .stat-card-val {
   font-family: var(--font-mono);
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 700;
   color: var(--accent-cobalt);
 }
 
 .stat-card-sub {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 9.5px;
   color: var(--color-dim);
 }
 
@@ -620,15 +653,15 @@ html, body {
 /* Toast */
 #place-toast {
   position: absolute;
-  top: 76px;
+  top: 70px;
   left: 50%;
   transform: translateX(-50%) translateY(-20px);
   background: #ffffff;
   border: 1px solid var(--accent-cobalt);
-  padding: 8px 20px;
+  padding: 7px 18px;
   border-radius: 4px;
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 600;
   color: var(--color-ink);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
@@ -664,19 +697,21 @@ html, body {
   background: #ffffff;
   border: 1px solid var(--border-subtle);
   border-radius: 8px;
-  max-width: 560px;
-  width: 90vw;
-  padding: 26px;
+  max-width: 520px;
+  width: 92vw;
+  max-height: 85vh;
+  overflow-y: auto;
+  padding: 22px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 14px;
 }
 
 .upload-dropzone {
   border: 2px dashed var(--accent-cobalt);
   border-radius: 6px;
-  padding: 36px 20px;
+  padding: 30px 16px;
   text-align: center;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -691,37 +726,86 @@ html, body {
 .guide-panel {
   background: #faf8f5;
   border: 1px solid var(--border-subtle);
-  padding: 12px 16px;
+  padding: 10px 14px;
   border-radius: 6px;
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 10.5px;
   color: var(--color-muted);
-  line-height: 1.6;
+  line-height: 1.5;
 }
 
-@media (max-width: 950px) {
+/* ==========================================================================
+   Comprehensive Mobile & Tablet Responsive Rules
+   ========================================================================== */
+@media (max-width: 990px) {
   .telemetry-strip {
     display: none;
   }
 }
-@media (max-width: 680px) {
+
+@media (max-width: 768px) {
   .the-topbar {
-    left: 8px;
-    right: 8px;
-    top: 8px;
+    top: max(8px, env(safe-area-inset-top));
+    left: max(8px, env(safe-area-inset-left));
+    right: max(8px, env(safe-area-inset-right));
+    gap: 6px;
   }
+
+  .brand-box {
+    padding: 6px 9px;
+  }
+  .brand-name {
+    font-size: 15px;
+  }
+  .brand-sub {
+    display: none;
+  }
+
+  /* Compact Icon-Only Buttons on Mobile */
+  .arch-btn, .arch-select {
+    padding: 6px 9px;
+    font-size: 10px;
+    gap: 4px;
+  }
+
+  .btn-text {
+    display: none;
+  }
+
+  .top-actions {
+    gap: 4px;
+  }
+
   .bottom-console {
-    left: 8px;
-    right: 8px;
-    bottom: 8px;
-    padding: 10px;
+    bottom: max(8px, env(safe-area-inset-bottom));
+    left: max(8px, env(safe-area-inset-left));
+    right: max(8px, env(safe-area-inset-right));
+    padding: 8px 10px;
+    gap: 6px;
   }
+
+  .scrubber-meta {
+    font-size: 8.5px;
+  }
+
   .dossier-drawer {
     width: 100vw;
     right: -100vw;
     top: 0;
     bottom: 0;
     border-radius: 0;
+  }
+  .dossier-drawer.open {
+    right: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .zoom-slider {
+    width: 50px;
+  }
+  .zoom-cluster {
+    padding: 2px 5px;
   }
 }
   </style>
@@ -758,7 +842,7 @@ html, body {
       </div>
     </div>
 
-    <!-- Center HUD Telemetry Strip -->
+    <!-- Center HUD Telemetry Strip (Desktop) -->
     <div class="arch-panel telemetry-strip">
       <div class="telemetry-col">
         <span class="telemetry-label">Date</span>
@@ -786,21 +870,21 @@ html, body {
       </div>
     </div>
 
-    <!-- Top Right Actions -->
+    <!-- Top Right Actions (Responsive Icon + Text) -->
     <div class="top-actions">
       <button id="btn-upload-modal" class="arch-btn primary" title="Upload Google Maps Timeline Takeout .zip or .json">
         <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-        Import
+        <span class="btn-text">Import</span>
       </button>
 
       <button id="btn-honk" class="arch-btn horn-btn" title="Heavy Truck Air Horn (Key: H)">
         <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
-        Air Horn!
+        <span class="btn-text">Air Horn!</span>
       </button>
 
-      <button id="btn-record" class="arch-btn record-btn" title="Record High-Resolution MP4/WebM Video (Map + Vehicle)">
+      <button id="btn-record" class="arch-btn record-btn" title="Record High-Resolution MP4 Video (Map + Vehicle)">
         <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="7"/></svg>
-        <span id="record-text">Record Video</span>
+        <span id="record-text" class="btn-text">Record Video</span>
       </button>
 
       <select id="theme-select" class="arch-select" title="Cartographic Map Style">
@@ -816,7 +900,7 @@ html, body {
 
       <button id="btn-stats-toggle" class="arch-btn" title="Expedition Dossier">
         <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-        Dossier
+        <span class="btn-text">Dossier</span>
       </button>
     </div>
   </header>
@@ -827,89 +911,93 @@ html, body {
       <input type="range" id="timeline-scrubber" class="arch-slider" min="0" max="1000" value="0">
       <div class="scrubber-meta">
         <span id="scrubber-start-time">START</span>
-        <span>CLICK ▶ TO RUN • DRAG TO SCRUB • H FOR AIR HORN</span>
+        <span id="scrubber-status-ticker">CLICK ▶ TO RUN • DRAG TO SCRUB • H FOR AIR HORN</span>
         <span id="scrubber-end-time">END</span>
       </div>
     </div>
 
-    <div class="controls-row">
-      <div class="transport-cluster">
-        <button id="btn-rewind" class="ctrl-btn" title="Rewind 2 Hours (←)">
-          <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><polygon points="11 19 2 12 11 5 11 19"/><polygon points="22 19 13 12 22 5 22 19"/></svg>
-        </button>
-        <button id="btn-play" class="ctrl-btn play" title="Run / Pause (Space)">
-          <svg id="play-svg" class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-        </button>
-        <button id="btn-forward" class="ctrl-btn" title="Forward 2 Hours (→)">
-          <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><polygon points="13 19 22 12 13 5 13 19"/><polygon points="2 19 11 12 2 5 2 19"/></svg>
-        </button>
-        <button id="btn-fit-bounds" class="ctrl-btn" title="Fit Entire Bounds">
-          <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/></svg>
-        </button>
-      </div>
+    <!-- Smoothly Horizontal-Scrollable Control Strip on Mobile -->
+    <div class="controls-scroll-wrapper">
+      <div class="controls-row">
+        <!-- Transport Cluster -->
+        <div class="transport-cluster">
+          <button id="btn-rewind" class="ctrl-btn" title="Rewind 2 Hours (←)">
+            <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><polygon points="11 19 2 12 11 5 11 19"/><polygon points="22 19 13 12 22 5 22 19"/></svg>
+          </button>
+          <button id="btn-play" class="ctrl-btn play" title="Run / Pause (Space)">
+            <svg id="play-svg" class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          </button>
+          <button id="btn-forward" class="ctrl-btn" title="Forward 2 Hours (→)">
+            <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><polygon points="13 19 22 12 13 5 13 19"/><polygon points="2 19 11 12 2 5 2 19"/></svg>
+          </button>
+          <button id="btn-fit-bounds" class="ctrl-btn" title="Fit Entire Bounds">
+            <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/></svg>
+          </button>
+        </div>
 
-      <!-- Zoom Slider Cluster -->
-      <div class="pill-group zoom-cluster" title="Map Zoom Level">
-        <button id="btn-zoom-out" class="ctrl-btn-mini" title="Zoom Out (−)">
-          <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/></svg>
-        </button>
-        <input type="range" id="zoom-slider" class="arch-slider zoom-slider" min="2" max="18" step="0.1" value="12" title="Adjust Map Zoom">
-        <button id="btn-zoom-in" class="ctrl-btn-mini" title="Zoom In (+)">
-          <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-        </button>
-        <span id="zoom-value-label" class="zoom-label-text">12.0x</span>
-      </div>
+        <!-- Zoom Slider Cluster -->
+        <div class="pill-group zoom-cluster" title="Map Zoom Level">
+          <button id="btn-zoom-out" class="ctrl-btn-mini" title="Zoom Out (−)">
+            <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </button>
+          <input type="range" id="zoom-slider" class="arch-slider zoom-slider" min="2" max="18" step="0.1" value="12" title="Adjust Map Zoom">
+          <button id="btn-zoom-in" class="ctrl-btn-mini" title="Zoom In (+)">
+            <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </button>
+          <span id="zoom-value-label" class="zoom-label-text">12.0x</span>
+        </div>
 
-      <!-- Year Selector -->
-      <div class="pill-group">
-        <span class="pill-label">
-          <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-          Year:
-        </span>
-        <select id="year-filter-select" class="pill-select">
-          <option value="all" selected>All Expeditions</option>
-        </select>
-      </div>
+        <!-- Speed Presets -->
+        <div class="speed-segment">
+          <button class="speed-btn" data-speed="1">1x</button>
+          <button class="speed-btn" data-speed="10">10x</button>
+          <button class="speed-btn active" data-speed="60">60x</button>
+          <button class="speed-btn" data-speed="300">300x</button>
+          <button class="speed-btn" data-speed="1000">1000x</button>
+          <button class="speed-btn" data-speed="5000">5000x</button>
+        </div>
 
-      <!-- Vehicle Model Selector -->
-      <div class="pill-group">
-        <span class="pill-label">
-          <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
-          Marker:
-        </span>
-        <select id="vehicle-type-select" class="pill-select">
-          <option value="beetle" selected>Architect Roadster</option>
-          <option value="camper">Field Station Van</option>
-          <option value="taxi">Metro Cab</option>
-          <option value="scooter">Drafting Vespa</option>
-          <option value="racer">Tokyo Racer</option>
-          <option value="plane">Jet Airplane</option>
-        </select>
-      </div>
+        <!-- Vehicle Model Selector -->
+        <div class="pill-group">
+          <span class="pill-label">
+            <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+            Marker:
+          </span>
+          <select id="vehicle-type-select" class="pill-select">
+            <option value="beetle" selected>Architect Roadster</option>
+            <option value="camper">Field Station Van</option>
+            <option value="taxi">Metro Cab</option>
+            <option value="scooter">Drafting Vespa</option>
+            <option value="racer">Tokyo Racer</option>
+            <option value="plane">Jet Airplane</option>
+          </select>
+        </div>
 
-      <!-- Speed Presets (Default 60x Active) -->
-      <div class="speed-segment">
-        <button class="speed-btn" data-speed="1">1x</button>
-        <button class="speed-btn" data-speed="10">10x</button>
-        <button class="speed-btn active" data-speed="60">60x</button>
-        <button class="speed-btn" data-speed="300">300x</button>
-        <button class="speed-btn" data-speed="1000">1000x</button>
-        <button class="speed-btn" data-speed="5000">5000x</button>
-      </div>
+        <!-- Year Selector -->
+        <div class="pill-group">
+          <span class="pill-label">
+            <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            Year:
+          </span>
+          <select id="year-filter-select" class="pill-select">
+            <option value="all" selected>All Expeditions</option>
+          </select>
+        </div>
 
-      <!-- Toggles -->
-      <label class="arch-toggle" title="Fast-forward stationary standstills">
-        <input type="checkbox" id="toggle-skip-gaps" checked>
-        <span>Skip Standstills</span>
-      </label>
-      <label class="arch-toggle">
-        <input type="checkbox" id="toggle-headlights" checked>
-        <span>Projector Beams</span>
-      </label>
-      <label class="arch-toggle">
-        <input type="checkbox" id="toggle-camera" checked>
-        <span>Camera Tracking</span>
-      </label>
+        <!-- Toggles -->
+        <label class="arch-toggle" title="Fast-forward stationary standstills">
+          <input type="checkbox" id="toggle-skip-gaps" checked>
+          <span>Skip Standstills</span>
+        </label>
+        <label class="arch-toggle">
+          <input type="checkbox" id="toggle-headlights" checked>
+          <span>Projector Beams</span>
+        </label>
+        <label class="arch-toggle">
+          <input type="checkbox" id="toggle-camera" checked>
+          <span>Camera Tracking</span>
+        </label>
+      </div>
     </div>
   </div>
 
@@ -920,7 +1008,7 @@ html, body {
         <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
         Case Dossier & Specifications
       </div>
-      <button id="stats-close" style="background:transparent; border:none; color:var(--color-muted); font-size:16px; cursor:pointer;">✕</button>
+      <button id="stats-close" style="background:transparent; border:none; color:var(--color-muted); font-size:18px; cursor:pointer; padding:6px;">✕</button>
     </div>
 
     <div class="dossier-body">
@@ -984,15 +1072,15 @@ html, body {
       <div style="display:flex; justify-content:space-between; align-items:center;">
         <div class="dossier-title">
           <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-          Import Location History Record
+          Import Location History
         </div>
-        <button id="upload-modal-close" style="background:transparent; border:none; color:var(--color-muted); font-size:18px; cursor:pointer;">✕</button>
+        <button id="upload-modal-close" style="background:transparent; border:none; color:var(--color-muted); font-size:18px; cursor:pointer; padding:4px;">✕</button>
       </div>
 
       <div id="drop-zone" class="upload-dropzone">
-        <svg style="width:44px; height:44px; color:var(--accent-cobalt); margin-bottom:8px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-        <div style="font-family:var(--font-serif); font-size:19px; font-weight:700; color:var(--color-ink); margin-bottom:4px;">Select or Drop File to Catalog</div>
-        <div style="font-family:var(--font-mono); font-size:11px; color:var(--color-muted);">Supports Takeout <code>.zip</code>, <code>Records.json</code>, <code>Location History.json</code>, Semantic Monthly files, GeoJSON & GPX</div>
+        <svg style="width:40px; height:40px; color:var(--accent-cobalt); margin-bottom:8px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        <div style="font-family:var(--font-serif); font-size:18px; font-weight:700; color:var(--color-ink); margin-bottom:4px;">Select or Drop File to Catalog</div>
+        <div style="font-family:var(--font-mono); font-size:10.5px; color:var(--color-muted);">Supports Takeout <code>.zip</code>, <code>Records.json</code>, <code>Location History.json</code>, Semantic Monthly files, GeoJSON & GPX</div>
         <input type="file" id="file-input" style="display: none;" accept=".zip,.json,.geojson,.gpx,.kml">
       </div>
 
@@ -1006,8 +1094,8 @@ html, body {
       <div class="guide-panel">
         <strong>Google Takeout Export Instructions:</strong><br>
         1. Access <a href="https://takeout.google.com" target="_blank" style="color: var(--accent-cobalt); font-weight: 600;">takeout.google.com</a>.<br>
-        2. Deselect all, check <strong>Location History (Timeline)</strong>, and generate export.<br>
-        3. Drop the resultant <code>.zip</code> or <code>.json</code> here — <em>zero network transmission; completely private in browser.</em>
+        2. Deselect all, check <strong>Location History (Timeline)</strong>, and export.<br>
+        3. Drop the resultant <code>.zip</code> or <code>.json</code> here — <em>zero network transmission; 100% private in browser.</em>
       </div>
     </div>
   </div>
@@ -1348,7 +1436,7 @@ html, body {
   })();
 
   /* --------------------------------------------------------------------------
-     3. AUDIO & AIR HORN (100% AUDIBLE ON MAC SAFARI / CHROME)
+     3. AUDIO & AIR HORN
      -------------------------------------------------------------------------- */
   window.TimelineAudio = (function () {
     let audioCtx = null;
@@ -1504,10 +1592,8 @@ html, body {
           wheelPxPerZoomLevel: 120
         });
 
-        // Set crossOrigin: true so browser map tiles can be composited into video recorder
         this.tileLayer = L.tileLayer(THEMES.voyager, { subdomains: "abcd", maxZoom: 19, crossOrigin: true }).addTo(this.map);
 
-        // Vector Animation Overlay Canvas
         this.canvas = document.createElement("canvas");
         this.canvas.style.position = "absolute";
         this.canvas.style.top = "0"; this.canvas.style.left = "0";
@@ -1515,7 +1601,6 @@ html, body {
         this.map.getContainer().appendChild(this.canvas);
         this.ctx = this.canvas.getContext("2d");
 
-        // Composite Canvas for Full Video Recording (Base Map + Animated Car + Route)
         this.compositeCanvas = document.createElement("canvas");
         this.compositeCtx = this.compositeCanvas.getContext("2d");
         this.isRecording = false;
@@ -1594,7 +1679,7 @@ html, body {
         if (!this.dataset?.points?.length) return;
         try {
           const b = L.latLngBounds(this.dataset.points.map(p => [p.lat, p.lng]));
-          if (b.isValid()) this.map.fitBounds(b, { padding: [70, 70], maxZoom: 15, animate: true });
+          if (b.isValid()) this.map.fitBounds(b, { padding: [50, 50], maxZoom: 15, animate: true });
         } catch (e) {}
       }
 
@@ -1640,7 +1725,6 @@ html, body {
       }
 
       updateCompositeCanvas() {
-        const size = this.map.getSize();
         const dpr = window.devicePixelRatio || 1;
         if (this.compositeCanvas.width !== this.canvas.width || this.compositeCanvas.height !== this.canvas.height) {
           this.compositeCanvas.width = this.canvas.width;
@@ -1869,6 +1953,7 @@ html, body {
           ctx.beginPath(); ctx.roundRect(-20, -9, 40, 18, 4); ctx.fill();
           ctx.strokeStyle = "#ffffff"; ctx.lineWidth = 1.5; ctx.stroke();
 
+          // Rear Aero Wing
           ctx.fillStyle = "#12141a";
           ctx.fillRect(-22, -10, 4, 20);
 
@@ -2112,6 +2197,7 @@ html, body {
       timelineScrubber: document.getElementById("timeline-scrubber"),
       scrubberStartTime: document.getElementById("scrubber-start-time"),
       scrubberEndTime: document.getElementById("scrubber-end-time"),
+      scrubberStatusTicker: document.getElementById("scrubber-status-ticker"),
       hudDate: document.getElementById("hud-date"),
       hudTime: document.getElementById("hud-time"),
       hudSpeed: document.getElementById("hud-speed"),
@@ -2246,13 +2332,17 @@ html, body {
     animator.onTick = ({ timestamp, startTimestamp, endTimestamp, progress, point, index }) => {
       el.timelineScrubber.value = Math.round(progress * 1000);
       const d = new Date(timestamp);
+      const dateStr = d.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
+      const timeStr = d.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" });
+      
       el.hudDate.textContent = d.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric", year: "numeric" });
       el.hudTime.textContent = d.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
       el.scrubberStartTime.textContent = new Date(startTimestamp).toLocaleDateString("en-US", { month: "short", day: "numeric" });
       el.scrubberEndTime.textContent = new Date(endTimestamp).toLocaleDateString("en-US", { month: "short", day: "numeric" });
 
       if (point) {
-        el.hudSpeed.textContent = `${Math.round(point.speed || 0)} km/h`;
+        const speedVal = `${Math.round(point.speed || 0)} km/h`;
+        el.hudSpeed.textContent = speedVal;
         el.hudPlace.textContent = point.placeName ? point.placeName : `${point.lat.toFixed(3)}°N, ${point.lng.toFixed(3)}°E`;
         
         const pts = animator.points;
@@ -2261,7 +2351,13 @@ html, body {
           const p1 = pts[i], p2 = pts[i + 1];
           odoDist += Math.sqrt(Math.pow((p2.lat - p1.lat)*111, 2) + Math.pow((p2.lng - p1.lng)*111*Math.cos(p1.lat * Math.PI / 180), 2));
         }
-        el.hudOdo.textContent = `${Math.round(odoDist).toLocaleString()} km`;
+        const odoStr = `${Math.round(odoDist).toLocaleString()} km`;
+        el.hudOdo.textContent = odoStr;
+
+        // Mobile Telemetry Ticker
+        if (window.innerWidth <= 990 && el.scrubberStatusTicker) {
+          el.scrubberStatusTicker.textContent = `${dateStr} ${timeStr} • ${speedVal} • ${odoStr}`;
+        }
       }
     };
 
@@ -2336,7 +2432,7 @@ html, body {
         mediaRecorder.start(100);
         isRecording = true;
         el.btnRecord.classList.add("recording");
-        el.recordText.textContent = "Stop & Save";
+        if (el.recordText) el.recordText.textContent = "Stop & Save";
         showToast("Recording MP4 road trip animation...", 2500);
         animator.play();
       } catch (err) {
@@ -2350,7 +2446,7 @@ html, body {
         isRecording = false;
         mapEngine.isRecording = false;
         el.btnRecord.classList.remove("recording");
-        el.recordText.textContent = "Record Video";
+        if (el.recordText) el.recordText.textContent = "Record Video";
       }
     }
 
