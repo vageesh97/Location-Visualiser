@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Location History & Travel Visualizer</title>
+  <title>Timeline — Geographic Trajectory Log</title>
 
   <!-- Typography: Cormorant Garamond + IBM Plex Mono + Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -22,7 +22,7 @@
 
   <style>
 /* ==========================================================================
-   Mosby’s Archive — Precision Architectural Design System
+   Mosby’s Archive — Silky Smooth Precision Architectural Design
    ========================================================================== */
 
 :root {
@@ -711,7 +711,7 @@ html, body {
       </svg>
       <div>
         <div class="brand-name">Timeline</div>
-        <div class="brand-sub">Geographic Trajectory Log by Vageesh</div>
+        <div class="brand-sub">Geographic Trajectory Log</div>
       </div>
     </div>
 
@@ -832,12 +832,12 @@ html, body {
         </select>
       </div>
 
-      <!-- Speed Presets -->
+      <!-- Speed Presets (Default 60x Active) -->
       <div class="speed-segment">
         <button class="speed-btn" data-speed="1">1x</button>
         <button class="speed-btn" data-speed="10">10x</button>
-        <button class="speed-btn" data-speed="60">60x</button>
-        <button class="speed-btn active" data-speed="300">300x</button>
+        <button class="speed-btn active" data-speed="60">60x</button>
+        <button class="speed-btn" data-speed="300">300x</button>
         <button class="speed-btn" data-speed="1000">1000x</button>
         <button class="speed-btn" data-speed="5000">5000x</button>
       </div>
@@ -962,40 +962,10 @@ html, body {
        ========================================================================== -->
   <script>
   /* --------------------------------------------------------------------------
-     1. INDIA EXPEDITION DATASET (Default)
+     1. INDIA EXPEDITION DATASET (Curved High-Density Smooth Spline Coordinates)
      -------------------------------------------------------------------------- */
   window.SampleDatasets = (function () {
     const BASE_TIME = Date.now() - 20 * 24 * 3600 * 1000;
-
-    function createRouteSegment(waypoints, startTime, speedKmh, activity, placeName = null) {
-      const points = [];
-      let currentTime = startTime;
-      for (let i = 0; i < waypoints.length - 1; i++) {
-        const p1 = waypoints[i];
-        const p2 = waypoints[i + 1];
-        const distKm = getDistKm(p1[0], p1[1], p2[0], p2[1]);
-        const durationHours = distKm / Math.max(speedKmh, 1);
-        const steps = Math.max(Math.floor(distKm * 2.5), 8);
-        for (let s = 0; s < steps; s++) {
-          const t = s / steps;
-          const lat = p1[0] + (p2[0] - p1[0]) * t;
-          const lng = p1[1] + (p2[1] - p1[1]) * t;
-          const stepTime = currentTime + (durationHours * 3600 * 1000 * t);
-          const actualSpeed = speedKmh * (0.95 + Math.random() * 0.1);
-          points.push({
-            lat: Number(lat.toFixed(6)),
-            lng: Number(lng.toFixed(6)),
-            timestamp: Math.round(stepTime),
-            speed: Number(actualSpeed.toFixed(1)),
-            activity: activity,
-            accuracy: 10,
-            placeName: s === 0 && placeName ? placeName : null
-          });
-        }
-        currentTime += durationHours * 3600 * 1000;
-      }
-      return { points, endTime: currentTime };
-    }
 
     function getDistKm(lat1, lon1, lat2, lon2) {
       const R = 6371;
@@ -1005,6 +975,54 @@ html, body {
         Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
         Math.sin(dLon / 2) * Math.sin(dLon / 2);
       return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    }
+
+    // Catmull-Rom Spline Interpolator for organic curved highways
+    function catmullRom(p0, p1, p2, p3, t) {
+      const t2 = t * t, t3 = t2 * t;
+      return 0.5 * (
+        (2 * p1) +
+        (-p0 + p2) * t +
+        (2 * p0 - 5 * p1 + 4 * p2 - p3) * t2 +
+        (-p0 + 3 * p1 - 3 * p2 + p3) * t3
+      );
+    }
+
+    function createCurvedRoute(controlPoints, startTime, speedKmh, activity, placeName = null) {
+      const points = [];
+      let currentTime = startTime;
+      const pts = controlPoints;
+
+      for (let i = 0; i < pts.length - 1; i++) {
+        const p0 = pts[Math.max(0, i - 1)];
+        const p1 = pts[i];
+        const p2 = pts[i + 1];
+        const p3 = pts[Math.min(pts.length - 1, i + 2)];
+
+        const segDist = getDistKm(p1[0], p1[1], p2[0], p2[1]);
+        const numSteps = Math.max(Math.floor(segDist * 4), 16);
+        const segDurationHours = segDist / Math.max(speedKmh, 1);
+
+        for (let s = 0; s < numSteps; s++) {
+          const t = s / numSteps;
+          const lat = catmullRom(p0[0], p1[0], p2[0], p3[0], t);
+          const lng = catmullRom(p0[1], p1[1], p2[1], p3[1], t);
+          const stepTime = currentTime + (segDurationHours * 3600 * 1000 * t);
+          const currentSpeed = speedKmh * (0.96 + Math.sin(s * 0.4) * 0.08);
+
+          points.push({
+            lat: Number(lat.toFixed(6)),
+            lng: Number(lng.toFixed(6)),
+            timestamp: Math.round(stepTime),
+            speed: Number(currentSpeed.toFixed(1)),
+            activity: activity,
+            accuracy: 8,
+            placeName: (i === 0 && s === 0 && placeName) ? placeName : null
+          });
+        }
+        currentTime += segDurationHours * 3600 * 1000;
+      }
+      return { points, endTime: currentTime };
     }
 
     function getIndiaExpedition() {
@@ -1023,48 +1041,48 @@ html, body {
         { name: "Dashashwamedh Ghat, Varanasi", lat: 25.3076, lng: 83.0107, category: "Ghats", durationHours: 16 }
       ];
 
-      // Segment 1: Delhi -> Agra (Yamuna Expressway)
-      const p1 = createRouteSegment([[28.6129, 77.2295], [28.3587, 77.5516], [27.8974, 77.8762], [27.1751, 78.0421]], t, 95, "IN_VEHICLE", "Yamuna Expressway");
+      // Delhi -> Agra (Yamuna Expressway)
+      const p1 = createCurvedRoute([[28.6129, 77.2295], [28.3587, 77.5516], [27.8974, 77.8762], [27.1751, 78.0421]], t, 90, "IN_VEHICLE", "Yamuna Expressway");
       allPoints.push(...p1.points);
       t = p1.endTime + 6 * 3600 * 1000;
 
-      // Segment 2: Agra -> Jaipur
-      const p2 = createRouteSegment([[27.1751, 78.0421], [27.0945, 77.4265], [26.8920, 76.3210], [26.9239, 75.8267]], t, 85, "IN_VEHICLE", "NH 21 Golden Triangle");
+      // Agra -> Jaipur (NH 21)
+      const p2 = createCurvedRoute([[27.1751, 78.0421], [27.0945, 77.4265], [26.8920, 76.3210], [26.9239, 75.8267]], t, 85, "IN_VEHICLE", "NH 21 Golden Triangle");
       allPoints.push(...p2.points);
       t = p2.endTime + 12 * 3600 * 1000;
 
-      // Segment 3: Jaipur -> Udaipur
-      const p3 = createRouteSegment([[26.9239, 75.8267], [26.4499, 74.6399], [25.3407, 74.6313], [24.5854, 73.6800]], t, 90, "IN_VEHICLE", "Rajasthan Highway");
+      // Jaipur -> Udaipur
+      const p3 = createCurvedRoute([[26.9239, 75.8267], [26.4499, 74.6399], [25.3407, 74.6313], [24.5854, 73.6800]], t, 90, "IN_VEHICLE", "Rajasthan Highway");
       allPoints.push(...p3.points);
       t = p3.endTime + 10 * 3600 * 1000;
 
-      // Segment 4: Udaipur -> Mumbai
-      const p4 = createRouteSegment([[24.5854, 73.6800], [23.0225, 72.5714], [21.1702, 72.8311], [19.0760, 72.8777], [18.9220, 72.8347]], t, 100, "IN_VEHICLE", "Western Expressway");
+      // Udaipur -> Mumbai
+      const p4 = createCurvedRoute([[24.5854, 73.6800], [23.0225, 72.5714], [21.1702, 72.8311], [19.0760, 72.8777], [18.9220, 72.8347]], t, 100, "IN_VEHICLE", "Western Expressway");
       allPoints.push(...p4.points);
       t = p4.endTime + 18 * 3600 * 1000;
 
-      // Segment 5: Mumbai -> Goa
-      const p5 = createRouteSegment([[18.9220, 72.8347], [17.9237, 73.6586], [16.6956, 74.2317], [15.5439, 73.7553]], t, 80, "IN_VEHICLE", "Konkan Coastal Route");
+      // Mumbai -> Goa
+      const p5 = createCurvedRoute([[18.9220, 72.8347], [17.9237, 73.6586], [16.6956, 74.2317], [15.5439, 73.7553]], t, 80, "IN_VEHICLE", "Konkan Coastal Route");
       allPoints.push(...p5.points);
       t = p5.endTime + 24 * 3600 * 1000;
 
-      // Segment 6: Goa -> Bengaluru
-      const p6 = createRouteSegment([[15.5439, 73.7553], [15.3647, 75.1240], [14.4644, 75.9218], [12.9763, 77.5929]], t, 95, "IN_VEHICLE", "Deccan Highway");
+      // Goa -> Bengaluru
+      const p6 = createCurvedRoute([[15.5439, 73.7553], [15.3647, 75.1240], [14.4644, 75.9218], [12.9763, 77.5929]], t, 95, "IN_VEHICLE", "Deccan Highway");
       allPoints.push(...p6.points);
       t = p6.endTime + 14 * 3600 * 1000;
 
-      // Segment 7: Bengaluru -> Chennai
-      const p7 = createRouteSegment([[12.9763, 77.5929], [12.9249, 79.1350], [13.0499, 80.2824]], t, 90, "IN_VEHICLE", "Coromandel Route");
+      // Bengaluru -> Chennai
+      const p7 = createCurvedRoute([[12.9763, 77.5929], [12.9249, 79.1350], [13.0499, 80.2824]], t, 90, "IN_VEHICLE", "Coromandel Route");
       allPoints.push(...p7.points);
       t = p7.endTime + 10 * 3600 * 1000;
 
-      // Segment 8: Chennai -> Hyderabad
-      const p8 = createRouteSegment([[13.0499, 80.2824], [14.4426, 79.9865], [16.5062, 80.6480], [17.3616, 78.4747]], t, 105, "IN_VEHICLE", "Grand Trunk South");
+      // Chennai -> Hyderabad
+      const p8 = createCurvedRoute([[13.0499, 80.2824], [14.4426, 79.9865], [16.5062, 80.6480], [17.3616, 78.4747]], t, 100, "IN_VEHICLE", "Grand Trunk South");
       allPoints.push(...p8.points);
       t = p8.endTime + 12 * 3600 * 1000;
 
-      // Segment 9: Hyderabad -> Varanasi
-      const p9 = createRouteSegment([[17.3616, 78.4747], [21.1458, 79.0882], [23.1815, 79.9864], [25.3076, 83.0107]], t, 95, "IN_VEHICLE", "Central India Corridor");
+      // Hyderabad -> Varanasi
+      const p9 = createCurvedRoute([[17.3616, 78.4747], [21.1458, 79.0882], [23.1815, 79.9864], [25.3076, 83.0107]], t, 95, "IN_VEHICLE", "Central India Corridor");
       allPoints.push(...p9.points);
 
       return {
@@ -1074,8 +1092,8 @@ html, body {
         points: allPoints,
         places: places.map((p, idx) => ({
           ...p,
-          arrivalTime: allPoints[Math.min(idx * 22, allPoints.length - 1)].timestamp,
-          departureTime: allPoints[Math.min(idx * 22, allPoints.length - 1)].timestamp + p.durationHours * 3600 * 1000
+          arrivalTime: allPoints[Math.min(idx * 30, allPoints.length - 1)].timestamp,
+          departureTime: allPoints[Math.min(idx * 30, allPoints.length - 1)].timestamp + p.durationHours * 3600 * 1000
         })),
         startTime: allPoints[0].timestamp,
         endTime: allPoints[allPoints.length - 1].timestamp
@@ -1276,7 +1294,7 @@ html, body {
   })();
 
   /* --------------------------------------------------------------------------
-     3. AUDIO & GUARANTEED 100% AUDIBLE AIR HORN FOR SAFARI & CHROME
+     3. AUDIO & AIR HORN (100% AUDIBLE ON MAC SAFARI / CHROME)
      -------------------------------------------------------------------------- */
   window.TimelineAudio = (function () {
     let audioCtx = null;
@@ -1293,13 +1311,11 @@ html, body {
       return audioCtx;
     }
 
-    // Direct Web Audio Air Horn Blast (Instant, Loud, Punchy)
     function blastHornWebAudio() {
       const ctx = getContext();
       if (!ctx) return;
       
       const now = ctx.currentTime;
-      // Authentic Triple-Tone Truck Air Horn Chords (Indian/American Heavy Truck Frequencies)
       const freqs = [185.0, 220.0, 277.18];
 
       freqs.forEach((freq, idx) => {
@@ -1316,7 +1332,6 @@ html, body {
         filter.frequency.setValueAtTime(1800, now);
         filter.Q.setValueAtTime(2.0, now);
 
-        // Loud, crisp acoustic envelope
         const vol = 0.35 / (idx + 1);
         gain.gain.setValueAtTime(vol, now);
         gain.gain.setValueAtTime(vol * 0.9, now + 0.3);
@@ -1331,7 +1346,6 @@ html, body {
       });
     }
 
-    // Synthesize a standalone PCM WAV fallback Audio Element for bulletproof Safari playback
     function createWavAirHorn() {
       const sampleRate = 22050;
       const duration = 0.5;
@@ -1348,8 +1362,8 @@ html, body {
       writeString(view, 8, "WAVE");
       writeString(view, 12, "fmt ");
       view.setUint32(16, 16, true);
-      view.setUint16(20, 1, true); // PCM
-      view.setUint16(22, 1, true); // Mono
+      view.setUint16(20, 1, true);
+      view.setUint16(22, 1, true);
       view.setUint32(24, sampleRate, true);
       view.setUint32(28, sampleRate * 2, true);
       view.setUint16(32, 2, true);
@@ -1357,7 +1371,6 @@ html, body {
       writeString(view, 36, "data");
       view.setUint32(40, numSamples * 2, true);
 
-      // Generate rich sawtooth triad
       for (let i = 0; i < numSamples; i++) {
         const t = i / sampleRate;
         const env = t < 0.05 ? t / 0.05 : (t > 0.3 ? Math.max(0, (duration - t) / 0.2) : 1.0);
@@ -1405,7 +1418,6 @@ html, body {
         try {
           blastHornWebAudio();
         } catch (e) {
-          // Fallback to HTML5 audio element
           try {
             fallbackHornAudio.currentTime = 0;
             fallbackHornAudio.play();
@@ -1416,7 +1428,7 @@ html, body {
   })();
 
   /* --------------------------------------------------------------------------
-     4. ULTRA-SMOOTH MAP ENGINE (PINCH-ZOOM STABILIZATION)
+     4. ULTRA-SMOOTH MAP ENGINE (HIGH-FPS SUBPIXEL PHYSICS & PARTICLES)
      -------------------------------------------------------------------------- */
   window.TimelineMapEngine = (function () {
     const THEMES = {
@@ -1428,7 +1440,6 @@ html, body {
 
     class MapEngine {
       constructor(containerId) {
-        // Initial center set to India Gate, New Delhi
         this.map = L.map(containerId, {
           center: [28.6129, 77.2295],
           zoom: 5,
@@ -1439,7 +1450,6 @@ html, body {
           wheelPxPerZoomLevel: 120
         });
 
-        // Default to Daylight Paper (Voyager)
         this.tileLayer = L.tileLayer(THEMES.voyager, { subdomains: "abcd", maxZoom: 19 }).addTo(this.map);
 
         this.canvas = document.createElement("canvas");
@@ -1461,11 +1471,12 @@ html, body {
 
         this.currentHeading = 0;
         this.targetHeading = 0;
+        this.particles = [];
+        this.radarPhase = 0;
         this.lastTime = performance.now();
 
         this.resize();
 
-        // Yield camera follow during user gestures to guarantee 0 jitter
         const onUserStart = () => {
           this.isUserInteracting = true;
           if (this.userInteractTimer) clearTimeout(this.userInteractTimer);
@@ -1506,6 +1517,7 @@ html, body {
         this.activePointIndex = 0;
         this.activePoint = validPts[0] || null;
         this.activeTimestamp = validPts[0]?.timestamp || 0;
+        this.particles = [];
         if (shouldCenter) this.fitBounds();
         this.render();
       }
@@ -1524,15 +1536,27 @@ html, body {
         this.activePoint = pt;
         this.activePointIndex = idx;
 
+        // Smooth Multi-Sample Lookahead Heading
         if (pt && lookaheadPt) {
           const sp1 = this.map.latLngToContainerPoint([pt.lat, pt.lng]);
           const sp2 = this.map.latLngToContainerPoint([lookaheadPt.lat, lookaheadPt.lng]);
           const dx = sp2.x - sp1.x, dy = sp2.y - sp1.y;
-          if (dx * dx + dy * dy > 4.0) {
+          if (dx * dx + dy * dy > 3.0) {
             this.targetHeading = Math.atan2(dy, dx);
           }
         }
 
+        // Emit subtle motion particles behind vehicle
+        if (pt.speed > 5) {
+          const sp = this.map.latLngToContainerPoint([pt.lat, pt.lng]);
+          const backOffset = -14;
+          const px = sp.x + Math.cos(this.currentHeading) * backOffset + (Math.random() - 0.5) * 4;
+          const py = sp.y + Math.sin(this.currentHeading) * backOffset + (Math.random() - 0.5) * 4;
+          this.particles.push({ x: px, y: py, alpha: 0.5, size: 2.5 + Math.random() * 2 });
+          if (this.particles.length > 25) this.particles.shift();
+        }
+
+        // Camera Centering (Yields smoothly during manual pinch-zoom)
         if (this.followCameraEnabled && !this.isUserInteracting && pt) {
           const curCenter = this.map.getCenter();
           const dLat = pt.lat - curCenter.lat;
@@ -1550,8 +1574,9 @@ html, body {
       render() {
         if (!this.ctx || !this.map) return;
         const now = performance.now();
-        const dt = Math.min((now - this.lastTime) / 1000, 0.1);
+        const dt = Math.min((now - this.lastTime) / 1000, 0.06);
         this.lastTime = now;
+        this.radarPhase = (this.radarPhase + dt * 2.5) % (Math.PI * 2);
 
         const size = this.map.getSize();
         this.ctx.clearRect(0, 0, size.x, size.y);
@@ -1560,12 +1585,13 @@ html, body {
         const pts = this.dataset.points;
         const activeIdx = Math.min(this.activePointIndex, pts.length - 1);
 
+        // Smooth Angular Lerp
         let diff = this.targetHeading - this.currentHeading;
         while (diff < -Math.PI) diff += Math.PI * 2;
         while (diff > Math.PI) diff -= Math.PI * 2;
-        this.currentHeading += diff * Math.min(dt * 12, 1);
+        this.currentHeading += diff * Math.min(dt * 14, 1);
 
-        // 1. Draw Route Trace
+        // 1. Draw Route Trace (Crisp Cobalt on Daylight Paper)
         if (activeIdx >= 0 && this.activePoint) {
           const ctx = this.ctx;
           ctx.save();
@@ -1579,42 +1605,82 @@ html, body {
           const curSp = this.map.latLngToContainerPoint([this.activePoint.lat, this.activePoint.lng]);
           if (started) ctx.lineTo(curSp.x, curSp.y);
 
-          ctx.strokeStyle = "rgba(30, 75, 215, 0.35)";
-          ctx.lineWidth = 6.5;
+          // Outer Glow
+          ctx.strokeStyle = "rgba(30, 75, 215, 0.28)";
+          ctx.lineWidth = 7.0;
           ctx.lineCap = "round";
           ctx.lineJoin = "round";
           ctx.stroke();
 
+          // Inner Solid Vector Line
           ctx.strokeStyle = "#1E4BD7";
-          ctx.lineWidth = 3.2;
+          ctx.lineWidth = 3.4;
           ctx.stroke();
           ctx.restore();
         }
 
-        // 2. Draw Visited Places Markers
+        // 2. Draw Motion Particles
+        if (this.particles.length > 0) {
+          const ctx = this.ctx;
+          ctx.save();
+          for (let i = this.particles.length - 1; i >= 0; i--) {
+            const p = this.particles[i];
+            p.alpha -= dt * 1.5;
+            p.size += dt * 3;
+            if (p.alpha <= 0) {
+              this.particles.splice(i, 1);
+              continue;
+            }
+            ctx.fillStyle = `rgba(180, 190, 210, ${p.alpha})`;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+            ctx.fill();
+          }
+          ctx.restore();
+        }
+
+        // 3. Draw Visited Places Markers (With Pulsing Radar)
         if (this.dataset.places) {
           const ctx = this.ctx;
           for (const pl of this.dataset.places) {
             if (pl.arrivalTime > this.activeTimestamp) continue;
             const sp = this.map.latLngToContainerPoint([pl.lat, pl.lng]);
             ctx.save();
-            ctx.strokeStyle = "rgba(30, 75, 215, 0.9)"; ctx.lineWidth = 1.5;
+
+            // Landmark Radar Pulse
+            const pulseRadius = 6 + (Math.sin(this.radarPhase) + 1) * 5;
+            ctx.strokeStyle = "rgba(30, 75, 215, 0.4)";
+            ctx.lineWidth = 1.2;
+            ctx.beginPath();
+            ctx.arc(sp.x, sp.y, pulseRadius, 0, Math.PI * 2);
+            ctx.stroke();
+
+            // Crosshair
+            ctx.strokeStyle = "rgba(30, 75, 215, 0.9)";
+            ctx.lineWidth = 1.5;
             ctx.beginPath();
             ctx.moveTo(sp.x - 7, sp.y); ctx.lineTo(sp.x + 7, sp.y);
             ctx.moveTo(sp.x, sp.y - 7); ctx.lineTo(sp.x + 7, sp.y);
             ctx.stroke();
-            ctx.beginPath(); ctx.arc(sp.x, sp.y, 3.5, 0, Math.PI * 2);
-            ctx.fillStyle = "#1E4BD7"; ctx.fill();
+
+            // Center Dot
+            ctx.beginPath();
+            ctx.arc(sp.x, sp.y, 3.5, 0, Math.PI * 2);
+            ctx.fillStyle = "#1E4BD7";
+            ctx.fill();
+
             if (this.map.getZoom() >= 5) {
-              ctx.font = "600 11px IBM Plex Mono, monospace"; ctx.fillStyle = "#12141a";
-              ctx.shadowColor = "rgba(255,255,255,0.9)"; ctx.shadowBlur = 4;
-              ctx.fillText(pl.name, sp.x + 8, sp.y + 4);
+              ctx.font = "600 11px IBM Plex Mono, monospace";
+              ctx.fillStyle = "#12141a";
+              ctx.shadowColor = "rgba(255,255,255,0.95)";
+              ctx.shadowBlur = 4;
+              ctx.fillText(pl.name, sp.x + 9, sp.y + 4);
             }
             ctx.restore();
           }
         }
 
-        // 3. Draw Vehicle
+        // 4. Draw Vehicle
         if (this.activePoint) {
           const ctx = this.ctx;
           const sp = this.map.latLngToContainerPoint([this.activePoint.lat, this.activePoint.lng]);
@@ -1622,6 +1688,7 @@ html, body {
           ctx.translate(sp.x, sp.y);
           ctx.rotate(this.currentHeading);
 
+          // Projector Beams
           if (this.headlightsEnabled) {
             const beamLen = this.vehicleType === "plane" ? 120 : 80;
             const grad = ctx.createRadialGradient(18, 0, 4, 18 + beamLen, 0, 50);
@@ -1692,6 +1759,7 @@ html, body {
           ctx.beginPath(); ctx.roundRect(-20, -9, 40, 18, 4); ctx.fill();
           ctx.strokeStyle = "#ffffff"; ctx.lineWidth = 1.5; ctx.stroke();
 
+          // Rear Aero Wing
           ctx.fillStyle = "#12141a";
           ctx.fillRect(-22, -10, 4, 20);
 
@@ -1739,7 +1807,7 @@ html, body {
   })();
 
   /* --------------------------------------------------------------------------
-     5. ULTRA-SMOOTH ANIMATOR
+     5. ULTRA-SMOOTH ANIMATOR (DEFAULT 60X SPEED)
      -------------------------------------------------------------------------- */
   window.TimelineAnimator = (function () {
     class Animator {
@@ -1747,7 +1815,8 @@ html, body {
         this.mapEngine = mapEngine;
         this.fullDataset = null;
         this.points = []; this.places = [];
-        this.isPlaying = false; this.speedMultiplier = 300;
+        this.isPlaying = false;
+        this.speedMultiplier = 60; // Default: 60x
         this.startTimestamp = 0; this.endTimestamp = 0; this.currentTimestamp = 0;
         this.currentIndex = 0; this.currentPoint = null;
         this.rafId = null; this.lastWall = null;
@@ -1817,7 +1886,7 @@ html, body {
       loop() {
         if (!this.isPlaying) return;
         const now = performance.now();
-        const dt = Math.min((now - this.lastWall) / 1000, 0.1);
+        const dt = Math.min((now - this.lastWall) / 1000, 0.06);
         this.lastWall = now;
 
         if (this.skipGapsEnabled && this.currentIndex < this.points.length - 1) {
@@ -2231,7 +2300,7 @@ html, body {
       else if (e.key.toLowerCase() === "m") { el.btnAudioToggle.click(); }
     });
 
-    // Load India dataset in paused state (no automatic start)
+    // Load India dataset in paused state at 60x speed
     selectDataset(SampleDatasets.getAll()[0], false);
   });
   </script>
