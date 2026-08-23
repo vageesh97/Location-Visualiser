@@ -3,7 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-  <title>Timeline</title>
+  <meta name="theme-color" content="#fdfaf7" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>Timeline — Geographic Trajectory Log by Vageesh</title>
 
   <!-- Typography: Cormorant Garamond + IBM Plex Mono + Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -22,13 +25,13 @@
 
   <style>
 /* ==========================================================================
-   Mosby’s Archive — Responsive Precision Architectural Design System
+   Mosby’s Archive — Universal Responsive Design System (Mobile First)
    ========================================================================== */
 
 :root {
   --bg-dark: #12141a;
   --bg-panel: rgba(253, 250, 247, 0.96);
-  --bg-panel-dark: rgba(18, 20, 26, 0.92);
+  --bg-panel-dark: rgba(18, 20, 26, 0.94);
 
   --color-paper: #fdfaf7;
   --color-ink: #12141a;
@@ -61,6 +64,7 @@ html, body {
   height: 100vh;
   height: 100dvh;
   overflow: hidden;
+  overscroll-behavior: none;
   background-color: #ede8df;
   color: var(--color-ink);
   font-family: var(--font-sans);
@@ -92,17 +96,17 @@ html, body {
   height: 100%;
   pointer-events: none;
   z-index: 3;
-  box-shadow: inset 0 0 90px rgba(40, 32, 20, 0.18);
+  box-shadow: inset 0 0 80px rgba(40, 32, 20, 0.18);
 }
 
 /* ==========================================================================
-   Top Header & Live Architectural Telemetry Bar
+   Header & Live Telemetry Bar
    ========================================================================== */
 .the-topbar {
   position: absolute;
-  top: max(12px, env(safe-area-inset-top));
-  left: max(12px, env(safe-area-inset-left));
-  right: max(12px, env(safe-area-inset-right));
+  top: max(10px, env(safe-area-inset-top));
+  left: max(10px, env(safe-area-inset-left));
+  right: max(10px, env(safe-area-inset-right));
   z-index: 1000;
   display: flex;
   justify-content: space-between;
@@ -120,7 +124,7 @@ html, body {
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   border: 1px solid var(--border-subtle);
-  border-radius: 6px;
+  border-radius: 8px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
   color: var(--color-ink);
 }
@@ -130,7 +134,7 @@ html, body {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 7px 12px;
+  padding: 6px 12px;
   flex-shrink: 0;
 }
 
@@ -221,20 +225,22 @@ html, body {
   text-transform: uppercase;
   letter-spacing: 0.5px;
   padding: 7px 12px;
+  min-height: 36px;
   border-radius: 6px;
   cursor: pointer;
   outline: none;
   transition: all 0.2s ease;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 6px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
   touch-action: manipulation;
 }
 
 .svg-icon {
-  width: 14px;
-  height: 14px;
+  width: 15px;
+  height: 15px;
   fill: currentColor;
   display: inline-block;
   flex-shrink: 0;
@@ -274,7 +280,7 @@ html, body {
 }
 
 .arch-btn.horn-btn:active {
-  transform: scale(0.96);
+  transform: scale(0.95);
   background: #fde68a;
 }
 
@@ -296,15 +302,15 @@ html, body {
 }
 
 /* ==========================================================================
-   Master Architectural Console (Bottom Dock)
+   Master Control Console (Bottom Dock)
    ========================================================================== */
 .bottom-console {
   position: absolute;
-  bottom: max(14px, env(safe-area-inset-bottom));
-  left: max(14px, env(safe-area-inset-left));
-  right: max(14px, env(safe-area-inset-right));
+  bottom: max(10px, env(safe-area-inset-bottom));
+  left: max(10px, env(safe-area-inset-left));
+  right: max(10px, env(safe-area-inset-right));
   z-index: 1000;
-  padding: 12px 18px;
+  padding: 10px 14px;
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -314,35 +320,36 @@ html, body {
 .scrubber-row {
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 4px;
   width: 100%;
 }
 
 .arch-slider {
   -webkit-appearance: none;
   width: 100%;
-  height: 5px;
+  height: 6px;
   border-radius: 3px;
   background: rgba(18, 20, 26, 0.15);
   outline: none;
   cursor: pointer;
+  touch-action: pan-y;
 }
 
 .arch-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 16px;
-  height: 16px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
   background: var(--accent-cobalt);
-  border: 2px solid #ffffff;
-  box-shadow: 0 0 10px var(--accent-cobalt-glow);
+  border: 2.5px solid #ffffff;
+  box-shadow: 0 0 12px var(--accent-cobalt-glow);
   cursor: pointer;
   transition: transform 0.15s ease;
 }
 
 .arch-slider::-webkit-slider-thumb:hover {
-  transform: scale(1.3);
+  transform: scale(1.2);
 }
 
 .scrubber-meta {
@@ -354,8 +361,15 @@ html, body {
   color: var(--color-muted);
   text-transform: uppercase;
   white-space: nowrap;
+  gap: 8px;
+}
+
+.scrubber-status-ticker {
+  font-weight: 600;
+  color: var(--color-ink);
   overflow: hidden;
   text-overflow: ellipsis;
+  text-align: center;
 }
 
 .controls-scroll-wrapper {
@@ -380,7 +394,7 @@ html, body {
 .transport-cluster {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
   flex-shrink: 0;
 }
 
@@ -388,9 +402,9 @@ html, body {
   background: rgba(18, 20, 26, 0.05);
   border: 1px solid var(--border-subtle);
   color: var(--color-ink);
-  width: 32px;
-  height: 32px;
-  border-radius: 4px;
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -410,8 +424,10 @@ html, body {
   background: var(--accent-cobalt);
   border-color: var(--accent-cobalt);
   color: #fff;
-  width: 40px;
-  box-shadow: 0 2px 12px var(--accent-cobalt-glow);
+  width: 44px;
+  height: 38px;
+  border-radius: 8px;
+  box-shadow: 0 3px 14px var(--accent-cobalt-glow);
 }
 
 .ctrl-btn.play:hover {
@@ -424,9 +440,10 @@ html, body {
   align-items: center;
   background: rgba(18, 20, 26, 0.04);
   border: 1px solid var(--border-subtle);
-  padding: 3px 8px;
-  border-radius: 4px;
-  gap: 5px;
+  padding: 4px 9px;
+  border-radius: 6px;
+  gap: 6px;
+  min-height: 36px;
   flex-shrink: 0;
 }
 
@@ -446,7 +463,7 @@ html, body {
   border: none;
   color: var(--color-ink);
   font-family: var(--font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   font-weight: 600;
   outline: none;
   cursor: pointer;
@@ -461,8 +478,8 @@ html, body {
 .zoom-cluster {
   display: flex;
   align-items: center;
-  gap: 5px;
-  padding: 3px 8px;
+  gap: 6px;
+  padding: 4px 10px;
   flex-shrink: 0;
 }
 
@@ -470,9 +487,9 @@ html, body {
   background: rgba(18, 20, 26, 0.06);
   border: 1px solid var(--border-subtle);
   color: var(--color-ink);
-  width: 22px;
-  height: 22px;
-  border-radius: 3px;
+  width: 26px;
+  height: 26px;
+  border-radius: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -488,13 +505,13 @@ html, body {
 }
 
 .zoom-slider {
-  width: 65px;
+  width: 70px;
   height: 4px;
 }
 
 .zoom-label-text {
   font-family: var(--font-mono);
-  font-size: 9.5px;
+  font-size: 10px;
   font-weight: 700;
   color: var(--accent-cobalt);
   min-width: 32px;
@@ -508,7 +525,8 @@ html, body {
   background: rgba(18, 20, 26, 0.04);
   border: 1px solid var(--border-subtle);
   padding: 2px;
-  border-radius: 4px;
+  border-radius: 6px;
+  min-height: 36px;
   flex-shrink: 0;
 }
 
@@ -517,10 +535,10 @@ html, body {
   border: none;
   color: var(--color-muted);
   font-family: var(--font-mono);
-  font-size: 9.5px;
+  font-size: 10px;
   font-weight: 600;
-  padding: 3px 7px;
-  border-radius: 2px;
+  padding: 5px 9px;
+  border-radius: 4px;
   cursor: pointer;
   transition: all 0.15s ease;
   touch-action: manipulation;
@@ -539,9 +557,9 @@ html, body {
 .arch-toggle {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 10.5px;
   color: var(--color-muted);
   cursor: pointer;
   flex-shrink: 0;
@@ -550,8 +568,8 @@ html, body {
 
 .arch-toggle input[type="checkbox"] {
   accent-color: var(--accent-cobalt);
-  width: 12px;
-  height: 12px;
+  width: 14px;
+  height: 14px;
 }
 
 /* ==========================================================================
@@ -611,7 +629,7 @@ html, body {
   background: rgba(18, 20, 26, 0.03);
   border: 1px solid var(--border-subtle);
   padding: 10px 12px;
-  border-radius: 4px;
+  border-radius: 6px;
 }
 
 .stat-card-title {
@@ -653,13 +671,13 @@ html, body {
 /* Toast */
 #place-toast {
   position: absolute;
-  top: 70px;
+  top: max(60px, env(safe-area-inset-top));
   left: 50%;
   transform: translateX(-50%) translateY(-20px);
   background: #ffffff;
   border: 1px solid var(--accent-cobalt);
   padding: 7px 18px;
-  border-radius: 4px;
+  border-radius: 6px;
   font-family: var(--font-mono);
   font-size: 11px;
   font-weight: 600;
@@ -676,7 +694,7 @@ html, body {
   transform: translateX(-50%) translateY(0);
 }
 
-/* Upload Modal */
+/* Upload Modal & Mobile Settings Sheet */
 .modal-backdrop {
   position: fixed;
   inset: 0;
@@ -696,12 +714,13 @@ html, body {
 .modal-box {
   background: #ffffff;
   border: 1px solid var(--border-subtle);
-  border-radius: 8px;
+  border-radius: 12px;
   max-width: 520px;
   width: 92vw;
   max-height: 85vh;
+  max-height: 85dvh;
   overflow-y: auto;
-  padding: 22px;
+  padding: 20px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
   display: flex;
   flex-direction: column;
@@ -710,8 +729,8 @@ html, body {
 
 .upload-dropzone {
   border: 2px dashed var(--accent-cobalt);
-  border-radius: 6px;
-  padding: 30px 16px;
+  border-radius: 8px;
+  padding: 28px 16px;
   text-align: center;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -735,7 +754,7 @@ html, body {
 }
 
 /* ==========================================================================
-   Comprehensive Mobile & Tablet Responsive Rules
+   Responsive Breakpoints: Mobile & Tablet Perfection
    ========================================================================== */
 @media (max-width: 990px) {
   .telemetry-strip {
@@ -748,11 +767,11 @@ html, body {
     top: max(8px, env(safe-area-inset-top));
     left: max(8px, env(safe-area-inset-left));
     right: max(8px, env(safe-area-inset-right));
-    gap: 6px;
+    gap: 5px;
   }
 
   .brand-box {
-    padding: 6px 9px;
+    padding: 6px 10px;
   }
   .brand-name {
     font-size: 15px;
@@ -761,11 +780,12 @@ html, body {
     display: none;
   }
 
-  /* Compact Icon-Only Buttons on Mobile */
+  /* Compact Touch Buttons */
   .arch-btn, .arch-select {
-    padding: 6px 9px;
+    padding: 6px 10px;
     font-size: 10px;
     gap: 4px;
+    min-height: 34px;
   }
 
   .btn-text {
@@ -773,13 +793,13 @@ html, body {
   }
 
   .top-actions {
-    gap: 4px;
+    gap: 5px;
   }
 
   .bottom-console {
-    bottom: max(8px, env(safe-area-inset-bottom));
-    left: max(8px, env(safe-area-inset-left));
-    right: max(8px, env(safe-area-inset-right));
+    bottom: max(6px, env(safe-area-inset-bottom));
+    left: max(6px, env(safe-area-inset-left));
+    right: max(6px, env(safe-area-inset-right));
     padding: 8px 10px;
     gap: 6px;
   }
@@ -802,10 +822,21 @@ html, body {
 
 @media (max-width: 480px) {
   .zoom-slider {
-    width: 50px;
+    width: 45px;
   }
   .zoom-cluster {
-    padding: 2px 5px;
+    padding: 2px 6px;
+  }
+  .speed-btn {
+    padding: 4px 6px;
+    font-size: 9px;
+  }
+  .ctrl-btn {
+    width: 34px;
+    height: 34px;
+  }
+  .ctrl-btn.play {
+    width: 40px;
   }
 }
   </style>
@@ -838,7 +869,7 @@ html, body {
       </svg>
       <div>
         <div class="brand-name">Timeline</div>
-        <div class="brand-sub">Geographic Trajectory Log by Vageesh</div>
+        <div class="brand-sub">Geographic Trajectory Log</div>
       </div>
     </div>
 
@@ -870,7 +901,7 @@ html, body {
       </div>
     </div>
 
-    <!-- Top Right Actions (Responsive Icon + Text) -->
+    <!-- Top Right Actions -->
     <div class="top-actions">
       <button id="btn-upload-modal" class="arch-btn primary" title="Upload Google Maps Timeline Takeout .zip or .json">
         <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
@@ -905,13 +936,13 @@ html, body {
     </div>
   </header>
 
-  <!-- Master Architectural Console (Bottom Dock) -->
+  <!-- Master Control Console (Bottom Dock) -->
   <div class="arch-panel bottom-console">
     <div class="scrubber-row">
-      <input type="range" id="timeline-scrubber" class="arch-slider" min="0" max="1000" value="0">
+      <input type="range" id="timeline-scrubber" class="arch-slider" min="0" max="1000" value="0" aria-label="Timeline progress">
       <div class="scrubber-meta">
         <span id="scrubber-start-time">START</span>
-        <span id="scrubber-status-ticker">CLICK ▶ TO RUN • DRAG TO SCRUB • H FOR AIR HORN</span>
+        <span id="scrubber-status-ticker" class="scrubber-status-ticker">CLICK ▶ TO RUN • DRAG TO SCRUB • H FOR AIR HORN</span>
         <span id="scrubber-end-time">END</span>
       </div>
     </div>
@@ -921,27 +952,27 @@ html, body {
       <div class="controls-row">
         <!-- Transport Cluster -->
         <div class="transport-cluster">
-          <button id="btn-rewind" class="ctrl-btn" title="Rewind 2 Hours (←)">
+          <button id="btn-rewind" class="ctrl-btn" title="Rewind 2 Hours (←)" aria-label="Rewind">
             <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><polygon points="11 19 2 12 11 5 11 19"/><polygon points="22 19 13 12 22 5 22 19"/></svg>
           </button>
-          <button id="btn-play" class="ctrl-btn play" title="Run / Pause (Space)">
+          <button id="btn-play" class="ctrl-btn play" title="Run / Pause (Space)" aria-label="Play or Pause">
             <svg id="play-svg" class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
           </button>
-          <button id="btn-forward" class="ctrl-btn" title="Forward 2 Hours (→)">
+          <button id="btn-forward" class="ctrl-btn" title="Forward 2 Hours (→)" aria-label="Forward">
             <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><polygon points="13 19 22 12 13 5 13 19"/><polygon points="2 19 11 12 2 5 2 19"/></svg>
           </button>
-          <button id="btn-fit-bounds" class="ctrl-btn" title="Fit Entire Bounds">
+          <button id="btn-fit-bounds" class="ctrl-btn" title="Fit Entire Bounds" aria-label="Fit Bounds">
             <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/></svg>
           </button>
         </div>
 
         <!-- Zoom Slider Cluster -->
         <div class="pill-group zoom-cluster" title="Map Zoom Level">
-          <button id="btn-zoom-out" class="ctrl-btn-mini" title="Zoom Out (−)">
+          <button id="btn-zoom-out" class="ctrl-btn-mini" title="Zoom Out (−)" aria-label="Zoom Out">
             <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/></svg>
           </button>
-          <input type="range" id="zoom-slider" class="arch-slider zoom-slider" min="2" max="18" step="0.1" value="12" title="Adjust Map Zoom">
-          <button id="btn-zoom-in" class="ctrl-btn-mini" title="Zoom In (+)">
+          <input type="range" id="zoom-slider" class="arch-slider zoom-slider" min="2" max="18" step="0.1" value="12" title="Adjust Map Zoom" aria-label="Zoom Level">
+          <button id="btn-zoom-in" class="ctrl-btn-mini" title="Zoom In (+)" aria-label="Zoom In">
             <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
           </button>
           <span id="zoom-value-label" class="zoom-label-text">12.0x</span>
@@ -963,7 +994,7 @@ html, body {
             <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
             Marker:
           </span>
-          <select id="vehicle-type-select" class="pill-select">
+          <select id="vehicle-type-select" class="pill-select" aria-label="Vehicle Marker">
             <option value="beetle" selected>Architect Roadster</option>
             <option value="camper">Field Station Van</option>
             <option value="taxi">Metro Cab</option>
@@ -979,7 +1010,7 @@ html, body {
             <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
             Year:
           </span>
-          <select id="year-filter-select" class="pill-select">
+          <select id="year-filter-select" class="pill-select" aria-label="Filter by Year">
             <option value="all" selected>All Expeditions</option>
           </select>
         </div>
@@ -1008,7 +1039,7 @@ html, body {
         <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
         Case Dossier & Specifications
       </div>
-      <button id="stats-close" style="background:transparent; border:none; color:var(--color-muted); font-size:18px; cursor:pointer; padding:6px;">✕</button>
+      <button id="stats-close" style="background:transparent; border:none; color:var(--color-muted); font-size:18px; cursor:pointer; padding:6px;" aria-label="Close Dossier">✕</button>
     </div>
 
     <div class="dossier-body">
@@ -1074,7 +1105,7 @@ html, body {
           <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
           Import Location History
         </div>
-        <button id="upload-modal-close" style="background:transparent; border:none; color:var(--color-muted); font-size:18px; cursor:pointer; padding:4px;">✕</button>
+        <button id="upload-modal-close" style="background:transparent; border:none; color:var(--color-muted); font-size:18px; cursor:pointer; padding:4px;" aria-label="Close Modal">✕</button>
       </div>
 
       <div id="drop-zone" class="upload-dropzone">
@@ -1570,7 +1601,7 @@ html, body {
   })();
 
   /* --------------------------------------------------------------------------
-     4. MAP ENGINE (FULL COMPOSITE CANVAS RECORDING + SYNCED ZOOM SLIDER)
+     4. MAP ENGINE (FULL COMPOSITE CANVAS RECORDING + MOBILE GESTURE SUPPORT)
      -------------------------------------------------------------------------- */
   window.TimelineMapEngine = (function () {
     const THEMES = {
@@ -1589,7 +1620,9 @@ html, body {
           attributionControl: false,
           zoomSnap: 0.1,
           zoomDelta: 0.5,
-          wheelPxPerZoomLevel: 120
+          wheelPxPerZoomLevel: 120,
+          tap: false,
+          bounceAtLimits: false
         });
 
         this.tileLayer = L.tileLayer(THEMES.voyager, { subdomains: "abcd", maxZoom: 19, crossOrigin: true }).addTo(this.map);
@@ -2332,8 +2365,8 @@ html, body {
     animator.onTick = ({ timestamp, startTimestamp, endTimestamp, progress, point, index }) => {
       el.timelineScrubber.value = Math.round(progress * 1000);
       const d = new Date(timestamp);
-      const dateStr = d.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
-      const timeStr = d.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" });
+      const dateShort = d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+      const timeShort = d.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" });
       
       el.hudDate.textContent = d.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric", year: "numeric" });
       el.hudTime.textContent = d.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
@@ -2355,8 +2388,12 @@ html, body {
         el.hudOdo.textContent = odoStr;
 
         // Mobile Telemetry Ticker
-        if (window.innerWidth <= 990 && el.scrubberStatusTicker) {
-          el.scrubberStatusTicker.textContent = `${dateStr} ${timeStr} • ${speedVal} • ${odoStr}`;
+        if (el.scrubberStatusTicker) {
+          if (window.innerWidth <= 990) {
+            el.scrubberStatusTicker.textContent = `${dateShort} ${timeShort} • ${speedVal} • ${odoStr}`;
+          } else {
+            el.scrubberStatusTicker.textContent = `CLICK ▶ TO RUN • DRAG TO SCRUB • H FOR AIR HORN`;
+          }
         }
       }
     };
